@@ -1,0 +1,1 @@
+You can here move, delete or prune tickets per section. Prune means: delete unreplied tickets older than a certain number of days. Use the Unreplied menu to change the number of days.

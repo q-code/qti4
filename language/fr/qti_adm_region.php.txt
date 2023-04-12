@@ -1,0 +1,1 @@
+L'heure de l'application est utilisée comme heure de création des tickets et messages. L'horloge, lorsqu'elle est affichée en bas des pages, peut indiquer une autre heure (l'heure de référence de votre organisation comme par exemple l'heure GMT).

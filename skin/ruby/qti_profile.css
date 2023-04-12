@@ -1,0 +1,33 @@
+.msgbox.formRegister{width:600px}
+.msgbox.formPwd{width:500px}
+.msgbox.formLogin{width:500px}
+  @media screen and (min-width:1024px) and (max-width:1279px) {
+  .msgbox.formRegister{width:650px}
+  .msgbox.formPwd{width:550px}
+  .msgbox.formLogin{width:550px}
+  }
+  @media screen and (min-width:1280px) {
+  .msgbox.formRegister{width:700px}
+  .msgbox.formPwd{width:600px}
+  .msgbox.formLogin{width:600px}
+  }
+div:is(.formLogin, .formPwd) .msgboxbody p{text-align:right}
+  div.formHelp p {margin:0 0 0.8rem 0}
+
+/* INPUT */
+.input-pwd{position:relative}
+.toggle-pwd{position:absolute;padding:0 8px;top:50%;transform:translate(-100%,-50%);color:#999}
+.toggle-pwd:hover{color:#000}
+textarea#text{width:95%;resize:vertical}
+#rules{margin:0 auto 20px auto;padding:4px 8px;background-color:#FFF;border:solid 1px #AAA;height:200px;overflow:auto}
+fieldset.register{margin:0 0 15px 0;padding:15px 0 0 8px;text-align:right;border:solid 1px #CCC;border-width:1px 0 0 0}
+fieldset.register legend{color:#AAA;font-weight:bold;text-align:left}
+fieldset.register select, fieldset.register input{margin:0 0 3px 0}
+#secu-txt-code{font-family:Courrier;padding:4px 8px;color:#000;background-color:#DDD}
+#signature-preview{margin:5px 0;padding:2px 5px;background-color:#FFF;border:solid 1px #DDD}
+#signature {margin:5px 0;padding:5px;background-color:#F6F6F6;border:solid 1px #DDD}
+
+/* PICTURE */
+div.picbox{display:inline-block;max-width:180px;padding:0;text-align:center}
+img.picbox{max-width:175px;padding:5px;background-color:#FFF;border:solid 1px #DDD;border-radius:5px;box-shadow:0 0 4px #BBB}
+div.picbox p{margin:3px 0;text-align:center}

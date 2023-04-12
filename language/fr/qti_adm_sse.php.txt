@@ -1,0 +1,3 @@
+Server-sent Events permet la mise à jour automatique du contenu des pages (sans devoir recharger la page).
+Lorsque des tickets sont créés par d'autres utilisateurs, ou lorsque un statut change, la liste des tickets d'une section sera mise à jour.
+Il en va de même pour la page index (nombre de tickets ou réponses).

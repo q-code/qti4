@@ -1,0 +1,1 @@
+Vous pouvez changer ici le style général de votre application. Pour créer un nouveau style, ajoutez votre feuille de style (css) et vos icones dans un répertoire sous skin. Pour voir les nouveaux styles, cliquez sur <b><i>Exit</i></b> dans le panneau de gauche. Le message de bienvenue est constitué par le fichier language/francais/app_welcome.txt

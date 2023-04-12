@@ -1,0 +1,1 @@
+U kunt hier tickets per sectie verplaatsen, uitwissen of snoeien. Snoeien betekend: schrap niet-geantwoord tickets ouder dan een aantal dagen. Het aantal tickets dat kan worden gesnoeid, zoals getoond in de laatste colonne, hangt van het aantal dagen (hier onder) af.

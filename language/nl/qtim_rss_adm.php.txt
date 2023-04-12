@@ -1,0 +1,1 @@
+RSS (Realy Simple Syndication of Rich Site Summary) zijn xml webfeeds van recentere tickets. Door een RSS-beeld click, kan de gebrijkers deze webfeeds krijgen. Hier kunnen we de module activeren (of stoppen) en de instellingen veranderen.

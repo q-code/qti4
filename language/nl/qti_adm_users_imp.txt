@@ -1,0 +1,3 @@
+CSV/TXT file moet omvatten: rol, login, wachtwoord, email. Rollen zijn: A (administrator), M (staff member), U (gebruiker). Voor het wachtwoord uw can gebruiken : de sha1 code, het wachtwoord met een prefix SHA, of laat leeg om het login als passwoord te krijgen.<br /><b><i>CSV/TXT file voorbeeld:</i></b><br />M; bill; 5753a498f025464d72e088a9d5d6e8725;bill@corp.com<br />
+U; william; SHAwilly03; william@corp.com<br />
+U; robert; ; robert@corp.com

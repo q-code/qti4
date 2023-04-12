@@ -1,0 +1,28 @@
+
+The ext/ directory must be WRITABLE.
+
+----------------------------------------------------
+Advanced setup: memcache/sse using a separate server
+----------------------------------------------------
+
+About Server-sent events. When memcache uses an other server, the SSE (if used) must also use that server (sse and memcache cannot be separated).
+
+If you want to configure an other server for the memcache, you have to edit configuration files on both servers:
+the application server must point to the memcache server, while the memcache server will use localhost.
+To do this, follow these 3 steps: 
+
+a) Copy the ext/ directory to the memcache server.
+
+b) Settings for the application server (ext/ directory)
+   - In the config_mem.php file, specify the address of the memcache server with MEMCACHE_HOST and MEMCACHE_PORT
+   - In the config_sse.php file, specify the address of the memcache server with SSE_SERVER and SSE_ORIGIN
+     Note:
+     SSE_SERVER must be the Path to the ext directory on the memcache server (with final /) ex: "http://srv01.domain.com/app/qti/"
+     SSE_ORIGIN must be the domain name ex: "http://srv01.domain.com"
+   
+c) Settings for the memcache server (ext/ directory)
+   - In the config_mem.php file, specify "localhost" as address with MEMCACHE_HOST and MEMCACHE_PORT
+   - The config_sse.php file is not used and can be deleted on the memcache server.
+   
+Notes:
+The ext directory is writable on the application server, but is not required to be writable on the memcache server.

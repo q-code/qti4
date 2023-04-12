@@ -1,0 +1,1 @@
+You can here setup the different status a ticket can follow. The display order is defined by the id and goes from A to Z. The first status (A) and the last (Z) cannot be deleted. The <b>E-mail</b> column indicates if notification via e-mail is setup. See the <b>Edit</b> page, to define who will be notified. There, you can also change the icon and background color.

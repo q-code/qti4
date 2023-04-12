@@ -1,0 +1,1 @@
+Applicatie tijd wordt gebruikt als ticket en bericht tijd. De klok, zichtbaar bij de bodem van de pagina's, kan een andere tijd tonen, zoals een referentietijd specifiek voor uw organisatie (b.v.b. GMT tijd). Als uw webhost php 5.2 of volgende steunt, kunt u de applicatie tijd veranderen.

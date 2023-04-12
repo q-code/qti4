@@ -1,0 +1,4 @@
+Version: 4.0
+Install: qtim_rss_install.php
+Uninstall: qtim_rss_uninstall.php
+Requirements: writable rss directory

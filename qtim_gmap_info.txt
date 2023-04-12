@@ -1,0 +1,4 @@
+Version: 4.0
+Install: qtim_gmap_install.php
+Uninstall: qtim_gmap_uninstall.php
+Requirements: Google map API key

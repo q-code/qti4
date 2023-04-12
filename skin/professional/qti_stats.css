@@ -1,0 +1,50 @@
+/* Stats options */
+
+div.flex-f{display:flex;flex-flow:row wrap;padding:0}
+div.flex-f div{margin:0 15px 15px 0} /* !!!*/
+
+div.options h2{margin:0 0 5px 0;color:#999999}
+div.options td{padding:0 2px 2px 2px}
+div.options input[type=submit]{min-height:auto;padding:2px 6px;color:#666;background-color:#DDD;border-radius:3px;border:solid 1px #BBB;text-decoration:none}
+div.options input[type=submit]:focus,
+div.options input[type=submit]:hover{color:#444;border-color:#AAA;cursor:pointer;box-shadow:0 0 3px #BBB}
+div.options input[type=text]{min-height:auto;padding:3px;border-radius:3px}
+
+/* Sub-menu subpan */
+a.subpan{text-decoration:none}
+a.subpan:hover{border-bottom:solid 4px #EEE}
+span.subpan.actif{border-bottom:solid 4px #d0d0d0}
+
+/* Stat table */
+
+.t-conf{background-color:#FFF;width:100%;border:1px solid #DDD}
+.t-conf th,
+.t-conf td{padding:4px;text-align:center}
+
+.t-conf th{background-color:#e2e2e2;font-size:0.9rem;font-weight:bold;color:#555}
+.t-conf .seriename{width:120px;background-color:#e2e2e2}
+.t-conf .seriecolor{width:15px;background-color:#e2e2e2;vertical-align:middle}
+.t-conf th.seriename.last{font-weight:bold}
+.t-conf td.values.last{background-color:#f4f4f4;font-weight:bold}
+.t-conf td.values.last a{font-weight:bold}
+.t-conf td{border-top:solid 1px #DDD}
+
+/* ==== MEDIA SIZE ==== */
+
+/* Small screen */
+
+@media screen and (max-width:870px)
+{
+ table.layout td.col1,
+ table.layout td.col2{display:block;width:100%;text-align:right}
+}
+
+/* ==== PRINT ==== */
+
+@media print
+{
+#statoptions{display:none}
+#chartoptions{display:none}
+div.flex-f{display:block;padding:0}
+div.chart{page-break-inside:avoid}
+}

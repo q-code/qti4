@@ -1,0 +1,8 @@
+/*
+Custom css style can be added here by webmaster
+Note: contrast mode will overwrite custom style
+*/
+body{background:#d1d1d1 url('img/malik-skydsgaard-wood.jpg') repeat left top;}
+  @media print{body{background:none;background-color:white;}}
+footer, footer a{color:#ddd;text-shadow: 1px 1px #000;} 
+footer a:hover{color:#fff;}

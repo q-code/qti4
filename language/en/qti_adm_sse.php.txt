@@ -1,0 +1,1 @@
+Server-sent Events allows automatic update of the page content (no need to reload the page). When tickets are created by other users or when status changes, the section list will be updated automatically. The index page is also changed (number of tickets/replies).

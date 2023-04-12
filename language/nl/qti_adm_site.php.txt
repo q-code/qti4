@@ -1,0 +1,1 @@
+Vul hier belangrijkste informaties op uw systeem in. De site (of Admin) e-mail wordt vereist alvorens het systeem online te draaien omdat het voor de registratie van de leden zal worden gebruikt.

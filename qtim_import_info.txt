@@ -1,0 +1,4 @@
+Version: 4.0
+Install: qtim_import_install.php
+Uninstall: qtim_import_uninstall.php
+Requirements: QuickTicket version 4.0 (or 4.x)

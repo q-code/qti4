@@ -1,0 +1,1 @@
+Bienvenido al servicio QuickTicket. Si esta es su primera visita, es posible que deba registrarse antes de poder publicar: haga clic en el enlace de <a href="qti_register.php">registro</a> de arriba para continuar. Para comenzar a ver mensajes, seleccione la sección que desea visitar a continuación.

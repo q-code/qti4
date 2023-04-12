@@ -1,0 +1,2 @@
+De categorie&euml;n zijn <b>tags</b> (markeringen) de gebruiker aan een ticket kan vastmaken. Deze categorie&euml;n worden om tickets groepen of specifieke statistieken te produceren. De categorie&euml;n een gebruiker kan vastmaken is vrij. Niettemin, als een lijst van categorie&euml;n wordt bepaald, zal het systeem deze <b>voorgestelde categorie&euml;n</b> in een drop-down lijst tonen. Zie deze <a href="qti_adm_tags_help.php" target="_blank" class="small">hulppagina</a>.
+

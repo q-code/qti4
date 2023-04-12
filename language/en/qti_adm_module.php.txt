@@ -1,0 +1,1 @@
+To install or uninstall a module, type here the <b>name</b> of the module. When the module name is not available, it's probably because de source files are not uploaded in the application root directory.

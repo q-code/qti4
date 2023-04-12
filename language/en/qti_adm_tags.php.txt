@@ -1,0 +1,2 @@
+The categories are <b>tags</b> the users can attach to a ticket. These categories are used to group tickets or to generate statistics on a specific subset of tickets. The categories a user can attach are free. Nevertheless, if a list of categories is defined, the system will present these <b>proposed categories</b> in a drop-down list. See this <a href="qti_adm_tags_help.php" target="_blank">help page</a>, for more information.
+

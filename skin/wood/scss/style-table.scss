@@ -1,0 +1,94 @@
+/* Global */
+th, th a{color:#AAA;text-decoration:none}
+th a:hover{color:#666;text-decoration:underline}
+
+/* Paddings and rowline */
+.t-sec th, .t-sec td,
+.t-item th, .t-user th{padding:0.4rem 0.2rem}
+.t-sec td, .t-item td, .t-user td{border-top:solid 1px #e0e0e0}
+
+/* Special domain/section */
+.t-sec.domain:not(:first-child){margin-top:2rem}
+a.section{font-size:1.4rem;text-decoration:none} a.section:hover{text-decoration:underline}
+.t-sec .sectiondesc{font-style:italic}
+@media print{a.csv{display:none}}
+
+/* Row highlight */
+.t-item tr.rowlight:has(:checked){background-color:var(--rowlight)}
+.t-item tr.rowlight:has(:checked):hover{background-color:var(--rowlighthover)}
+
+/* SECTION/ITEM TABLE */
+.t-sec th, .t-sec td, .t-item th, .t-item td{text-align:center}
+th.c-section, th.c-issue, th.c-info, th.c-title, th.c-firstpostname, th.c-lastpostdate,
+td.c-section, td.c-issue, td.c-info, td.c-title, td.c-firstpostname, td.c-lastpostdate{text-align:left}
+
+/* SECTION table */
+.t-sec .c-icon{width:66px;max-width:66px}
+.t-sec .c-issue{width:170px;max-width:170px}
+.t-sec .c-items, .t-sec .c-replies{width:110px;max-width:110px}
+  /* cell section grow limit */
+  .t-sec .c-section{max-width:46vw}
+  .t-sec .c-section p{white-space:break-spaces}
+@media screen and (max-width:1023px){
+  .t-sec .c-icon{width:60px;max-width:60px}
+  .t-sec .c-issue{width:150px;max-width:150px}
+  .t-sec .c-items, .t-sec .c-replies{width:90px;max-width:90px}
+}
+@media screen and (min-width:1280px){
+  .t-sec .c-issue{width:200px;max-width:200px}
+  .t-sec .c-items, .t-sec .c-replies{width:140px;max-width:140px}
+  .t-sec .c-section{max-width:600px} /* cell section grow limit */
+}
+
+/* ITEM table */
+.t-item .c-checkbox{width:32px;max-width:32px;padding-left:0;padding-right:0}
+  .t-item th.c-checkbox{background-color:#E0E0E0}
+  .t-item td.c-checkbox{background-color:#EEE}
+.t-item .c-icon{width:40px;max-width:40px}
+.t-item .c-numid{width:85px;max-width:85px}
+.t-item .c-section{width:150px;max-width:150px}
+.t-item .c-firstpostname{width:150px;max-width:150px}
+.t-item .c-lastpostdate{width:155px;max-width:155px}
+.t-item .c-replies, .t-item .c-views, .t-item .c-id{width:90px;max-width:90px}
+.t-item .c-tags,
+.t-item .c-status,
+.t-item .c-actor{width:100px}
+  .t-item .item{text-decoration:underline}
+  .t-item .item:visited{text-decoration:none}
+  .t-item .item:hover{text-decoration:underline}
+  .t-item td.c-status span{font-size:0.9rem;text-shadow:1px 1px #fff}
+@media screen and (max-width:1023px){
+  .t-item .c-checkbox{width:30px;max-width:30px}
+  .t-item .c-icon{width:34px;max-width:34px}
+  .t-item .c-numid{width:80px;max-width:80px}
+  .t-item .c-section{width:140px;max-width:140px}
+  .t-item .c-firstpostname{width:140px;max-width:140px}
+  .t-item .c-lastpostdate{width:145px;max-width:145px}
+  .t-item .c-replies, .t-item .c-views, .t-item .c-id{width:75px;max-width:75px}
+  .t-item .c-tags, .t-item .c-status, .t-item .c-actor{width:90px}}
+@media screen and (min-width:641px) and (max-width:870px){.c-usernumpost, .c-views{display:none} /*cleared before orther .secondary at 640px*/}
+
+.table-ui-export{margin:0.4rem 0}
+@media print{.table-ui-export{display:none}}
+
+/* Columns Users */
+.t-user th, .t-user td{text-align:left}
+  .t-user .c-userphoto, .t-user .c-usernumpost, .t-user .c-userpriv{text-align:center}
+.t-user .c-userphoto{width:60px}
+.t-user .c-usernumpost{width:75px}
+.t-user .c-userpriv{width:30px}
+  @media screen and (min-width:1024px){
+  .t-user .c-userpriv{width:35px}
+  .t-user .c-usernumpost{width:80px}}
+
+/* STATISTICS */
+#nav-charts,
+#nav-blocktime{padding:10px 0;text-align:right}
+#nav-blocktime a{text-decoration:none} #nav-blocktime a:hover{text-decoration:underline}
+#nav-blocktime > .actif{border-bottom:solid 4px #d0d0d0}
+.t-stat{width:100%;font-size:9pt;border:1px solid #DDD}
+.t-stat th,
+.t-stat td{padding:4px;text-align:center}
+.t-stat th{background-color:#e2e2e2;font-weight:bold;color:#555}
+div.charts{display:flex;justify-content:space-around;flex-direction:row;flex-wrap:wrap}
+div.chart{margin:10px}

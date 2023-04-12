@@ -1,0 +1,1 @@
+This module will import QuickTicket data. Only ticket messages with their replies (and author name) will be imported. Tickets and replies will be imported in one section.

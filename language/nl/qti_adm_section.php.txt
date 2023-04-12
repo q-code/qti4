@@ -1,0 +1,1 @@
+Elk sectie kan drie niveaus van zicht hebben: het normale gedrag is <b><i>Zichtbaar (pupliek)</i></b> zichtbaar voor gebruikers, <b><i>Zichtbaar (priv&eacute;)</i></b> betekent dat een gebruiker slechts zijn eigen tickets zal zien, en de <b><i>Verborgen</i></b> secties zijn gereserveerd voor de beheerders en de staffleden.

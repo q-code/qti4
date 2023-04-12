@@ -1,0 +1,1 @@
+U kunt hier de algemene stijl van het systeem veranderen. Om een nieuwe stijl tot stand te brengen, voeg uw stylesheet (css) en pictogrammen in een folder onder huid toe. Om de nieuwe stijl te zien, klik op <b><i>Uitrit</i></b> in de linkerruit. Het welkome bericht is in het dossier language/nederlands/app_welcome.txt

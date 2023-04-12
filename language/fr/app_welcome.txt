@@ -1,0 +1,1 @@
+Bienvenue sur le service QuickTicket. Si c'est votre premi&egrave;re visite, vous devrez vous enregistrer avant de pouvoir poster des messages. Cliquez le lien <a href="qti_register.php">s'enregistrer</a> pour devenir membre. Pour commencer &agrave; lire les message, choisissez la section que vous voulez visiter ci-dessous.

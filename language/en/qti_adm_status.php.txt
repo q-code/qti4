@@ -1,0 +1,2 @@
+Remember that notification can be enabled/disabled <i><b>in each section</b></i>.<br />
+So, if you want somebody to be notified on this status change, don't forget to first activate the e-mail notification in the desired section.

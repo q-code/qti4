@@ -1,0 +1,1 @@
+You can change here the general style of the section. To create a new style, add your stylesheet (css) and icons in a directory under skin. To see the new style, click on <b><i>Exit</i></b> in the left panel. The welcome message is in the file language/english/app_welcome.txt

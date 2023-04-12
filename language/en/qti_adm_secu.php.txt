@@ -1,0 +1,1 @@
+This screen allows you tuning the system security rules. Registration mode <b><i>by e-mail</i></b> will send temporary password to the user's e-mail prior to registration. This method is a good alternative when you cannot use the image code to secure your registration.

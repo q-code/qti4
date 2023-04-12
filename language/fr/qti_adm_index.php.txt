@@ -1,0 +1,1 @@
+Merci d'avoir choisi <b><i>QuickTicket</i></b> en tant que solution pour votre sytème de tickets. Cet écran donne un aperçu de quelques statistiques de vos sections. Pour retourner à l'index des sections, cliquez sur <b><i>Exit</i></b> dans le panneau de gauche. Les autres liens sur la gauche de cet écran vous permettront de contrôler chaque aspect de votre application.

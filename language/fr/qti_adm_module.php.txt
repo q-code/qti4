@@ -1,0 +1,1 @@
+Pour installation ou désinstaller un module, indiquez ici le <b>nom</b> du module. Si le nom du module n'est pas disponible, c'est probablement parce que les fichiers sources ne sont pas dans le répertoire racine de l'application.

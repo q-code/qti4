@@ -1,0 +1,3 @@
+<h1>Tablero fuera de línea</h1>
+<p>El administrador ha desactivado este servicio.</p>
+<p>Espere...</p>

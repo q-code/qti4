@@ -1,0 +1,2 @@
+N'oubliez pas que la notification est définie <i><b>par Section</b></i>.<br />
+Ainsi, si vous souhaitez envoyer une notification lorsque ce statut change, n'oubliez pas d'activer la notification par e-mail dans la Section désirée.

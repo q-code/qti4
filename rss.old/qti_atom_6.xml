@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1" ?><feed xmlns="http://www.w3.org/2005/Atom">
+<title>QT-cute - Computer support</title><link href="http://www.qt-cute.org/soft/qti2/qti_topics.php?s=6" /><link href="http://www.qt-cute.org/soft/qti2/rss/qti_atom_6.xml" rel="self" /><id>http://www.qt-cute.org/soft/qti2/qti_topics.php?s=6</id>
+<updated>2010-12-22T09:53:08+01:00</updated>
+<author><name>Webmaster</name><email>webmaster@qt-cute.org</email></author>
+<category term="Troubleticket" /><generator>QuickTicket 2.5</generator>
+<icon>http://www.qt-cute.org/soft/qti2/rss/qti_icon.gif</icon>
+<logo>http://www.qt-cute.org/soft/qti2/rss/qti_logo.gif</logo>
+<entry>
+<id>http://www.qt-cute.org/soft/qti2/qti_topic.php?t=301&amp;p=324</id>
+<title>Inspection 1</title>
+<updated>2010-12-22T09:53:08+01:00</updated>
+<author><name>Admin</name></author>
+<content>Check this building</content>
+<link href="http://www.qt-cute.org/soft/qti2/qti_topic.php?t=301&amp;p=324" /></entry>
+<entry>
+<id>http://www.qt-cute.org/soft/qti2/qti_topic.php?t=271&amp;p=276</id>
+<title>Test with date</title>
+<updated>2010-10-04T10:17:52+02:00</updated>
+<author><name>Admin</name></author>
+<content>Test with date</content>
+<link href="http://www.qt-cute.org/soft/qti2/qti_topic.php?t=271&amp;p=276" /></entry>
+<entry>
+<id>http://www.qt-cute.org/soft/qti2/qti_topic.php?t=213&amp;p=179</id>
+<title>Test</title>
+<updated>2009-10-21T09:19:03+02:00</updated>
+<author><name>Admin</name></author>
+<content>Test</content>
+<link href="http://www.qt-cute.org/soft/qti2/qti_topic.php?t=213&amp;p=179" /></entry>
+</feed>

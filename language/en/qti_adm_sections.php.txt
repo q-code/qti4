@@ -1,0 +1,1 @@
+You can here manage the sections and the domains. A domain is nothing more than a group of sections. You can here change position of the domains or move section within a domain. Click <b>Edit</b> to manage the  settings of a section.

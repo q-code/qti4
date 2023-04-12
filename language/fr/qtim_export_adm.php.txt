@@ -1,0 +1,1 @@
+Ce module exporte le contenu de la base de donnée dans un fichier xml. Seuls les tickets et les messages (et le nom des autheurs) sont exportés. La définition des sections et les profils des membres ne sont pas exportés.

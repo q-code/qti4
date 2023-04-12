@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
+<title>QT-cute - Admin section</title><link>http://localhost/qtcute/soft/qti3/qti_items.php?s=0</link><description></description><language>en</language>
+<generator>QuickTicket 3.0</generator>
+<managingEditor>phvandenberghe@gmail.com (webmaster)</managingEditor>
+<category>Troubleticket</category>
+<image><url>http://localhost/qtcute/soft/qti3/rss/qti_logo.gif</url><title>QT-cute - Admin section</title><link>http://localhost/qtcute/soft/qti3/qti_items.php?s=0</link><width>110</width><height>50</height></image>
+<atom:link href="http://localhost/qtcute/soft/qti3/rss/qti_2_0.xml" rel="self" type="application/rss+xml" />
+<item>
+<title>Test</title>
+<link>http://localhost/qtcute/soft/qti3/qti_item.php?t=55&amp;p=68</link>
+<description>Test</description>
+<pubDate>Fri, 08 Jan 2016 15:46:00 +0100</pubDate>
+<guid>http://localhost/qtcute/soft/qti3/qti_item.php?t=55&amp;p=68</guid>
+</item>
+<item>
+<title>This is a test</title>
+<link>http://localhost/qtcute/soft/qti3/qti_item.php?t=1&amp;p=1</link>
+<description>This is a test</description>
+<pubDate>Sun, 06 Sep 2015 08:18:00 +0200</pubDate>
+<guid>http://localhost/qtcute/soft/qti3/qti_item.php?t=1&amp;p=1</guid>
+</item>
+<item>
+<title>This is the third ticket...</title>
+<link>http://localhost/qtcute/soft/qti3/qti_item.php?t=3&amp;p=4</link>
+<description>This is the third ticket...</description>
+<pubDate>Sun, 09 Aug 2015 07:41:00 +0200</pubDate>
+<guid>http://localhost/qtcute/soft/qti3/qti_item.php?t=3&amp;p=4</guid>
+</item>
+</channel></rss>

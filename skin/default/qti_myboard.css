@@ -1,0 +1,16 @@
+.myboard{margin:0 2vw 0 auto;padding:10px;width:480px;color:inherit;background-color:#777;color:#e0e0e0;border:none;border-radius:0;box-shadow:2px 4px 4px #CCC}
+  @media screen and (min-width:1024px){ .myboard{margin:1vw 2vw 1vw auto} }
+  @media screen and (max-width:640px){ .myboard{margin:3px auto;width:95%} #mylastitem:hover div{width:85%} }
+.myboardheader{margin:0 0 10px 0;display:flex;align-items:center;gap:0.2rem}
+.myboardheader p.title{flex-grow:1;font-size:1.1rem;font-weight:bold}
+.myboardheader a.button{margin:0;padding:3px 6px;font-size:0.9rem;background-color:#666;color:white;border:solid 1px #BBB;text-decoration:none}
+.myboardheader a.button:hover{text-decoration:none}
+.myboardcontent{padding:3px;background-color:transparent}
+#mylastitem p{padding:0;font-size:0.9rem}
+#mylastitem p.title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#mylastitem a{color:#FFF;text-decoration:none} #mylastitem a img{background-color:#CCC;padding:2px}
+#mylastitem a:hover{text-decoration:none}
+#mylastitem p.date{margin:3px 0 0 0;text-align:right;font-style:italic;border-top:solid 1px #CCC}
+#mylastitem p.content{margin:2px 0 4px 0}
+#mylastitem div{display:none}
+#mylastitem:hover div{display:block;position:absolute;z-index:10;width:454px;padding:1px 8px;background-color:#777;border:none;cursor:pointer;border-radius:0;box-shadow:0px 4px 4px #CCC}
