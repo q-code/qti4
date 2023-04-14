@@ -30,7 +30,7 @@ function qtToggle(id="tgl-container", display="block", idctrl="tgl-ctrl", attr="
     if ( ctrl ) ctrl.classList.toggle(attr);
   }
 }
-function qtHrefShow(a){
+function qtHrefShow(a) {
   const emails = qtDecodeEmails(a.dataset.emails);
   a.href = 'mailto:' + emails;
   a.title = emails.indexOf(',')<1 ? emails : emails.split(',')[0]+', ...';
@@ -54,4 +54,34 @@ function qtHideAfterTable(element, table="t1", inflow=false, rows=5){
   const t = document.getElementById(table);
   const e = document.getElementById(element);
   if ( t && e && t.tBodies[0].rows.length<rows ) inflow ? e.style.visibility = "hidden" : e.style.display = "none";
+}
+function qtAttrStorage(id, attr='aria-expanded', key='')
+{
+  const d = document.getElementById(id);
+  if ( !d ) { console.log('qtAttrStorage: no element with id='+id); return; }
+  try {
+    // Only stores true|false. Defaulf key is qt-{id}
+    localStorage.setItem('qt-'+(key==='' ? id : key), d.getAttribute(attr)==='true' ? 'true' : 'false');
+  } catch {
+    console.log('qtAttrStorage: localStorage not available'); return;
+  }
+}
+function qtToggleContrast() {
+  const d = document.getElementById('contrastcss');
+  if ( !d ) { console.log('qtToggleContrast: no element with id=contrastcss'); return; }
+  const ctrl = document.getElementById('contrast-ctrl');
+  if ( !ctrl ) { console.log('qtToggleContrast: no element with id=contrast-ctrl'); return; }
+  d.toggleAttribute('disabled');
+  ctrl.setAttribute('aria-disabled', d.disabled ? 'true' : 'false');
+  qtAttrStorage('contrast-ctrl', 'aria-disabled');
+}
+function qtApplyContrast() {
+  const d = document.getElementById('contrastcss');
+  if ( !d ) { console.log('qtApplyContrast: no element with id=contrastcss'); return; }
+  try {
+    if ( localStorage.getItem('qt-contrast-ctrl')==='false' ) { d.removeAttribute('disabled'); return; }
+    d.setAttribute('disabled', '');
+  } catch {
+    console.log('qtApplyContrast: localStorage not available');
+  }
 }
