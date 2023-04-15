@@ -114,7 +114,7 @@ $oH->links['css'] = '<link rel="stylesheet" type="text/css" href="'.QT_SKIN.'qti
 if ( file_exists(QT_SKIN.'custom.css') ) $oH->links['cssCustom'] = '<link rel="stylesheet" type="text/css" href="'.QT_SKIN.'custom.css"/>';
 if ( QT_MENU_CONTRAST ) {
   if ( !isset($_SESSION[QT]['contrast']) ) $_SESSION[QT]['contrast'] = false;
-  $oH->links['cssContrast'] = '<link id="contrastcss" rel="stylesheet" type="text/css" href="bin/css/qtf_contrast.css" disabled/>';
+  $oH->links['cssContrast'] = '<link id="contrastcss" rel="stylesheet" type="text/css" href="bin/css/qti_contrast.css" disabled/>';
   $oH->scripts[] = "document.getElementById('contrast-ctrl').addEventListener('click', toggleContrast);
    qtApplyStoredState('contrast');
    function toggleContrast() {
