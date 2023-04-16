@@ -148,8 +148,12 @@ div.pan p.submit{text-align:center}
 .t-item a.sectionname{font-size:0.9rem;font-weight:bold}
 
 /* Row highlight */
-tr.rowlight:has(:checked){background-color:rgb(223, 248, 255)}
-tr.rowlight:has(:checked):hover{background-color:rgb(205, 245, 255)}
+tr.rowlight:has(:checked),
+table[data-content="users"] tr.rowlight:has(:checked){background-color:rgb(223, 248, 255)}
+tr.rowlight:has(:checked):hover,
+table[data-content="users"] tr.rowlight:has(:checked):hover{background-color:rgb(205, 245, 255)}
+table[data-content="users"] tr:nth-of-type(even){background-color:#fcfcfc}
+table[data-content="users"] tr:nth-of-type(even):hover{background-color:#f8f8f8}
 
 table.tags{width:650px;border-spacing:1px}
 table.tags td{padding:1px 5px;font-size:0.8rem}

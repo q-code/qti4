@@ -119,7 +119,7 @@ if ( $_SESSION[QT]['m_gmap_gzoom']==='' ) $_SESSION[QT]['m_gmap_gzoom']='7';
 
 
 $oH->links[]='<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
-$oH->scripts[] = 'function radioHighlight(src) { document.getElementById("markerpicked").src = src; }';
+$oH->scripts[] = 'function previewMarker(src) { document.getElementById("markerpicked").src = src; }';
 
 include APP.'_adm_inc_hd.php';
 
@@ -158,11 +158,11 @@ echo '<tr>
 <td>
 <p class="small" style="text-align:center">'.L('Gmap.Click_to_change').'</p>
 <div class="markerpicker">
-<input type="radio" id="symbol_0" data-src="bin/css/gmap_marker.png" name="m_gmap_gsymbol" value="0"'.(empty($_SESSION[QT]['m_gmap_gsymbol']) ? ' checked' : '').' onchange="radioHighlight(this.dataset.src);qtFormSafe.not();"/><label for="symbol_0"><img class="marker'.($_SESSION[QT]['m_gmap_gsymbol']===$strFile ? ' checked' : '').'" title="default" src="bin/css/gmap_marker.png" alt="i"/></label>
+<input type="radio" id="symbol_0" data-src="bin/css/gmap_marker.png" name="m_gmap_gsymbol" value="0"'.(empty($_SESSION[QT]['m_gmap_gsymbol']) ? ' checked' : '').' onchange="previewMarker(this.dataset.src);qtFormSafe.not();"/><label for="symbol_0"><img class="marker'.($_SESSION[QT]['m_gmap_gsymbol']===$strFile ? ' checked' : '').'" title="default" src="bin/css/gmap_marker.png" alt="i"/></label>
 ';
 foreach ($arrFiles as $strFile=>$strName)
 {
-echo '<input type="radio" id="symbol_'.$strFile.'" data-src="qtim_gmap/'.$strFile.'.png" name="m_gmap_gsymbol" value="'.$strFile.'"'.($strSymbol===$strFile ? ' checked' : '').' onchange="radioHighlight(this.dataset.src);qtFormSafe.not();"/><label for="symbol_'.$strFile.'"><img class="marker'.($strSymbol===$strFile ? ' checked' : '').'" title="'.$strName.'" src="qtim_gmap/'.$strFile.'.png" alt="i"/></label>'.PHP_EOL;
+echo '<input type="radio" id="symbol_'.$strFile.'" data-src="qtim_gmap/'.$strFile.'.png" name="m_gmap_gsymbol" value="'.$strFile.'"'.($strSymbol===$strFile ? ' checked' : '').' onchange="previewMarker(this.dataset.src);qtFormSafe.not();"/><label for="symbol_'.$strFile.'"><img class="marker'.($strSymbol===$strFile ? ' checked' : '').'" title="'.$strName.'" src="qtim_gmap/'.$strFile.'.png" alt="i"/></label>'.PHP_EOL;
 }
 echo '</div>
 </td>
