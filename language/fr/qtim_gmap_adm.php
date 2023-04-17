@@ -1,12 +1,11 @@
 <?php
 $L['Gmap']['define_sections']='Définir les sections et paramètres';
 $L['Gmap']['symbols']='Symboles';
-$L['Gmap']['default_symbol']='Symbole par défault';
-
 $L['Gmap']['Version']='Module version';
 $L['Gmap']['Mapping_settings']='Paramètres cartographiques';
 $L['Gmap']['Mapping_config']='Configuration par défaut';
 $L['Gmap']['Preview']='Prévisualisation avec le symbole par défaut';
+$L['Gmap']['Default_symbol']='Symbole par défault';
 $L['Gmap']['Other_symbols']='Autres symboles';
 $L['Gmap']['API_key']='clé map API ';
 $L['Gmap']['API_ctrl']='Contrôles';
