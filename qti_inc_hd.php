@@ -19,41 +19,37 @@ if ( $_SESSION[QT]['board_offline'] ) $oH->log[] = 'Warning: the board is offlin
 if ( !isset($_SESSION[QT]['show_banner']) ) $_SESSION[QT]['show_banner'] = '0';
 
 // Menus definition
-$navMenus = [];
-if ( $_SESSION[QT]['home_menu']=='1' && !empty($_SESSION[QT]['home_url']) )
-$navMenus['home']    = 'text='.qtAttr($_SESSION[QT]['home_name']).'|href='.$_SESSION[QT]['home_url'];
-$navMenus['privacy'] = 'text='.L('Legal').'|href=qti_privacy.php';
-$navMenus['index']   = 'text='. SLang::translate().'|href=qti_index.php|accesskey=i|class=secondary|activewith=qti_index.php qti_items.php qti_item.php qti_calendars.php qti_edit.php';
-$navMenus['search']  = 'text='.L('Search').'|id=nav-search|activewith=qti_search.php';
+$navMenu = new CMenu();
+if ( $_SESSION[QT]['home_menu']==='1' && !empty($_SESSION[QT]['home_url']) )
+$navMenu->add('home', 'text='.qtAttr($_SESSION[QT]['home_name']).'|href='.$_SESSION[QT]['home_url']);
+$navMenu->add('privacy', 'text='.L('Legal').'|href=qti_privacy.php');
+$navMenu->add('index', 'text='. SLang::translate().'|href=qti_index.php|accesskey=i|class=secondary|activewith=qti_index.php qti_items.php qti_item.php qti_calendars.php qti_edit.php');
+$navMenu->add('search', 'text='.L('Search').'|id=nav-search|activewith=qti_search.php');
 if ( $oH->selfurl!=='qti_search.php' && SUser::canAccess('search') )
-$navMenus['search'] .= '|href=qti_search.php|accesskey=s'.(QT_SIMPLESEARCH ? '|onclick=if (document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
+$navMenu->menu['search'] .= '|href=qti_search.php|accesskey=s'.(QT_SIMPLESEARCH ? '|onclick=if (document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
   // SUser::canAccess('search') not included here... We want the searchbar/page shows a message for not granted users
 if ( SUser::canAccess('show_memberlist') )
-$navMenus['users']   = 'text='.L('Memberlist').'|href=qti_users.php';
+$navMenu->add('users', 'text='.L('Memberlist').'|href=qti_users.php');
 if ( SUser::canAccess('show_stats') )
-$navMenus['stats']   = 'text='.L('Statistics').'|href=qti_stats.php';
+$navMenu->add('stats', 'text='.L('Statistics').'|href=qti_stats.php');
 if ( SUser::auth() ) {
-$navMenus['profile'] = 'text='.L('Profile').'|href=qti_user.php?id='.SUser::id().'|class=secondary|activewith=qti_user.php qti_register.php';
-$navMenus['sign']    = 'text='.L('Logout').'|href=qti_login.php?a=out|class=nav-sign';
+$navMenu->add('profile', 'text='.L('Profile').'|href=qti_user.php?id='.SUser::id().'|class=secondary|activewith=qti_user.php qti_register.php');
+$navMenu->add('sign', 'text='.L('Logout').'|href=qti_login.php?a=out|class=nav-sign');
 } else {
-$navMenus['profile'] = 'text='.L('Register').'|href=qti_register.php?a=rules|class=secondary';
-$navMenus['sign']    = 'text='.L('Login').'|href=qti_login.php|class=nav-sign';
+$navMenu->add('profile', 'text='.L('Register').'|href=qti_register.php?a=rules|class=secondary');
+$navMenu->add('sign', 'text='.L('Login').'|href=qti_login.php|class=nav-sign');
 }
 // Menu when board offline or urlrewrite
 if ( $_SESSION[QT]['board_offline'] && SUser::role()!=='A' ) {
-  $m = new CMenu($navMenus);
-  $m->update('search','href', '');
-  $m->update('search','onclick', '');
-  $m->update('profile','href', '');
-  $navMenus = $m->menu;
+  $navMenu->update('search','href', '');
+  $navMenu->update('search','onclick', '');
+  $navMenu->update('profile','href', '');
 }
 if ( QT_URLREWRITE ) {
-  $m = new CMenu($navMenus);
-  foreach(array_keys($m->menu) as $k) {
-    $m->update( $k, 'href', Href($m->get($k,'href')) );
-    $m->update( $k, 'activewith', implode(' ',array_map('Href',explode(' ',$m->get($k,'activewith')))) );
+  foreach(array_keys($navMenu->menu) as $k) {
+    $navMenu->update( $k, 'href', Href($navMenu->get($k,'href')) );
+    $navMenu->update( $k, 'activewith', implode(' ',array_map('Href',explode(' ',$navMenu->get($k,'activewith')))) );
   }
-  $navMenus = $m->menu;
 }
 
 if ( !isset($hideMenuLang) ) $hideMenuLang = false;
@@ -115,8 +111,8 @@ if ( $_SESSION[QT]['show_banner']!=='0' ) echo '<div id="logo"><img src="'.QT_SK
 // menu-lang (user,lang,contrast)
 if ( !$hideMenuLang ) echo '<div id="menulang">'.$langMenu->build('lang-'.QT_LANG, 'tag=span|class=active').'</div>'.PHP_EOL;
 // header nav (intersect to use only some head menus)
-$m = new CMenu( array_intersect_key($navMenus, array_flip(['home','index','search','users','profile','sign'])) );
-echo '<nav>'.$m->build(Href($oH->selfurl)).'</nav>'.PHP_EOL;
+$skip = array_diff(array_keys($navMenu->menu), ['home','index','search','users','profile','sign']);
+echo '<nav>'.$navMenu->build(Href($oH->selfurl), 'default', $skip).'</nav>'.PHP_EOL;
 echo '</header>'.PHP_EOL;
 
 // ----------
