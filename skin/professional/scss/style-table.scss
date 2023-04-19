@@ -94,5 +94,5 @@ div.searchcriteria .t-sec td{padding:7px;vertical-align:middle;border:none}
 .t-stat th,
 .t-stat td{padding:4px;text-align:center}
 .t-stat th{background-color:#e2e2e2;font-weight:bold;color:#555}
-div.charts{display:flex;justify-content:space-around;flex-direction:row;flex-wrap:wrap}
+.charts{display:grid;justify-items:center;grid-template-columns:1fr 1fr}
 div.chart{margin:10px}

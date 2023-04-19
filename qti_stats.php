@@ -227,6 +227,7 @@ echo '<div id="nav-charts">
 </select> &nbsp; <span class="cblabel"><input type="checkbox" id="chartsPercent" onclick="chartY([1,2,3,4]);storeChartsOptions();"> <label for="chartsPercent">'.L('Percent').'</label></span>
 </div>
 ';
+// Tips: canvas needs a div block to limit chart size (otherwise it would be 100% width, because parent "charts" is displayed as grid)
 echo '<div class="charts">
 <div class="chart"><canvas id="chart1" width="350px" height="250px"></canvas></div>
 <div class="chart"><canvas id="chart2" width="350px" height="250px"></canvas></div>
@@ -309,6 +310,7 @@ echo '<div id="nav-charts">
 </select> &nbsp; <span class="cblabel"><input type="checkbox" id="chartsPercent" onclick="chartY([1,2,3,4]);storeChartsOptions();"> <label for="chartsPercent">'.L('Percent').'</label></span>
 </div>
 ';
+// Tips: canvas needs a div block to limit chart size (otherwise it would be 100% width, because parent "charts" is displayed as grid)
 echo '<div class="charts">
 <div class="chart"><canvas id="chart1" width="350px" height="250px"></canvas></div>
 <div class="chart"><canvas id="chart2" width="350px" height="250px"></canvas></div>
@@ -393,6 +395,7 @@ echo '<div id="nav-charts">
 </select> &nbsp; <span class="cblabel"><input type="checkbox" id="chartsPercent" onclick="chartY([1,2],[\'stack0\',\'stack0\']);chartY([3,4]);storeChartsOptions();" > <label for="chartsPercent">'.L('Percent').'</label></span>
 </div>
 ';
+// Tips: canvas needs a div block to limit chart size (otherwise it would be 100% width, because parent "charts" is displayed as grid)
 echo '<div class="charts">
 <div class="chart"><canvas id="chart1" width="350px" height="250px"></canvas></div>
 <div class="chart"><canvas id="chart2" width="350px" height="250px"></canvas></div>
@@ -489,6 +492,7 @@ echo '<div id="nav-charts">
 </select> &nbsp; <span class="cblabel"><input type="checkbox" id="chartsPercent" onclick="chartY([1,2],[\'stack0\',\'stack0\',\'stack1\',\'stack1\']);chartY([3,4]);storeChartsOptions();"> <label for="chartsPercent">'.L('Percent').'</label></span>
 </div>
 ';
+// Tips: canvas needs a div block to limit chart size (otherwise it would be 100% width, because parent "charts" is displayed as grid)
 echo '<div class="charts">
 <div class="chart"><canvas id="chart1" width="350px" height="250px"></canvas></div>
 <div class="chart"><canvas id="chart2" width="350px" height="250px"></canvas></div>
