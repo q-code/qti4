@@ -131,7 +131,8 @@ aside{background-color:#fff}}
 
 /* MSGBOX */
 .msgbox{width:450px;margin:0 auto;padding:0;border:solid 1px var(--bgbtn);box-shadow:3px 3px 4px #CCC}
-  .msgbox.short{width:350px}
+  .msgbox.next{margin-top:1.5rem}
+.msgbox.short{width:350px}
   @media screen and (min-width:1024px) and (max-width:1279px){.msgbox{width:500px} .msgbox.short{width:375px}}
   @media screen and (min-width:1280px){.msgbox{width:525px}  .msgbox.short{width:400px}}
 .msgboxtitle{padding:0.75rem 1.5rem;color:#FFF;background:linear-gradient(130deg, #90765e 30%, #b69c84)}

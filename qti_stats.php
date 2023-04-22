@@ -30,9 +30,9 @@ function renderTables($arrYears,$bt,$arrSeries,$arrD,$arrS,$strTendaysago,$arrC)
     echo '<th style="width:20px">&nbsp;</th>'.PHP_EOL;
     switch($bt)
     {
-    case 'q': for ($i=1;$i<=MAXBT;++$i) { echo '<th style="text-align:center;">Q',$i,'</td>'; } break;
-    case 'm': for ($i=1;$i<=MAXBT;++$i) { echo '<th style="text-align:center;">',$L['dateMM'][$i],'</td>'; } break;
-    case 'd': for ($i=1;$i<=MAXBT;++$i) { echo '<th style="text-align:center;">',str_replace(' ','<br>',QTdatestr(addDate($strTendaysago,$i,'day'),'d M','')),'</td>'; } break;
+    case 'q': for ($i=1;$i<=MAXBT;++$i) { echo '<th>Q',$i,'</td>'; } break;
+    case 'm': for ($i=1;$i<=MAXBT;++$i) { echo '<th>',$L['dateMM'][$i],'</td>'; } break;
+    case 'd': for ($i=1;$i<=MAXBT;++$i) { echo '<th>',str_replace(' ','<br>',QTdatestr(addDate($strTendaysago,$i,'day'),'d M','')),'</td>'; } break;
     }
     echo '<th><b>',($bt==='d' ? '10 '.strtolower(L('Days')) : L('Total')),'</b></td>
     </tr>';
@@ -557,7 +557,7 @@ echo '
 
 if ( file_exists('qti_stats_csv.php') )
 {
-  echo '<p class="right"><a class="csv" href="qti_stats_csv.php?'.parse_url($_SERVER['REQUEST_URI'],PHP_URL_QUERY).'" title="'.L('H_Csv').'">',L('Csv'),'</a></p>';
+  echo '<p class="right table-ui-export"><a class="csv" href="qti_stats_csv.php?'.parse_url($_SERVER['REQUEST_URI'],PHP_URL_QUERY).'" title="'.L('H_Csv').'">',L('Csv'),'</a></p>';
 }
 
 // --------

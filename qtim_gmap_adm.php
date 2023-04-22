@@ -137,11 +137,6 @@ if ( !empty($_SESSION[QT]['m_gmap_gkey']) ) {
 // current symbol
 $current = empty($_SESSION[QT]['m_gmap_gsymbol']) ? 'default' : $_SESSION[QT]['m_gmap_gsymbol'];
 
-// default symbol
-/*!!!
-$arr = explode(' ',$_SESSION[QT]['m_gmap_gsymbol']);// read first icon (can be '0')
-$default = $arr[0]; if ( empty($default) ) $default='default';*/
-
 echo '<tr>
 <th style="width:150px">'.L('Gmap.API_ctrl').'</th>
 <td>

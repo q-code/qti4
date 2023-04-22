@@ -46,7 +46,7 @@ if ( $bMyBoard ) {
 
 include 'qti_inc_hd.php'; // includes myboard
 
-$t = new TabTable('class=t-sec domain');
+$t = new TabTable('class=t-sec');
   $t->thead();
   $t->tbody();
   $t->arrTh[0] = new TabHead('&nbsp;', 'class=c-icon');
@@ -90,7 +90,7 @@ foreach($_Domains as $domId=>$pDomain) {
     $t->arrTd[2]->content = $strLastpost;
     $t->arrTd[3]->content = $mSec['items'];
     $t->arrTd[4]->content = $mSec['replies'];
-    echo $t->getTDrow('class=data_s hover');
+    echo $t->getTDrow('class=hover');
   }
   echo $t->tbody->end();
   echo $t->end();
