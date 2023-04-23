@@ -192,7 +192,7 @@ public static function makeIcon(string $type='T', string $status='A', string $na
   if ( $type==='T' && empty($arrStatus) ) $arrStatus = SMem::get('_Statuses');
   $src = CTopic::makeIconSrc($type,$status,$skin,$arrStatus);
   if ( $name==='' ) { $name = CTopic::makeIconName($type,$status,$name,$arrStatus); $name = sprintf($strTitleFormat,$name); }
-  return asImg( $src, 'id='.$id.'|class=i-item|alt='.$type.(empty($name) ? '' : '|title='.$name), $strHref );
+  return asImg( $src, 'id='.$id.'|class=i-item|class=i-item|data-type='.strtolower($type).'|data-status='.strtolower($status).'|alt='.$type.(empty($name) ? '' : '|title='.$name), $strHref );
 }
 public function getIcon(string $skin='skin/default/', string $strHref='', string $strTitleFormat='%s', string $id='')
 {
