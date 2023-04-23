@@ -138,6 +138,7 @@ $oH->scripts[] = 'function toggleAside(){
   qtToggle("aside__detail");
   qtToggle("aside__info",null,"aside-ctrl");
   qtAttrStorage("aside-ctrl","qt-aside");
+  d.blur();
 }
 qtApplyStoredState("aside");';
 
