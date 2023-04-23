@@ -285,7 +285,7 @@ function renderUserPrivSymbol(array $row=[], string $empty='')
 function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, array $arrOptions=[])
 {
   if ( is_a($row,'CTopic') ) {$row=get_object_vars($row); $row['section']=$row['parentid'];}
-  if ( !isset($row['id']) ) die(__FUNCTION__.' Missing id in $row');
+  if ( !isset($row['id']) ) die( __FUNCTION__.' Missing id in $row');
   if ( !isset($row['replies']) ) $row['replies']=0;
   if ( isset($row['type']) ) $row['type'] = strtoupper($row['type']);
   if ( isset($arrFLD['numid']) && !isset($row['numid']) ) $row['numid'] = '';

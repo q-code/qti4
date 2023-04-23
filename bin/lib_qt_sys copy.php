@@ -57,7 +57,7 @@ function getRepository(string $root='', int $id=0, bool $check=false)
 
 function translate(string $file)
 {
-  if ( empty($file) ) die(__FUNCTION__.' invalid argument' );
+  if ( empty($file) ) die( __FUNCTION__.' invalid argument' );
   if ( file_exists(getLangDir().$file) ) return getLangDir().$file;
   return 'language/en/'.$file;
 }
@@ -94,7 +94,7 @@ function attrDecode(string $str, string $sep='|', string $required='')
 function attrRender($attr=[], array $exclude=[]) {
   if ( empty($attr) ) return '';
   if ( is_string($attr) ) $attr = attrDecode($attr);
-  if ( !is_array($attr) ) die(__FUNCTION__.' invalid argument' );
+  if ( !is_array($attr) ) die( __FUNCTION__.' invalid argument' );
   $str = '';
   foreach ($attr as $key=>$value) {
     if ( in_array($key,$exclude) ) continue;
@@ -256,13 +256,13 @@ function qtHttp(string $vars, bool $inGet=true, bool $inPost=true, bool $trim=tr
 
 function asTags(array $arr, $current='', string $attr='', string $attrCurrent='', array $arrDisabled=[], string $fx='', array $reject=[], string $eol='')
 {
-  if ( !empty($fx) && !function_exists($fx) ) die(__FUNCTION__.' requested function ['.$fx.'] is unknown' );
+  if ( !empty($fx) && !function_exists($fx) ) die( __FUNCTION__.' requested function ['.$fx.'] is unknown' );
 
   // $current and $arr indexes can be [int] but will be converted to [string]
   // When $arrDisabled is included, it must be an array of trimmed-strings
 
   if ( is_int($current) ) $current = (string)$current;
-  if ( !is_string($current) ) die(__FUNCTION__.' arg #2 must be int or string' );
+  if ( !is_string($current) ) die( __FUNCTION__.' arg #2 must be int or string' );
   $attr = attrDecode($attr,'|','tag=option');
   $tag = $attr['tag'];
   unset($attr['tag']);
@@ -287,7 +287,7 @@ function asTags(array $arr, $current='', string $attr='', string $attrCurrent=''
     case 'checkbox': $str .= '<input type="checkbox" id="'.$k.'" value="'.$k.'"'.attrRender($itemAttr).($current===$k || $current==='*' ? ' checked' : '').(in_array($k,$arrDisabled,true) ? ' disabled ' : '').'/><label for="'.$k.'">'.$value.'</label>'; break;
     case 'hidden'  : $str .= '<input type="hidden" name="'.$k.'" value="'.qtAttr($value).'"'.attrRender($itemAttr).'/>'; break;
     case 'span'    : $str .= '<span'.attrRender($itemAttr).'>'.$value.'</span>'; break;
-    default: die(__FUNCTION__.' Invalid tag' );
+    default: die( __FUNCTION__.' Invalid tag' );
     }
     if ( !empty($eol) ) $str .= $eol;
   }
@@ -371,7 +371,7 @@ function qtExplode(string $str, string $sep=';', string $fx='')
 function asCleanArray(string $str, string $sep=';', array $append=[])
 {
   if ( empty($str) ) return empty($append) ? [] : array_unique(array_filter(array_map('trim',$append)));
-  if ( trim($sep)==='' ) die(__FUNCTION__.' invalid separator (use explode with space separator)' );
+  if ( trim($sep)==='' ) die( __FUNCTION__.' invalid separator (use explode with space separator)' );
   $arr = explode($sep,$str); if ( !empty($append) ) $arr = array_merge($arr,$append);
   return array_unique(array_filter(array_map('trim',$arr)));
   // NOTE: if $append contains sub-array, they are skipped and php generates a warning
@@ -404,8 +404,8 @@ function qtExplodeUri(string $str='', string $fx='')
 function qtExplodeGet(string $str, string $key, $alt='', string $sep=';', string $fx='')
 {
   // qtExplodeGet('a=1;b=2', 'a') returns '1'
-  if ( empty($str) ) die(__FUNCTION__.' Invalid multifield string');
-  if ( empty($key) ) die(__FUNCTION__.' Invalid key');
+  if ( empty($str) ) die( __FUNCTION__.' Invalid multifield string');
+  if ( empty($key) ) die( __FUNCTION__.' Invalid key');
   $arr = qtExplode($str,$sep,$fx); // can be [] when str is empty
   return isset($arr[$key]) ? $arr[$key] : $alt;
   // Note on alt:
@@ -423,7 +423,7 @@ function qtExplodeGet(string $str, string $key, $alt='', string $sep=';', string
  */
 function qtImplode(array $arr, string $sep='&', string $fx='', bool $skipNull=true)
 {
-  if ( !empty($fx) && !function_exists($fx) ) die(__FUNCTION__.' requested function ['.$fx.'] is unknown');
+  if ( !empty($fx) && !function_exists($fx) ) die( __FUNCTION__.' requested function ['.$fx.'] is unknown');
   $str = '';
   foreach($arr as $key=>$value)
   {
