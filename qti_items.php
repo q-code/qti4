@@ -92,17 +92,12 @@ if ( !empty($_SESSION[QT]['lastcolumn']) ) $strLastcol = $_SESSION[QT]['lastcolu
 // QUERY parts definition
 // -----
 
-$sqlOntop = '';
-if ( $_SESSION[QT]['news_on_top']==='1' || ($_SESSION[QT]['news_on_top']==='2' && $oS->getMF('options','nt')==='1') )
-{
-  // note: sqlite uses || to concatenate
-  $sqlOntop = 'CASE '.($oDB->type=='pdo.sqlite' || $oDB->type=='sqlite' ? '(t.type||t.status)' : 'CONCAT(t.type,t.status)')." WHEN 'AA' THEN 'A' ELSE 'Z' END as typea,";
-}
-$sqlFields = $sqlOntop.'t.*,p.title,p.icon,p.id as postid,p.type as posttype,p.textmsg,p.issuedate,p.username';
+$sqlFields = ($_SESSION[QT]['news_on_top'] ? "CASE WHEN t.type='A' AND t.status='A' THEN 'A' ELSE 'Z' END as typea," : '');
+$sqlFields .= 't.*,p.title,p.icon,p.id as postid,p.type as posttype,p.textmsg,p.issuedate,p.username';
 $sqlFrom = ' FROM TABTOPIC t INNER JOIN TABPOST p ON t.firstpostid=p.id'; // warning: include only firstpostid (not the replies)
 $sqlWhere = ' WHERE t.section'.($q==='s' ? '='.$s : '>=0');
   // In private section, show topics created by user himself
-  if ( $q==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= ' AND (t.firstpostuser='.SUser::id().' OR t.type=\'A\')';
+  if ( $q==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR (t.type='A' AND t.status='A'))";
 $sqlValues = array(); // list of values for the prepared-statements
 $sqlCount = 'SELECT count(*) as countid FROM TABTOPIC t'.$sqlWhere;
 $sqlCountAlt='';

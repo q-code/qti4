@@ -38,6 +38,7 @@ a.rowcommands:hover{color:var(--bgadmin);text-decoration:underline}
 }
 
 /* ITEMS */
+.i-item[data-status="z"]{filter:grayscale(1)}
 .item-msg-preview{color:#888}
 
 /* MESSAGE */

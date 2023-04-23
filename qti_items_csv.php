@@ -95,12 +95,13 @@ if ( substr($size,0,1)=='p' ) { $i = (int)substr($size,1); $intLimit = ($i-1)*$i
 // -----
 // QUERY parts definition
 // -----
-$sqlFields = $_SESSION[QT]['news_on_top'] ? "CASE t.type WHEN 'A' THEN 'A' ELSE 'Z' END as typea," : '';
+
+$sqlFields = ($_SESSION[QT]['news_on_top'] ? "CASE WHEN t.type='A' AND t.status='A' THEN 'A' ELSE 'Z' END as typea," : '');
 $sqlFields .= 't.*,p.title,p.icon,p.id as postid,p.type as posttype,p.textmsg,p.issuedate,p.username';
 $sqlFrom = ' FROM TABTOPIC t INNER JOIN TABPOST p ON t.firstpostid=p.id';
 $sqlWhere = ' WHERE t.forum'.($q==='s' ? '='.$s : '>=0');
-// In private section, show topics created by user himself
-if ( $q==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR t.type='A')";
+  // In private section, show topics created by user himself
+  if ( $q==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR (t.type='A' AND t.status='A'))";
 $sqlValues = array(); // list of values for the prepared-statements
 $sqlCount = 'SELECT count(*) as countid FROM TABTOPIC t'.$sqlWhere;
 $sqlCountAlt='';
