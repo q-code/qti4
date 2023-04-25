@@ -39,21 +39,21 @@ if ( isset($_POST['actorid']) && $_POST['actorid']>0 && !empty($_POST['actorname
 // INITIALISE and check grant access
 // ---------
 $oS = new CSection($s);
-if ( $oS->type==='1' && (SUser::role()=='V' || SUser::role()=='U') )
+if ( $oS->type==='1' && (SUser::role()==='V' || SUser::role()==='U') )
 {
   // exit
   $oH->selfname = L('Section');
   $oH->exitname = SLang::translate();
   $oH->pageMessage('', L('R_staff'));
 }
-if ( $oS->type==='2' && SUser::role()=='V' && $oT->type!=='A' )
+if ( $oS->type==='2' && SUser::role()==='V' && $oT->type!=='A' )
 {
   // exit
   $oH->selfname = L('Section');
   $oH->exitname = SLang::translate();
   $oH->pageMessage('');
 }
-if ( $oS->type==='2' && SUser::role()=='U' && $oT->firstpostuser != SUser::id() && $oT->type!=='A' )
+if ( $oS->type==='2' && SUser::role()==='U' && $oT->firstpostuser != SUser::id() && $oT->type!=='A' )
 {
   // exit
   $oH->selfname = L('Section');

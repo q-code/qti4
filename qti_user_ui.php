@@ -7,7 +7,7 @@
 if ( SUser::role()==='A' ) {
   echo '<form id="modaction" method="get" action="'.Href(APP.'_register.php').'"><div id="optionsbar">
 '.getSVG('user-A', 'title='.L('Role_A')).'
-<select name="a" onchange="if (this.value!=``) document.getElementById(`modaction`).submit();">
+<select name="a" onchange="if ( this.value!=``) document.getElementById(`modaction`).submit();">
 <option value="" disabled selected hidden>'.L('Role_A').' '.L('commands').'</option>
 <option value="adm-reset">'.L('Reset_pwd').'...</option>
 <option value="role"'.($id<2 ? ' disabled' : '').'>'.L('Change_role').'...</option>

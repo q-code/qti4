@@ -91,7 +91,7 @@ if ( isset($_POST['ok']) ) try {
   if ( !empty($strParentmail) && !QTismail($strParentmail) ) throw new Exception( L('Parent_mail').' '.L('invalid') );
 
   $strWww = qtAttr(trim($_POST['www']));
-  if ( !empty($strWww) && substr($strWww,0,4)!='http' ) throw new Exception( L('Website').' '.L('invalid') );
+  if ( !empty($strWww) && substr($strWww,0,4)!=='http' ) throw new Exception( L('Website').' '.L('invalid') );
   if ( empty($strWww) || $strWww=='http://' || $strWww=='https://' ) $strWww='';
 
   // Save
@@ -132,8 +132,8 @@ $row['privacy']= (int)$row['privacy']; // int
 // check privacy
 if ( !SUser::canSeePrivate($row['privacy'],$id) ) { $row['y']=null; $row['x']=null; }
 // staff cannot edit other staff nor admin
-if ( $row['role']=='M' && SUser::role()=='M' && !QT_STAFFEDITSTAFF && SUser::id()!=$id ) { $canEdit=false; $_SESSION[QT]['editing']=false; }
-if ( $row['role']=='A' && SUser::role()=='M' && !QT_STAFFEDITADMIN ) { $canEdit=false; $_SESSION[QT]['editing']=false; }
+if ( $row['role']=='M' && SUser::role()==='M' && !QT_STAFFEDITSTAFF && SUser::id()!=$id ) { $canEdit=false; $_SESSION[QT]['editing']=false; }
+if ( $row['role']=='A' && SUser::role()==='M' && !QT_STAFFEDITADMIN ) { $canEdit=false; $_SESSION[QT]['editing']=false; }
 
 // map settings
 if ( $bMap && !QTgempty($row['x']) && !QTgempty($row['y']) )
@@ -186,7 +186,7 @@ if ( $canEdit )
   echo '<p><a href="'.Href('qti_register.php').'?a=sign&id='.$id.'">'.L('Change_signature').'</a></p>';
   echo '<p><a href="'.Href('qti_register.php').'?a=pwd&id='.$id.'">'.L('Change_password').'</a></p>';
   echo '<p><a href="'.Href('qti_register.php').'?a=qa&id='.$id.'">'.L('Secret_question').'</a></p>';
-  if ( SUser::role()=='A' || (SUser::id()==$id && QT_CHANGE_USERNAME) ) {
+  if ( SUser::role()==='A' || (SUser::id()==$id && QT_CHANGE_USERNAME) ) {
   if ( $id>0 ) echo '<p><a href="'.Href('qti_register.php').'?a=name&id='.$id.'">'.L('Change_name').'</p></a>';
   }
   if ( $id>1 && (SUser::id()===$id || SUser::role()==='A') )
@@ -257,7 +257,7 @@ if ( $bMap )
   $strPosition .= '</p>'.PHP_EOL;
   $strPosition .= '<div id="map_canvas"></div>'.PHP_EOL;
   $strPosition .= '<p class="small commands" style="margin:4px 0 2px 2px;text-align:right">'.L('Gmap.addrlatlng').' ';
-  $strPosition .= '<input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('Gmap.H_addrlatlng').'" onkeypress="enterkeyPressed=qtKeyEnter(event); if (enterkeyPressed) showLocation(this.value,null);"/>';
+  $strPosition .= '<input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('Gmap.H_addrlatlng').'" onkeypress="enterkeyPressed=qtKeyEnter(event); if ( enterkeyPressed) showLocation(this.value,null);"/>';
   $strPosition .= '<span id="btn-geocode" onclick="showLocation(document.getElementById(`find`).value,null);" title="'.L('Search').'">'.getSVG('search').'</span></p>';
 
   echo '<tr>'.PHP_EOL;
@@ -393,7 +393,7 @@ if ( $bMap )
     $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x,true,$gmap_symbol,$row['name'],'',$gmap_shadow);
     $gmap_events[] = '
 	google.maps.event.addListener(markers[0], "position_changed", function() {
-		if (document.getElementById("yx")) {document.getElementById("yx").value = gmapRound(marker.getPosition().lat(),10) + "," + gmapRound(marker.getPosition().lng(),10);}
+		if ( document.getElementById("yx")) {document.getElementById("yx").value = gmapRound(marker.getPosition().lat(),10) + "," + gmapRound(marker.getPosition().lng(),10);}
 	});
 	google.maps.event.addListener(markers[0], "dragend", function() {
 		map.panTo(marker.getPosition());
@@ -404,7 +404,7 @@ if ( $bMap )
   {
     if ( infowindow ) infowindow.close();
     geocoder.geocode( { "address": address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK)
+      if ( status == google.maps.GeocoderStatus.OK)
       {
         map.setCenter(results[0].geometry.location);
         if ( markers[0] )
@@ -422,7 +422,7 @@ if ( $bMap )
   function createMarker()
   {
     if ( !map ) return;
-    if (infowindow) infowindow.close();
+    if ( infowindow) infowindow.close();
     deleteMarker();
     '.gmapMarker('map',true,$gmap_symbol).'
     gmapYXfield("yx",markers[0]);
@@ -431,7 +431,7 @@ if ( $bMap )
   }
   function deleteMarker()
   {
-    if (infowindow) infowindow.close();
+    if ( infowindow) infowindow.close();
     for(var i=markers.length-1;i>=0;i--)
     {
       markers[i].setMap(null);

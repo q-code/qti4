@@ -87,7 +87,7 @@ define("SSE_LATENCY",'.$_POST['LATENCY'].');
 //   If the qti_srv_sse.php script (i.e. the server script) is on the same server as application, it must be http://localhost.';
 
     if ( file_exists($strFilename) && !is_writable($strFilename)) $error="Impossible to write into the file [$strFilename].";
-    if ( empty($error) ) if (!$handle = fopen($strFilename, 'w')) $error="Impossible to open the file [$strFilename].";
+    if ( empty($error) ) if ( !$handle = fopen($strFilename, 'w')) $error="Impossible to open the file [$strFilename].";
     if ( empty($error) )
     {
     if ( fwrite($handle, $content)===FALSE ) $error="Impossible to write into the file [$strFilename].";

@@ -72,7 +72,7 @@ if ( isset($_POST['ok']) && !empty($q) )
     case 'btw':
       $v = QTdateclean($v,8); // Returns YYYYMMDD (no time) while browser should provide YYYY-MM-DD. Returns '' if format not supported. If $v='now', returns today
       $v2 = QTdateclean($v2,8);
-      if (  empty($v) || empty($v2) || $v<'20000101' || $v2>'21000101' ) $criteriaError = L('Date').' '.L('invalid');
+      if ( empty($v) || empty($v2) || $v<'20000101' || $v2>'21000101' ) $criteriaError = L('Date').' '.L('invalid');
       if ( $v>$v2 ) $criteriaError = L('Date').' '.L('invalid').' (date1 > date2)';
       $arg = '&v='.$v.'&v2='.$v2;
       break;

@@ -108,8 +108,8 @@ if ( isset($_POST['ok']) && $pan===3 )
   SLang::delete('sec,secdesc','s'.$oS->id);
   foreach($_POST as $k=>$posted) {
     $posted = QTdb(trim($posted)); // encode simple+doublequote
-    if ( substr($k,0,3)=='tr-' && !empty($posted) ) SLang::add('sec', substr($k,3), 's'.$oS->id, $posted);
-    if ( substr($k,0,5)=='desc-' && !empty($posted) ) SLang::add('secdesc', substr($k,5), 's'.$oS->id, $posted);
+    if ( substr($k,0,3)==='tr-' && !empty($posted) ) SLang::add('sec', substr($k,3), 's'.$oS->id, $posted);
+    if ( substr($k,0,5)==='desc-' && !empty($posted) ) SLang::add('secdesc', substr($k,5), 's'.$oS->id, $posted);
   }
   memFlushLang(); // Clear cache
   $_SESSION[QT.'splash'] = L('S_save');
@@ -292,7 +292,7 @@ if ( $oS->notifycc!=0 ) $arr['notifiedname']=L('Notified_user');
 $arr['tags'] = L('Tags');
 $arr['id'] = 'Id';
 $arr['none'] = L('None');
-$dflt_lastcol = $oS->getMF('options','last'); if  (strtolower($dflt_lastcol)=='n' || empty($dflt_lastcol) ) $dflt_lastcol = 'none';
+$dflt_lastcol = $oS->getMF('options','last'); if  (strtolower($dflt_lastcol)==='n' || empty($dflt_lastcol) ) $dflt_lastcol = 'none';
 echo '<tr>
 <th><span class="texthead">'.L('Infofield').'</span></th>
 <td><select name="lastcolumn" onchange="qtFormSafe.not();">'.asTags($arr,$dflt_lastcol).'

@@ -29,7 +29,7 @@ echo '<form method="post" action="'.Href('qti_item.php').'" id="modactor" autoco
 <input type="hidden" name="t" value="'.$oT->id.'"/>
 <input type="hidden" id="actorid" name="actorid" value="'.$oT->actorid.'"/>
 <div id="ac-wrapper-user" class="ac-wrapper">'.L('Actor').' <input type="text" id="user" name="actorname" value="'.$oT->actorname.'" placeholder="'.L('Assign_to').'..." style="width:175px"></div>
-<button type="submit" id="submitactor" onclick="if (document.getElementById(`user`).value.length<2) return false;">'.L('Ok').'</button>
+<button type="submit" id="submitactor" onclick="if ( document.getElementById(`user`).value.length<2) return false;">'.L('Ok').'</button>
 </form>
 </div>
 ';

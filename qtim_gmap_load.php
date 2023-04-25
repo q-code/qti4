@@ -11,9 +11,9 @@ if ( !isset($gmap_events) ) $gmap_events = array();
 if ( !isset($gmap_functions) ) $gmap_functions = array();
 
 $mapTypeId = gmapMarkerMapTypeId(substr($_SESSION[QT]['m_gmap_gbuttons'],0,1));
-$streetView = substr($_SESSION[QT]['m_gmap_gbuttons'],1,1)=='1' ? 'true' : 'false';
-$fullView = substr($_SESSION[QT]['m_gmap_gbuttons'],4,1)=='1' ? 'true' : 'false';
-$scaleBar = substr($_SESSION[QT]['m_gmap_gbuttons'],3,1)=='1' ? 'true' : 'false';
+$streetView = substr($_SESSION[QT]['m_gmap_gbuttons'],1,1)==='1' ? 'true' : 'false';
+$fullView = substr($_SESSION[QT]['m_gmap_gbuttons'],4,1)==='1' ? 'true' : 'false';
+$scaleBar = substr($_SESSION[QT]['m_gmap_gbuttons'],3,1)==='1' ? 'true' : 'false';
 
 if ( !empty($oH->selfurl) && isset($_SESSION[QT]['viewmode']) && $_SESSION[QT]['viewmode']==='c' ) {
 if ( $oH->selfurl==='qti_item.php' || $oH->selfurl==='qti_calendars.php' ) {
@@ -32,7 +32,7 @@ function gmapInitialize(){
     zoomControl:true,
     mapTypeId: '.$mapTypeId.',
     streetViewControl: '.$streetView.',
-    mapTypeControl: '.(substr($_SESSION[QT]['m_gmap_gbuttons'],2,1)=='1' ? 'true' : 'false' ).',
+    mapTypeControl: '.(substr($_SESSION[QT]['m_gmap_gbuttons'],2,1)==='1' ? 'true' : 'false' ).',
     mapTypeControlOptions:
     {
     style:google.maps.MapTypeControlStyle.DROPDOWN_MENU,
@@ -40,7 +40,7 @@ function gmapInitialize(){
     },
     scaleControl: '.$scaleBar.',
     fullscreenControl: '.$fullView.',
-    scrollwheel: '.(substr($_SESSION[QT]['m_gmap_gbuttons'],5,1)=='1' ? 'true' : 'false' ).'
+    scrollwheel: '.(substr($_SESSION[QT]['m_gmap_gbuttons'],5,1)==='1' ? 'true' : 'false' ).'
     };
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
   //Define OSM map type pointing at the OpenStreetMap tile server
@@ -69,7 +69,7 @@ function gmapRound(num){
   return Math.round(num*Math.pow(10,11))/Math.pow(10,11);
 }
 function gmapYXfield(id,marker){
-  if (!document.getElementById(id)) return;
+  if ( !document.getElementById(id)) return;
   if ( marker )
   {
     document.getElementById(id).value = gmapRound(marker.getPosition().lat()) + "," + gmapRound(marker.getPosition().lng());

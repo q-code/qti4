@@ -39,13 +39,13 @@ while (false !== ($file = readdir($intHandle)))
 {
   $file=strtolower($file);
   if ( $file!='.' && $file!='..' ) {
-    if ( substr($file,0,6)=='status' )
+    if ( substr($file,0,6)==='status' )
     {
     $arrStatuses[] = $file;
     }
     else
     {
-    if ( substr($file,0,3)!='bg_' && substr($file,0,10)!='background' ) $arrFiles[] = $file;
+    if ( substr($file,0,3)!=='bg_' && substr($file,0,10)!=='background' ) $arrFiles[] = $file;
     }
     ++$i;
   }
@@ -67,7 +67,7 @@ echo '<table style="background-color:#ffffff">
 <tr><td style="padding-left:4px"><b>Icon</b></td><td><b>File</b></td></tr>'.PHP_EOL;
 foreach($arrStatuses as $val)
 {
-  if (strtolower(substr($val,-4,4))=='.gif')
+  if ( strtolower(substr($val,-4,4))==='.gif')
   {
   echo '<tr><td style="padding-left:4px"><img src="'.QT_SKIN.$val.'"/></td><td class="td_icon">'.$val.'</td></tr>'.PHP_EOL;
   }
@@ -84,7 +84,7 @@ echo '<table style="background-color:#ffffff">
 <tr><td style="padding-left:4px"><b>Icon</b></td><td><b>File</b></td></tr>'.PHP_EOL;
 foreach($arrFiles as $val)
 {
-  if (strtolower(substr($val,-4,4))=='.gif')
+  if ( strtolower(substr($val,-4,4))==='.gif')
   {
   echo '<tr><td style="padding-left:4px"><img src="'.QT_SKIN.$val.'"/></td><td class="td_icon">'.$val.'</td></tr>'.PHP_EOL;
   }

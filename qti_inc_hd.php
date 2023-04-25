@@ -26,7 +26,7 @@ $navMenu->add('privacy', 'text='.L('Legal').'|href=qti_privacy.php');
 $navMenu->add('index', 'text='. SLang::translate().'|href=qti_index.php|accesskey=i|class=secondary|activewith=qti_index.php qti_items.php qti_item.php qti_calendars.php qti_edit.php');
 $navMenu->add('search', 'text='.L('Search').'|id=nav-search|activewith=qti_search.php');
 if ( $oH->selfurl!=='qti_search.php' && SUser::canAccess('search') )
-$navMenu->menu['search'] .= '|href=qti_search.php|accesskey=s'.(QT_SIMPLESEARCH ? '|onclick=if (document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
+$navMenu->menu['search'] .= '|href=qti_search.php|accesskey=s'.(QT_SIMPLESEARCH ? '|onclick=if ( document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
   // SUser::canAccess('search') not included here... We want the searchbar/page shows a message for not granted users
 if ( SUser::canAccess('show_memberlist') )
 $navMenu->add('users', 'text='.L('Memberlist').'|href=qti_users.php');
@@ -134,7 +134,7 @@ if ( QT_SIMPLESEARCH && $oH->selfurl!==APP.'_search.php' ) {
     echo '<div id="ac-wrapper-qkw" class="ac-wrapper"><input required id="qkw" name="v" type="text" size="25" placeholder="'.L('Number_or_keyword').'" autocomplete="off" /></div> <a class="btn-search" href="javascript:void(0)" title="'.L('Search').' '.L('in_all_sections').'" onclick="document.getElementById(`searchSubmit`).click();">'.getSVG('search').'</a>';
     echo '</form>';
     $oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/'.APP.'_config_ac.js"></script>';
-    $oH->scripts[] = 'acOnClicks["qkw"] = function(focusInput,btn){ if ( focusInput.id=="qkw" && focusInput.value.substring(0,1)=="#" ) window.location="'.APP.'_item.php?t="+focusInput.value.substring(1); }';
+    $oH->scripts[] = 'acOnClicks["qkw"] = function(focusInput,btn){ if ( focusInput.id=="qkw" && focusInput.value.substring(0,1)==="#" ) window.location="'.APP.'_item.php?t="+focusInput.value.substring(1); }';
   }
   echo '<a class="button button-x" href="javascript:void(0)" onclick="qtToggle(`searchbar`);" title="'.L('Close').'">'.getSVG('times').'</a>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
@@ -168,7 +168,7 @@ if ( isset($s) && is_int($s) && $s>=0 ) {
     if ( $oS->type==='2' && !SUser::isStaff() ) echo QT_CRUMBTRAIL.'<small>'.L('all_my_items').'</small>';
   }
 }
-if ($oH->selfurl==='qti_user.php') echo QT_CRUMBTRAIL.L('Profile');
+if ( $oH->selfurl==='qti_user.php') echo QT_CRUMBTRAIL.L('Profile');
 echo '</p>
 <p id="page-ui">
 ';

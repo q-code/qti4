@@ -31,16 +31,16 @@ $v = asCleanArray($v); // array of (unique) values trimmed (not empty)
 
 // initialise section
 $s = (int)$s;
-if ($q==='s' && $s<0 ) die( __FILE__.' Missing argument s');
-if ($q==='s' || $s>=0 ) {
+if ( $q==='s' && $s<0 ) die(__FILE__.' Missing argument s');
+if ( $q==='s' || $s>=0 ) {
   $oS = new CSection($_Sections[$s]); // new Section($s)
                                                             // exit if user role not granted
-  if ($oS->type==='1' && (SUser::role()=='V' || SUser::role()=='U')) {
+  if ( $oS->type==='1' && (SUser::role()==='V' || SUser::role()==='U')) {
     $oH->selfname = L('Section');
     $oH->exitname = SLang::translate();
     exitPage(12); //...
   }
-  if ($oS->type==='2' && SUser::role()=='V') {
+  if ( $oS->type==='2' && SUser::role()==='V') {
     $oH->selfname = L('Section');
     $oH->exitname = SLang::translate();
     exitPage(11,'user-lock.svg'); //...
@@ -55,7 +55,7 @@ if ($q==='s' || $s>=0 ) {
 $oH->selfuri = getURI('order,dir');
 $strOrder = 'lastpostdate';
 $strDirec = 'desc';
-$strLastcol = $oS->getMF('options','last'); if  ($strLastcol=='N' || strtolower($strLastcol)=='none' ) $strLastcol='';
+$strLastcol = $oS->getMF('options','last'); if  ($strLastcol=='N' || strtolower($strLastcol)==='none' ) $strLastcol='';
 $intPage = 1;
 $intLimit = 0;
 if ( isset($_GET['page']) ) { $intPage = (int)$_GET['page']; $intLimit = ($intPage-1)*$_SESSION[QT]['items_per_page']; }
@@ -73,16 +73,16 @@ $rowCommands = ''; // commands when EditByRows
 // SUBMITTED preferences and staff action
 // ---------
 
-if (isset($_POST['pref'])) {
-  if (in_array($_POST['pref'], array( 'n10', 'n20', 'n30', 'n50', 'n100'))) $_SESSION[QT]['items_per_page'] = substr($_POST['pref'], 1, 3);
-  if ($_POST['pref']=='togglenewsontop') $_SESSION[QT]['news_on_top'] = ($_SESSION[QT]['news_on_top'] ? '0' : '1');
-  if ($_POST['pref']=='toggleclosed') $_SESSION[QT]['show_closed'] = ($_SESSION[QT]['show_closed'] ? '0' : '1');
+if ( isset($_POST['pref'])) {
+  if ( in_array($_POST['pref'], array( 'n10', 'n20', 'n30', 'n50', 'n100'))) $_SESSION[QT]['items_per_page'] = substr($_POST['pref'], 1, 3);
+  if ( $_POST['pref']=='togglenewsontop') $_SESSION[QT]['news_on_top'] = ($_SESSION[QT]['news_on_top'] ? '0' : '1');
+  if ( $_POST['pref']=='toggleclosed') $_SESSION[QT]['show_closed'] = ($_SESSION[QT]['show_closed'] ? '0' : '1');
 }
-if (isset($_POST['modaction']) && SUser::isStaff()) {
-  if ($_POST['modaction']=='nt') $oH->redirect('qti_edit.php?s='.$s.'&a=nt', L('New_item')); // exit
+if ( isset($_POST['modaction']) && SUser::isStaff()) {
+  if ( $_POST['modaction']=='nt') $oH->redirect('qti_edit.php?s='.$s.'&a=nt', L('New_item')); // exit
   $_SESSION[QT]['lastcolumn'] = empty($_POST['modaction']) ? '0' : $_POST['modaction']; // can be '0' (none)
 }
-if (isset($_POST['toggleedit']) && $_POST['toggleedit']==='1' && SUser::isStaff()) {
+if ( isset($_POST['toggleedit']) && $_POST['toggleedit']==='1' && SUser::isStaff()) {
   $_SESSION['EditByRows'] = $_SESSION['EditByRows'] ? '0' : '1';
 }
 // change lastcolumn if preference exisits
@@ -134,20 +134,20 @@ if ( $q==='s' ) {
 $navCommands .= '<a class="button btn-search" href="'.Href('qti_search.php').'?'.$oH->selfuri.'" title="'.L('Search').'">'.getSVG('search').'</a>';
 
 $strPaging = makePager( Href($oH->selfurl).'?'.$oH->selfuri, $intCount, (int)$_SESSION[QT]['items_per_page'], $intPage);
-if ($strPaging!='') $strPaging = L('Page').$strPaging;
+if ( $strPaging!='') $strPaging = L('Page').$strPaging;
 
 // MAP
 
 $bMap = false;
-if (useModule('gmap')) {
+if ( useModule('gmap')) {
   include translate(APP.'m_gmap.php');
   include 'qtim_gmap_lib.php';
-  if (gmapCan(empty($q) ? $oS->id : 'S')) $bMap = true;
-  if ($bMap) $oH->links[] = '<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
+  if ( gmapCan(empty($q) ? $oS->id : 'S')) $bMap = true;
+  if ( $bMap) $oH->links[] = '<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
 
-  if (isset($_GET['hidemap'])) $_SESSION[QT]['m_gmap_hidelist'] = true;
-  if (isset($_GET['showmap'])) $_SESSION[QT]['m_gmap_hidelist'] = false;
-  if (!isset($_SESSION[QT]['m_gmap_hidelist'])) $_SESSION[QT]['m_gmap_hidelist'] = false;
+  if ( isset($_GET['hidemap'])) $_SESSION[QT]['m_gmap_hidelist'] = true;
+  if ( isset($_GET['showmap'])) $_SESSION[QT]['m_gmap_hidelist'] = false;
+  if ( !isset($_SESSION[QT]['m_gmap_hidelist'])) $_SESSION[QT]['m_gmap_hidelist'] = false;
 }
 
 // Page title description
@@ -214,7 +214,7 @@ if ( !empty($pageTitle) ) $pageTitle = '<p class="pg-title">'.$pageTitle.'</p>'.
 if ( $intCount>0 && SMemSSE::useSSE() ){
   $oH->scripts[] = 'var cseMaxRows = '.(defined('SSE_MAX_ROWS') ? SSE_MAX_ROWS : 2).';
 var cseShowZ = '.$_SESSION[QT]['show_closed'].';
-if(typeof(EventSource)=="undefined"){
+if ( typeof EventSource==="undefined" ) {
   window.setTimeout(function(){location.reload(true);}, 120000); // use refresh (120s) when browser does not support SSE
 } else {
   var sid = "'.QT.'";
@@ -260,7 +260,7 @@ if ( $intCount==0 ) {
   echo '<div class="nav-top">'.$navCommands.'</div>'.PHP_EOL;
   echo '<p class="center" style="margin:1rem 0">'.L('No_result').'...</p>';
   if ( $oS->type==='2' && !SUser::isStaff() ) echo '<p class="center">'.L('Only_your_items').'</p>';
-  if ( $intCount ) echo '<p class="center">'.getSVG('exclamation-triangle').' '.L('Closed_item',$intCount).'. '.L('Closed_hidden_by_pref').' (<a href="javascript:void(0)" onclick="let d=document.getElementById(`pref`); if (d) {d.value=`toggleclosed`;doSubmit(`formPref`);}">'.L('show').' '.L('closed_items').'</a>).</p>';
+  if ( $intCount ) echo '<p class="center">'.getSVG('exclamation-triangle').' '.L('Closed_item',$intCount).'. '.L('Closed_hidden_by_pref').' (<a href="javascript:void(0)" onclick="let d=document.getElementById(`pref`); if ( d) {d.value=`toggleclosed`;doSubmit(`formPref`);}">'.L('show').' '.L('closed_items').'</a>).</p>';
   // alternate query
   $arg = 'q='.$q;
   if ( $q==='user' || $q==='kw' || $q==='adv' ) $arg .= '&v='.implode(';',$v).'&v2='.urlencode($v2);
@@ -301,11 +301,11 @@ $t->arrTh[$strLastcol] = new TabHead(L(ucfirst($strLastcol)), '', '<a href="'.$o
 foreach(array_keys($t->arrTh) as $k) $t->arrTh[$k]->add('class', 'c-'.$k);
 // append class secondary
 foreach(['firstpostname','tags','userlocation','usernumpost','views','prefix'] as $k) {
-  if (isset($t->arrTh[$k])) $t->arrTh[$k]->append('class', 'secondary');
+  if ( isset($t->arrTh[$k])) $t->arrTh[$k]->append('class', 'secondary');
 }
 // append class ellipsis
 foreach(['firstpostname','lastpostdate','replies','views','id','status','section'] as $k) {
-  if (isset($t->arrTh[$k])) $t->arrTh[$k]->append('class', 'ellipsis');
+  if ( isset($t->arrTh[$k])) $t->arrTh[$k]->append('class', 'ellipsis');
 }
 // for each th, create td column and add the same class
 foreach(array_keys($t->arrTh) as $k) {
@@ -314,7 +314,7 @@ foreach(array_keys($t->arrTh) as $k) {
 }
 
 // Edit mode
-if ($_SESSION['EditByRows']) {
+if ( $_SESSION['EditByRows']) {
   $rowCommands = '&nbsp;<a class="rowcommands" href="javascript:void(0)" data-action="itemsType">'.L('Type').'/'.L('Status').'</a>';
   $rowCommands .= ' &middot; <a class="rowcommands" href="javascript:void(0)" data-action="itemsTags">'.L('Tags').'</a>';
   $rowCommands .= ' &middot; <a class="rowcommands" href="javascript:void(0)" data-action="itemsMove">'.L('Move').'</a>';
@@ -400,9 +400,9 @@ while($row=$oDB->getRow())
   foreach(array_keys($t->arrTd) as $tdname) $t->arrTd[$tdname]->Add('id','t'.$row['id'].'-c-'.$tdname);
 
   // prepare checkbox (edit mode)
-  if ($_SESSION['EditByRows']) {
+  if ( $_SESSION['EditByRows']) {
     $bChecked = $row['id']==$intChecked;
-    if ($row['posttype']==='P') $t->arrTd['checkbox']->content = '<input type="checkbox" name="t1-cb[]" id="t1-cb-'.$row['id'].'" value="'.$row['id'].'"'.($bChecked ? 'checked' : '').'/>';
+    if ( $row['posttype']==='P') $t->arrTd['checkbox']->content = '<input type="checkbox" name="t1-cb[]" id="t1-cb-'.$row['id'].'" value="'.$row['id'].'"'.($bChecked ? 'checked' : '').'/>';
   }
 
   // Show row content
@@ -429,7 +429,7 @@ while($row=$oDB->getRow())
 
   // collect tags
 
-  if (QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)<51 )
+  if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)<51 )
   {
   if ( !empty($row['tags']) ) $arrTags = array_unique(array_merge($arrTags,explode(';',$row['tags'])));
   }
@@ -447,8 +447,8 @@ if ( SUser::isStaff() && !empty($_SESSION['EditByRows']) ) echo '</form>'.PHP_EO
 
 // BUTTON LINE AND PAGER
 $strCsv = '';
-if (SUser::isStaff() && !empty($_SESSION['EditByRows'])) $strCsv .= '<a id="cmd-export-selected" class="csv" href="javascript:void(0)" title="'.L('H_Csv').' ('.L('selected').')">'.L('Export').getSVG('check-square').'</a> &middot; ';
-$strCsv .= SUser::role()=='V' ? '' : htmlCsvLink(Href('qtf_items_csv.php').'?'.$oH->selfuri, $intCount, $intPage);
+if ( SUser::isStaff() && !empty($_SESSION['EditByRows'])) $strCsv .= '<a id="cmd-export-selected" class="csv" href="javascript:void(0)" title="'.L('H_Csv').' ('.L('selected').')">'.L('Export').getSVG('check-square').'</a> &middot; ';
+$strCsv .= SUser::role()==='V' ? '' : htmlCsvLink(Href('qtf_items_csv.php').'?'.$oH->selfuri, $intCount, $intPage);
 echo '<div id="tablebot" class="table-ui bot">';
 echo $rowCommands ? '<div id="t1-edits-bot" class="left checkboxcmds">'.getSVG('corner-down-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
 echo '<div class="right">'.$strPaging.'</div></div>'.PHP_EOL;
@@ -570,7 +570,7 @@ if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
   function showLocation(address){
     if ( infowindow ) infowindow.close();
     geocoder.geocode( { "address": address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK)
+      if ( status == google.maps.GeocoderStatus.OK)
       {
         map.setCenter(results[0].geometry.location);
         if ( marker )

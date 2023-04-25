@@ -42,7 +42,7 @@ $title = '';
 $ro = ''; // [optional] use "1" to force readonly
 qtHttp('exit! file! a help int:rows title ro');
 $ext = pathinfo($file, PATHINFO_EXTENSION);
-if ( !in_array($ext, ['txt','csv','text','css','info']) ) die( 'Unsupported file extension' );
+if ( !in_array($ext, ['txt','csv','text','css','info']) ) die('Unsupported file extension' );
 $readonly = substr($file,0,9)==='language/' || substr($file,0,7)==='upload/' || substr($file,0,5)==='skin/' ? false : true ; // edit only works within languge|skin|upload
 if ( $ro==='1' || strtolower($ro)==='true' ) $readonly = true;
 if ( $rows<15 || $rows>40 ) $rows=15;
@@ -70,7 +70,7 @@ if ( $a==='delete' && file_exists($file) )
 
 // SUBMITTED restore
 
-if ($a==='restore' && file_exists($file.'.bck') )
+if ( $a==='restore' && file_exists($file.'.bck') )
 {
   if ( $readonly ) die('This file type cannot be changed with this interface');
   // Rename
@@ -91,7 +91,7 @@ if ( $a==='new' && !file_exists($file) )
   }
   if ( empty($error) )
   {
-     if (fwrite($handle, '') === FALSE)
+     if ( fwrite($handle, '') === FALSE)
      {
        $error = 'Impossible to write into the file ['.$file.'].';
      }

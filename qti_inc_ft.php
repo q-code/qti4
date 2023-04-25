@@ -158,7 +158,7 @@ echo '<footer class="flex-sp">
 
 // MODULE RSS
 if ( !$_SESSION[QT]['board_offline'] && useModule('rss') && $_SESSION[QT]['m_rss']=='1' ) {
-if ( SUser::role()!=='V' || SUser::role().substr($_SESSION[QT]['m_rss_conf'],0,1)=='VV' ) {
+if ( SUser::role()!=='V' || SUser::role().substr($_SESSION[QT]['m_rss_conf'],0,1)==='VV' ) {
   $navMenu->add('rss', 'text='.getSVG('rss-square').'|id=menu-rss|href=qtim_rss.php');
 }}
 

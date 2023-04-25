@@ -258,7 +258,7 @@ function renderUserMailSymbol($row)
   return '<span class="disabled" title="no e-mail"><svg class="svg-symbol"><use href="#symbol-envelope" xlink:href="#symbol-envelope"></use></svg></span>';
   $str = '';
   if ( (int)$row['privacy']===2 ) $str = asEmails($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
-  if ( (int)$row['privacy']===1 && SUser::role()!='V' ) $str = asEmails($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
+  if ( (int)$row['privacy']===1 && SUser::role()!=='V' ) $str = asEmails($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
   if ( SUser::id()==$row['id'] || SUser::isStaff() ) $str = asEmails($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
   return $str;
 }
@@ -285,7 +285,7 @@ function renderUserPrivSymbol(array $row=[], string $empty='')
 function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, array $arrOptions=[])
 {
   if ( is_a($row,'CTopic') ) {$row=get_object_vars($row); $row['section']=$row['parentid'];}
-  if ( !isset($row['id']) ) die( __FUNCTION__.' Missing id in $row');
+  if ( !isset($row['id']) ) die(__FUNCTION__.' Missing id in $row');
   if ( !isset($row['replies']) ) $row['replies']=0;
   if ( isset($row['type']) ) $row['type'] = strtoupper($row['type']);
   if ( isset($arrFLD['numid']) && !isset($row['numid']) ) $row['numid'] = '';
@@ -321,7 +321,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
   // when searching in posts without title, use this to report empty title
   if ( isset($arrFLD['title']) )
   {
-    if ( trim($row['title'])=='' ) $row['title']='('.L('reply').')';
+    if ( trim($row['title'])==='' ) $row['title']='('.L('reply').')';
     if ( empty($row['title']) && $row['title']!='0' ) $row['title']='('.L('Reply').')';
   }
   // icon
@@ -337,7 +337,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
     if ( !empty($row['mail']) )
     {
     if ( $row['privacy']==2 ) $str = asEmails($row['mail'],'icojava');
-    if ( $row['privacy']==1 && SUser::role()!='V' ) $str = asEmails($row['mail'],'icojava');
+    if ( $row['privacy']==1 && SUser::role()!=='V' ) $str = asEmails($row['mail'],'icojava');
     if ( SUser::id()==$row['id'] || SUser::isStaff() ) $str = asEmails($row['mail'],'icojava');
     }
     $row['u.mail'] = $str;
@@ -397,6 +397,9 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
     case 'replies':
       $arr[$k] = ($row['replies']>0 ? '<i data-re="'.$strTableId.'re'.$row['id'].'"></i> ' : '').$row['replies'];
       break;
+    case 'views':
+        $arr[$k] = $row['views']==='0' ? '0' : qtIntK((int)$row['views']);
+        break;
     case 'section':
       $i = (int)$row['section'];
       $arr[$k] = '<a href="'.Href('qti_items.php').'?s='.$i.'">'.(isset($GLOBALS['_Sections'][$i]['title']) ? $GLOBALS['_Sections'][$i]['title'] : 'Section '.$i).'</a>';

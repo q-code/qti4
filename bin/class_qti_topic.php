@@ -93,9 +93,9 @@ public function setFrom($ref=null)
         case 'lastpostname': $this->lastpostname = $value; break;
         case 'firstpostdate':$this->firstpostdate= $value; break;
         case 'lastpostdate': $this->lastpostdate = $value; break;
-        case 'actorid':      $this->actorid      = (int)$value; if ($this->actorid<=0) $this->actorid=-1; break;
+        case 'actorid':      $this->actorid      = (int)$value; if ( $this->actorid<=0) $this->actorid=-1; break;
         case 'actorname':    $this->actorname    = $value; break;
-        case 'notifiedid':   $this->notifiedid   = (int)$value; if ($this->notifiedid<=0) $this->notifiedid=-1; break;
+        case 'notifiedid':   $this->notifiedid   = (int)$value; if ( $this->notifiedid<=0) $this->notifiedid=-1; break;
         case 'notifiedname': $this->notifiedname = $value; break;
         case 'replies':      $this->items        = (int)$value; break;
         case 'views':        $this->views        = (int)$value; break;
@@ -473,7 +473,7 @@ public static function tagsClear($str, bool $dropDuplicate=true)
   {
     $str=trim($str);
     if ( empty($str) || $str==='*' ) continue; // '*' can be alone, but not inside other tags
-    if ($dropDuplicate && in_array(strtolower($str),$arrClearLC)) continue;
+    if ( $dropDuplicate && in_array(strtolower($str),$arrClearLC)) continue;
     $arrClear[]=$str;
     $arrClearLC[]=strtolower($str);
   }
@@ -483,7 +483,7 @@ public function tagsUpdate()
 {
   global $oDB;
   if ( empty($this->descr) || $this->descr==';' ) $this->descr='';
-  if ( !empty($this->descr) && substr($this->descr,-1,1)==';' ) $this->descr = substr($this->descr,0,-1);
+  if ( !empty($this->descr) && substr($this->descr,-1,1)===';' ) $this->descr = substr($this->descr,0,-1);
   $oDB->exec( "UPDATE TABTOPIC SET tags=?,modifdate='".date('Ymd His')."' WHERE id=$this->id", [qtAttr($this->descr)] ); // no doublequote
 }
 public function tagsAdd(string $str, $oS=null)

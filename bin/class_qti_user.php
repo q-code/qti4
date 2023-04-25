@@ -134,7 +134,7 @@ public static function canSeePrivate(int $userprivacy, int $userid)
   if ( self::isStaff() ) return true;
   // Check privacy: $userprivacy is the user's privacy level (can be integer !)
   if ( $userprivacy==2 || self::id()==$userid ) return true; // public or user's own info
-  if ( $userprivacy==1 && self::role()!='V') return true;
+  if ( $userprivacy==1 && self::role()!=='V') return true;
   return false;
 }
 public static function canEditTags(CTopic $oT)

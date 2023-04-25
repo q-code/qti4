@@ -28,7 +28,7 @@ $oH->exitname = getSVG('angle-left').' '.L('Statuses');
 if ( isset($_POST['ok']) ) try {
 
   // check id
-  if (!preg_match('/[A-Z]/',$id)) throw new Exception( $id.': id '.L('invalid').' (B-Y)' ); //A and Z can be edited (hidden input)
+  if ( !preg_match('/[A-Z]/',$id)) throw new Exception( $id.': id '.L('invalid').' (B-Y)' ); //A and Z can be edited (hidden input)
   // change id
   if ( $_POST['oldid']!=$id ) SStatus::chgId($_POST['oldid'],$id);
   // check name
@@ -45,7 +45,7 @@ if ( isset($_POST['ok']) ) try {
   if ( $icon!=trim($_POST['icon']) ) throw new Exception( L('Icon').' '.L('invalid') );
   // check notified
   $lst_mail = array();
-  if (isset($_POST['mailto'])) $lst_mail = $_POST['mailto'];
+  if ( isset($_POST['mailto'])) $lst_mail = $_POST['mailto'];
   $lst_others = preg_split("/[\s,]+/", $_POST['others']);
   $lst_saved = array();
   $i=array_search('U',$lst_mail);
@@ -65,8 +65,8 @@ if ( isset($_POST['ok']) ) try {
   // save translation (cache unchanged)
   SLang::delete('status,statusdesc',$id);
   foreach($_POST as $key=>$str) {
-    if ( substr($key,0,1)=='T' && !empty($str) ) SLang::add('status',substr($key,1),$id,$_POST[$key]);
-    if ( substr($key,0,1)=='D' && !empty($str) ) SLang::add('statusdesc',substr($key,1),$id,$_POST[$key]);
+    if ( substr($key,0,1)==='T' && !empty($str) ) SLang::add('status',substr($key,1),$id,$_POST[$key]);
+    if ( substr($key,0,1)==='D' && !empty($str) ) SLang::add('statusdesc',substr($key,1),$id,$_POST[$key]);
   }
   memFlushLang(); // clear cache
   $_SESSION[QT.'splash'] = L('S_save');

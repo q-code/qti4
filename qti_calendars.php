@@ -42,7 +42,7 @@ function FirstDayDisplay($intYear,$intMonth,$intWeekstart=1)
 function ArraySwap($arr,$n=1)
 {
   // Move the first value to the end of the array. Action is repeated $n times. Keys are not moved.
-  if ($n>0)
+  if ( $n>0)
   {
     $arrK = array_keys($arr);
     while($n>0) { array_push($arr,array_shift($arr)); $n--; }
@@ -183,10 +183,10 @@ echo '<div class="right">
 <select name="Maction" onchange="document.getElementById(\'modaction\').submit();">
 <option value="">&nbsp;</option>
 ';
-if ($_SESSION[QT]['cal_showZ']) { echo '<option value="hide_Z">&#9745; '.L('Item_closed_show').'</option>'; } else { echo '<option value="show_Z">&#9744; '.L('Item_closed_show').'</option>'; }
-if ($_SESSION[QT]['cal_shownews']) { echo '<option value="hide_News">&#9745; '.L('Item_news_show').'</option>';} else { echo '<option value="show_News">&#9744; '.L('Item_news_show').'</option>'; }
-if ($_SESSION[QT]['cal_showinsp']) { echo '<option value="hide_Insp">&#9745; '.L('Item_insp_show').'</option>';} else { echo '<option value="show_Insp">&#9744; '.L('Item_insp_show').'</option>'; }
-if ($_SESSION[QT]['cal_showall']) { echo '<option value="this">&#9745; '.L('Item_show_all').'</option>'; } else { echo '<option value="all">&#9744; '.L('Item_show_all').'</option>'; }
+if ( $_SESSION[QT]['cal_showZ']) { echo '<option value="hide_Z">&#9745; '.L('Item_closed_show').'</option>'; } else { echo '<option value="show_Z">&#9744; '.L('Item_closed_show').'</option>'; }
+if ( $_SESSION[QT]['cal_shownews']) { echo '<option value="hide_News">&#9745; '.L('Item_news_show').'</option>';} else { echo '<option value="show_News">&#9744; '.L('Item_news_show').'</option>'; }
+if ( $_SESSION[QT]['cal_showinsp']) { echo '<option value="hide_Insp">&#9745; '.L('Item_insp_show').'</option>';} else { echo '<option value="show_Insp">&#9744; '.L('Item_insp_show').'</option>'; }
+if ( $_SESSION[QT]['cal_showall']) { echo '<option value="this">&#9745; '.L('Item_show_all').'</option>'; } else { echo '<option value="all">&#9744; '.L('Item_show_all').'</option>'; }
 echo '
 </select><button id="action_ok" type="submit" name="Mok" value="'.L('Ok').'" style="display:none"/>
 </form>
@@ -310,7 +310,7 @@ for ($intWeek=0;$intWeek<6;++$intWeek)
 
 echo '</table>
 ';
-if ($_SESSION[QT]['cal_showall']) echo '<p class="disabled small">'.L('Items_other_section_are_gayout').'</p>';
+if ( $_SESSION[QT]['cal_showall']) echo '<p class="disabled small">'.L('Items_other_section_are_gayout').'</p>';
 
 // DISPLAY SUBDATA
 
@@ -321,7 +321,7 @@ echo '<div class="cal_info left">'.PHP_EOL;
 
 $dCurrentDate = mktime(0,0,0,$intMonthN,1,$intYearN);
 $dFirstDay = mktime(0,0,0,$intMonthN,1,$intYearN);
-if ( date("l",$dFirstDay)!='Monday' )
+if ( date("l",$dFirstDay)!=='Monday' )
 {
   $dFirstDay = strtotime('-1 week',$dFirstDay);
   $dFirstMonday = strtotime('next monday',$dFirstDay);
@@ -417,7 +417,7 @@ if ( $bSSE )
 {
 $oH->scripts[] = 'var cseMaxRows = '.(defined('SSE_MAX_ROWS') ? SSE_MAX_ROWS : 2).';
 var cseShowZ = '.($_SESSION[QT]['cal_showZ'] ? 1 : 0).';
-if ( typeof(EventSource)=="undefined" ){
+if ( typeof EventSource==="undefined" ) {
   window.setTimeout(function(){location.reload(true);}, 120000); // use refresh (120s) when browser does not support SSE
 } else {
   var sid = "'.QT.'";
@@ -518,7 +518,7 @@ if ( $bMap )
   {
     if ( infowindow ) infowindow.close();
     geocoder.geocode( { "address": address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK)
+      if ( status == google.maps.GeocoderStatus.OK)
       {
         map.setCenter(results[0].geometry.location);
         if ( marker )

@@ -129,7 +129,7 @@ case 'itemsType':
   $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
   $frm[] = '</form>';
   $oH->scripts[] = 'function validateForm(f) {
-  if (f.elements[0].value=="U" && f.elements[1].value=="U") { alert("'.L('Nothing_selected').'"); return false; }
+  if ( f.elements[0].value=="U" && f.elements[1].value=="U") { alert("'.L('Nothing_selected').'"); return false; }
   document.body.style.cursor = "wait";
   return true;
 }
@@ -140,7 +140,7 @@ nt.addEventListener("change", ()=>{
     document.querySelectorAll("#newstatus option").forEach(opt => { opt.disabled = false; });
     return;
   }
-  document.querySelectorAll("#newstatus option").forEach(opt => { if (opt.value!=="U" && opt.value!=="A" && opt.value!=="Z") opt.disabled = true; });
+  document.querySelectorAll("#newstatus option").forEach(opt => { if ( opt.value!=="U" && opt.value!=="A" && opt.value!=="Z") opt.disabled = true; });
   if ( ns.value==="U" ) return;
   if ( ns.value!=="A" && ns.value!=="Z" ) ns.value = "A";
 });

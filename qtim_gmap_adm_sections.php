@@ -47,7 +47,7 @@ $arrFiles = array();
 while ( false!==($strFile = readdir($intHandle)) )
 {
   if ( $strFile!='.' && $strFile!='..' ) {
-  if ( substr($strFile,-4,4)=='.png' ) {
+  if ( substr($strFile,-4,4)==='.png' ) {
   if ( !strpos($strFile,'shadow') ) {
     $arrFiles[substr($strFile,0,-4)]=ucfirst(substr(str_replace('_',' ',$strFile),0,-4));
   }}}
@@ -82,10 +82,10 @@ if ( isset($_POST['ok']) && !empty($_SESSION[QT]['m_gmap_gkey']) )
   $content .= json_encode($arrData).PHP_EOL;
   $content .= '\';';
 
-  if (!is_writable($strFilename)) $error="Impossible to write into the file [$strFilename].";
+  if ( !is_writable($strFilename)) $error="Impossible to write into the file [$strFilename].";
   if ( empty($error) )
   {
-  if (!$handle = fopen($strFilename, 'w')) $error="Impossible to open the file [$strFilename].";
+  if ( !$handle = fopen($strFilename, 'w')) $error="Impossible to open the file [$strFilename].";
   }
   if ( empty($error) )
   {
@@ -109,7 +109,7 @@ $arrConfig = json_decode($jMapSections,true); // decode as an array
 $arrSections = SMem::get('_Sections');
 
 $oH->scripts[] = 'function mapsection(section){
-  if (document.getElementById("sec_"+section).checked) {
+  if ( document.getElementById("sec_"+section).checked) {
     document.getElementById("mark_"+section).style.visibility="visible";
     document.getElementById("list_"+section).style.visibility="visible";
   } else {

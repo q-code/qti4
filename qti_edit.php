@@ -146,14 +146,14 @@ if ( isset($_POST['dosend']) ) try {
   {
     $strArgs = QTdatestr(trim($_POST['wisheddate']),'Ymd','');
     if ( !is_string($strArgs) ) throw new Exception( L('Wisheddate').' '.L('invalid') );
-    if ( substr($strArgs,0,6)=='Cannot' ) throw new Exception( L('Wisheddate').' '.L('invalid') );
-    if ( substr($strArgs,0,4)=='1970' ) throw new Exception( L('Wisheddate').' '.L('invalid') );
+    if ( substr($strArgs,0,6)==='Cannot' ) throw new Exception( L('Wisheddate').' '.L('invalid') );
+    if ( substr($strArgs,0,4)==='1970' ) throw new Exception( L('Wisheddate').' '.L('invalid') );
     $oT->wisheddate = $strArgs;
   }
 
   if ( !empty($_POST['coord']) ) {
     $_POST['coord'] = QTstr2yx($_POST['coord']);
-    if ($_POST['coord']===FALSE ) throw new Exception( 'Invalid coordinate format' );
+    if ( $_POST['coord']===FALSE ) throw new Exception( 'Invalid coordinate format' );
   }
 
   // Mandatory submitted fields (in case of new topic)
@@ -767,7 +767,7 @@ if ( $bMap )
 
   $gmap_events[] = '
 	google.maps.event.addListener(markers[0], "position_changed", function() {
-		if (document.getElementById("yx")) {document.getElementById("yx").value = gmapRound(marker.getPosition().lat(),10) + "," + gmapRound(marker.getPosition().lng(),10);}
+		if ( document.getElementById("yx")) {document.getElementById("yx").value = gmapRound(marker.getPosition().lat(),10) + "," + gmapRound(marker.getPosition().lng(),10);}
 	});
 	google.maps.event.addListener(markers[0], "dragend", function() {
 		map.panTo(marker.getPosition());
@@ -777,7 +777,7 @@ if ( $bMap )
   {
     if ( infowindow ) infowindow.close();
     geocoder.geocode( { "address": address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK)
+      if ( status == google.maps.GeocoderStatus.OK)
       {
         map.setCenter(results[0].geometry.location);
         if ( markers[0] )
@@ -795,7 +795,7 @@ if ( $bMap )
   function createMarker()
   {
     if ( !map ) return;
-    if (infowindow) infowindow.close();
+    if ( infowindow) infowindow.close();
     deleteMarker();
     '.gmapMarker('map',true,$gmap_symbol).'
     gmapYXfield("yx",markers[0]);
@@ -804,7 +804,7 @@ if ( $bMap )
   }
   function deleteMarker()
   {
-    if (infowindow) infowindow.close();
+    if ( infowindow) infowindow.close();
     for(var i=markers.length-1;i>=0;i--) markers[i].setMap(null);
     gmapYXfield("yx",null);
     markers=[];

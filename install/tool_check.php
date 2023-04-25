@@ -216,7 +216,7 @@ echo '
 
   $oDB->query( 'SELECT setting FROM '.QDB_PREFIX.'qtisetting WHERE param="skin_dir"');
   $row = $oDB->getRow();
-  $str = $row['setting']; if ( substr($str,0,5)!='skin/' ) $str = 'skin/'.$str;
+  $str = $row['setting']; if ( substr($str,0,5)!=='skin/' ) $str = 'skin/'.$str;
 
   if ( empty($str) ) $error .= 'Setting <b>skin</b> is not defined in the setting table. Application will not display correctly.<br>';
   if ( !file_exists($root."$str/qti_styles.css") ) $error .= "File <b>qti_styles.css</b> is not in the <b>$str</b> directory.<br>";
@@ -286,7 +286,7 @@ echo '
   $oDB->query( 'SELECT setting FROM '.QDB_PREFIX.'qtisetting WHERE param="site_url"');
   $row = $oDB->getRow();
   $strText = trim($row['setting']);
-  if ( substr($strText,0,7)!='http://' && substr($strText,0,8)!='https://' )
+  if ( substr($strText,0,7)!=='http://' && substr($strText,0,8)!=='https://' )
   {
     $error .= 'Site url is not yet defined (or not starting by http://). It\'s mandatory to define it !<br>';
   }

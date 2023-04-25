@@ -29,7 +29,7 @@ if ( SUser::isStaff() ) {
   if ( is_a($oS,'CSection') && $oS->id>=0 ) $ui .= '<option value="nt">'.L('New_item').'...</option>';
   $ui .= '</optgroup>';
   if ( !empty($intCount) ) {
-    $dflt_lastcol = $oS->getMF('options','last'); if ( empty($dflt_lastcol) || strtolower($dflt_lastcol)=='n' ) $dflt_lastcol='none';
+    $dflt_lastcol = $oS->getMF('options','last'); if ( empty($dflt_lastcol) || strtolower($dflt_lastcol)==='n' ) $dflt_lastcol='none';
     $ui .= '<optgroup label="'.L('Column').'">';
     $arr = array('default'=>L('Use_default'),'none'=>L('None'),'id'=>'Id','views'=>L('Views'),'status'=>L('Status')); if ( $_SESSION[QT]['tags'] ) $arr['tags'] = L('Tag+'); // list of last columns
     foreach($arr as $k=>$val) $ui .= '<option value="'.$k.'">'.$val.($dflt_lastcol===$k ? ' ('.L('default').')' : '').($_SESSION[QT]['lastcolumn']===$k ? ' &#10004;' : '').'</option>';

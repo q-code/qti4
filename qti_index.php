@@ -21,7 +21,7 @@ if ( $_SESSION[QT]['visitor_right']<1 && SUser::role()==='V' ) exitPage(11,'user
 // --------
 
 // MYBOARD Count MyTopics and MyAssign
-$bMyBoard = SUser::role()!='V'; // no myboard for visitor
+$bMyBoard = SUser::role()!=='V'; // no myboard for visitor
 if ( $bMyBoard ) {
   $intMyTopics = 0;
   $intMyAssign = 0;
@@ -88,8 +88,8 @@ foreach($_Domains as $domId=>$pDomain) {
     $t->arrTd[0]->content = asImg( CSection::makeLogo($logofile,$mSec['type'],$mSec['status']), 'title='.L('Ico_section_'.$mSec['type'].'_'.$mSec['status']), Href('qti_items.php?s='.$idSec) );
     $t->arrTd[1]->content = '<a class="section" href="'.Href('qti_items.php?s='.$idSec).'">'.$mSec['title'].'</a>'.(empty($mSec['descr']) ? '' : '<br><span class="sectiondesc">'.$mSec['descr'].'</span>');
     $t->arrTd[2]->content = $strLastpost;
-    $t->arrTd[3]->content = $mSec['items'];
-    $t->arrTd[4]->content = $mSec['replies'];
+    $t->arrTd[3]->content = qtIntK($mSec['items']);
+    $t->arrTd[4]->content = qtIntK($mSec['replies']);
     echo $t->getTDrow('class=hover');
   }
   echo $t->tbody->end();
@@ -120,7 +120,7 @@ rows.forEach( (row) => {
 
 if ( SMemSSE::useSSE() )
 {
-  $oH->scripts[] = 'if(typeof(EventSource)=="undefined"){
+  $oH->scripts[] = 'if ( typeof EventSource==="undefined" ){
   window.setTimeout(function(){location.reload(true);}, 120000); // use polyfill (refresh 120s) when browser does not support SSE
 } else {
   var sid = "'.QT.'";

@@ -38,7 +38,7 @@ if ( isset($_SESSION[QT]['m_rss_conf']) ) unset($_SESSION[QT]['m_rss_conf']);
 
 // STEP 0: check version
 
-$strQTI = VERSION; if ( substr(VERSION,0,1)=='v') $strQTI = substr(VERSION,1);
+$strQTI = VERSION; if ( substr(VERSION,0,1)==='v') $strQTI = substr(VERSION,1);
 $arrQTI = explode('.',$strQTI);
 if ( intval($arrQTI[0])<2 ) $error="Your QuickTicket version is $strQTI. Please, upgrade to QuickTicket 3.0 before installing this module...";
 if ( !empty($error) ) $bStep0 = false;
