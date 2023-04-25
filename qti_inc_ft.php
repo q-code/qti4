@@ -66,7 +66,7 @@ $strStatusText = '';
 echo '<aside>'.PHP_EOL;
 echo '<a id="aside-ctrl" class="tgl-ctrl" onclick="toggleAside(); return false;" title="'.L('Showhide_legend').'">'.getSVG('info').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a>'.PHP_EOL;
 echo '<div id="aside__info" class="article" style="display:none">'.PHP_EOL;
-  echo '<h1>'.L('Information').'</h1>'.PHP_EOL;
+  echo '<h2>'.L('Information').'</h2>'.PHP_EOL;
   // section info
   echo '<p>';
   if ( isset($oS) && is_a($oS,'CSection') && $oS->id>=0 )
@@ -96,18 +96,18 @@ echo '<div id="aside__info" class="article" style="display:none">'.PHP_EOL;
   $newuser = SMem::get('_NewUser',false,0); // no default, no expire, regenerated if missing
   if ( $newuser!==false && !empty($newuser['id']) && !empty($newuser['firstdate']) && !empty($newuser['name']) ) {
     if ( addDate($newuser['firstdate'],30,'day')>Date('Ymd') ) {
-      echo '<p>',L('Welcome_to'),'<a href="',Href('qti_user.php?id='.$newuser['id']),'">',$newuser['name'],'</a></p>';
+      echo '<p>'.L('Welcome_to').'<a href="'.Href('qti_user.php?id='.$newuser['id']).'">'.$newuser['name'].'</a></p>';
     }
   }
 
   echo '</div>'.PHP_EOL;
 
 echo '<div id="aside__detail" class="secondary" style="display:none">'.PHP_EOL;
-if ( isset($strDetailLegend) ) echo '<h1>'.L('Details').'</h1>'.PHP_EOL.$strDetailLegend.PHP_EOL;
+if ( isset($strDetailLegend) ) echo '<h2>'.L('Details').'</h2>'.PHP_EOL.$strDetailLegend.PHP_EOL;
 echo '</div>'.PHP_EOL;
 
 echo '<div id="aside__legend" style="display:none">'.PHP_EOL;
-echo '<h1>'.L('Legend').'</h1>'.PHP_EOL;
+echo '<h2>'.L('Legend').'</h2>'.PHP_EOL;
 
 if ( $oH->selfurl==='qti_index.php' )
 {
