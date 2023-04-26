@@ -6,12 +6,12 @@ i.tags{color:#888}
 img.tags{vertical-align:middle;width:14px;height:9px}
 span.tag{display:inline-block;margin:0 2px 1px 0;padding:2px 4px;background-color:#C3D9FF;color:#000;border-radius:2px}
 
-div.tagbox{margin:10px 0}
-div.tagbox p.title{display:inline-block;margin:5px 5px 0 0}
-div.tagbox p.content{display:inline-block;margin:5px 0}
-div.tagbox p.content i{color:#888}
-div.tagbox a.tag{display:inline-block;margin:0 3px 1px 0;padding:2px 4px;background-color:#C3D9FF;color:#444;text-decoration:none;border:solid 1px #C3D9FF;border-radius:2px}
-div.tagbox a.tag:hover{color:#000;text-decoration:none;border:solid 1px #0000FF}
+.tag-box{margin:10px 0}
+.tag-box p.title{display:inline-block;margin:5px 5px 0 0}
+.tag-box p.content{display:inline-block;margin:5px 0}
+.tag-box p.content i{color:#888}
+.tag-box a.tag{display:inline-block;margin:0 3px 1px 0;padding:2px 4px;background-color:#C3D9FF;color:#444;text-decoration:none;border:solid 1px #C3D9FF;border-radius:2px}
+.tag-box a.tag:hover{color:#000;text-decoration:none;border:solid 1px #0000FF}
 
 /* editor form */
 

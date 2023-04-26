@@ -458,7 +458,7 @@ echo '<div id="t1-nav-bot" class="nav-bot">'.$navCommands.'</div>'.PHP_EOL;
 // TAGS FILTRING
 if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)>0 ) {
   sort($arrTags);
-  echo '<div class="tagbox"><p>'.getSVG('tags').' '.L('Show_only_tag').'</p>';
+  echo '<div class="tag-box"><p>'.getSVG('tags').' '.L('Show_only_tag').'</p>';
   foreach($arrTags as $strTag) echo '<a class="tag" href="'.Href('qti_items.php').'?q=adv&s='.$s.'&v='.urlencode($strTag).'" title="...">'.$strTag.'</a>';
   echo getSVG('search','','',true).'</div>';
   $oH->scripts['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" id="tagdesc" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';

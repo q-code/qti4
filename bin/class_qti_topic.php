@@ -29,6 +29,7 @@ public $modifdate = '0';
 public $param = ''; // multifield (inspection parameters)
 
 public $youreply = '';
+public $attachinfo;
 public $preview;
 public $smile;
 public $title = '';
@@ -102,6 +103,7 @@ public function setFrom($ref=null)
         case 'icon':         $this->smile        = $value; break;
         case 'title':        $this->title        = $value; break;
         case 'modifdate':    $this->modifdate    = $value; break;
+        case 'attach':       $this->attachinfo   = (string)$value; break;
         case 'x': if ( is_numeric($value) ) $this->x = (float)$value; break; // must be FLOAT (or NULL)
         case 'y': if ( is_numeric($value) ) $this->y = (float)$value; break; // must be FLOAT (or NULL)
         case 'z': if ( is_numeric($value) ) $this->z = (float)$value; break; // must be FLOAT (or NULL)
@@ -123,7 +125,7 @@ public static function getRef(int $numid=0, $format='', string $none='')
   // This returns the formatted ref number (numid) of this item.
   // Format can be defined by a string, a [int] section-id, or a [CSection] section.
   // In case of undefined format, this returns the numid (as '%03s' string), in case of 'N' format, return the $na string.
-  if ( is_a($format,'CSection') ) $format = $format->numfield;
+  if ( is_a($format,'CSection') ) $format = $format->numfield;//!!!
   if ( is_int($format) ) { $arr = SMem::get('_Sections'); if ( isset($arr[$format]['numfield']) ) $format = empty($arr[$format]['numfield']) ? '%03s' : $arr[$format]['numfield']; }
   if ( !is_string($format) ) $format = '%03s';
   if ( $format==='N' ) return $none;

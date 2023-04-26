@@ -54,7 +54,7 @@ function renderItems(array $ids, bool $tags=false, bool $replies=false, bool $at
     if ( $typeIcon ) $str .= $oT->getIcon(QT_SKIN).' ';
     $str .= '"'.QTtrunc($oT->title,30).'"';
     if ( $replies && $oT->items ) $str .= ' '.getSVG('comments', 'title='.L('reply',$oT->items));
-    if ( $attach && !empty($oT->attachinfo) ) $str .= ' '.getSVG('paperclip', 'title='.L('Attachment'));
+    if ( $attach && !empty($oT->attachinfo) ) $str .= ' '.getSVG('paperclip', 'title='.L('Attachment'));//!!!
     if ( $tags ) $str .= ' '.$oT->getTagIcon();
     $str .= ' <span class="minor">'.L('by').' '.QTtrunc($oT->firstpostname,20).' ('.QTdatestr($oT->firstpostdate,'j M').')</span>';
     $str .= '</p>';
@@ -154,14 +154,14 @@ case 'itemsTags':
   if ( !SUser::isStaff() ) die('Access denied');
 
   // SUBMITTED
-  if ( isset($_POST['tag-btn']) && !empty($_POST['tagsedit']) )
+  if ( isset($_POST['tag-ok']) && !empty($_POST['tagsedit']) )
   {
     // update status
     foreach($ids as $id)
     {
       $oT = new CTopic($id);
-      if ( $_POST['tag-btn']==='addtag' ) $oT->tagsAdd($_POST['tagsedit']);
-      if ( $_POST['tag-btn']==='deltag' ) $oT->tagsDel($_POST['tagsedit']);
+      if ( $_POST['tag-ok']==='addtag' ) $oT->tagsAdd($_POST['tag-edit']);
+      if ( $_POST['tag-ok']==='deltag' ) $oT->tagsDel($_POST['tag-edit']);
     }
     // exit
     $_SESSION[QT.'splash'] = L('S_update');
@@ -179,17 +179,12 @@ case 'itemsTags':
   $frm[] = '<p>'.implode(' ',ListTags($ids)).'</p>';
   $frm[] = '</article>';
   $frm[] = '<article>';
-  $frm[] = '<p class="row-confirm">'.L('Change').' '.L('item',count($ids)).':</p>
-  <div id="ac-wrapper-tag-edit" class="ac-wrapper">
-  <div style="display:flex;align-items:center">
-  <input type="hidden" id="tag-dir" value="'.QT_DIR_DOC.'"/>
-  <input type="hidden" id="tag-lang" value="'.QT_LANG.'"/>
-  <input required type="text" id="tag-edit" name="tagsedit" size="15" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" data-multi="1"/>
-  <button class="tag-btn" title="'.L('Reset').'" onclick="qtFocusAfter(`tag-edit`,true); return false;">'.getSVG('backspace').'</button>&nbsp;
-  <button type="submit" name="tag-btn" class="tag-btn" value="addtag" title="'.L('Add').'">'.getSVG('plus').'</button>
-  <button type="submit" name="tag-btn" class="tag-btn" value="deltag" title="'.L('Delete_tags').'">'.getSVG('minus').'</button>
-  </div>
-  </div>';
+  $frm[] = '<p class="row-confirm">'.L('Change').' '.L('item',count($ids)).':</p>';
+  $frm[] = '<div id="ac-wrapper-tag-edit" class="ac-wrapper">';
+  $frm[] = '<input type="hidden" id="tag-dir" value="'.QT_DIR_DOC.'"/>';
+  $frm[] = '<input type="hidden" id="tag-lang" value="'.QT_LANG.'"/>';
+  $frm[] = '<input required type="text" id="tag-edit" name="tag-edit" size="15" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" data-multi="1" autocomplete="off"/><button type="reset" class="tag-btn" title="'.L('Reset').'" onclick="qtFocus(`tag-edit`)">'.getSVG('backspace').'</button>&nbsp;<button type="submit" name="tag-ok" class="tag-btn" value="addtag" title="'.L('Add').'">'.getSVG('plus').'</button><button type="submit" name="tag-ok" class="tag-btn" value="deltag" title="'.L('Delete_tags').'">'.getSVG('minus').'</button>';
+  $frm[] = '</div>';
   $frm[] = '</article>';
   $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button></p>';
   $frm[] = '<input type="hidden" name="ids" value="'.$strIds.'"/><input type="hidden" name="uri" value="'.$parentUri.'"/>';

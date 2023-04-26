@@ -46,7 +46,7 @@ $oH->selfversion = L('Export_Version').' 4.0';
 // SUBMITTED
 // --------
 
-if ( isset($_POST['submit']) )
+if ( isset($_POST['ok']) )
 {
   // read and check mandatory
   if ( isset($_POST['dropbbc']) ) { $_SESSION['m_export_xml']['dropbbc']='Y'; } else { $_SESSION['m_export_xml']['dropbbc']='N'; }
@@ -91,25 +91,25 @@ if ( isset($_POST['submit']) )
     {
       $oT = new CTopic($row);
 
-      echo '<topic id="',$oT->id,'" type="',$oT->type,'" section="',$oT->pid,'">'.PHP_EOL;
-      echo '<numid>',$oT->numid,'</numid>'.PHP_EOL;
-      echo '<status>',$oT->status,'</status>'.PHP_EOL;
-      if ( !empty($oT->statusdate) )    echo '<statusdate>',$oT->statusdate,'</statusdate>'.PHP_EOL;
-      //if ( !empty($oT->eventdate) )     echo '<eventdate>',$oT->eventdate,'</eventdate>'.PHP_EOL;
-      //if ( !empty($oT->wisheddate) )    echo '<wisheddate>',$oT->wisheddate,'</wisheddate>'.PHP_EOL;
-      if ( !empty($oT->firstpostid) )   echo '<firstpostid>',$oT->firstpostid,'</firstpostid>'.PHP_EOL;
-      if ( !empty($oT->lastpostid) )    echo '<lastpostid>',$oT->lastpostid,'</lastpostid>'.PHP_EOL;
-      if ( !empty($oT->firstpostuser) ) echo '<firstpostuser>',$oT->firstpostuser,'</firstpostuser>'.PHP_EOL;
-      if ( !empty($oT->lastpostuser) )  echo '<lastpostuser>',$oT->lastpostuser,'</lastpostuser>'.PHP_EOL;
-      if ( !empty($oT->firstpostname) ) echo '<firstpostname>',$oT->firstpostname,'</firstpostname>'.PHP_EOL;
-      if ( !empty($oT->lastpostname) )  echo '<lastpostname>',$oT->lastpostname,'</lastpostname>'.PHP_EOL;
-      if ( !empty($oT->firstpostdate) ) echo '<firstpostdate>',$oT->firstpostdate,'</firstpostdate>'.PHP_EOL;
-      if ( !empty($oT->lastpostdate) )  echo '<lastpostdate>',$oT->lastpostdate,'</lastpostdate>'.PHP_EOL;
-      if ( !empty($oT->x) )             echo '<x>',$oT->x,'</x>'.PHP_EOL;
-      if ( !empty($oT->y) )             echo '<y>',$oT->y,'</y>'.PHP_EOL;
-      if ( !empty($oT->z) )             echo '<z>',$oT->z,'</z>'.PHP_EOL;
-      if ( !empty($oT->tags) )          echo '<tags>',$oT->tags,'</tags>'.PHP_EOL;
-      if ( !empty($oT->param) )         echo '<param>',$oT->param,'</param>'.PHP_EOL;
+      echo '<topic id="'.$oT->id.'" type="'.$oT->type.'" section="'.$oT->pid.'">'.PHP_EOL;
+      echo '<numid>'.$oT->numid.'</numid>'.PHP_EOL;
+      echo '<status>'.$oT->status.'</status>'.PHP_EOL;
+      if ( !empty($oT->statusdate) )    echo '<statusdate>'.$oT->statusdate.'</statusdate>'.PHP_EOL;
+      //if ( !empty($oT->eventdate) )     echo '<eventdate>'.$oT->eventdate.'</eventdate>'.PHP_EOL;
+      //if ( !empty($oT->wisheddate) )    echo '<wisheddate>'.$oT->wisheddate.'</wisheddate>'.PHP_EOL;
+      if ( !empty($oT->firstpostid) )   echo '<firstpostid>'.$oT->firstpostid.'</firstpostid>'.PHP_EOL;
+      if ( !empty($oT->lastpostid) )    echo '<lastpostid>'.$oT->lastpostid.'</lastpostid>'.PHP_EOL;
+      if ( !empty($oT->firstpostuser) ) echo '<firstpostuser>'.$oT->firstpostuser.'</firstpostuser>'.PHP_EOL;
+      if ( !empty($oT->lastpostuser) )  echo '<lastpostuser>'.$oT->lastpostuser.'</lastpostuser>'.PHP_EOL;
+      if ( !empty($oT->firstpostname) ) echo '<firstpostname>'.$oT->firstpostname.'</firstpostname>'.PHP_EOL;
+      if ( !empty($oT->lastpostname) )  echo '<lastpostname>'.$oT->lastpostname.'</lastpostname>'.PHP_EOL;
+      if ( !empty($oT->firstpostdate) ) echo '<firstpostdate>'.$oT->firstpostdate.'</firstpostdate>'.PHP_EOL;
+      if ( !empty($oT->lastpostdate) )  echo '<lastpostdate>'.$oT->lastpostdate.'</lastpostdate>'.PHP_EOL;
+      if ( !empty($oT->x) )             echo '<x>'.$oT->x.'</x>'.PHP_EOL;
+      if ( !empty($oT->y) )             echo '<y>'.$oT->y.'</y>'.PHP_EOL;
+      if ( !empty($oT->z) )             echo '<z>'.$oT->z.'</z>'.PHP_EOL;
+      if ( !empty($oT->tags) )          echo '<tags>'.$oT->tags.'</tags>'.PHP_EOL;
+      if ( !empty($oT->param) )         echo '<param>'.$oT->param.'</param>'.PHP_EOL;
 
       echo '<posts>'.PHP_EOL;
 
@@ -117,16 +117,16 @@ if ( isset($_POST['submit']) )
         while($row2=$oDB2->getRow())
         {
           $oP = new CPost($row2);
-          echo '<post id="',$oP->id,'" type="',$oP->type,'">'.PHP_EOL;
-          echo '<icon>',$oP->icon,'</icon>'.PHP_EOL;
-          echo '<title>',toXml($oP->title),'</title>'.PHP_EOL;
-          echo '<userid>',$oP->userid,'</userid>'.PHP_EOL;
-          echo '<username>',$oP->username,'</username>'.PHP_EOL;
-          echo '<issuedate>',$oP->issuedate,'</issuedate>'.PHP_EOL;
-          if ( !empty($oP->modifdate) ) echo '<modifdate>',$oP->modifdate,'</modifdate>'.PHP_EOL;
-          if ( !empty($oP->modifuser) ) echo '<modifuser>',$oP->modifuser,'</modifuser>'.PHP_EOL;
-          if ( !empty($oP->modifname) ) echo '<modifname>',$oP->modifname,'</modifname>'.PHP_EOL;
-          echo '<textmsg>',toXml($oP->text),'</textmsg>'.PHP_EOL;
+          echo '<post id="'.$oP->id.'" type="'.$oP->type.'">'.PHP_EOL;
+          echo '<icon>'.$oP->icon.'</icon>'.PHP_EOL;
+          echo '<title>'.toXml($oP->title).'</title>'.PHP_EOL;
+          echo '<userid>'.$oP->userid.'</userid>'.PHP_EOL;
+          echo '<username>'.$oP->username.'</username>'.PHP_EOL;
+          echo '<issuedate>'.$oP->issuedate.'</issuedate>'.PHP_EOL;
+          if ( !empty($oP->modifdate) ) echo '<modifdate>'.$oP->modifdate.'</modifdate>'.PHP_EOL;
+          if ( !empty($oP->modifuser) ) echo '<modifuser>'.$oP->modifuser.'</modifuser>'.PHP_EOL;
+          if ( !empty($oP->modifname) ) echo '<modifname>'.$oP->modifname.'</modifname>'.PHP_EOL;
+          echo '<textmsg>'.toXml($oP->text).'</textmsg>'.PHP_EOL;
           echo '</post>'.PHP_EOL;  // doc is not exported
         }
 
@@ -148,39 +148,39 @@ if ( isset($_POST['submit']) )
 
 include APP.'_adm_inc_hd.php';
 
-echo '<form method="post" action="',$oH->selfurl,'">
-<h2 class="config">',$L['Export_Content'],'</h2>
+echo '<form method="post" action="'.$oH->selfurl.'">
+<h2 class="config">'.$L['Export_Content'].'</h2>
 <table class="t-conf">
 <tr>
-<th><label for="section">',$L['Section'],'</label></th>
+<th><label for="section">'.$L['Section'].'</label></th>
 <td>
 <select id="section" name="section" size="1">
-<option value="*">[ ',$L['All'],' ]</option>
-',sectionsAsOption(),'</select>
+<option value="*">[ '.$L['All'].' ]</option>
+'.sectionsAsOption().'</select>
 </td>
 </tr>
-<tr><th><label for="year">',$L['Item+'],'</label></th>
+<tr><th><label for="year">'.$L['Item+'].'</label></th>
 <td><select id="year" name="year" size="1">
-<option value="*">[ ',$L['All'],' ]</option>
-',asTags($arrYears),'
+<option value="*">[ '.$L['All'].' ]</option>
+'.asTags($arrYears).'
 </select></td>
 </tr>
 <tr>
-<th><label for="dropbbc">',$L['Export_Drop_bbc'],'</label></th>
-<td><input type="checkbox" id="dropbbc" name="dropbbc"',($_SESSION['m_export_xml']['dropbbc']=='Y' ? ' checked' : ''),'/> <label for="dropbbc">',$L['Export_H_Drop_bbc'],'</label></td>
+<th><label for="dropbbc">'.$L['Export_Drop_bbc'].'</label></th>
+<td><input type="checkbox" id="dropbbc" name="dropbbc"'.($_SESSION['m_export_xml']['dropbbc']=='Y' ? ' checked' : '').'/> <label for="dropbbc">'.$L['Export_H_Drop_bbc'].'</label></td>
 </tr>
 </table>
 ';
 
-echo '<h2 class="config">',$L['Destination'],'</h2>
+echo '<h2 class="config">'.$L['Destination'].'</h2>
 <table class="t-conf">
 <tr>
-<th><label for="title">',$L['Export_Filename'],'</label></th>
-<td><input required type="text" id="title" name="title" size="32" maxlength="32" value="',$_SESSION['m_export_xml']['title'],'"/></td>
+<th><label for="title">'.$L['Export_Filename'].'</label></th>
+<td><input required type="text" id="title" name="title" size="32" maxlength="32" value="'.$_SESSION['m_export_xml']['title'].'"/></td>
 </tr>
 </table>
 ';
-echo '<p class="submit"><button type="submit" name="ok" value="ok">',L('Ok'),'</button></p>
+echo '<p class="submit"><button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>
 </form>
 ';
 
