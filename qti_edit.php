@@ -95,9 +95,9 @@ if ( isset($_POST['dosend']) ) try {
 
   // Current editor/creator (modifuser), can be the onbehalf
   $oP->modifuser = (int)$_POST['userid'];
-  $oP->modifname = QTdb(trim($_POST['username']));
-  if ( !empty(trim($_POST['behalf'])) ){
-    $strBehalf = QTdb(trim($_POST['behalf']));
+  $oP->modifname = qtDb(trim($_POST['username']));
+  if ( !empty($_POST['behalf']) ){
+    $strBehalf = qtDb(trim($_POST['behalf']));
     $intBehalf = (int)$_POST['behalfid']; if ( $intBehalf<0 ) $intBehalf = SUser::getUserId($oDB,$strBehalf,-1);
     if ( $intBehalf<0 ) throw new Exception( L('Send_on_behalf').' '.L('invalid') );
     $oP->modifuser = $intBehalf;
@@ -111,12 +111,12 @@ if ( isset($_POST['dosend']) ) try {
 
   // Read submitted form values
   if ( isset($_POST['icon']) ) $oP->icon = substr($_POST['icon'],0,2);
-  if ( isset($_POST['title']) && $oT->type!='I' )  $oP->title = QTinline(trim($_POST['title']),64);
+  if ( isset($_POST['title']) && $oT->type!='I' )  $oP->title = qtInline(trim($_POST['title']),64);
   if ( isset($_POST['attach']) ) $oP->attach = $_POST['attach']; // old attachment
   if ( isset($_POST['tag-new']) ) $oT->descr = trim($_POST['tag-new']);
   if ( strlen($oP->text)>$_SESSION[QT]['chars_per_post'] ) throw new Exception( L('E_too_long').' '.sprintf(L('E_char_max'), $_SESSION[QT]['chars_per_post']) );
   if ( substr_count($oP->text,"\n")>$_SESSION[QT]['lines_per_post'] ) throw new Exception( L('E_too_long').' '.sprintf(L('E_line_max'), $_SESSION[QT]['lines_per_post']) );
-  $oT->preview = QTinline($oP->text);
+  $oT->preview = qtInline($oP->text);
 
   // Detect basic errors
   if ( $oP->text=='' && $oT->type!=='I' ) throw new Exception( L('Message').' '.L('invalid') ); //...
@@ -308,7 +308,7 @@ if ( isset($_POST['dosend']) ) try {
     // Drop attach
     if ( isset($_POST['dropattach']) ) { $oP->attach=''; CPost::dropAttachs($oP->id,false); }
     // save edits
-    $oDB->exec( "UPDATE TABPOST SET title='".QTdb($oP->title)."', icon='".$oP->icon."',textmsg='".QTdb($oP->text)."',attach='".$oP->attach."' ".$strModif." WHERE id=".$oP->id );
+    $oDB->exec( "UPDATE TABPOST SET title='".qtDb($oP->title)."', icon='".$oP->icon."',textmsg='".qtDb($oP->text)."',attach='".$oP->attach."' ".$strModif." WHERE id=".$oP->id );
     if ( isset($_POST['wisheddate']) ) $oDB->exec( 'UPDATE TABTOPIC SET wisheddate="'.$oT->wisheddate.'",modifdate="'.date('Ymd His').'" WHERE id='.$t);
     // topic type (from staff)
     if ( isset($_POST['topictype']) )
@@ -404,7 +404,7 @@ if ( $oT->type==='I' && ($a=='re' || $a=='qu') ) {
   if ( !empty($oInspectionPost->modifuser) ) $strButton .= '<td class="post-modif"><span class="small">&nbsp;'.L('Modified_by').' <a href="'.Href('qti_user.php').'?id='.$oInspectionPost->modifuser.'" class="small">'.$oInspectionPost->modifname.'</a> ('.QTdatestr($oInspectionPost->modifdate,'$','$',true,true).')</span></td>'.PHP_EOL;
   if ( !empty($strButton) ) $strButton .= '<td>'.' '.'</td>'.PHP_EOL;
   if ( !empty($strButton) ) $strButton = '<table style="margin:10px 0 1px 0;"><tr>'.$strButton.'</tr></table>'.PHP_EOL;
-  $oInspectionPost->text = QTinline($oInspectionPost->text); // Pre processing data (compact, no button)
+  $oInspectionPost->text = qtInline($oInspectionPost->text); // Pre processing data (compact, no button)
   echo $oInspectionPost->render($oS,$oT,false,$strButton,QT_SKIN);
   // ======
 

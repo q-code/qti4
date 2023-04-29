@@ -78,7 +78,7 @@ public function setFrom($ref=null)
       {
         case 'id':           $this->id          = (int)$value; break;
         case 'preview':
-        case 'textmsg':      $this->preview      = $_SESSION[QT]['item_firstline']>0 ? QTinline($value,QT_FIRSTLINE_SIZE) : ''; break;
+        case 'textmsg':      $this->preview      = $_SESSION[QT]['item_firstline']>0 ? qtInline($value,QT_FIRSTLINE_SIZE) : ''; break;
         case 'numid':        $this->numid        = (int)$value; break;
         case 'section':      $this->pid          = (int)$value; break;
         case 'type':         $this->type         = $value; break;
@@ -281,7 +281,7 @@ public function insertTopic(bool $userStat=true, bool $canNotify=true, $oP=null,
     $arrValues[$k]=$this->$prop;
   }
   // slashes some of the prepared values
-  foreach(['firstpostname','lastpostname'] as $k) if ( !empty($arrValues[$k]) ) $arrValues[$k] = QTdb($arrValues[$k]);
+  foreach(['firstpostname','lastpostname'] as $k) if ( !empty($arrValues[$k]) ) $arrValues[$k] = qtDb($arrValues[$k]);
   // Insert
   global $oDB;
   $oDB->exec( 'INSERT INTO TABTOPIC ('.implode(',',array_keys($arrValues)).') VALUES (:'.implode(',:',array_keys($arrValues)).')', $arrValues);
@@ -338,7 +338,7 @@ public function NotifyStatus(int $oldactorid=-1, $oP=null, $oS=null)
       {
         if ( is_integer($oP) ) $oP = new CPost($oP); // $oP can be an integer
         $this->title = $oP->title;
-        $this->preview = QTinline($oP->text,100,' ');
+        $this->preview = qtInline($oP->text,100,' ');
       }
       if ( empty($this->title) ) $this->title = '';
       if ( empty($this->preview) ) $this->preview = '';
@@ -466,7 +466,7 @@ public static function tagsClear($str, bool $dropDuplicate=true)
   $str = qtAttr($str); // trim and no doublequote
   if ( $str==='*' ) return '*'; // used in case of delete all tags
   if ( empty($str) ) return '';
-  $str = QTdropaccent($str);
+  $str = qtDropDiacritics($str);
   $str = str_replace(',',';',$str);
   $arr = explode(';',$str);
   $arrClear = array();

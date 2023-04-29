@@ -16,7 +16,7 @@ if ( $bLdapLogin )
   $_SESSION[QT.'_usr']['auth'] = true;
   // add profile if new user
   global $oDB;
-  $iProfile = $oDB->count( TABUSER.' WHERE name=? AND pwd=?', [QTdb($username),sha1($password)]);
+  $iProfile = $oDB->count( TABUSER.' WHERE name=? AND pwd=?', [qtDb($username),sha1($password)]);
   if ( $iProfile==0 ) qt_ldap_profile($username,$password); // create new profile (will search email from ldap)
 }
 else

@@ -22,7 +22,7 @@ public static function add(string $id='', string $name='', string $icon='', stri
   // Check
   if ( !self::isAZ($id) ) die('SStatus::add Argument #1 invalid');
   if ( empty($name) ) die('SStatus::add Argument #2 must be a string');
-  $name = QTdb($name);
+  $name = qtDb($name);
   // Unique id and name
   global $oDB;
   if ( $oDB->count( TABSTATUS." WHERE id='$id'" )>0 ) throw new Exception( "Status id [$id] already used" );

@@ -54,7 +54,7 @@ function getRepository(string $root='', int $id=0, bool $check=false)
 }
 function translate(string $file)
 {
-  if ( empty($file) ) die(__FUNCTION__.' invalid argument' );
+  if ( empty($file) ) die(__FUNCTION__.' invalid argument');
   if ( file_exists(getLangDir().$file) ) return getLangDir().$file;
   return 'language/en/'.$file;
 }
@@ -90,7 +90,7 @@ function attrRender($attr=[], array $skip=[])
   // Supports 'addclass' attribute (appends the value to the class-list)
   if ( empty($attr) ) return '';
   if ( is_string($attr) ) $attr = attrDecode($attr);
-  if ( !is_array($attr) ) die(__FUNCTION__.' invalid argument' );
+  if ( !is_array($attr) ) die(__FUNCTION__.' invalid argument');
   if ( isset($attr['addclass']) ) { attrAddClass($attr,$attr['addclass']); unset($attr['addclass']); }
   $str = '';
   foreach ($attr as $k=>$value) {
@@ -123,8 +123,13 @@ function L(string $k, int $n=null, string $format='n w', array $A=[], string $pk
   $str = substr($k,-2)==='.*' ? [] : $pk.$k; // default result is the key (if dico entry not found) or an empty array (if dico array not found)
   // Format (formula shortcut)
   // Note: php format can also be used, but pay attention that $format is only used when a $n exists (not null) and that the word will be the 2nd input in the formula
-  if ( $format==='n w') $format = '%1$d %2$s';
-  if ( $format==='' || $format==='w' ) $format = '%2$s';
+  switch($format){
+    case 'n w': $f = '%1$d %2$s'; break;
+    case 'k w': $f = '%1$s %2$s'; break;
+    case 'w':
+    case '': $f = '%2$s'; break;
+    default: $f = $format;
+  }
   // Check subarray request (use recursive call)
   if ( strpos($k, '.')>0 ) {
     $part = explode('.', $k, 2);
@@ -150,7 +155,7 @@ function L(string $k, int $n=null, string $format='n w', array $A=[], string $pk
   }
   // Return the word (with $n if not null)
   if ( $dropDoublequote && strpos($str,'"')!==false ) $str = str_replace('"','',$str);
-  return $n===null ? $str : sprintf($format,$n,$str);
+  return $n===null ? $str : sprintf($f, $format==='k w' ? intK($n) : $n, $str);
 /*
 ABOUT KEYS:
 A dot in the key indicates a sub-dictionnary entry (when words are stored in array of array)
@@ -265,7 +270,7 @@ function asTags(array $arr, $current='', string $attr='', string $attrCurrent=''
   // When $arrDisabled is included, it must be an array of trimmed-strings
 
   if ( is_int($current) ) $current = (string)$current;
-  if ( !is_string($current) ) die(__FUNCTION__.' arg #2 must be int or string' );
+  if ( !is_string($current) ) die(__FUNCTION__.' arg #2 must be int or string');
   $attr = attrDecode($attr,'|','tag=option');
   $tag = $attr['tag'];
   unset($attr['tag']);
@@ -488,7 +493,6 @@ function qtMail(string $strTo, string $strSubject, string $strMessage, string $s
     break;
   }
 }
-
 function baseFile(string $file, bool $minusUnderscore=true)
 {
   // Returns the selfurl basename: filename without prefix or extension and in lowercase.
@@ -498,9 +502,9 @@ function baseFile(string $file, bool $minusUnderscore=true)
   $i = strrpos($str,'.'); if ( $i===false ) return $str;
   return substr($str,0,$i);
 }
-
-function qtIntK(int $num, string $unit='k', string $unit2='M'){
-  if ( $num<1000 ) return $num;
-  if ( $num<1000000 ) return round(floor($num/100)/10, 1).$unit;
-  return round($num/1000000,1).$unit2;
+function intK(int $n, string $unit='k', string $unit2='M')
+{
+  if ( $n<1000 ) return $n;
+  if ( $n<1000000 ) return round(floor($n/100)/10, 1).$unit;
+  return round($n/1000000,2).$unit2;
 }

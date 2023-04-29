@@ -33,7 +33,7 @@ if ( isset($_POST['ok']) )
   $_SESSION[QT]['smtp_host'] = $_POST['smtphost'];
   $_SESSION[QT]['smtp_username'] = $_POST['smtpusr'];
   $_SESSION[QT]['smtp_password'] = $_POST['smtppwd'];
-  if ( !QTismail($_POST['mailto']) ) die(L('Email').' '.L('invalid'));
+  if ( !qtIsMail($_POST['mailto']) ) die(L('Email').' '.L('invalid'));
 
   // send mail
   smtpmail($_POST['mailto'],$_POST['subject'],$_POST['message'],'From:'.$_SESSION[QT]['admin_email']);

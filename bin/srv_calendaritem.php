@@ -36,7 +36,7 @@ if ( $row=$oDBAJAX->getRow() )
   }
   echo $row['title'].'</p>';
 
-  echo '<p class="preview_message">'.QTinline($row['textmsg']).'</p>';
+  echo '<p class="preview_message">'.qtInline($row['textmsg']).'</p>';
   echo '<p class="preview_user ellipsis">'.$row['firstpostname'].'</p></div>';
   echo '<p class="preview_date ellipsis">'.L('Created').': '.QTdatestr($row['firstpostdate'],'M d','',true).'</p>';
   if ( !empty($row['wisheddate']) ) echo '<p class="preview_date ellipsis">'.L('Wisheddate').': '.QTdatestr($row['wisheddate'],'M d','',true).'</p>';

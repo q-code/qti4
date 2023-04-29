@@ -1,9 +1,5 @@
 function acSplit(val) { return val.split( ";" ); }
 function acExtractLast(term) { return acSplit( term ).pop().replace(/^\s+/g,"").replace(/\s+$/g,""); }
-
-let focusInput = null;
-let multiInput = false;
-
 function acInputChange(e) {
   // identify control
   focusInput = e.target;
@@ -22,7 +18,6 @@ function acInputChange(e) {
     } )
   .catch( err => console.log(err) );
 }
-
 function acButtonClick(e) {
   e.preventDefault();
   const btn = e.target.nodeName=='SPAN' ? e.target.parentNode : e.target;
@@ -39,12 +34,10 @@ function acButtonClick(e) {
   acRemoveDropdown(focusInput.id);
   focusInput.focus();
 }
-
 function acRemoveDropdown(id) {
   const listEl = document.getElementById('ac-list-'+id);
   if ( listEl ) listEl.remove();
 }
-
 function acCreateDropdown(responses) {
   const drop = document.createElement('ul'); drop.className = 'ac-list'; drop.id = 'ac-list-'+focusInput.id;
   responses.forEach( (response) => {
@@ -62,6 +55,8 @@ function acCreateDropdown(responses) {
   document.getElementById('ac-wrapper-'+focusInput.id).appendChild(drop);
 }
 
+let focusInput = null;
+let multiInput = false;
 const wrappers = document.querySelectorAll(".ac-wrapper");
 wrappers.forEach( (wrapper) => {
   const id = wrapper.id.substring(11);

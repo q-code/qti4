@@ -26,17 +26,17 @@ if ( $intMyTopics>0 )
     $oT = new CTopic($row);
     $strTitle = CTopic::makeIcon( $oT->type, $oT->status, '', 't'.$oT->id.'-itemicon', QT_SKIN, Href('qti_item.php?t='.$oT->id)).' ';
     $strTitle .= CTopic::getRef( $oT->numid, $oT->pid ).' ';
-    $strTitle .= '<a class="item" href="'.Href('qti_item.php').'?t='.$oT->id.'">'.QTtrunc($oT->title,42).'</a>';
+    $strTitle .= '<a class="item" href="'.Href('qti_item.php').'?t='.$oT->id.'">'.qtTrunc($oT->title,42).'</a>';
     $strTitle .= '<span class="item-section">&#8201;&middot;&#8201;'.(isset($arr[$oT->pid]['title']) ? $arr[$oT->pid]['title'] : 'unknown section').'</span>';
     echo '<div id="mylastitem" class="myboardcontent">'.PHP_EOL;
     echo '<p class="title">'.$strTitle.'</p>'.PHP_EOL;
     echo '<div class="messages">'.PHP_EOL;
-    echo '<p class="date">'.QTdatestr($oT->firstpostdate,'$','$',true,true).', '.($oT->firstpostuser==SUser::id() ? L('I_wrote') : L('By').' '.QTtrunc($oT->firstpostname,20)).'</p>'.PHP_EOL;
-    echo '<p class="content" onclick="window.location=\''.Href('qti_item.php').'?t='.$oT->id.'\';">'.QTinline($row['textmsg'],120).'</p>'.PHP_EOL;
+    echo '<p class="date">'.QTdatestr($oT->firstpostdate,'$','$',true,true).', '.($oT->firstpostuser==SUser::id() ? L('I_wrote') : L('By').' '.qtTrunc($oT->firstpostname,20)).'</p>'.PHP_EOL;
+    echo '<p class="content" onclick="window.location=\''.Href('qti_item.php').'?t='.$oT->id.'\';">'.qtInline($row['textmsg'],120).'</p>'.PHP_EOL;
     if ( $oT->firstpostid!=$oT->lastpostid ) {
     $oP = new CPost($oT->lastpostid,-1,true); //text is 255 char max
-    if ( $oT->items>1 ) echo '<p class="date">'.L('reply',$oT->items).', '.L('last_message').': '.QTdatestr($oT->lastpostdate,'$','$',true,true).', '.($oT->lastpostuser==SUser::id() ? L('I_wrote') : L('By').' '.QTtrunc($oT->lastpostname,20)).'</p>'.PHP_EOL;
-    echo '<p class="content" onclick="window.location=\''.Href('qti_item.php').'?t='.$oT->id.'\';">'.QTinline($oP->text,120).'</p>'.PHP_EOL;
+    if ( $oT->items>1 ) echo '<p class="date">'.L('reply',$oT->items).', '.L('last_message').': '.QTdatestr($oT->lastpostdate,'$','$',true,true).', '.($oT->lastpostuser==SUser::id() ? L('I_wrote') : L('By').' '.qtTrunc($oT->lastpostname,20)).'</p>'.PHP_EOL;
+    echo '<p class="content" onclick="window.location=\''.Href('qti_item.php').'?t='.$oT->id.'\';">'.qtInline($oP->text,120).'</p>'.PHP_EOL;
     }
     echo '</div>'.PHP_EOL;
     echo '</div>'.PHP_EOL;

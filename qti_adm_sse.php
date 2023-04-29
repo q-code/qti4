@@ -41,11 +41,11 @@ $oH->exitname = $oH->selfname;
 
 if ( isset($_POST['ok']) )
 {
-  if ( !QTisbetween($_POST['TIMEOUT'],10,120) ) { $error = 'SSE_TIMEOUT invalid (10-120 seconds)'; $_POST['TIMEOUT']='30'; }
-  if ( !QTisbetween($_POST['CONNECT'],0,(int)$_POST['TIMEOUT']) ) { $error = L('sse_connect').' '.L('Invalid').' (0-'.$_POST['TIMEOUT'].' seconds)'; $_POST['CONNECT']='0'; }
+  if ( !qtIsBetween($_POST['TIMEOUT'],10,120) ) { $error = 'SSE_TIMEOUT invalid (10-120 seconds)'; $_POST['TIMEOUT']='30'; }
+  if ( !qtIsBetween($_POST['CONNECT'],0,(int)$_POST['TIMEOUT']) ) { $error = L('sse_connect').' '.L('Invalid').' (0-'.$_POST['TIMEOUT'].' seconds)'; $_POST['CONNECT']='0'; }
   if ( empty($_POST['ORIGIN']) ) { $error = L('origin').' '.L('Invalid'); $_POST['ORIGIN']='http://localhost'; }
-  if ( !QTisbetween($_POST['MAX_ROWS'],1,5) ) { $error = L('rows').' '.L('Invalid').' (0-5)'; $_POST['MAX_ROWS']='2'; }
-  if ( !QTisbetween($_POST['LATENCY'],1,60) ) { $error = 'SSE_LATENCY invalid (1-60 seconds)'; $_POST['LATENCY']='10'; }
+  if ( !qtIsBetween($_POST['MAX_ROWS'],1,5) ) { $error = L('rows').' '.L('Invalid').' (0-5)'; $_POST['MAX_ROWS']='2'; }
+  if ( !qtIsBetween($_POST['LATENCY'],1,60) ) { $error = 'SSE_LATENCY invalid (1-60 seconds)'; $_POST['LATENCY']='10'; }
   if ( empty($_POST['SERVER']) ) $_POST['SERVER']='';
 
 

@@ -52,11 +52,11 @@ function renderItems(array $ids, bool $tags=false, bool $replies=false, bool $at
     $oT = new CTopic($row);
     $str .= '<p class="list ellipsis">';
     if ( $typeIcon ) $str .= $oT->getIcon(QT_SKIN).' ';
-    $str .= '"'.QTtrunc($oT->title,30).'"';
+    $str .= '"'.qtTrunc($oT->title,30).'"';
     if ( $replies && $oT->items ) $str .= ' '.getSVG('comments', 'title='.L('reply',$oT->items));
     if ( $attach && !empty($oT->attachinfo) ) $str .= ' '.getSVG('paperclip', 'title='.L('Attachment'));//!!!
     if ( $tags ) $str .= ' '.$oT->getTagIcon();
-    $str .= ' <span class="minor">'.L('by').' '.QTtrunc($oT->firstpostname,20).' ('.QTdatestr($oT->firstpostdate,'j M').')</span>';
+    $str .= ' <span class="minor">'.L('by').' '.qtTrunc($oT->firstpostname,20).' ('.QTdatestr($oT->firstpostdate,'j M').')</span>';
     $str .= '</p>';
   }
   return $str.(count($ids)>5 ? '<p>...</p>' : '');
@@ -67,8 +67,8 @@ function renderReply(int $id, string $parentType='T', string $parentStatus='1')
   $oDB->query( "SELECT * FROM TABPOST WHERE id=$id" );
   while( $row=$oDB->getRow() ) {
     $str = '<p class="indent" class="list ellipsis">'.CPost::getIconType($row['type'],$parentType,$parentStatus,QT_SKIN);
-    $str .= ' "'.QTtrunc($row['textmsg'],100).'"<br>';
-    $str .= '<small>'.L('by').' '.QTtrunc($row['username'],20).' ('.strtolower(QTdatestr($row['issuedate'],'j M')).')</small></p>';
+    $str .= ' "'.qtTrunc($row['textmsg'],100).'"<br>';
+    $str .= '<small>'.L('by').' '.qtTrunc($row['username'],20).' ('.strtolower(QTdatestr($row['issuedate'],'j M')).')</small></p>';
   }
   return $str;
 }

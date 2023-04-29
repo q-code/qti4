@@ -159,7 +159,7 @@ switch($q)
   case 'ref': $pageTitle .= sprintf( L('Search_results_ref'), $v[0] ); break;
   case 'qkw':
   case 'kw':
-    $arrVlbl = QTquoted($v,"&'");
+    $arrVlbl = qtQuoted($v,"&'");
     $to = isset($_GET['to']) ? $_GET['to'] : '0';
     $pageTitle .= sprintf( L('Search_results_keyword'), strtolower(implode(' '.L('or').' ',$arrVlbl)) );
     // for refine search detection: trim and remove quote on $v to avoid trailing quote be interpreted as a 2d word
@@ -181,7 +181,7 @@ switch($q)
   case 'insp': $pageTitle .= L('Search_results_'.$q); break;
   case 'adv':
     if ( empty($v2) ) $v2 = '*';
-    $arrVlbl = QTquoted($v,"&'");
+    $arrVlbl = qtQuoted($v,"&'");
     $pageTitle .= sprintf( L(empty($arrVlbl) ? 'Search_results' : 'Search_results_tags'), strtolower(implode(' '.L('or').' ',$arrVlbl)) );
     if ( $v2!=='*' ) {
       switch($v2){
@@ -414,7 +414,7 @@ while($row=$oDB->getRow())
     $y = (float)$row['y']; $x = (float)$row['x'];
     $strIco = ''; if ( isset($row['type']) && isset($row['status']) ) $strIco = CTopic::makeIcon($row['type'],$row['status'],false,'',QT_SKIN).' ';
     $strRef = ''; if ( isset($row['numid']) && isset($row['section']) && isset($arrSEC[(int)$row['section']]['numfield']) ) $strRef = CTopic::getRef($row['numid'],$arrSEC[(int)$row['section']]['numfield']).' ';
-    $strTitle = ''; if ( !empty($row['title']) ) $strTitle = QTtrunc($row['title'],25);
+    $strTitle = ''; if ( !empty($row['title']) ) $strTitle = qtTrunc($row['title'],25);
     $strAttr = ''; if ( isset($row['firstpostdate']) && isset($row['firstpostname']) ) $strAttr = L('By').' '.$row['firstpostname'].' ('.QTdatestr($row['firstpostdate'],'$','$',true,true).')<br>';
     if ( isset($row['replies']) ) $strAttr .= L('Reply',(int)$row['replies']).' ';
     $strPname = $strRef.$strTitle;

@@ -106,7 +106,7 @@ if ( !$_SESSION[QT]['cal_showinsp'] ) $strOptions .= "type<>'I' AND ";
 $oS = new CSection($s);
 
 $oH->selfuri = 'qti_calendars.php?s='.$s.'&v='.$v.'&y='.$intYear.'&m='.$intMonth;
-$oH->selfname = L('section').' '.QTquoted($oS->title,"&'");
+$oH->selfname = L('section').' '.qtQuoted($oS->title,"&'");
 
 $arrS = SMem::get('_Statuses');
 

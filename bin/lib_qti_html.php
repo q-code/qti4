@@ -17,11 +17,11 @@ function sectionsAsOption($selected='', array $reject=[], array $disabled=[], st
   }}
   // render as options
   $optgroup = $countS>2 && count($arrDS)>1;
-  $str = ''; if ( !empty($optionAll) ) $str ='<option value="*"'.($selected==='*' ? ' selected' : '').(in_array('*',$disabled,true) ? ' disabled': '').'>'.QTtrunc($optionAll,$textsize).'</option>';
+  $str = ''; if ( !empty($optionAll) ) $str ='<option value="*"'.($selected==='*' ? ' selected' : '').(in_array('*',$disabled,true) ? ' disabled': '').'>'.qtTrunc($optionAll,$textsize).'</option>';
   foreach($arrDS as $domId=>$arrS) {
-    if ( $optgroup ) $str .= '<optgroup label="'.QTtrunc( SLang::translate('domain', 'd'.$domId, $GLOBALS['_Domains'][$domId]['title']), $textsize ).'">';
+    if ( $optgroup ) $str .= '<optgroup label="'.qtTrunc( SLang::translate('domain', 'd'.$domId, $GLOBALS['_Domains'][$domId]['title']), $textsize ).'">';
     foreach($arrS as $id=>$name) {
-      $str .= '<option value="'.$prefixValue.$id.'"'.((string)$id===$selected ? ' selected' : '').(in_array($id,$disabled,true) ? ' disabled': '').'>'.QTtrunc($name,$textsize).'</option>';
+      $str .= '<option value="'.$prefixValue.$id.'"'.((string)$id===$selected ? ' selected' : '').(in_array($id,$disabled,true) ? ' disabled': '').'>'.qtTrunc($name,$textsize).'</option>';
       if ( --$max<1 ) break;
     }
     if ( $optgroup ) $str .= '</optgroup>';
@@ -153,9 +153,9 @@ switch($level)
 case '3':
 return '
 <p id="input-choise">
-<input type="radio" name="inspection" id="i00" value="0"'.(QTisbetween($i,0,33.32) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,3).' '.ValueName(1,3).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i50" value="50"'.(QTisbetween($i,33.33,66.66) ? ' checked' : '').'/><label for="i50">'.ValueScalebar(50,3).' '.ValueName(50,3).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i99" value="99"'.(QTisbetween($i,66.66) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,3).' '.ValueName(99,3).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,33.32) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,3).' '.ValueName(1,3).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i50" value="50"'.(qtIsBetween($i,33.33,66.66) ? ' checked' : '').'/><label for="i50">'.ValueScalebar(50,3).' '.ValueName(50,3).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i99" value="99"'.(qtIsBetween($i,66.66) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,3).' '.ValueName(99,3).'</label>'.$sep.'
 <input type="radio" name="inspection" id="inull" value="null"'.($i<0 ? ' checked' : '').'/><label for="inull">'.L('Unknown').'</label>
 </p>
 ';
@@ -163,11 +163,11 @@ break;
 case '5':
 return '
 <p id="input-choise">
-<input type="radio" name="inspection" id="i00" value="0"'.(QTisbetween($i,0,10) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,5).' '.ValueName(1,5).'</label><br>
-<input type="radio" name="inspection" id="i20" value="20"'.(QTisbetween($i,10.01,30) ? ' checked' : '').'/><label for="i20">'.ValueScalebar(25,5).' '.ValueName(25,5).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i40" value="40"'.(QTisbetween($i,30.01,50) ? ' checked' : '').'/><label for="i40">'.ValueScalebar(50,5).' '.ValueName(50,5).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i60" value="60"'.(QTisbetween($i,50.01,70) ? ' checked' : '').'/><label for="i60">'.ValueScalebar(75,5).' '.ValueName(75,5).'</label><br>
-<input type="radio" name="inspection" id="i99" value="99"'.(QTisbetween($i,70.01) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,5).' '.ValueName(99,5).'</label><br>
+<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,10) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,5).' '.ValueName(1,5).'</label><br>
+<input type="radio" name="inspection" id="i20" value="20"'.(qtIsBetween($i,10.01,30) ? ' checked' : '').'/><label for="i20">'.ValueScalebar(25,5).' '.ValueName(25,5).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i40" value="40"'.(qtIsBetween($i,30.01,50) ? ' checked' : '').'/><label for="i40">'.ValueScalebar(50,5).' '.ValueName(50,5).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i60" value="60"'.(qtIsBetween($i,50.01,70) ? ' checked' : '').'/><label for="i60">'.ValueScalebar(75,5).' '.ValueName(75,5).'</label><br>
+<input type="radio" name="inspection" id="i99" value="99"'.(qtIsBetween($i,70.01) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,5).' '.ValueName(99,5).'</label><br>
 <input type="radio" name="inspection" id="inull" value="null"'.($i<0 ? ' checked' : '').'/><label for="inull">'.L('Unknown').'</label>
 </p>
 ';
@@ -183,8 +183,8 @@ break;
 case '2':
 return '
 <p id="input-choise">
-<input type="radio" name="inspection" id="i00" value="0"'.(QTisbetween($i,0,49.99) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,2).' '.ValueName(1,2).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i99" value="99"'.(QTisbetween($i,50) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,2).' '.ValueName(99,2).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,49.99) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,2).' '.ValueName(1,2).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i99" value="99"'.(qtIsBetween($i,50) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,2).' '.ValueName(99,2).'</label>'.$sep.'
 <input type="radio" name="inspection" id="inull" value="null"'.($i<0 ? ' checked' : '').'/><label for="inull">'.L('Unknown').'</label>
 </p>
 ';
@@ -391,14 +391,14 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
         }
       }
       if ( !empty($row['textmsg']) && $_SESSION[QT]['item_firstline']>0 && $showFirstline )
-        $arr[$k] .= '&nbsp;<small class="item-msg-preview">'.QTtrunc(QTunbbc($row['textmsg'],true,L('Bbc.*')),QT_FIRSTLINE_SIZE).(empty($row['attach']) ? '' : ' '.getSVG('paperclip', 'title='.L('Attachment'))).'</small>';
+        $arr[$k] .= '&nbsp;<small class="item-msg-preview">'.qtTrunc(qtUnbbc($row['textmsg'],true,L('Bbc.*')),QT_FIRSTLINE_SIZE).(empty($row['attach']) ? '' : ' '.getSVG('paperclip', 'title='.L('Attachment'))).'</small>';
       if ( !empty($row['coord']) ) $arr[$k] .= ' '.$row['coord'];
 			break;
     case 'replies':
       $arr[$k] = ($row['replies']>0 ? '<i data-re="'.$strTableId.'re'.$row['id'].'"></i> ' : '').$row['replies'];
       break;
     case 'views':
-        $arr[$k] = $row['views']==='0' ? '0' : qtIntK((int)$row['views']);
+        $arr[$k] = $row['views']==='0' ? '0' : intK((int)$row['views']);
         break;
     case 'section':
       $i = (int)$row['section'];
@@ -413,7 +413,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
         $arr[$k] = '&nbsp;';
       } else {
         $arr[$k] = '<p>'.QTdatestr($row['lastpostdate'],'$','$',true,true,true,'t'.$row['id'].'-lastpostdate').' <a id="t'.$row['id'].'-lastpostico" class="lastitem" href="'.Href('qti_item.php').'?t='.$row['id'].'#p'.$row['lastpostid'].'" title="'.L('Goto_message').'">'.getSVG('caret-square-right').'</a></p>';
-        $arr[$k] .= '<p class="ellipsis"><small>'.L('by').' <a id="t'.$row['id'].'-lastpostname" href="'.Href('qti_user.php').'?id='.$row['lastpostuser'].'" title="'.qtAttr($row['lastpostname'],25).'">'.QTtrunc($row['lastpostname'],15).'</a></small></p>';
+        $arr[$k] .= '<p class="ellipsis"><small>'.L('by').' <a id="t'.$row['id'].'-lastpostname" href="'.Href('qti_user.php').'?id='.$row['lastpostuser'].'" title="'.qtAttr($row['lastpostname'],25).'">'.qtTrunc($row['lastpostname'],15).'</a></small></p>';
       }
       break;
     case 'status':
@@ -421,7 +421,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
       $arr[$k] = '<span title="'.(empty($row['statusdate']) ? '' : QTdatestr($row['statusdate'],'d M','H:i',true,true)).'">'.(isset($arrS[$row['status']]['name']) ? $arrS[$row['status']]['name'] : $row['status']).'</span>';
       break;
     case 'actor':
-      $arr[$k] = '<a id="t'.$row['id'].'-actor" href="'.Href('qti_user.php').'?id='.$row['actorid'].'" title="'.L('Ico_user_p').'">'.QTtrunc($row['actorname'],15).'</a>';
+      $arr[$k] = '<a id="t'.$row['id'].'-actor" href="'.Href('qti_user.php').'?id='.$row['actorid'].'" title="'.L('Ico_user_p').'">'.qtTrunc($row['actorname'],15).'</a>';
       break;
     case 'tags':
     	$strTags = '';
@@ -439,7 +439,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
     case 'username':  $arr[$k] = '<a href="'.Href('qti_user.php').'?id='.$row['id'].'" title="'.qtAttr($row['name']).'">'.qtAttr($row['name']).'</a>'; break;
     case 'usermarker': $arr[$k] = empty($row['coord']) ? '&nbsp;' : $row['coord']; break;
     case 'userrole': $arr[$k] = L('Role_'.$row['role']); break;
-    case 'userlocation': $arr[$k] = empty($row['location']) ? '&nbsp;' : QTtrunc($row['location'],24); break;
+    case 'userlocation': $arr[$k] = empty($row['location']) ? '&nbsp;' : qtTrunc($row['location'],24); break;
     case 'usernumpost': $arr[$k] = $row['numpost']; break;
     case 'firstdate': $arr[$k] = empty($row['firstdate']) ? '&nbsp;' : QTdatestr($row['firstdate'],'$','',true,false,true); break;
     case 'modifdate': $arr[$k] = empty($row['modifdate']) ? '&nbsp;' : QTdatestr($row['modifdate'],'$','',true,false,true); break;
@@ -470,19 +470,19 @@ function ValueName($i=0, string $level='3')
   switch($level)
   {
   case '2':
-    if ( QTisbetween($i,50) ) return L('I_r_yes');
+    if ( qtIsBetween($i,50) ) return L('I_r_yes');
     return L('I_r_no');
     break;
   case '3':
-    if ( QTisbetween($i,66.67) ) return L('I_r_good');
-    if ( QTisbetween($i,33.33,66.66) ) return L('I_r_medium');
+    if ( qtIsBetween($i,66.67) ) return L('I_r_good');
+    if ( qtIsBetween($i,33.33,66.66) ) return L('I_r_medium');
     return L('I_r_bad');
     break;
   case '5':
-    if ( QTisbetween($i,80) ) return L('I_r_veryhigh');
-    if ( QTisbetween($i,60,79.99) ) return L('I_r_high');
-    if ( QTisbetween($i,40,59.99) ) return L('I_r_medium');
-    if ( QTisbetween($i,20,39.99) ) return L('I_r_low');
+    if ( qtIsBetween($i,80) ) return L('I_r_veryhigh');
+    if ( qtIsBetween($i,60,79.99) ) return L('I_r_high');
+    if ( qtIsBetween($i,40,59.99) ) return L('I_r_medium');
+    if ( qtIsBetween($i,20,39.99) ) return L('I_r_low');
     return L('I_r_verylow');
     break;
   case '100':
@@ -500,29 +500,29 @@ function ValueScalebar($i=0, string $level='3', int $width=50, bool $title=true,
   switch($level)
   {
   case '2':
-    if ( QTisbetween($i,50) ) $str='99';
+    if ( qtIsBetween($i,50) ) $str='99';
     break;
   case '3':
-    if ( QTisbetween($i,66.67) ) $str='99';
-    elseif ( QTisbetween($i,33.33,66.66) ) $str='50';
+    if ( qtIsBetween($i,66.67) ) $str='99';
+    elseif ( qtIsBetween($i,33.33,66.66) ) $str='50';
     break;
   case '5':
-    if ( QTisbetween($i,80) ) $str='99';
-    elseif ( QTisbetween($i,60,79.99) ) $str='70';
-    elseif ( QTisbetween($i,40,59.99) ) $str='50';
-    elseif ( QTisbetween($i,20,39.99) ) $str='30';
+    if ( qtIsBetween($i,80) ) $str='99';
+    elseif ( qtIsBetween($i,60,79.99) ) $str='70';
+    elseif ( qtIsBetween($i,40,59.99) ) $str='50';
+    elseif ( qtIsBetween($i,20,39.99) ) $str='30';
     break;
   case '100':
-    if ( QTisbetween($i,96) ) $str='99';
-    elseif ( QTisbetween($i,85,96) ) $str='90';
-    elseif ( QTisbetween($i,75,85) ) $str='80';
-    elseif ( QTisbetween($i,65,75) ) $str='70';
-    elseif ( QTisbetween($i,55,65) ) $str='60';
-    elseif ( QTisbetween($i,45,55) ) $str='50';
-    elseif ( QTisbetween($i,35,45) ) $str='40';
-    elseif ( QTisbetween($i,25,35) ) $str='30';
-    elseif ( QTisbetween($i,15,25) ) $str='20';
-    elseif ( QTisbetween($i,4,15) ) $str='10';
+    if ( qtIsBetween($i,96) ) $str='99';
+    elseif ( qtIsBetween($i,85,96) ) $str='90';
+    elseif ( qtIsBetween($i,75,85) ) $str='80';
+    elseif ( qtIsBetween($i,65,75) ) $str='70';
+    elseif ( qtIsBetween($i,55,65) ) $str='60';
+    elseif ( qtIsBetween($i,45,55) ) $str='50';
+    elseif ( qtIsBetween($i,35,45) ) $str='40';
+    elseif ( qtIsBetween($i,25,35) ) $str='30';
+    elseif ( qtIsBetween($i,15,25) ) $str='20';
+    elseif ( qtIsBetween($i,4,15) ) $str='10';
     break;
   }
   return '<img src="bin/css/scalebar'.$str.'.gif" style="height:15px; width:'.$width.'px; vertical-align:middle"'.($title ? ' title="'.$prefixtitle.ValueName($i,$level).'"': '').' alt="--"/>';

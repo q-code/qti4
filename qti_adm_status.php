@@ -32,7 +32,7 @@ if ( isset($_POST['ok']) ) try {
   // change id
   if ( $_POST['oldid']!=$id ) SStatus::chgId($_POST['oldid'],$id);
   // check name
-  $name = QTdb(trim($_POST['name']));
+  $name = qtDb(trim($_POST['name']));
   if ( empty($name) ) { $name='Unknown'; throw new Exception( 'Status name '.' '.L('invalid') ); }
   // check unic name
   if ( $_POST['oldname']!=$name && $oDB->count( TABSTATUS." WHERE name=?", [qtAttr($name,24)] )>0 ) throw new Exception( '['.$name.'] '.L('already_used') );
