@@ -12,7 +12,7 @@
 * @package    QuickTicket
 * @author     Philippe Vandenberghe <info@qt-cute.org>
 * @copyright  2015 The PHP Group
-* @version    4.0 build:20230205
+* @version    4.0 build:20230430
 */
 
 session_start();

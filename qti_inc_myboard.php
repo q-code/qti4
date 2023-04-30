@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 echo '<div class="myboard">'.PHP_EOL;
 echo '<div class="myboardheader"><p class="title">'.L('My_last_item').'</p>'.PHP_EOL;
@@ -32,11 +32,11 @@ if ( $intMyTopics>0 )
     echo '<p class="title">'.$strTitle.'</p>'.PHP_EOL;
     echo '<div class="messages">'.PHP_EOL;
     echo '<p class="date">'.QTdatestr($oT->firstpostdate,'$','$',true,true).', '.($oT->firstpostuser==SUser::id() ? L('I_wrote') : L('By').' '.qtTrunc($oT->firstpostname,20)).'</p>'.PHP_EOL;
-    echo '<p class="content" onclick="window.location=\''.Href('qti_item.php').'?t='.$oT->id.'\';">'.qtInline($row['textmsg'],120).'</p>'.PHP_EOL;
+    echo '<p class="content" onclick="window.location=`'.Href('qti_item.php').'?t='.$oT->id.'`;">'.qtInline($row['textmsg'],120).'</p>'.PHP_EOL;
     if ( $oT->firstpostid!=$oT->lastpostid ) {
     $oP = new CPost($oT->lastpostid,-1,true); //text is 255 char max
     if ( $oT->items>1 ) echo '<p class="date">'.L('reply',$oT->items).', '.L('last_message').': '.QTdatestr($oT->lastpostdate,'$','$',true,true).', '.($oT->lastpostuser==SUser::id() ? L('I_wrote') : L('By').' '.qtTrunc($oT->lastpostname,20)).'</p>'.PHP_EOL;
-    echo '<p class="content" onclick="window.location=\''.Href('qti_item.php').'?t='.$oT->id.'\';">'.qtInline($oP->text,120).'</p>'.PHP_EOL;
+    echo '<p class="content" onclick="window.location=`'.Href('qti_item.php').'?t='.$oT->id.'`;">'.qtInline($oP->text,120).'</p>'.PHP_EOL;
     }
     echo '</div>'.PHP_EOL;
     echo '</div>'.PHP_EOL;

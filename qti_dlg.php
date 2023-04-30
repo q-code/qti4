@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 // Actions GET['a'] are (with access rights)
 // [staff] itemsType: change type (A|T|I) or status (A..Z)
@@ -124,7 +124,7 @@ case 'itemsType':
   $frm[] = '<p>'.L('Type').' <select id="newtype" name="type" size="1"><option value="U" selected>('.L('unchanged').')</option>';
   $frm[] .= asTags(CTopic::getTypes()).'</select> '.L('Status').' <select id="newstatus" name="status" size="1"><option value="U" selected>('.L('unchanged').')</option>'.asTags(CTopic::getStatuses('T',true)).'</select></p>';
   $frm[] = '</article>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=\''.Href($oH->exiturl).'\';">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
   $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/>';
   $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
   $frm[] = '</form>';
@@ -232,7 +232,7 @@ case 'itemsMove':
   </select></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="dropprefix" name="dropprefix" checked/> <label for="dropprefix">'.L('Remove').' '.L('item').' '.L('prefix').'</label></span></p>';
   $frm[] = '</article>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=\''.Href($oH->exiturl).'\';">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
   $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/><input type="hidden" name="uri" value="'.$parentUri.'"/>';
   $frm[] = '</form>';
 
@@ -283,7 +283,7 @@ case 'itemsMove':
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteT" name="deleteT"/> <label for="deleteT">'.L('Delete').' '.L('item+').'</label></span></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteR" name="deleteR"/> <label for="deleteR">'.L('Delete').' '.L('reply+').'</label></span></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteA" name="dropattach"/> <label for="deleteA">'.L('Drop_attachments').'<small id="attachoption"></small></label></span></p>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=\''.Href($oH->exiturl).'\';">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' (<span id="submit-sum">...</span>)</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' (<span id="submit-sum">...</span>)</button></p>';
   $frm[] = '<input type="hidden" id="ids" name="ids" value="'.implode(',',$ids).'"/>';
   $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
   $frm[] = '</form>';
@@ -383,7 +383,7 @@ case 'replyDelete':
   $frm[] = '</article>';
   $frm[] = '<p class="row-confirm">'.L('Confirm').':</p>';
   $frm[] = '<p><span class="cblabel"><input required type="checkbox" id="deletereply" name="deletereply"/> <label for="deletereply">'.L('Delete').' '.L('reply').'</label></span></p>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=\''.Href($oH->exiturl).'\';">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '<input type="hidden" name="t" value="'.$t.'"/>';
   $frm[] = '<input type="hidden" name="p" value="'.$p.'"/>';
   $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
@@ -460,7 +460,7 @@ case 'itemParam':
     ],
     $arr['Iaggr']).'</select></p>';
     $frm[] = '</article>';
-    $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=\''.Href('qti_item.php').'?t='.$t.'\';">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
+    $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href('qti_item.php').'?t='.$t.'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/>';
   $frm[] = '</form>';
 

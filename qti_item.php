@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 session_start();
 /**
@@ -105,8 +105,8 @@ if ( !empty($oT->y) && !empty($oT->x) ) {
   if ( is_object($oSettings) ) foreach(array('icon','shadow','printicon','printshadow') as $prop) if ( property_exists($oSettings,$prop) ) $oMapPoint->$prop = $oSettings->$prop;
 
   $arrExtData = array($oMapPoint);
-  $strCoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(\''.$y.','.$x.'\'); return false;"' : '').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><span title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'">'.getSVG('map-marker').'</span></a>';
-  $strPcoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(\''.$y.','.$x.'\'); return false;"' : '').' title="'.L('map_Center').'">'.getSVG('map-marker').'</a> Lat,Lon: '.QTdd2dms($y).','.QTdd2dms($x).( $_SESSION[QT]['viewmode']==='c' ? '' : ' DD: '.round($oT->y,8).','.round($oT->x,8) );
+  $strCoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><span title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'">'.getSVG('map-marker').'</span></a>';
+  $strPcoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('map_Center').'">'.getSVG('map-marker').'</a> Lat,Lon: '.QTdd2dms($y).','.QTdd2dms($x).( $_SESSION[QT]['viewmode']==='c' ? '' : ' DD: '.round($oT->y,8).','.round($oT->x,8) );
 
 }}
 
@@ -187,7 +187,7 @@ if ( $_SESSION[QT]['tags']!='0' && ($tagEditor || !empty($oT->descr)) )
   {
     foreach($arrTags as $k=>$item) $arrTags[$k] = empty($item) ? '' : '<span class="tag" onclick="tagClick(this.innerHTML)" title="..." data-tagdesc="'.$item.'">'.$item.'</span>';
     echo '<div id="tag-shown" style="display:inline-block">'.implode(' ',$arrTags).'</div>';
-    echo ' &nbsp; <a href="javascript:void(0)" id="tag-ctrl" class="tgl-ctrl" onclick="qtToggle(`tag-container`,null,`tag-ctrl`)" title="'.L('Edit').'">'.getSVG('pen').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a>'.PHP_EOL;
+    echo ' &nbsp; <a href="javascript:void(0)" id="tag-ctrl" class="tgl-ctrl" onclick="qtToggle(`tag-container`,`block`,`tag-ctrl`)" title="'.L('Edit').'">'.getSVG('pen').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a>'.PHP_EOL;
     echo '<div id="tag-container" style="display:none"><form method="post" action="'.Href($oH->selfurl).'?s='.$s.'&t='.$t.'" onreset="qtFocus(`tag-edit`)">';
     echo '<input type="hidden" id="tag-dir" value="'.QT_DIR_DOC.'"/><input type="hidden" id="tag-lang" value="'.QT_LANG.'"/>';
     echo '<input type="hidden" id="tag-saved" value="'.qtAttr($oT->descr).'"/>';

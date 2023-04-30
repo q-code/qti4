@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 session_start();
 /**
@@ -164,7 +164,7 @@ echo '<h2 class="config">'.L('Section+').' '.L('display_options').'</h2>
 <select name="item_firstline" onchange="qtFormSafe.not();">'.asTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['item_firstline']).'</select>
 <span class="small" style="display:'.($_SESSION[QT]['item_firstline']==2 ? 'inline' : 'none').'">
 &nbsp;'.L('Edit').' '.L('options').'
-<select onchange="if ( this.value>=0) window.location=\'qti_adm_section.php?pan=2&s=\' + this.value;">
+<select onchange="if ( this.value>=0) window.location=`qti_adm_section.php?pan=2&s=` + this.value;">
 <option value="-1" selected>'.L('Section').'...</option>
 '.$sections.'</select>
 </span>
@@ -177,7 +177,7 @@ echo '<tr title="'.L('H_Show_news_on_top').'">
 <select name="news_on_top" onchange="qtFormSafe.not();">'.asTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['news_on_top']).'</select>
 <span class="small" style="display:'.($_SESSION[QT]['news_on_top']==2 ? 'inline' : 'none').'">
 &nbsp;'.L('Edit').' '.L('options').'
-<select onchange="if ( this.value>=0) window.location=\'qti_adm_section.php?pan=2&s=\' + this.value;">
+<select onchange="if ( this.value>=0) window.location=`qti_adm_section.php?pan=2&s=` + this.value;">
 <option value="-1" selected>'.L('Section').'...</option>
 '.$sections.'</select>
 </span>
@@ -190,7 +190,7 @@ echo '<tr title="'.L('H_Show_quick_reply').'">
 <select name="show_quick_reply" onchange="qtFormSafe.not();">'.asTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['show_quick_reply']).'</select>
 <span class="small" style="display:'.($_SESSION[QT]['show_quick_reply']==2 ? 'inline' : 'none').'">
 &nbsp;'.L('Edit').' '.L('options').'
-<select onchange="if ( this.value>=0) window.location=\'qti_adm_section.php?pan=2&s=\' + this.value;">
+<select onchange="if ( this.value>=0) window.location=`qti_adm_section.php?pan=2&s=` + this.value;">
 <option value="-1" selected>'.L('Section').'...</option>
 '.$sections.'</select>
 </span>

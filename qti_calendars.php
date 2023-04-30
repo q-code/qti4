@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 session_start();
 /**
@@ -180,7 +180,7 @@ echo '<div class="right">
 <input type="hidden" name="v" value="'.$v.'"/>
 <input type="hidden" name="y" value="'.$intYear.'"/>
 <input type="hidden" name="m" value="'.$intMonth.'"/>
-<select name="Maction" onchange="document.getElementById(\'modaction\').submit();">
+<select name="Maction" onchange="document.getElementById(`modaction`).submit();">
 <option value="">&nbsp;</option>
 ';
 if ( $_SESSION[QT]['cal_showZ']) { echo '<option value="hide_Z">&#9745; '.L('Item_closed_show').'</option>'; } else { echo '<option value="show_Z">&#9744; '.L('Item_closed_show').'</option>'; }
@@ -212,7 +212,7 @@ echo '<h1>'.$L['dateMMM'][date('n',$dCurrentDate)].' '.date('Y',$dCurrentDate).'
 echo '<form method="get" action="'.Href($oH->selfurl).'" id="cal_month">';
 echo '<input type="hidden" name="s" value="'.$s.'"/> ';
 echo '<input type="hidden" name="y" value="'.$intYear.'"/> ';
-echo L('Month').' <select name="m" onchange="document.getElementById(\'cal_month\').submit();">';
+echo L('Month').' <select name="m" onchange="document.getElementById(`cal_month`).submit();">';
 for ($i=1;$i<13;$i++) echo '<option'.($i==date('n') ? ' class="bold"' : '').' value="'.$i.'"'.($i==$intMonth ? ' selected' : '').'>'.$L['dateMMM'][$i].'</option>'.PHP_EOL;
 echo '</select>&nbsp;';
 if ( date('n',$dCurrentDate)>1 )
@@ -289,13 +289,13 @@ for ($intWeek=0;$intWeek<6;++$intWeek)
       }
       else
       {
-        $strArgs = ' onmouseover="show_gmap(\'\');"';
+        $strArgs = ' onmouseover="show_gmap(``);"';
         if ( $bMap ) {
           /**
            * @var boolean $bMapGoogle
            */
         if ( $bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] && !empty($oT->y) && !empty($oT->x) ) {
-        $strArgs = ' onmouseover="show_gmap(\''.$oT->y.','.$oT->x.'\');"';
+        $strArgs = ' onmouseover="show_gmap(`'.$oT->y.','.$oT->x.'`);"';
         }}
         echo '<a class="ajaxmouseover'.($oT->pid==$s ? '' : ' othersection').'" id="t'.$oT->id.'"'.$strArgs.' href="'.Href('qti_item.php').'?t='.$oT->id.'">'.$strTicon.'</a> ';
       }

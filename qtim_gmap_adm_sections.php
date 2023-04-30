@@ -12,7 +12,7 @@
 * @package    QuickTicket
 * @author     Philippe Vandenberghe <info@qt-cute.org>
 * @copyright  20013 The PHP Group
-* @version    4.0 build:20230205
+* @version    4.0 build:20230430
 */
 
 session_start();
@@ -78,9 +78,9 @@ if ( isset($_POST['ok']) && !empty($_SESSION[QT]['m_gmap_gkey']) )
   if ( $arrData[$id]['enabled']==1 && isset($_POST['mark_'.$id]) ) $arrData[$id]['icon']=$_POST['mark_'.$id];
   }
   $content = '<?php'.PHP_EOL;
-  $content .= '$jMapSections = \''.PHP_EOL;
+  $content .= '$jMapSections = `'.PHP_EOL;
   $content .= json_encode($arrData).PHP_EOL;
-  $content .= '\';';
+  $content .= '`;';
 
   if ( !is_writable($strFilename)) $error="Impossible to write into the file [$strFilename].";
   if ( empty($error) )
@@ -140,7 +140,7 @@ foreach(array_keys($arrSections) as $id)
 if ( !isset($arrConfig[$id]['enabled']) ) $arrConfig[$id]['enabled']=0;
 if ( !isset($arrConfig[$id]['list']) ) $arrConfig[$id]['list']=0;
 echo '<tr class="hover">
-<td style="background-color:#c3d9ff;width:25px;text-align:center"><input type="checkbox" id="sec_'.$id.'" name="sec_'.$id.'"'.($arrConfig[$id]['enabled']==0 ? '' : ' checked').' style="vertical-align: middle" onclick="mapsection(\''.$id.'\')"/></td>
+<td style="background-color:#c3d9ff;width:25px;text-align:center"><input type="checkbox" id="sec_'.$id.'" name="sec_'.$id.'"'.($arrConfig[$id]['enabled']==0 ? '' : ' checked').' style="vertical-align: middle" onclick="mapsection(`'.$id.'`)"/></td>
 <td><label for="sec_'.$id.'">'.(isset($arrSections[$id]['title']) ? $arrSections[$id]['title'] : '[section '.$id.']').'</label></td>
 <td>
 <select class="small" id="mark_'.$id.'" name="mark_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
@@ -162,7 +162,7 @@ $id='S';
 if ( !isset($arrConfig[$id]['enabled']) ) $arrConfig[$id]['enabled']=0;
 if ( !isset($arrConfig[$id]['list']) ) $arrConfig[$id]['list']=0;
 echo '<tr class="hover">
-<td style="background-color:#c3d9ff;border-top:solid 1px #c3d9ff;width:25px;text-align:center"><input type="checkbox" id="sec_'.$id.'" name="sec_'.$id.'"'.($arrConfig[$id]['enabled']==0 ? '' : ' checked').' style="vertical-align: middle" onclick="mapsection(\''.$id.'\')"/></td>
+<td style="background-color:#c3d9ff;border-top:solid 1px #c3d9ff;width:25px;text-align:center"><input type="checkbox" id="sec_'.$id.'" name="sec_'.$id.'"'.($arrConfig[$id]['enabled']==0 ? '' : ' checked').' style="vertical-align: middle" onclick="mapsection(`'.$id.'`)"/></td>
 <td style="border-top:solid 1px #c3d9ff"><label for="sec_'.$id.'">'.L('Search_result').'</label></td>
 <td style="border-top:solid 1px #c3d9ff">
 <select class="small" id="mark_'.$id.'" name="mark_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
@@ -184,7 +184,7 @@ $id='U';
 if ( !isset($arrConfig[$id]['enabled']) ) $arrConfig[$id]['enabled']=0;
 if ( !isset($arrConfig[$id]['list']) ) $arrConfig[$id]['list']=0;
 echo '<tr class="hover">
-<td style="background-color:#c3d9ff;width:25px;text-align:center"><input type="checkbox" id="sec_'.$id.'" name="sec_'.$id.'"'.($arrConfig[$id]['enabled']==0 ? '' : ' checked').' style="vertical-align: middle" onclick="mapsection(\''.$id.'\')"/></td>
+<td style="background-color:#c3d9ff;width:25px;text-align:center"><input type="checkbox" id="sec_'.$id.'" name="sec_'.$id.'"'.($arrConfig[$id]['enabled']==0 ? '' : ' checked').' style="vertical-align: middle" onclick="mapsection(`'.$id.'`)"/></td>
 <td><label for="sec_'.$id.'">'.L('Users').'</label></td>
 <td>
 <select class="small" id="mark_'.$id.'" name="mark_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">

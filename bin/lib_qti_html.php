@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 function sectionsAsOption($selected='', array $reject=[], array $disabled=[], string $optionAll='', int $textsize=32, int $max=100, string $prefixValue='')
 {
@@ -175,7 +175,7 @@ break;
 case '100':
 return '
 <p id="input-choise">
-<input type="radio" name="inspection" id="i00" value="pc"'.($i>=0 ? ' checked' : '').'/><input type="number" name="inspectionvalue" id="inspectionvalue" value="'.($i<0 ? '50' : $i).'" size="3" min="0" max="100" onfocus="document.getElementById(\'i00\').checked=true;" style="max-width:50px"/><label for="i00">%</label>'.$sep.'
+<input type="radio" name="inspection" id="i00" value="pc"'.($i>=0 ? ' checked' : '').'/><input type="number" name="inspectionvalue" id="inspectionvalue" value="'.($i<0 ? '50' : $i).'" size="3" min="0" max="100" onfocus="document.getElementById(`i00`).checked=true;" style="max-width:50px"/><label for="i00">%</label>'.$sep.'
 <input type="radio" name="inspection" id="inull" value="null"'.($i<0 ? ' checked' : '').'/><label for="inull">'.L('Unknown').'</label>
 </p>
 ';
@@ -360,7 +360,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
     $x = floatval($row['x']);
     if ( !empty($y) && !empty($x) )
     {
-      $row['coord'] = '<a class="gmappoint" href="javascript:void(0)"'.($_SESSION[QT]['m_gmap_hidelist'] ? '' : ' onclick="gmapPan(\''.$y.','.$x.'\');"').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><i class="fa fa-map-marker" title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'"></i></a>';
+      $row['coord'] = '<a class="gmappoint" href="javascript:void(0)"'.($_SESSION[QT]['m_gmap_hidelist'] ? '' : ' onclick="gmapPan(`'.$y.','.$x.'`);"').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><i class="fa fa-map-marker" title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'"></i></a>';
       $row['latlon'] = QTdd2dms($y).'<br>'.QTdd2dms($x);
     }
   }

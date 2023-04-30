@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 /**
  * SMemSSE provides sse and specific shared-memory control

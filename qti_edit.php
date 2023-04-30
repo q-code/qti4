@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 session_start();
 /**
@@ -513,7 +513,7 @@ echo '<td>'.PHP_EOL;
 if ( QT_BBC ) echo '<div class="bbc-bar">'.bbcButtons($intBbc).'</div>';
 echo PHP_EOL.'<a href="textarea"></a><textarea'.($oT->type!=='I' ? ' required': '').' id="text" name="text" '.(strlen($oP->text)>500 ? 'rows="25"' : 'rows="10"' ).' tabindex="25" maxlength="'.(empty($_SESSION[QT]['chars_per_post']) ? '4000' : $_SESSION[QT]['chars_per_post']).'">'.$oP->text.'</textarea>'.PHP_EOL;
 
-if ( $canUpload ) echo '<p style="margin:0"><a id="tgl-ctrl" class="tgl-ctrl" href="javascript:void(0)" onclick="qtToggle(\'tgl-container\',\'table-row\'); return false;">'.L('Attachment').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a></p>';
+if ( $canUpload ) echo '<p style="margin:0"><a id="tgl-ctrl" class="tgl-ctrl" href="javascript:void(0)" onclick="qtToggle(`tgl-container`,`table-row`); return false;">'.L('Attachment').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a></p>';
 echo '</td></tr>'.PHP_EOL;
 
 // attachment
@@ -640,7 +640,7 @@ if ( $oP->type==='P' && $bMap )
 
 // FORM END
 echo '<p class="submit">
-<button type="button" tabindex="98" onclick="window.location=\''.$oH->exiturl.'\';">'.L('Cancel').'</button>&nbsp;
+<button type="button" tabindex="98" onclick="window.location=`'.$oH->exiturl.'`;">'.L('Cancel').'</button>&nbsp;
 <button type="submit" id="dopreview" name="dopreview" value="'.$certificate.'" tabindex="99" onclick="this.form.dataset.state=0">'.L('Preview').'...</button>&nbsp;
 <button type="submit" id="dosend" name="dosend" value="'.$certificate.'" tabindex="97" onclick="this.form.dataset.state=1">'.L('Send').'</button>
 </p>

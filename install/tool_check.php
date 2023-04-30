@@ -1,4 +1,4 @@
-<?php // V4.0 build:20230205
+<?php // V4.0 build:20230430
 
 $root = '../';
 define('THISAPPNAME', 'QuickTicket');
@@ -43,7 +43,7 @@ span.nok {color:#ff0000; background-color:inherit}
 // 1 CONFIG
 // --------
 
-echo '<p style="text-align:right">'.THISAPPNAME.' 4.0 build:20230205</p>';
+echo '<p style="text-align:right">'.THISAPPNAME.' 4.0 build:20230430</p>';
 echo '<p style="text-align:right"><a href="qti_setup.php">Install...</a>';
 if ( file_exists('tool_tables.php') ) echo ' | <a href="tool_tables.php">Tool tables...</a>';
 echo '</p>';

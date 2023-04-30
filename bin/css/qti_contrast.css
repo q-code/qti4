@@ -99,9 +99,10 @@ a.bbc:hover{color:var(--ah);border:1px solid var(--ah);background-color:var(--bg
 .msgboxbody img.ico{background-color:#999;padding:5px;border-radius:50%}
   fieldset.register{border-color:#00ffff}
   fieldset.register legend{color:#00ffff}
-.tag-box{border-color:#ccc}
-.tag-box p{color:#ccc}
 .msgboxbody p.list small {color:#ccc}
+.tag-box{border:none}
+.tag-box .svg-search{display:none}
+.tag-box .svg-symbol{color:#EEE}
 
 /* TAB PANELS (inherit base style) */
 .pan-tab{background-color:transparent}

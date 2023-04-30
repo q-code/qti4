@@ -1,6 +1,6 @@
 <?php
 
-// v4.0 build:20230205
+// v4.0 build:20230430
 // Script added in qti_edit.php when rss is activated.
 
 function toXml($str)

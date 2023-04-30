@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205
+<?php // v4.0 build:20230430
 
 session_start();
 /**
@@ -138,7 +138,7 @@ echo '<tr>';
 echo '<th style="width:150px"><label for="color">'.L('Status_background').'</label></th>';
 echo '<td>
 <input type="text" class="colortext" id="color" name="color" size="10" maxlength="24" value="'.(empty($_Statuses[$id]['color']) ? '#' : $_Statuses[$id]['color']).'" onchange="qtFormSafe.not();"/>
-<input type="color" id="colorpicker" value="'.(empty($_Statuses[$id]['color']) ? '#ffffff' : $_Statuses[$id]['color']).'" onchange="document.getElementById(\'color\').value=this.value;"/>
+<input type="color" id="colorpicker" value="'.(empty($_Statuses[$id]['color']) ? '#ffffff' : $_Statuses[$id]['color']).'" onchange="document.getElementById(`color`).value=this.value;"/>
 &nbsp;<span class="small">'.L('H_Status_background').'</span>
 </td>';
 echo '</tr>'.PHP_EOL.'</table>'.PHP_EOL;

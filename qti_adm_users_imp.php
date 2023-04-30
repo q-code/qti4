@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230205 allows app impersonation [qt f|i ]
+<?php // v4.0 build:20230430 allows app impersonation [qt f|i ]
 
 session_start();
 /**
@@ -82,7 +82,7 @@ if ( isset($_POST['ok']) ) try {
   if ( empty($error) )
   {
     unlink($_FILES['title']['tmp_name']);
-    $oH->pageMessage('', $intCountUser==0 ? 'No user inserted... Check the file and check that you don\'t have duplicate usernames.<br>' : L('User',$intCountUser).'<br>'.L('S_update').'<br>');
+    $oH->pageMessage('', $intCountUser==0 ? 'No user inserted... Check the file and check that you don`t have duplicate usernames.<br>' : L('User',$intCountUser).'<br>'.L('S_update').'<br>');
   }
 
 } catch (Exception $e) {
