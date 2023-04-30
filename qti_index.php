@@ -46,19 +46,18 @@ if ( $bMyBoard ) {
 
 include 'qti_inc_hd.php'; // includes myboard
 
+// Table definition
 $t = new TabTable('class=t-sec');
-  $t->thead();
-  $t->tbody();
-  $t->arrTh[0] = new TabHead('&nbsp;', 'class=c-icon');
-  $t->arrTh[1] = new TabHead('&nbsp;', 'class=c-section');
-  $t->arrTh[2] = new TabHead(L('Last_message'), 'class=c-issue ellipsis');
-  $t->arrTh[3] = new TabHead(L('Item+'), 'class=c-items ellipsis');
-  $t->arrTh[4] = new TabHead(L('Reply+'), 'class=c-replies ellipsis');
-  // for each th, create td column and add the same class
-  foreach(array_keys($t->arrTh) as $k) {
-    $class = isset($t->arrTh[$k]->attr['class']) ? $t->arrTh[$k]->attr['class'] : 'c-'.$k;
-    $t->arrTd[$k] = new TabData('', 'class='.$class);
-  }
+$t->thead();
+$t->tbody();
+// TH
+$t->arrTh[0] = new TabHead('&nbsp;',          'class=c-icon');
+$t->arrTh[1] = new TabHead('&nbsp;',          'class=c-section');
+$t->arrTh[2] = new TabHead(L('Last_message'), 'class=c-issue ellipsis');
+$t->arrTh[3] = new TabHead(L('Item+'),        'class=c-items ellipsis');
+$t->arrTh[4] = new TabHead(L('Reply+'),       'class=c-replies ellipsis');
+// TD
+$t->cloneThTd();
 
 $intSec = 0;
 foreach($_Domains as $domId=>$pDomain) {

@@ -276,14 +276,14 @@ if ( $intCount==0 ) {
 if ( isset($_SESSION[QT]['lastcolumn']) ) $strLast = $_SESSION[QT]['lastcolumn'];
 if ( empty($strLast) || $strLast==='none' ) $strLast = '';
 
-// === TABLE DEFINITION ===
+// Table definition
 // selfuri contains arguments WITHOUT order,dir
 $t = new TabTable('id=t1|class=t-item', $intCount);
-  $t->activecol = $strOrder;
-  $t->activelink = '<a href="'.$oH->selfurl.'?'.$oH->selfuri.'&order='.$strOrder.'&dir='.($strDirec==='asc' ? 'desc' : 'asc').'">%s</a> '.getSVG('caret-'.($strDirec==='asc' ? 'up' : 'down'));
-  $t->thead();
-  $t->tbody();
-// Define column headers (note: class are defined after).
+$t->activecol = $strOrder;
+$t->activelink = '<a href="'.$oH->selfurl.'?'.$oH->selfuri.'&order='.$strOrder.'&dir='.($strDirec==='asc' ? 'desc' : 'asc').'">%s</a> '.getSVG('caret-'.($strDirec==='asc' ? 'up' : 'down'));
+$t->thead();
+$t->tbody();
+// TH (note: class are defined after).
 if ( !empty($_SESSION['EditByRows']) )
 $t->arrTh['checkbox'] = new TabHead('<input type="checkbox" name="t1-cb-all" id="t1-cb-all"/>');
 $t->arrTh['icon'] = new TabHead('&bull;', '', '<a href="'.$oH->selfurl.'?'.$oH->selfuri.'&order=icon&dir=asc">%s</a>');
@@ -307,11 +307,8 @@ foreach(['firstpostname','tags','userlocation','usernumpost','views','prefix'] a
 foreach(['firstpostname','lastpostdate','replies','views','id','status','section'] as $k) {
   if ( isset($t->arrTh[$k])) $t->arrTh[$k]->append('class', 'ellipsis');
 }
-// for each th, create td column and add the same class
-foreach(array_keys($t->arrTh) as $k) {
-  $class = isset($t->arrTh[$k]->attr['class']) ? $t->arrTh[$k]->attr['class'] : 'c-'.$k;
-  $t->arrTd[$k] = new TabData('', 'class='.$class);
-}
+// TD
+$t->cloneThTd();
 
 // Edit mode
 if ( $_SESSION['EditByRows']) {
