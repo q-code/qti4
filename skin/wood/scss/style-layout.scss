@@ -39,7 +39,6 @@ nav a:hover:not(.active){text-decoration:underline}
 #crumbtrail{font-size:1.2rem} #crumbtrail small{font-size:0.9rem}
 .pg-title{color:#bbb;font-family:"Times new roman", Verdana, Arial, sans-serif;font-size:1.8rem;font-weight:bold;font-style:italic}
 .pg-subtitle{font-size:1.2rem}
-.msgboxtitle{font-size:1.6rem}
 @media print{#footer-menu{visibility:hidden}}
 footer p{padding-bottom:4px;text-align:center;font-size:0.9rem;color:#999} footer a{color:#777} footer a:hover{color:#000}
 
@@ -128,15 +127,6 @@ aside{background-color:#fff}}
   #showeditor-ctrl[data-state="1"]{transform:rotate(0deg)}
   #showeditor-ctrl[data-state="1"]:hover{transform:rotate(90deg)}
   #showeditor-ctrl:hover, #showeditor-ctrl:focus{opacity:1}
-
-/* MSGBOX */
-.msgbox{width:450px;margin:0 auto;padding:0;border:solid 1px var(--bgbtn);box-shadow:3px 3px 4px #CCC}
-  .msgbox.next{margin-top:1.5rem}
-.msgbox.short{width:350px}
-  @media screen and (min-width:1024px) and (max-width:1279px){.msgbox{width:500px} .msgbox.short{width:375px}}
-  @media screen and (min-width:1280px){.msgbox{width:525px}  .msgbox.short{width:400px}}
-.msgboxtitle{padding:0.75rem 1.5rem;color:#FFF;background:linear-gradient(130deg, #90765e 30%, #b69c84)}
-.msgboxbody{padding:1.5rem;color:inherit;background-color:#FFF}
 
 /* CONTENT */
 a.lastitem{margin-left:2px;color:#AAA;text-decoration:none}
