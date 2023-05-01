@@ -236,8 +236,8 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   // prepare title //!!! wished date style
   $strTitle = $this->type=='D' ? '<span title="'.$this->text.'">'.L('Message_deleted').'</span>' : $this->title;
   if ( $this->type==='P' && !empty($oS->wisheddate) && !empty($oT->wisheddate) ) {
-    $strLink = '<a'.(SUser::canAccess('show_calendar') ? ' href="'.Href('qti_calendars.php').'?s='.$oS->id.'&v=wisheddate&y='.substr($oT->wisheddate,0,4).'&m='.substr($oT->wisheddate,4,2).'"' : '').' title="'.L('Calendar').': '.QTdatestr($oT->wisheddate,'Y-m-d','',true).'">%s</a>';
-    $strTitle .= '<span class="wisheddate">&#8201;&middot;&#8201;'.L('Wisheddate').': '.sprintf($strLink,QTdatestr($oT->wisheddate,'d M','',true)).'</span>';
+    $strLink = '<a'.(SUser::canAccess('show_calendar') ? ' href="'.Href('qti_calendars.php').'?s='.$oS->id.'&v=wisheddate&y='.substr($oT->wisheddate,0,4).'&m='.substr($oT->wisheddate,4,2).'"' : '').' title="'.L('Calendar').': '.qtDatestr($oT->wisheddate,'Y-m-d','',true).'">%s</a>';
+    $strTitle .= '<span class="wisheddate">&#8201;&middot;&#8201;'.L('Wisheddate').': '.sprintf($strLink,qtDatestr($oT->wisheddate,'d M','',true)).'</span>';
   }
   // message attachment and signature
   $msg = '<p>';
@@ -284,7 +284,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   }
   // closed topic
   if ( $this->type==='P' && $oT->status==='Z' && !empty($oT->statusdate) ) {
-    $strEndLine .= '<span>'.L('Closed_item').' ('.strtolower(QTdatestr($oT->statusdate,'$','$',true)).')</span>';
+    $strEndLine .= '<span>'.L('Closed_item').' ('.strtolower(qtDatestr($oT->statusdate,'$','$',true)).')</span>';
   }
 
   // Show message
@@ -293,7 +293,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   <div class="g-p-type"><p class="i-container">'.$strIcon.'</p></div>
   <div class="g-p-title">
     <p class="post-title-r">'.$strTitle.'</p>
-    <p class="post-title-l" data-num="'.$this->num.'"><a href="'.Href('qti_user.php').'?id='.$this->userid.'">'.$this->username.'</a>&#8201;&middot;&#8201;'.QTdatestr($this->issuedate,'$','$',true).'</p>
+    <p class="post-title-l" data-num="'.$this->num.'"><a href="'.Href('qti_user.php').'?id='.$this->userid.'">'.$this->username.'</a>&#8201;&middot;&#8201;'.qtDatestr($this->issuedate,'$','$',true).'</p>
   </div>
   <div class="g-p-msg article">'.$picUser.$msg.'</div>
   <div class="g-p-status"><p class="post-cmd">'.$strEndLine.'</p></div>
@@ -333,7 +333,7 @@ public function renderInspectionResult(CSection $oS, CTopic $oT, bool $avatar=tr
   // Show message
   return '
   <div id="p'.$this->id.'" class="inspection-row">
-  <div class="inspection-date">'.$strIcon.' '.QTdatestr($this->issuedate,'$','$',true,true,true).'</div>
+  <div class="inspection-date">'.$strIcon.' '.qtDatestr($this->issuedate,'$','$',true,true,true).'</div>
   <div class="inspection-score">'.$this->getScoreImage($oT,false).'</div>
   <div class="inspection-text" id="p'.$this->id.'-short">'.qtInline($this->text,200).'</div>
   <div class="inspection-text" id="p'.$this->id.'-long" style="display:none">'.$msg.'</div>

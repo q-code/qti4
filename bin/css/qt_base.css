@@ -21,7 +21,6 @@ a.button:focus, button:focus{outline:1px solid #ffff00; outline-offset:-2px}
 @keyframes cblabel{from{outline-color:#000} to{outline-color:#FFF}}
 
 /* LAYOUT */
-#infomessage{text-align:center}
 @media screen and (max-width:840px){.secondary{display:none !important}}
 /* grid gap and padding */
 :root{--gap:6px} @media screen and (max-width:1023px) {:root{--gap:4px}}

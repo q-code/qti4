@@ -144,7 +144,7 @@ if ( isset($_POST['dosend']) ) try {
 
   if ( !empty($_POST['wisheddate']) )
   {
-    $strArgs = QTdatestr(trim($_POST['wisheddate']),'Ymd','');
+    $strArgs = qtDatestr(trim($_POST['wisheddate']),'Ymd','');
     if ( !is_string($strArgs) ) throw new Exception( L('Wisheddate').' '.L('invalid') );
     if ( substr($strArgs,0,6)==='Cannot' ) throw new Exception( L('Wisheddate').' '.L('invalid') );
     if ( substr($strArgs,0,4)==='1970' ) throw new Exception( L('Wisheddate').' '.L('invalid') );
@@ -401,7 +401,7 @@ if ( $oT->type==='I' && ($a=='re' || $a=='qu') ) {
   $row=$oDB->getRow();
   $oInspectionPost = new CPost($row);
   $strButton='';
-  if ( !empty($oInspectionPost->modifuser) ) $strButton .= '<td class="post-modif"><span class="small">&nbsp;'.L('Modified_by').' <a href="'.Href('qti_user.php').'?id='.$oInspectionPost->modifuser.'" class="small">'.$oInspectionPost->modifname.'</a> ('.QTdatestr($oInspectionPost->modifdate,'$','$',true,true).')</span></td>'.PHP_EOL;
+  if ( !empty($oInspectionPost->modifuser) ) $strButton .= '<td class="post-modif"><span class="small">&nbsp;'.L('Modified_by').' <a href="'.Href('qti_user.php').'?id='.$oInspectionPost->modifuser.'" class="small">'.$oInspectionPost->modifname.'</a> ('.qtDatestr($oInspectionPost->modifdate,'$','$',true,true).')</span></td>'.PHP_EOL;
   if ( !empty($strButton) ) $strButton .= '<td>'.' '.'</td>'.PHP_EOL;
   if ( !empty($strButton) ) $strButton = '<table style="margin:10px 0 1px 0;"><tr>'.$strButton.'</tr></table>'.PHP_EOL;
   $oInspectionPost->text = qtInline($oInspectionPost->text); // Pre processing data (compact, no button)

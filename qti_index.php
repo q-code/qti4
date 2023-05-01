@@ -81,7 +81,7 @@ foreach($_Domains as $domId=>$pDomain) {
     $strLastpost = '&nbsp;';
     $logofile = empty($mSec['options']) ? '' : qtExplodeGet($mSec['options'],'logo',''); // specific logo, or '' for default logo
     if ( $mSec['items']>0 ) {
-      $strLastpost = QTdatestr($mSec['lastpostdate'],'$','$',true,true,true);
+      $strLastpost = qtDatestr($mSec['lastpostdate'],'$','$',true,true,true);
       $strLastpost .= ' <a class="lastitem" href="'.Href('qti_item.php').'?t='.$mSec['lastpostpid'].'#p'.$mSec['lastpostid'].'" title="'.L('Goto_message').'">'.getSVG('caret-square-right').'</a><br><small>'.L('by').' <a href="'.Href('qti_user.php').'?id='.$mSec['lastpostuser'].'">'.$mSec['lastpostname'].'</a></span>';
     }
     $t->arrTd[0]->content = asImg( CSection::makeLogo($logofile,$mSec['type'],$mSec['status']), 'title='.L('Ico_section_'.$mSec['type'].'_'.$mSec['status']), Href('qti_items.php?s='.$idSec) );
