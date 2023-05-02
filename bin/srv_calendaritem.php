@@ -5,8 +5,7 @@ if ( empty($_GET['term']) || substr($_GET['term'],0,1)!=='t' ) { echo 'configura
 include '../config/config_db.php';
 if ( strpos(QDB_SYSTEM,'sqlite') ) define ('QDB_SQLITEPATH', '../');
 define( 'QT', 'qti'.(defined('QDB_INSTALL') ? substr(QDB_INSTALL,-1) : '') );
-include 'lib_qt_sys.php';
-include 'lib_qt_txt.php';
+include 'lib_qt_core.php';
 include 'class/class.qt.db.php';
 include 'lib_qti_base.php';
 

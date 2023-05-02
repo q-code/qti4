@@ -93,7 +93,7 @@ echo '<div id="aside__info" class="article" style="display:none">'.PHP_EOL;
   if ( empty($strStatusText) ) $strStatusText = L('Total').' '.SLang::translate().': '.L('item',$intTopics).', '.L('reply',$intReplies);
   echo '</p>';
   // new user info (from memcache)
-  $newuser = SMem::get('_NewUser',false,0); // no default, no expire, regenerated if missing
+  $newuser = SMem::get('_NewUser');
   if ( $newuser!==false && !empty($newuser['id']) && !empty($newuser['firstdate']) && !empty($newuser['name']) ) {
     if ( addDate($newuser['firstdate'],30,'day')>Date('Ymd') ) {
       echo '<p>'.L('Welcome_to').'<a href="'.Href('qti_user.php?id='.$newuser['id']).'">'.$newuser['name'].'</a></p>';

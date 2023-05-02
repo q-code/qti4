@@ -9,8 +9,7 @@ require 'config/config_cst.php';
 // -----------------
 // Class and functions
 // -----------------
-require 'bin/lib_qt_sys.php';
-require 'bin/lib_qt_txt.php';
+require 'bin/lib_qt_core.php';
 require 'bin/class/class.qt.db.php';
 require 'bin/class/class.qt.base.php';
 require 'bin/class/class.qt.html.php';

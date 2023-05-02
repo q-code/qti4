@@ -18,11 +18,12 @@ function makeFormCertificate(string $publickey)
 // Specific functions: added for or using [SMem] class
 // --------
 
-function memInitialise(string $key, $alt=false)
+function memInit(string $key, $onUnknownKey=false)
 {
-  // Recomputes basic qt data (will be stored in shared-memory with reference $key)
-  if ( substr($key,0,2)==='_L' )
-  {
+  // Recomputes basic data (to be stored in shared-memory)
+  if ( !empty($_SESSION['QTdebugmem']) ) { global $oH; $oH->log[] = 'debug: '.__FUNCTION__.' '.$key; }
+  // Object-translation memory, in current language: '_Len', '_Lfr', ...
+  if ( substr($key,0,2)==='_L' ) {
     $iso = substr($key,2);
     return [
       'index' => SLang::get('index', $iso, '*'),
@@ -32,6 +33,7 @@ function memInitialise(string $key, $alt=false)
       'status' => SLang::get('status', $iso, '*'),
       'statusdesc' => SLang::get('statusdesc', $iso, '*') ];
   }
+  // Dataset memory
   switch($key) {
     case 'settingsage': return time();
     case '_Domains': return CDomain::getPropertiesAll(); // ALL domains (including empty/invisible domains), array contains property=>value from CDomain class
@@ -40,7 +42,8 @@ function memInitialise(string $key, $alt=false)
     case '_SectionsStats': return CSection::getSectionsStats(true); // count topics|Z and replies|Z, by section (all)
     case '_Statuses': return SStatus::getAll();
   }
-  return $alt; // unknown key returns (false)
+  // Unknown key (false)
+  return $onUnknownKey;
 }
 function memFlush(array $arrKeep=['_Domains'])
 {
