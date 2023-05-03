@@ -22,10 +22,10 @@ function arrShift(array $arr, $item, int $step=1)
 }
 
 // INITIALISE
-$a='';
-$d=-1;
-$s=-1;
-$add = false;
+$a = '';
+$d = -1;
+$s = -1;
+$add = false; // shows Add-Form
 qtHttp('a int:d int:s bool:add');
 
 $oH->selfurl = APP.'_adm_sections.php';
@@ -126,8 +126,8 @@ include APP.'_adm_inc_hd.php';
 // Add domain/section
 echo '
 <div style="position:relative">
-<p style="margin:0 0 10px 0;text-align:right">
-<a id="tgl-ctrl" class="tgl-ctrl" data-state="'.($add ? '1' : '0' ).'" href="javascript:void(0)" onclick="qtToggle(); return false;">'.L('Add').' '.L('domain').'/'.L('section').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a>
+<p class="right">
+<a id="tgl-ctrl" class="tgl-ctrl'.($add ? ' expanded' : '' ).'" href="javascript:void(0)" onclick="qtToggle(); return false;">'.L('Add').' '.L('domain').'/'.L('section').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a>
 </p>
 ';
 echo '<div id="tgl-container" class="add-dom-sec" style="display:'.($add ? 'block' : 'none' ).'">
@@ -160,7 +160,7 @@ foreach($arrDomains as $id=>$domain)
 echo '<tr data-dragid="d'.$id.'" draggable="true"><td class="ellipsis">'.getSVG('arrows-v').'<span class="indent">'.$domain.'</span></td></tr>'.PHP_EOL;
 echo '</table>
 <form method="post" action="'.$oH->selfurl.'">
-<p class="center">
+<p class="submit">
 <input type="hidden" id="neworder" name="neworder" />
 <button type="button" onclick="qtToggle(`dlg-reorder`)">'.L('Cancel').'</button> <button type="submit" id="neworder-save" name="save" value="save">'.L('Save').'</button>
 </p>
