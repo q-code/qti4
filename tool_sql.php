@@ -13,7 +13,7 @@ $oH->selfname = 'SQL statement';
 
 $oDB->startStats();
 $q = ''; // query
-qtHttp('q',false,true,true,false); // do not strip tags because <> can be used in the sql
+qtArgs('q',false,true,true,false); // do not strip tags because <> can be used in the sql
 
 // Certificates
 $certificate = makeFormCertificate('5ca766092492acd750e3061b032bd0d8'); // search publickey certificate

@@ -28,7 +28,7 @@ $v2 = ''; // username, timeframe or date2
 $to = false; // title only
 $s = '*';  // section filter can be '*' or [int]
 $st = '*';
-qtHttp('q v v2 boo:to s st');
+qtArgs('q v v2 boo:to s st');
 if ( $s==='' || $s==='-1' || !is_numeric($s) ) $s='*';
 if ( $st==='' || $st==='-1' ) $st='*';
 

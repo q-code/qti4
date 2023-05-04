@@ -12,7 +12,7 @@ if ( !SUser::canView('V3') ) exitPage(11,'user-lock.svg'); //...
 // ---------
 // PRE-INITIALISE
 // ---------
-$t = -1; qtHttp('int:t!'); if ( $t<0 ) die('Invalid argument');
+$t = -1; qtArgs('int:t!'); if ( $t<0 ) die('Invalid argument');
 $oT = new CTopic($t,SUser::id()); //provide userid to update stats
 $s = $oT->pid;
 
@@ -242,7 +242,7 @@ if ( $oT->items>0 )
   }
   if ( !empty($arrIReplies) ) {
     echo '<p id="inspection-replies">';
-    echo '<a title="'.L('order').'" href="qti_item.php?'.qtImplode(qtArradd(qtExplodeUri(Href('qti_item.php?t='.$oT->id)),'order',null)).'&order='.($_SESSION[QT]['replyorder']=='A' ? 'D' : 'A').'">'.getSVG('sort-amount-'.($_SESSION[QT]['replyorder']==='D' ? 'up' : 'down')).'</a>';
+    echo '<a title="'.L('order').'" href="qti_item.php?'.qtImplode(qtArrAdd(qtExplodeUri(Href('qti_item.php?t='.$oT->id)),'order',null)).'&order='.($_SESSION[QT]['replyorder']=='A' ? 'D' : 'A').'">'.getSVG('sort-amount-'.($_SESSION[QT]['replyorder']==='D' ? 'up' : 'down')).'</a>';
     echo ' &middot; ';
     echo L('Reply',$oT->items);
     echo ' &middot; ';

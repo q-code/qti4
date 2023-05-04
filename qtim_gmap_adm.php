@@ -48,7 +48,7 @@ foreach(array('m_gmap_gkey','m_gmap_gcenter','m_gmap_gzoom','m_gmap_gfind','m_gm
   }
 }
 
-$arrSections = qtArrget(getSections('A'));
+$arrSections = getSections('A');
 
 // Read png in directory (shadow is obsolete)
 $arrFiles = array();

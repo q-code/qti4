@@ -94,7 +94,7 @@ function emptyFloat($i)
 function asEmails($emails, string $render='txt', bool $first=false, string $none='')
 {
   if ( empty($emails) ) return $none;
-  if ( is_string($emails) && strpos($emails,';')!==false ) $emails = str_replace(';', ',', $emails); //comma is recommanded as email separator
+  if ( is_string($emails) && strpos($emails,';')!==false ) $emails = str_replace(';', ',', $emails); //comma is recommended as email separator
   if ( is_string($emails) ) $emails = asCleanArray($emails,',');
   if ( !is_array($emails) || empty($emails) ) return $none;
   if ( $first ) $emails = array($emails[0]);
@@ -364,7 +364,7 @@ function makePager(string $uri, int $count, int $intPagesize=50, int $currentpag
   if ( $currentpage<1 ) $currentpage=1;
   if ( $intPagesize<5 ) $intPagesize=50;
   if ( $count<2 || $count<=$intPagesize ) return ''; //...
-  $arg = qtImplode(qtArradd(qtExplodeUri($uri),'page',null)); // extract query part and drop the 'page'-part (arguments remain urlencoded)
+  $arg = qtImplode(qtArrAdd(qtExplodeUri($uri),'page',null)); // extract query part and drop the 'page'-part (arguments remain urlencoded)
   $uri = parse_url($uri, PHP_URL_PATH); // redifine $uri as the path-part only
   $strPages='';
   $firstpage='';

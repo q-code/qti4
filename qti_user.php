@@ -13,7 +13,7 @@ $oH->selfurl = 'qti_user.php';
 if ( SUser::role()==='V' ) exitPage(11,'user-lock.svg'); //...
 
 $id = -1;
-qtHttp('int:id!');
+qtArgs('int:id!');
 if ( $id<0 ) die('Wrong id');
 
 if ( isset($_GET['edit']) ) $_SESSION[QT]['editing']=($_GET['edit']=='1' ? true : false);

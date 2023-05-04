@@ -65,7 +65,7 @@ $dir=$u_dir;// id order ('asc'|'desc')
 
 // Read Uri arguments
 
-qtHttp('q s fs ft fst v');
+qtArgs('q s fs ft fst v');
 if ( $fs==='' ) $fs='*';
 if ( $s==='' || $s<0 ) $s='*';
 if ( $fst==='' ) $fst='*';

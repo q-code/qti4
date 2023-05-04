@@ -13,7 +13,7 @@ include translate('lg_adm.php');
 if ( SUser::role()!=='A' ) die(L('E_13'));
 
 // INITIALISE
-$id = ''; qtHttp('id!'); if ( empty($id) ) die('Missing status id...');
+$id = ''; qtArgs('id!'); if ( empty($id) ) die('Missing status id...');
 $oH->selfurl = 'qti_adm_status.php';
 $oH->selfuri = 'qti_adm_status.php?id='.$id;
 $oH->selfname = L('Statuses');

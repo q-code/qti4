@@ -28,7 +28,7 @@ $a = '';
 $s = -1;
 $t = -1;
 $p = -1;
-qtHttp('a! int:s int:t int:p');
+qtArgs('a! int:s int:t int:p');
 
 // Initialise containers and check $s
 $oT = new CTopic($t>=0 ? $t : null); // can be -1 (new topic)

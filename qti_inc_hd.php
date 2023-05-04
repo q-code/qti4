@@ -173,7 +173,7 @@ echo '</p>
 switch($oH->selfurl)
 {
 case 'qti_item.php':
-  $strURI = qtImplode(qtArradd(qtExplodeUri(),'view',null));
+  $strURI = qtImplode(qtArrAdd(qtExplodeUri(),'view',null));
   if ( $_SESSION[QT]['viewmode']=='C' ) {
     echo '<a id="viewmode" href="'.Href($oH->selfurl).'?'.$strURI.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
   } else {
@@ -201,7 +201,7 @@ case 'qti_calendars.php':
   }
   break;
 case 'qti_stats.php':
-  $strURI = qtImplode(qtArradd(qtExplodeUri(),'view',null));
+  $strURI = qtImplode(qtArrAdd(qtExplodeUri(),'view',null));
   break;
 case 'qti_users.php':
   if ( !empty(qtExplodeGet($_SESSION[QT]['formatpicture'], 'mime')) ) {

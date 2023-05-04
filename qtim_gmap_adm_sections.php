@@ -38,7 +38,7 @@ $oH->selfversion = L('Gmap.Version').' 4.0';
 $oH->exiturl = 'qtim_gmap_adm.php';
 $oH->exitname = $oH->selfname;
 
-$arrSections = qtArrget(getSections('A'));
+$arrSections = getSections('A'); // sql
 
 // Read png in directory
 

@@ -505,7 +505,7 @@ public function tagsAdd(string $str, $oS=null)
     if ( count(explode(';',$this->descr))>0 )
     {
       global $oDB;
-      $oS->stats = qtImplode(qtArradd(qtExplode($oS->stats,';'), 'tags', $oDB->count(CSection::sqlCountItems($oS->id,'tags'))),';');
+      $oS->stats = qtImplode(qtArrAdd(qtExplode($oS->stats,';'), 'tags', $oDB->count(CSection::sqlCountItems($oS->id,'tags'))),';');
       $oS->updateMF('stats');
     }
   }
@@ -538,7 +538,7 @@ public function tagsDel(string $str, $oS=null)
   if ( is_a($oS,'CSection') )
   {
     global $oDB;
-    $oS->stats = qtImplode(qtArradd(qtExplode($oS->stats,';'), 'tags', $oDB->count(CSection::sqlCountItems($oS->id,'tags'))),';');
+    $oS->stats = qtImplode(qtArrAdd(qtExplode($oS->stats,';'), 'tags', $oDB->count(CSection::sqlCountItems($oS->id,'tags'))),';');
     $oS->updateMF('stats');
   }
 }
@@ -761,7 +761,7 @@ public function setMF(string $prop, string $key, $value, bool $save=true)
 {
   if ( empty($key) ) die('CTopic::setMF invalid key');
   $arr = $this->readMF($prop); // read $this->$prop without properties assignement
-  $this->$prop = qtImplode(qtArradd($arr,$key,$value),';'); // add/change the key=value (value NULL removes the key)
+  $this->$prop = qtImplode(qtArrAdd($arr,$key,$value),';'); // add/change the key=value (value NULL removes the key)
   if ( $save ) $this->updateMF($prop);
 }
 public function updateMF(string $prop)

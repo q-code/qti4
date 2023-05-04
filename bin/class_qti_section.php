@@ -211,6 +211,14 @@ private function getSectionLastPost()
     }
   }
 }
+public static function getIdsInContainer(int $pid)
+{
+  global $oDB;
+  $oDB->query( "SELECT id FROM TABSECTION WHERE domainid=$pid" );
+  $ids = [];
+  while( $row=$oDB->getRow() ) $ids[] = (int)$row['id'];
+  return $ids;
+}
 public static function getSectionsStats(bool $closed=false)
 {
   // Returns items and replies by section
@@ -249,6 +257,15 @@ public static function getSectionsStats(bool $closed=false)
     $arr[$id]['lastpostname'] = $row['username'];
     if ( $arr[$id]['lastpostid']>$arr['all']['lastpostid'] )
       foreach(['lastpostid','lastpostpid','lastpostdate','lastpostuser','lastpostname'] as $k) $arr['all'][$k] = $arr[$id][$k];
+  }
+  return $arr;
+}
+public static function getTranslatedTitles(array $ids=[])
+{
+  if ( count($ids)===0 ) $ids = array_keys($GLOBALS['_Sections']); // empty list means all sections
+  $arr = [];
+  foreach($ids as $id) {
+    $arr[$id] = SLang::translate('sec', 's'.$id, empty($GLOBALS['_Sections'][$id]['title']) ? '' : $GLOBALS['_Sections'][$id]['title']);
   }
   return $arr;
 }
@@ -531,7 +548,7 @@ public function setMF(string $prop, string $key, $value, bool $save=true)
 {
   if ( empty($key) ) die('CSection::setMF invalid key');
   $arr = $this->readMF($prop); // read $this->$prop without properties assignement
-  $this->$prop = qtImplode(qtArradd($arr,$key,$value),';'); // add/change the key=value (value NULL removes the key)
+  $this->$prop = qtImplode(qtArrAdd($arr,$key,$value),';'); // add/change the key=value (value NULL removes the key)
   if ( $save ) $this->updateMF($prop);
 }
 public function updateMF(string $prop)

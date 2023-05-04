@@ -23,7 +23,7 @@ $s = ''; // section $s can be '*' or [int] (after argument checking only [int] i
 $st = ''; // status $st can be '*' or [string]
 $v = ''; // searched text [string]
 $v2 = ''; // timeframe [string]
-qtHttp('q s st v v2');
+qtArgs('q s st v v2');
 if ( empty($q) ) $q = 's';
 if ( $s==='*' || $s==='' || !is_numeric($s) ) $s = '-1';
 if ( $st==='' ) $st = '*';

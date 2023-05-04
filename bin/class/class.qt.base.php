@@ -46,7 +46,7 @@ class SMem
   // - constants QT, MEMCACHE_TIMEOUT, MEMCACHE_HOST, MEMCACHE_PORT and MEMCACHE_FAILOVER
   // Public methods use a 'simple' key to store the data. Private methos use QT (namespace) as key prefix
   // Note #1: php issues a fatal error if memInit is not defined or constants are missing
-  // Note #2: Storing FALSE is not recommanded (key-not-found or server-failed can also returns false, causing a re-set of the key)
+  // Note #2: Storing FALSE is not recommended (key-not-found or server-failed can also returns false, causing a re-set of the key)
   // Note #3: Flush memory is not in this class: define your specific memFlush function (with the keys you need to flush)
 
   private static $library = 'memcached';

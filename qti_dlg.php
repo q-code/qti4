@@ -410,9 +410,9 @@ case 'itemParam':
   if ( isset($_POST['ok']) )
   {
     // change settings
-    $arr = qtArradd($arr,'Istatus',$_POST['status']);
-    $arr = qtArradd($arr,'Ilevel',$_POST['level']);
-    $arr = qtArradd($arr,'Iaggr',$_POST['aggr']);
+    $arr = qtArrAdd($arr,'Istatus',$_POST['status']);
+    $arr = qtArrAdd($arr,'Ilevel',$_POST['level']);
+    $arr = qtArrAdd($arr,'Iaggr',$_POST['aggr']);
     $oT->param = qtImplode($arr,';');
     $oT->updateMF('param');
 

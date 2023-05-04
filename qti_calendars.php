@@ -59,7 +59,7 @@ function ArraySwap($arr,$n=1)
 
 $s = -1;
 $v = 'firstpostdate';
-qtHttp('int:s! v');
+qtArgs('int:s! v');
 if ( !in_array($v,array('firstpostdate','lastpostdate','wisheddate')) ) die('Wrong calendar field');
 
 $bSSE = false;

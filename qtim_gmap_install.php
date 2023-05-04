@@ -98,5 +98,5 @@ echo '<h2>Installation completed</h2>';
 
 if ( $_SESSION[QT]['version']=='1.8' || $_SESSION[QT]['version']=='1.9' )
 {
-  echo '<p class="error">Your database version is <2.0. We recommand you to upgrade to 3.0 (use the installation wizard of '.APPNAME.').</p>';
+  echo '<p class="error">Your database version is <2.0. We recommend you to upgrade to 3.0 (use the installation wizard of '.APPNAME.').</p>';
 }

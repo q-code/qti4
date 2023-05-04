@@ -32,7 +32,7 @@ if ( SUser::role()!=='A' ) die('Access denied');
 $pan='en';
 $v = '';
 $intSize = 100;
-qtHttp('pan v'); if ( empty($v) ) $error = 'Missing file name';
+qtArgs('pan v'); if ( empty($v) ) $error = 'Missing file name';
 
 $oH->selfurl = 'qti_adm_tags_upload.php';
 $oH->selfname = L('Add').' CSV '.L('file');
