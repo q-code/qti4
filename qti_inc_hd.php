@@ -47,8 +47,8 @@ if ( $_SESSION[QT]['board_offline'] && SUser::role()!=='A' ) {
 }
 if ( QT_URLREWRITE ) {
   foreach(array_keys($navMenu->menu) as $k) {
-    $navMenu->update( $k, 'href', Href($navMenu->get($k,'href')) );
-    $navMenu->update( $k, 'activewith', implode(' ',array_map('Href',explode(' ',$navMenu->get($k,'activewith')))) );
+    $navMenu->update( $k, 'href', url($navMenu->get($k,'href')) );
+    $navMenu->update( $k, 'activewith', implode(' ',array_map('url',explode(' ',$navMenu->get($k,'activewith')))) );
   }
 }
 
@@ -60,14 +60,14 @@ if ( !$hideMenuLang ) {
   $langMenu = new CMenu();
   // user
   $langMenu->add( '!'.getSVG('user-'.SUser::role(), 'title='.L('Role_'.SUser::role())) );
-  $langMenu->add( SUser::id()>0 ? 'text='.SUser::name().'|id=logname|href='.Href(APP.'_user.php').'?id='.SUser::id() : 'text='.L('Role_V').'|tag=span|id=logname');
+  $langMenu->add( SUser::id()>0 ? 'text='.SUser::name().'|id=logname|href='.url(APP.'_user.php').'?id='.SUser::id() : 'text='.L('Role_V').'|tag=span|id=logname');
   // lang
   if ( $_SESSION[QT]['userlang'] ) {
     if ( is_array(LANGUAGES) && count(LANGUAGES)>1 ) {
       $langMenu->add( '!|' );
       foreach (LANGUAGES as $iso=>$language) {
         $arr = explode(' ',$language,2);
-        $langMenu->add( 'text='.$arr[0].'|id=lang-'.$iso.'|href='.Href($oH->selfurl).'?'.getURI('lang').'&lang='.$iso.'|title='.(isset($arr[1]) ? $arr[1] : $arr[0]) );
+        $langMenu->add( 'text='.$arr[0].'|id=lang-'.$iso.'|href='.url($oH->selfurl).'?'.qtURI('lang').'&lang='.$iso.'|title='.(isset($arr[1]) ? $arr[1] : $arr[0]) );
       }
     } else {
       $langMenu->add('!missing file:config/config_lang.php');
@@ -112,7 +112,7 @@ if ( $_SESSION[QT]['show_banner']!=='0' ) echo '<div id="logo"><img src="'.QT_SK
 if ( !$hideMenuLang ) echo '<div id="menulang">'.$langMenu->build('lang-'.QT_LANG, 'tag=span|class=active').'</div>'.PHP_EOL;
 // header nav (intersect to use only some head menus)
 $skip = array_diff(array_keys($navMenu->menu), ['home','index','search','users','profile','sign']);
-echo '<nav>'.$navMenu->build(Href($oH->selfurl), 'default', $skip).'</nav>'.PHP_EOL;
+echo '<nav>'.$navMenu->build(url($oH->selfurl), 'default', $skip).'</nav>'.PHP_EOL;
 echo '</header>'.PHP_EOL;
 
 // ----------
@@ -123,12 +123,12 @@ if ( QT_SIMPLESEARCH && $oH->selfurl!==APP.'_search.php' ) {
   if ( !SUser::canAccess('search') ) {
     echo L('E_11');
   } else {
-    echo '<a href="'.Href(APP.'_search.php').'">'.L('Advanced_search').'...</a>';
-    echo asImg( QT_SKIN.'img/topic_t_0.gif', 'alt=T|class=img|title='.L('Recent_items'), Href(APP.'_items.php').'?q=last' );
-    echo asImg( QT_SKIN.'img/topic_a_0.gif', 'alt=T|class=img|title='.L('All_news'), Href(APP.'_items.php').'?q=news' );
-    echo asImg( QT_SKIN.'img/topic_i_0.gif', 'alt=T|class=img|title='.L('Inspections'), Href(APP.'_items.php').'?q=insp' );
-    if ( SUser::role()!=='V' ) echo '<a href="'.Href(APP.'_items.php').'?q=user&v2='.SUser::id().'&v='.urlencode(SUser::name()).'" title="'.L('All_my_items').'">'.getSVG('user').'</a>';
-    echo '<form method="post" action="'.Href(APP.'_search.php').'" style="display:inline">';
+    echo '<a href="'.url(APP.'_search.php').'">'.L('Advanced_search').'...</a>';
+    echo asImg( QT_SKIN.'img/topic_t_0.gif', 'alt=T|class=img|title='.L('Recent_items'), url(APP.'_items.php').'?q=last' );
+    echo asImg( QT_SKIN.'img/topic_a_0.gif', 'alt=T|class=img|title='.L('All_news'), url(APP.'_items.php').'?q=news' );
+    echo asImg( QT_SKIN.'img/topic_i_0.gif', 'alt=T|class=img|title='.L('Inspections'), url(APP.'_items.php').'?q=insp' );
+    if ( SUser::role()!=='V' ) echo '<a href="'.url(APP.'_items.php').'?q=user&v2='.SUser::id().'&v='.urlencode(SUser::name()).'" title="'.L('All_my_items').'">'.getSVG('user').'</a>';
+    echo '<form method="post" action="'.url(APP.'_search.php').'" style="display:inline">';
     echo '<button id="searchSubmit" type="submit" style="display:none" name="ok" value="'.makeFormCertificate('65699386509abf064aec83e5124c1f30').'">ok</button>';
     echo '<input type="hidden" name="q" value="qkw">';
     echo '<div id="ac-wrapper-qkw" class="ac-wrapper"><input required id="qkw" name="v" type="text" size="25" placeholder="'.L('Number_or_keyword').'" autocomplete="off" /></div> <a class="btn-search" href="javascript:void(0)" title="'.L('Search').' '.L('in_all_sections').'" onclick="document.getElementById(`searchSubmit`).click();">'.getSVG('search').'</a>';
@@ -160,10 +160,10 @@ echo '
 
 echo '
 <div id="main-hd">
-<p id="crumbtrail"><a href="'.Href('qti_index.php').'"'.($oH->selfurl=='qti_index.php' ? ' onclick="return false;"' : ''),'>',SLang::translate().'</a>';
+<p id="crumbtrail"><a href="'.url('qti_index.php').'"'.($oH->selfurl=='qti_index.php' ? ' onclick="return false;"' : ''),'>',SLang::translate().'</a>';
 if ( isset($oS) && $oS->id>=0 ) { // $oS->id=-1 in case of 'void'-section
   if ( QT_SHOW_DOMAIN ) echo QT_CRUMBTRAIL.CDomain::translate($oS->pid);
-  echo QT_CRUMBTRAIL.'<a href="'.Href('qti_items.php').'?s='.$s.'">'.CSection::translate($s).'</a>';
+  echo QT_CRUMBTRAIL.'<a href="'.url('qti_items.php').'?s='.$s.'">'.CSection::translate($s).'</a>';
   if ( $oS->type==='2' && !SUser::isStaff() ) echo QT_CRUMBTRAIL.'<small>'.L('all_my_items').'</small>';
 }
 if ( $oH->selfurl==='qti_user.php') echo QT_CRUMBTRAIL.L('Profile');
@@ -173,11 +173,11 @@ echo '</p>
 switch($oH->selfurl)
 {
 case 'qti_item.php':
-  $strURI = qtImplode(qtArrAdd(qtExplodeUri(),'view',null));
+  $strURI = qtURI('view');
   if ( $_SESSION[QT]['viewmode']=='C' ) {
-    echo '<a id="viewmode" href="'.Href($oH->selfurl).'?'.$strURI.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
+    echo '<a id="viewmode" href="'.url($oH->selfurl).'?'.$strURI.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
   } else {
-    echo '<a id="viewmode" href="'.Href($oH->selfurl).'?'.$strURI.'&view=C" title="'.L('View_c').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-up').'</a>';
+    echo '<a id="viewmode" href="'.url($oH->selfurl).'?'.$strURI.'&view=C" title="'.L('View_c').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-up').'</a>';
   }
   break;
 case 'qti_items.php':
@@ -191,24 +191,24 @@ case 'qti_items.php':
   }
   if ( SUser::canAccess('show_calendar') && $q==='s' )
   {
-    echo ' <a href="'.Href('qti_calendars.php').'?s='.$s.'"><span title="'.L('View_f_c').'">'.getSVG('calendar').'</span></a>';
+    echo ' <a href="'.url('qti_calendars.php').'?s='.$s.'"><span title="'.L('View_f_c').'">'.getSVG('calendar').'</span></a>';
   }
   break;
 case 'qti_calendars.php':
   if ( SUser::canAccess('show_calendar') )
   {
-  echo '<a href="'.Href('qti_items.php').'?s='.$s.'"><span title="'.L('View_f_n').'">'.getSVG('th-list').'</span></a>';
+  echo '<a href="'.url('qti_items.php').'?s='.$s.'"><span title="'.L('View_f_n').'">'.getSVG('th-list').'</span></a>';
   }
   break;
 case 'qti_stats.php':
-  $strURI = qtImplode(qtArrAdd(qtExplodeUri(),'view',null));
+  $strURI = qtURI('view');
   break;
 case 'qti_users.php':
   if ( !empty(qtExplodeGet($_SESSION[QT]['formatpicture'], 'mime')) ) {
     if ( $_SESSION[QT]['viewmode']=='C' ) {
-      echo '<a id="viewmode" href="'.Href($oH->selfurl).'?view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
+      echo '<a id="viewmode" href="'.url($oH->selfurl).'?view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
     } else {
-      echo '<a id="viewmode" href="'.Href($oH->selfurl).'?view=C" title="'.L('View_c').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-up').'</a>';
+      echo '<a id="viewmode" href="'.url($oH->selfurl).'?view=C" title="'.L('View_c').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-up').'</a>';
     }
   }
   break;

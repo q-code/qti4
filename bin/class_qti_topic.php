@@ -187,18 +187,18 @@ public static function makeIconName(string $type='T',$status='A',$name='Ticket',
   }
   return $name;
 }
-public static function makeIcon(string $type='T', string $status='A', string $name='Ticket', string $id='', string $skin='skin/default/', string $strHref='', string $strTitleFormat='%s', array $arrStatus=[])
+public static function makeIcon(string $type='T', string $status='A', string $name='Ticket', string $id='', string $skin='skin/default/', string $strurl='', string $strTitleFormat='%s', array $arrStatus=[])
 {
   // Use $name='' to re-build icon-name (title)
   // Use $name=false to remove title
   if ( $type==='T' && empty($arrStatus) ) $arrStatus = SMem::get('_Statuses');
   $src = CTopic::makeIconSrc($type,$status,$skin,$arrStatus);
   if ( $name==='' ) { $name = CTopic::makeIconName($type,$status,$name,$arrStatus); $name = sprintf($strTitleFormat,$name); }
-  return asImg( $src, 'id='.$id.'|class=i-item|class=i-item|data-type='.strtolower($type).'|data-status='.strtolower($status).'|alt='.$type.(empty($name) ? '' : '|title='.$name), $strHref );
+  return asImg( $src, 'id='.$id.'|class=i-item|class=i-item|data-type='.strtolower($type).'|data-status='.strtolower($status).'|alt='.$type.(empty($name) ? '' : '|title='.$name), $strurl );
 }
-public function getIcon(string $skin='skin/default/', string $strHref='', string $strTitleFormat='%s', string $id='')
+public function getIcon(string $skin='skin/default/', string $strurl='', string $strTitleFormat='%s', string $id='')
 {
-  return CTopic::makeIcon($this->type,$this->status,$this->getIconName(),$id,$skin,$strHref,$strTitleFormat);
+  return CTopic::makeIcon($this->type,$this->status,$this->getIconName(),$id,$skin,$strurl,$strTitleFormat);
 }
 public function getIconName()
 {
@@ -500,12 +500,12 @@ public function tagsAdd(string $str, $oS=null)
   // Update section stats (if tags added)
   if ( is_null($oS) ) return; //...
   if ( is_int($oS) ) $oS = new CSection($oS);
-  if ( is_a($oS,'CSection') )
-  {
-    if ( count(explode(';',$this->descr))>0 )
-    {
+  if ( is_a($oS,'CSection') ) {
+    if ( count(explode(';',$this->descr))>0 ) {
       global $oDB;
-      $oS->stats = qtImplode(qtArrAdd(qtExplode($oS->stats,';'), 'tags', $oDB->count(CSection::sqlCountItems($oS->id,'tags'))),';');
+      $stats = qtExplode($oS->stats,';');
+      $stats['tags'] = $oDB->count(CSection::sqlCountItems($oS->id,'tags'));
+      $oS->stats = qtImplode($stats,';');
       $oS->updateMF('stats');
     }
   }
@@ -535,10 +535,11 @@ public function tagsDel(string $str, $oS=null)
   // Update section stats
   if ( is_null($oS) ) return; //...
   if ( is_int($oS) ) $oS = new CSection($oS);
-  if ( is_a($oS,'CSection') )
-  {
+  if ( is_a($oS,'CSection') ) {
     global $oDB;
-    $oS->stats = qtImplode(qtArrAdd(qtExplode($oS->stats,';'), 'tags', $oDB->count(CSection::sqlCountItems($oS->id,'tags'))),';');
+    $stats = qtExplode($oS->stats,';');
+    $stats['tags'] = $oDB->count(CSection::sqlCountItems($oS->id,'tags'));
+    $oS->stats = qtImplode($stats,';');
     $oS->updateMF('stats');
   }
 }
@@ -759,9 +760,10 @@ public function getMF(string $prop,string $key, $alt='')
  */
 public function setMF(string $prop, string $key, $value, bool $save=true)
 {
-  if ( empty($key) ) die('CTopic::setMF invalid key');
+  if ( empty($key) ) die('CSection::setMF invalid key');
   $arr = $this->readMF($prop); // read $this->$prop without properties assignement
-  $this->$prop = qtImplode(qtArrAdd($arr,$key,$value),';'); // add/change the key=value (value NULL removes the key)
+  $arr[$key] = $value; // add/change the key=value (value NULL removes the key)
+  $this->$prop = qtImplode($arr,';');
   if ( $save ) $this->updateMF($prop);
 }
 public function updateMF(string $prop)

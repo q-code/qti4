@@ -52,7 +52,7 @@ if ( $q==='s' || $s>=0 ) {
 }
 
 // initialise others
-$oH->selfuri = getURI('order,dir');
+$oH->selfuri = qtURI('page|order|dir');
 $strOrder = 'lastpostdate';
 $strDirec = 'desc';
 $strLastcol = $oS->getMF('options','last'); if  ($strLastcol=='N' || strtolower($strLastcol)==='none' ) $strLastcol='';
@@ -125,15 +125,15 @@ $intCount = $oH->items - $oH->itemsHidden;
 
 // BUTTON LINE AND PAGER
 if ( $q==='s' ) {
-  $def = 'href="'.Href('qti_edit.php').'?s='.$oS->id.'&a=nt|class=button btn-cmd';
+  $def = 'href="'.url('qti_edit.php').'?s='.$oS->id.'&a=nt|class=button btn-cmd';
   if ( $oS->status==='1' || (SUser::role()==='V' && $_SESSION[QT]['visitor_right']<7) ) {
     $def .= ' disabled|href=javascript:void(0)|tabindex=-1|title='.($oS->status==='1' ? L('E_section_closed') : L('R_member')); // class=button btn-cmd disabled
   }
   $navCommands = '<a'.attrRender($def).'>'.L('New_item').'</a>';
 }
-$navCommands .= '<a class="button btn-search" href="'.Href('qti_search.php').'?'.$oH->selfuri.'" title="'.L('Search').'">'.getSVG('search').'</a>';
+$navCommands .= '<a class="button btn-search" href="'.url('qti_search.php').'?'.$oH->selfuri.'" title="'.L('Search').'">'.getSVG('search').'</a>';
 
-$strPaging = makePager( Href($oH->selfurl).'?'.$oH->selfuri, $intCount, (int)$_SESSION[QT]['items_per_page'], $intPage);
+$strPaging = makePager( url($oH->selfurl).'?'.$oH->selfuri, $intCount, (int)$_SESSION[QT]['items_per_page'], $intPage);
 if ( $strPaging!='') $strPaging = L('Page').$strPaging;
 
 // MAP
@@ -169,11 +169,11 @@ switch($q)
     break;
   case 'user':
     $pageTitle .= sprintf(L('Search_results_user'), implode(' '.L('or').' ',$v));
-    $navCommandsRefine = '<a class="button" href="'.Href('qti_items.php').'?q=userm&'.getUri('q').'"><small>'.L('Search').': '.L('item+').' '.L('and').' '.L('reply+').'</small></a>';
+    $navCommandsRefine = '<a class="button" href="'.url('qti_items.php').'?q=userm&'.qtUri('q').'"><small>'.L('Search').': '.L('item+').' '.L('and').' '.L('reply+').'</small></a>';
     break;
   case 'userm':
     $pageTitle .= sprintf(L('Search_results_user_m'), implode(' '.L('or').' ',$v));
-    $navCommandsRefine = '<a class="button" href="'.Href('qti_items.php').'?q=user&'.getUri('q').'"><small>'.L('Search').': '.L('item+').' '.L('only').'</small></a>';
+    $navCommandsRefine = '<a class="button" href="'.url('qti_items.php').'?q=user&'.qtUri('q').'"><small>'.L('Search').': '.L('item+').' '.L('only').'</small></a>';
       break;
   case 'actor': $pageTitle .= sprintf(L('Search_results_actor'), implode(' '.L('or').' ',$v)); break;
   case 'last':
@@ -264,7 +264,7 @@ if ( $intCount==0 ) {
   // alternate query
   $arg = 'q='.$q;
   if ( $q==='user' || $q==='kw' || $q==='adv' ) $arg .= '&v='.implode(';',$v).'&v2='.urlencode($v2);
-  echo '<p class="center"><a href="'.Href('qti_items.php').'?'.$arg.'">'.L('Try_without_options').'</a></p>';
+  echo '<p class="center"><a href="'.url('qti_items.php').'?'.$arg.'">'.L('Try_without_options').'</a></p>';
   include 'qti_inc_ft.php';
   exit;
 
@@ -345,7 +345,7 @@ echo '<div class="right">'.$strPaging.'</div></div>'.PHP_EOL;
 // === TABLE START DISPLAY ===
 if ( $_SESSION['EditByRows'] )
 {
-echo '<form id="form-items" method="post" action="'.Href('qti_dlg.php').'">
+echo '<form id="form-items" method="post" action="'.url('qti_dlg.php').'">
 <input type="hidden" id="form-items-action" name="a" />
 <input type="hidden" name="uri" value="'.$oH->selfuri.'"/>
 ';
@@ -415,7 +415,7 @@ while($row=$oDB->getRow())
     $strAttr = ''; if ( isset($row['firstpostdate']) && isset($row['firstpostname']) ) $strAttr = L('By').' '.$row['firstpostname'].' ('.qtDatestr($row['firstpostdate'],'$','$',true,true).')<br>';
     if ( isset($row['replies']) ) $strAttr .= L('Reply',(int)$row['replies']).' ';
     $strPname = $strRef.$strTitle;
-    $strPinfo = $strIco.$strRef.'<br>'.$strTitle.'<br><span class="small">'.$strAttr.'</span> <a class="gmap" href="'.Href('qti_item.php').'?t='.$row['id'].'">'.L('Open').'</a>';
+    $strPinfo = $strIco.$strRef.'<br>'.$strTitle.'<br><span class="small">'.$strAttr.'</span> <a class="gmap" href="'.url('qti_item.php').'?t='.$row['id'].'">'.L('Open').'</a>';
     $oMapPoint = new CMapPoint($y,$x,$strPname,$strPinfo);
 
     // add extra $oMapPoint properties (if defined in section settings)
@@ -445,7 +445,7 @@ if ( SUser::isStaff() && !empty($_SESSION['EditByRows']) ) echo '</form>'.PHP_EO
 // BUTTON LINE AND PAGER
 $strCsv = '';
 if ( SUser::isStaff() && !empty($_SESSION['EditByRows'])) $strCsv .= '<a id="cmd-export-selected" class="csv" href="javascript:void(0)" title="'.L('H_Csv').' ('.L('selected').')">'.L('Export').getSVG('check-square').'</a> &middot; ';
-$strCsv .= SUser::role()==='V' ? '' : htmlCsvLink(Href('qtf_items_csv.php').'?'.$oH->selfuri, $intCount, $intPage);
+$strCsv .= SUser::role()==='V' ? '' : htmlCsvLink(url('qtf_items_csv.php').'?'.$oH->selfuri, $intCount, $intPage);
 echo '<div id="tablebot" class="table-ui bot">';
 echo $rowCommands ? '<div id="t1-edits-bot" class="left checkboxcmds">'.getSVG('corner-down-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
 echo '<div class="right">'.$strPaging.'</div></div>'.PHP_EOL;
@@ -456,7 +456,7 @@ echo '<div id="t1-nav-bot" class="nav-bot">'.$navCommands.'</div>'.PHP_EOL;
 if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)>0 ) {
   sort($arrTags);
   echo '<div class="tag-box"><p>'.getSVG('tags').' '.L('Show_only_tag').'</p>';
-  foreach($arrTags as $strTag) echo '<a class="tag" href="'.Href('qti_items.php').'?q=adv&s='.$s.'&v='.urlencode($strTag).'" title="...">'.$strTag.'</a>';
+  foreach($arrTags as $strTag) echo '<a class="tag" href="'.url('qti_items.php').'?q=adv&s='.$s.'&v='.urlencode($strTag).'" title="...">'.$strTag.'</a>';
   echo getSVG('search','','',true).'</div>';
   $oH->scripts['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" id="tagdesc" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
 }

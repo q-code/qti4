@@ -401,7 +401,7 @@ if ( $oT->type==='I' && ($a=='re' || $a=='qu') ) {
   $row=$oDB->getRow();
   $oInspectionPost = new CPost($row);
   $strButton='';
-  if ( !empty($oInspectionPost->modifuser) ) $strButton .= '<td class="post-modif"><span class="small">&nbsp;'.L('Modified_by').' <a href="'.Href('qti_user.php').'?id='.$oInspectionPost->modifuser.'" class="small">'.$oInspectionPost->modifname.'</a> ('.qtDatestr($oInspectionPost->modifdate,'$','$',true,true).')</span></td>'.PHP_EOL;
+  if ( !empty($oInspectionPost->modifuser) ) $strButton .= '<td class="post-modif"><span class="small">&nbsp;'.L('Modified_by').' <a href="'.url('qti_user.php').'?id='.$oInspectionPost->modifuser.'" class="small">'.$oInspectionPost->modifname.'</a> ('.qtDatestr($oInspectionPost->modifdate,'$','$',true,true).')</span></td>'.PHP_EOL;
   if ( !empty($strButton) ) $strButton .= '<td>'.' '.'</td>'.PHP_EOL;
   if ( !empty($strButton) ) $strButton = '<table style="margin:10px 0 1px 0;"><tr>'.$strButton.'</tr></table>'.PHP_EOL;
   $oInspectionPost->text = qtInline($oInspectionPost->text); // Pre processing data (compact, no button)
@@ -413,7 +413,7 @@ if ( $oT->type==='I' && ($a=='re' || $a=='qu') ) {
 // FORM START
 
 echo '<h2>'.$oH->selfname.'</h2>
-<form id="form-edit" method="post" action="'.Href($oH->selfurl).'" enctype="multipart/form-data">
+<form id="form-edit" method="post" action="'.url($oH->selfurl).'" enctype="multipart/form-data">
 ';
 
 if ( SUser::isStaff() )

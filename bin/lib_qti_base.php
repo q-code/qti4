@@ -115,11 +115,11 @@ function asEmails($emails, string $render='txt', bool $first=false, string $none
       $return .= '</a>';
       break;
     case 'txtjava':
-      $return .= '<script type="text/javascript">const m = "'.$hmails.'"; document.write(`<a href="javascript:void(0)" onmouseover="qtHrefShow(this);" onmouseout="qtHrefHide(this);" data-emails="${m}">${qtDecodeEmails(m)}</a>`);</script>';
+      $return .= '<script type="text/javascript">const m = "'.$hmails.'"; document.write(`<a href="javascript:void(0)" onmouseover="qturlShow(this);" onmouseout="qturlHide(this);" data-emails="${m}">${qtDecodeEmails(m)}</a>`);</script>';
       break;
     case 'icojava':
     case 'imgjava':
-      $return .= '<a href="javascript:void(0)" onmouseover="qtHrefShow(this);" onmouseout="qtHrefHide(this);" data-emails="'.$hmails.'">';
+      $return .= '<a href="javascript:void(0)" onmouseover="qturlShow(this);" onmouseout="qturlHide(this);" data-emails="'.$hmails.'">';
       $return .= ''.getSVG('envelope');
       $return .= '</a>';
       break;
@@ -128,13 +128,13 @@ function asEmails($emails, string $render='txt', bool $first=false, string $none
   return $return;
 }
 
-function asImg(string $src='', string $attr='', string $href='', string $attrHref='', string $imgDflt='alt=S|class=i-sec')
+function asImg(string $src='', string $attr='', string $href='', string $attrurl='', string $imgDflt='alt=S|class=i-sec')
 {
   $attr = attrDecode($attr, '|', $imgDflt);
   // no href
   if ( empty($href) ) return '<img src="'.$src.'"'.attrRender($attr).'/>';
   // with href
-  return '<a href="'.$href.'"'.attrRender($attrHref).'><img src="'.$src.'"'.attrRender($attr).'/></a>';
+  return '<a href="'.$href.'"'.attrRender($attrurl).'><img src="'.$src.'"'.attrRender($attr).'/></a>';
 }
 
 /**
@@ -197,14 +197,6 @@ function getSections(string $role='V', int $domain=-1, array $reject=[], string 
     }
   }
   return $arrSections;
-}
-
-function getURI(string $reject='')
-{
-  $reject = explode(',',$reject);
-  $arr = qtExplodeUri();
-  foreach($reject as $key) unset($arr[trim($key)]);
-  return qtImplode($arr);
 }
 
 function getItemsInfo(CDatabase $oDB) {
@@ -364,7 +356,7 @@ function makePager(string $uri, int $count, int $intPagesize=50, int $currentpag
   if ( $currentpage<1 ) $currentpage=1;
   if ( $intPagesize<5 ) $intPagesize=50;
   if ( $count<2 || $count<=$intPagesize ) return ''; //...
-  $arg = qtImplode(qtArrAdd(qtExplodeUri($uri),'page',null)); // extract query part and drop the 'page'-part (arguments remain urlencoded)
+  $arg = qtImplode(qtExplodeUri($uri,['page'])); // extract query part and drop the 'page'-part (arguments remain urlencoded)
   $uri = parse_url($uri, PHP_URL_PATH); // redifine $uri as the path-part only
   $strPages='';
   $firstpage='';

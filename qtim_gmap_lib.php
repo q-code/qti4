@@ -102,11 +102,11 @@ class cCanvas
       global $oH;
 			if ( $_SESSION[QT]['m_gmap_hidelist'] )
 			{
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.Href($oH->selfurl).'?'.getURI('hidemap').'&showmap">'.getSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('hidemap').'&showmap">'.getSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
 			}
 			else
 			{
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.Href($oH->selfurl).'?'.getURI('showmap').'&hidemap">'.getSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('showmap').'&hidemap">'.getSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
 			}
 		}
 

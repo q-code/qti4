@@ -23,17 +23,17 @@ if ( isset($_POST['Maction']) )
 {
   $oH->exiturl  = 'qti_items.php?s='.$s;
   $oH->exitname = L('Section');
-  if ( empty($_POST['Maction']) ) $oH->redirect (Href('qti_item.php').'?t='.$t );
+  if ( empty($_POST['Maction']) ) $oH->redirect (url('qti_item.php').'?t='.$t );
   if ( substr($_POST['Maction'],0,7)==='status_' ) $oT->setStatus( substr($_POST['Maction'],-1,1) );
   if ( substr($_POST['Maction'],0,5)==='type_' ) $oT->setType( substr($_POST['Maction'],-1,1) );
-  if ( $_POST['Maction']==='reply' ) $oH->redirect( Href('qti_edit.php').'?a=re&t='.$t, L('Reply') );
-  if ( $_POST['Maction']==='move' ) $oH->redirect( Href('qti_dlg.php').'?a=itemsMove&s='.$s.'&ids='.$t, L('Move') );
-  if ( $_POST['Maction']==='delete' ) $oH->redirect( Href('qti_dlg.php').'?a=itemsDelete&s='.$s.'&ids='.$t, L('Delete') );
+  if ( $_POST['Maction']==='reply' ) $oH->redirect( url('qti_edit.php').'?a=re&t='.$t, L('Reply') );
+  if ( $_POST['Maction']==='move' ) $oH->redirect( url('qti_dlg.php').'?a=itemsMove&s='.$s.'&ids='.$t, L('Move') );
+  if ( $_POST['Maction']==='delete' ) $oH->redirect( url('qti_dlg.php').'?a=itemsDelete&s='.$s.'&ids='.$t, L('Delete') );
 }
 if ( isset($_POST['actorid']) && $_POST['actorid']>0 && !empty($_POST['actorname']) )
 {
   $oT->setActor((int)$_POST['actorid'], true, true, $_POST['actorname']);
-  $oH->redirect(Href('qti_item.php').'?t='.$t);
+  $oH->redirect(url('qti_item.php').'?t='.$t);
 }
 // ---------
 // INITIALISE and check grant access
@@ -165,7 +165,7 @@ echo '</div>'.PHP_EOL;
 // CONTENT
 
 // Navigation buttons
-$def = 'href='.Href('qti_edit.php').'?t='.$oT->id.'&a=re|class=button';
+$def = 'href='.url('qti_edit.php').'?t='.$oT->id.'&a=re|class=button';
 if ( $oS->status==='1' || $oT->status==='Z' || (SUser::role()==='V' && $_SESSION[QT]['visitor_right']<6) ) {
   $def .= ' disabled|href=javascript:void(0)|tabindex=-1'; // class=button disabled
   if ( $oS->status==='1' )     { $def .= '|title='.L('E_section_closed'); }
@@ -188,7 +188,7 @@ if ( $_SESSION[QT]['tags']!='0' && ($tagEditor || !empty($oT->descr)) )
     foreach($arrTags as $k=>$item) $arrTags[$k] = empty($item) ? '' : '<span class="tag" onclick="tagClick(this.innerHTML)" title="..." data-tagdesc="'.$item.'">'.$item.'</span>';
     echo '<div id="tag-shown" style="display:inline-block">'.implode(' ',$arrTags).'</div>';
     echo ' &nbsp; <a href="javascript:void(0)" id="tag-ctrl" class="tgl-ctrl" onclick="qtToggle(`tag-container`,`block`,`tag-ctrl`)" title="'.L('Edit').'">'.getSVG('pen').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a>'.PHP_EOL;
-    echo '<div id="tag-container" style="display:none"><form method="post" action="'.Href($oH->selfurl).'?s='.$s.'&t='.$t.'" onreset="qtFocus(`tag-edit`)">';
+    echo '<div id="tag-container" style="display:none"><form method="post" action="'.url($oH->selfurl).'?s='.$s.'&t='.$t.'" onreset="qtFocus(`tag-edit`)">';
     echo '<input type="hidden" id="tag-dir" value="'.QT_DIR_DOC.'"/><input type="hidden" id="tag-lang" value="'.QT_LANG.'"/>';
     echo '<input type="hidden" id="tag-saved" value="'.qtAttr($oT->descr).'"/>';
     echo '<input type="hidden" id="tag-new" name="tag-new" maxlength="255" value="'.qtAttr($oT->descr).'"/>';
@@ -208,7 +208,7 @@ if ( $_SESSION[QT]['tags']!='0' && ($tagEditor || !empty($oT->descr)) )
 if ( $oT->items>0 )
 {
 
-  $paging = makePager( Href('qti_item.php?t='.$oT->id), $oT->items, (int)$_SESSION[QT]['replies_per_page'], $currentPage);
+  $paging = makePager( url('qti_item.php?t='.$oT->id), $oT->items, (int)$_SESSION[QT]['replies_per_page'], $currentPage);
   if ( $paging!='' ) $paging = L('Page').$paging;
 
   echo '<p class="paging">'.$paging.'</p>
@@ -242,7 +242,7 @@ if ( $oT->items>0 )
   }
   if ( !empty($arrIReplies) ) {
     echo '<p id="inspection-replies">';
-    echo '<a title="'.L('order').'" href="qti_item.php?'.qtImplode(qtArrAdd(qtExplodeUri(Href('qti_item.php?t='.$oT->id)),'order',null)).'&order='.($_SESSION[QT]['replyorder']=='A' ? 'D' : 'A').'">'.getSVG('sort-amount-'.($_SESSION[QT]['replyorder']==='D' ? 'up' : 'down')).'</a>';
+    echo '<a title="'.L('order').'" href="qti_item.php?'.qtImplode(qtExplodeUri(url('qti_item.php?t='.$oT->id), ['order'])).'&order='.($_SESSION[QT]['replyorder']=='A' ? 'D' : 'A').'">'.getSVG('sort-amount-'.($_SESSION[QT]['replyorder']==='D' ? 'up' : 'down')).'</a>';
     echo ' &middot; ';
     echo L('Reply',$oT->items);
     echo ' &middot; ';
@@ -287,7 +287,7 @@ if ( $_SESSION[QT]['show_quick_reply']=='1' || ($_SESSION[QT]['show_quick_reply'
 $certificate = makeFormCertificate('b7033b5983ec3b0fef7b3c251f6d0b92');
 echo '
 <div id="message-preview"></div>
-<form id="form-edit" method="post" action="'.Href('qti_edit.php').'">
+<form id="form-edit" method="post" action="'.url('qti_edit.php').'">
 <div class="quickreply">
 ';
 echo '<div class="g-qr-icon"><p class="i-container" title="'.L('Reply').'">'.getSVG('comment-dots').'</p></div>

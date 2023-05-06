@@ -121,7 +121,7 @@ function previewMarker(src) { document.getElementById("previewmarker").src = src
 include APP.'_adm_inc_hd.php';
 
 echo '
-<form method="post" action="'.Href($oH->selfurl).'">
+<form method="post" action="'.url($oH->selfurl).'">
 <h2 class="config">'.L('Gmap.Mapping_settings').'</h2>
 <table class="t-conf">
 <tr>
@@ -167,7 +167,7 @@ echo '</p></td>
 '.CountMapSections().'</strong>/'.count(SMem::get('_Sections')).
 (IsMapSection('U') ? ' '.L('and').' '.L('Users') : '').
 (IsMapSection('S') ? ' '.L('and').' '.L('Search_result') : '').
-' &middot; <a href="'.Href('qtim_gmap_adm_sections.php').'">'.L('Gmap.define_sections').'...</a>
+' &middot; <a href="'.url('qtim_gmap_adm_sections.php').'">'.L('Gmap.define_sections').'...</a>
 </td>
 </tr>
 </table>

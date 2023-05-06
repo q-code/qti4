@@ -53,7 +53,7 @@ const HIDE_MENU_TOC=true;
 $oH->links['cssIcons']=''; // remove webicons
 include APP.'_adm_inc_hd.php';
 
-echo '<form method="post" action="',Href($oH->selfurl),'">
+echo '<form method="post" action="',url($oH->selfurl),'">
 <h2 class="config">SMTP Settings</h2>
 <table class="t-conf">
 <tr>

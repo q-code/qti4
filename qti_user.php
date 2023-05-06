@@ -181,22 +181,22 @@ if ( $canEdit )
 {
   if ( !empty(qtExplodeGet($_SESSION[QT]['formatpicture'],'mime')) )
   {
-  echo '<p><a href="'.Href('qti_user_img.php').'?id='.$id.'">'.L('Change_picture').'</a></p>';
+  echo '<p><a href="'.url('qti_user_img.php').'?id='.$id.'">'.L('Change_picture').'</a></p>';
   }
-  echo '<p><a href="'.Href('qti_register.php').'?a=sign&id='.$id.'">'.L('Change_signature').'</a></p>';
-  echo '<p><a href="'.Href('qti_register.php').'?a=pwd&id='.$id.'">'.L('Change_password').'</a></p>';
-  echo '<p><a href="'.Href('qti_register.php').'?a=qa&id='.$id.'">'.L('Secret_question').'</a></p>';
+  echo '<p><a href="'.url('qti_register.php').'?a=sign&id='.$id.'">'.L('Change_signature').'</a></p>';
+  echo '<p><a href="'.url('qti_register.php').'?a=pwd&id='.$id.'">'.L('Change_password').'</a></p>';
+  echo '<p><a href="'.url('qti_register.php').'?a=qa&id='.$id.'">'.L('Secret_question').'</a></p>';
   if ( SUser::role()==='A' || (SUser::id()==$id && QT_CHANGE_USERNAME) ) {
-  if ( $id>0 ) echo '<p><a href="'.Href('qti_register.php').'?a=name&id='.$id.'">'.L('Change_name').'</p></a>';
+  if ( $id>0 ) echo '<p><a href="'.url('qti_register.php').'?a=name&id='.$id.'">'.L('Change_name').'</p></a>';
   }
   if ( $id>1 && (SUser::id()===$id || SUser::role()==='A') )
   {
-  echo '<p><a href="'.Href('qti_register.php').'?a=out&id='.$id.'">'.L('Unregister').'</a></p>';
+  echo '<p><a href="'.url('qti_register.php').'?a=out&id='.$id.'">'.L('Unregister').'</a></p>';
   }
 }
 if ( SUser::canAccess('show_calendar') )
 {
-echo '<p><a href="'.Href('qti_calendar.php').(empty($row['birthday']) ? '' : '?m='.substr($row['birthday'],4,2)).'">'.L('Birthdays_calendar').'</a></p>';
+echo '<p><a href="'.url('qti_calendar.php').(empty($row['birthday']) ? '' : '?m='.substr($row['birthday'],4,2)).'">'.L('Birthdays_calendar').'</a></p>';
 }
 if ( !empty($row['closed']) ) echo '<hr/>'.show_ban(SUser::role(),$row['closed'],$row['name']);
 
@@ -208,7 +208,7 @@ echo '</div>
 if ( $_SESSION[QT]['editing'] ) {
 // -- EDIT PROFILE --
 
-echo '<form method="post" action="'.Href('qti_user.php').'?id='.$id.'">
+echo '<form method="post" action="'.url('qti_user.php').'?id='.$id.'">
 <table class="t-profile">
 <tr><th>'.L('Username').'</th><td clss="c-name">'.$row['name'].'</td></tr>
 <tr><th>'.L('Role').'</th><td>'.L('Role_'.$row['role']).'</td></tr>
@@ -292,15 +292,15 @@ echo '
 $strParticip = '';
 if ( $items>0 )
 {
-$strParticip .= '<a href="'.Href('qti_items.php').'?q=user&v2='.$id.'&v='.urlencode($row['name']).'">'.L('Item',$items).'</a>, ';
+$strParticip .= '<a href="'.url('qti_items.php').'?q=user&v2='.$id.'&v='.urlencode($row['name']).'">'.L('Item',$items).'</a>, ';
 }
 if ( $countmessages>0 )
 {
-  $strParticip .= '<a href="'.Href('qti_items.php').'?q=userm&v2='.$id.'&v='.urlencode($row['name']).'">'.L('Message',$countmessages).'</a>';
+  $strParticip .= '<a href="'.url('qti_items.php').'?q=userm&v2='.$id.'&v='.urlencode($row['name']).'">'.L('Message',$countmessages).'</a>';
   $strParticip .= ', '.strtolower($L['Last_message']).' '.qtDatestr($row['lastdate'],'$','$',true);
   $oDB->query( 'SELECT p.id,p.topic,p.section FROM TABPOST p WHERE p.userid='.$id.' ORDER BY p.issuedate DESC' );
   $row2 = $oDB->getRow();
-  $strParticip .= ' <a href="'.Href('qti_item.php').'?t='.$row2['topic'].'#p'.$row2['id'].'" title="'.L('Goto_message').'">'.getSVG('caret-square-right').'</a>';
+  $strParticip .= ' <a href="'.url('qti_item.php').'?t='.$row2['topic'].'#p'.$row2['id'].'" title="'.L('Goto_message').'">'.getSVG('caret-square-right').'</a>';
 }
 
 echo '

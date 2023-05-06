@@ -110,7 +110,7 @@ echo '<h2>'.L('Search_criteria').'</h2>'.PHP_EOL;
 if ( !empty($criteriaError) ) echo '<p class="error">'.$criteriaError.'</p>';
 
 // SEARCH BY KEY
-echo '<form method="post" action="'.Href($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <section class="search-box criteria">
 '.getSVG('search', 'class=filigrane').'
 <div>'.L('Keywords').' <div id="ac-wrapper-kw" class="ac-wrapper"><input required type="text" id="kw" name="v" size="40" maxlength="64" value="'.($q=='kw' ? qtAttr($v,0,'&quot;') : '').'" data-multi="1"/></div>*</div>
@@ -133,7 +133,7 @@ foreach($_Sections as $mSec)
 }
 if ( $refExists )
 {
-echo '<form method="post" action="'.Href($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.getSVG('search', 'class=filigrane').'
 <div>'.L('Ref').' <div id="ac-wrapper-ref" class="ac-wrapper"><input required type="text" id="ref" name="v" size="5" minlength="1" maxlength="10" value="'.($q=='ref' ? qtAttr($v,0,'&quot;') : '').'"/>&nbsp;<label for="title">'.L('H_Reference').'</label></div></div>
@@ -149,7 +149,7 @@ echo '<form method="post" action="'.Href($oH->selfurl).'" autocomplete="off">
 
 // SEARCH BY STATUS, DATE & TAGS
 $arrS = SMem::get('_Statuses');
-echo '<form method="post" action="'.Href($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.getSVG('search', 'class=filigrane').'
 <div>'.L('Status').'&nbsp;<select id="st" name="st" size="1">
@@ -174,7 +174,7 @@ if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-
 ';
 
 // SEARCH NAME
-echo '<form method="post" action="'.Href($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.getSVG('search', 'class=filigrane').'
 <div>
@@ -193,7 +193,7 @@ echo '<form method="post" action="'.Href($oH->selfurl).'" autocomplete="off">
 // when btw is used, v and v2 are reset to no be visible in other forms
 $date1 = ''; if ( $q=='btw' && strlen($v)==8 ) { $date1 = substr($v,0,4).'-'.substr($v,4,2).'-'.substr($v,6,2); $v=''; }
 $date2 = ''; if ( $q=='btw' && strlen($v2)==8 ) { $date2 = substr($v2,0,4).'-'.substr($v2,4,2).'-'.substr($v2,6,2);  $v2=''; }
-echo '<form method="post" action="'.Href($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.getSVG('search', 'class=filigrane').'
 <div>'.L('Between_date').' <input required type="date" id="date1" name="v" size="20" value="'.$date1.'" min="2000-01-01"/>

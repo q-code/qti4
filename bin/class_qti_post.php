@@ -236,7 +236,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   // prepare title //!!! wished date style
   $strTitle = $this->type=='D' ? '<span title="'.$this->text.'">'.L('Message_deleted').'</span>' : $this->title;
   if ( $this->type==='P' && !empty($oS->wisheddate) && !empty($oT->wisheddate) ) {
-    $strLink = '<a'.(SUser::canAccess('show_calendar') ? ' href="'.Href('qti_calendars.php').'?s='.$oS->id.'&v=wisheddate&y='.substr($oT->wisheddate,0,4).'&m='.substr($oT->wisheddate,4,2).'"' : '').' title="'.L('Calendar').': '.qtDatestr($oT->wisheddate,'Y-m-d','',true).'">%s</a>';
+    $strLink = '<a'.(SUser::canAccess('show_calendar') ? ' href="'.url('qti_calendars.php').'?s='.$oS->id.'&v=wisheddate&y='.substr($oT->wisheddate,0,4).'&m='.substr($oT->wisheddate,4,2).'"' : '').' title="'.L('Calendar').': '.qtDatestr($oT->wisheddate,'Y-m-d','',true).'">%s</a>';
     $strTitle .= '<span class="wisheddate">&#8201;&middot;&#8201;'.L('Wisheddate').': '.sprintf($strLink,qtDatestr($oT->wisheddate,'d M','',true)).'</span>';
   }
   // message attachment and signature
@@ -247,7 +247,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   // show the image (if any)
   if ( !empty($this->attach) && strpos($str, 'src="@"') && in_array(substr($this->attach,-4,4),array('.gif','.jpg','jpeg','.png')) ) $str = str_replace('src="@"','src="'.QT_DIR_DOC.$this->attach.'"',$str);
   // if message shortened
-  if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.Href('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
+  if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.url('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
   $msg .= $str.'</p>'.PHP_EOL;
   // attachements
   if ( !empty($this->attach) ) $msg .= '<p class="post-attachment">'.getSVG('paperclip', 'title='.L('Attachment')).' <a href="'.QT_DIR_DOC.$this->attach.'" class="attachment" target="_blank">'.$this->getSrcAttach().'</a></p>';
@@ -267,18 +267,18 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
     {
       if ( $oT->status==='Z' && $oS->status==='0' )
       {
-        $strEndLine .= '<a class="button" href="'.Href('qti_edit.php').'?t='.$oT->id.'&a=qu&p='.$this->id.'">'.L('Quote').'</a>';
+        $strEndLine .= '<a class="button" href="'.url('qti_edit.php').'?t='.$oT->id.'&a=qu&p='.$this->id.'">'.L('Quote').'</a>';
       }
       if ( $this->userid==SUser::id() || SUser::isStaff() )
       {
-        $strEndLine .= '<a class="button" href="'.Href('qti_edit.php').'?t='.$oT->id.'&p='.$this->id.'&a=ed">'.L('Edit').'</a>';
+        $strEndLine .= '<a class="button" href="'.url('qti_edit.php').'?t='.$oT->id.'&p='.$this->id.'&a=ed">'.L('Edit').'</a>';
         if ( $this->type=='P')
         {
-          $strEndLine .= '<a class="button" href="'.Href('qti_dlg.php').'?s='.$oS->id.'&a=itemDelete&ids='.$oT->id.($this->type=='P' ? '' : '&p='.$this->id).'">'.L('Delete').'</a>';
+          $strEndLine .= '<a class="button" href="'.url('qti_dlg.php').'?s='.$oS->id.'&a=itemDelete&ids='.$oT->id.($this->type=='P' ? '' : '&p='.$this->id).'">'.L('Delete').'</a>';
         }else{
-          $strEndLine .= '<a class="button" href="'.Href('qti_dlg.php').'?s='.$oS->id.'&a=replyDelete&t='.$oT->id.'&p='.$this->id.'">'.L('Delete').'</a>';
+          $strEndLine .= '<a class="button" href="'.url('qti_dlg.php').'?s='.$oS->id.'&a=replyDelete&t='.$oT->id.'&p='.$this->id.'">'.L('Delete').'</a>';
         }
-        if ( $oT->type==='I' && $this->type==='P' ) $strEndLine .= '<a class="button" href="'.Href('qti_dlg.php').'?a=itemParam&ids='.$oT->id.'">'.L('Parameters').'</a>';
+        if ( $oT->type==='I' && $this->type==='P' ) $strEndLine .= '<a class="button" href="'.url('qti_dlg.php').'?a=itemParam&ids='.$oT->id.'">'.L('Parameters').'</a>';
       }
     }
   }
@@ -293,7 +293,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   <div class="g-p-type"><p class="i-container">'.$strIcon.'</p></div>
   <div class="g-p-title">
     <p class="post-title-r">'.$strTitle.'</p>
-    <p class="post-title-l" data-num="'.$this->num.'"><a href="'.Href('qti_user.php').'?id='.$this->userid.'">'.$this->username.'</a>&#8201;&middot;&#8201;'.qtDatestr($this->issuedate,'$','$',true).'</p>
+    <p class="post-title-l" data-num="'.$this->num.'"><a href="'.url('qti_user.php').'?id='.$this->userid.'">'.$this->username.'</a>&#8201;&middot;&#8201;'.qtDatestr($this->issuedate,'$','$',true).'</p>
   </div>
   <div class="g-p-msg article">'.$picUser.$msg.'</div>
   <div class="g-p-status"><p class="post-cmd">'.$strEndLine.'</p></div>
@@ -315,7 +315,7 @@ public function renderInspectionResult(CSection $oS, CTopic $oT, bool $avatar=tr
   // show the image (if any)
   if ( !empty($this->attach) && strpos($str, 'src="@"') && in_array(substr($this->attach,-4,4),array('.gif','.jpg','jpeg','.png')) ) $str = str_replace('src="@"','src="'.QT_DIR_DOC.$this->attach.'"',$str);
   // if message shortened
-  if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.Href('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
+  if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.url('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
   $msg .= $str.'</p>'.PHP_EOL;
   // attachements
   if ( !empty($this->attach) ) $msg .= '<p><small>'.getSVG('paperclip', 'title='.L('Attachment')).' <a href="'.QT_DIR_DOC.$this->attach.'" class="attachment" target="_blank">'.$this->getSrcAttach().'</a></small></p>';

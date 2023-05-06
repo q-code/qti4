@@ -175,7 +175,7 @@ if ( SUser::isStaff() )
 {
 echo '<div class="right">
 <div id="optionsbar" title="'.L('My_preferences').'">
-<form method="get" action="'.Href($oH->selfurl).'" id="modaction">
+<form method="get" action="'.url($oH->selfurl).'" id="modaction">
 '.L('Options').'&nbsp;<input type="hidden" name="s" value="'.$s.'"/>
 <input type="hidden" name="v" value="'.$v.'"/>
 <input type="hidden" name="y" value="'.$intYear.'"/>
@@ -209,7 +209,7 @@ if ( !isset($arrYears[intval(date('Y'))]) ) $arrYears[intval(date('Y'))]=intval(
 
 echo '<div id="ct-title" class="flex-sp">';
 echo '<h1>'.$L['dateMMM'][date('n',$dCurrentDate)].' '.date('Y',$dCurrentDate).', '.$oH->selfname.'</h1>';
-echo '<form method="get" action="'.Href($oH->selfurl).'" id="cal_month">';
+echo '<form method="get" action="'.url($oH->selfurl).'" id="cal_month">';
 echo '<input type="hidden" name="s" value="'.$s.'"/> ';
 echo '<input type="hidden" name="y" value="'.$intYear.'"/> ';
 echo L('Month').' <select name="m" onchange="document.getElementById(`cal_month`).submit();">';
@@ -267,7 +267,7 @@ for ($intWeek=0;$intWeek<6;++$intWeek)
         $strPname = $intShiftDay.' '.$L['dateMMM'][date('n',$dMonth)].' - ';
         if ( $s==$oT->pid ) { $strPname .= ($oS->numfield=='N' ? '' : sprintf($oS->numfield,$oT->numid)); } else { $strPname .= sprintf('%03s',$oT->numid); }
         $strPname .= ' '.$arrS[$oT->status]['name'];
-        $strPlink = '<a class="gmap" href="'.Href('qti_item.php').'?t='.$oT->id.'">'.L('Item').'</a>';
+        $strPlink = '<a class="gmap" href="'.url('qti_item.php').'?t='.$oT->id.'">'.L('Item').'</a>';
         $strPinfo = '<span class="small bold">Lat: '.QTdd2dms($oT->y).' <br>Lon: '.QTdd2dms($oT->x).'</span><br><span class="small">DD: '.round($oT->y,8).', '.round($oT->x,8).'</span><br>'.$strPlink;
         $oMapPoint = new CMapPoint($oT->y,$oT->x,$strPname,$strPname.'<br>'.$strPinfo);
 
@@ -297,7 +297,7 @@ for ($intWeek=0;$intWeek<6;++$intWeek)
         if ( $bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] && !empty($oT->y) && !empty($oT->x) ) {
         $strArgs = ' onmouseover="show_gmap(`'.$oT->y.','.$oT->x.'`);"';
         }}
-        echo '<a class="ajaxmouseover'.($oT->pid==$s ? '' : ' othersection').'" id="t'.$oT->id.'"'.$strArgs.' href="'.Href('qti_item.php').'?t='.$oT->id.'">'.$strTicon.'</a> ';
+        echo '<a class="ajaxmouseover'.($oT->pid==$s ? '' : ' othersection').'" id="t'.$oT->id.'"'.$strArgs.' href="'.url('qti_item.php').'?t='.$oT->id.'">'.$strTicon.'</a> ';
       }
 
     }
@@ -364,7 +364,7 @@ for ($intWeek=0;$intWeek<6;$intWeek++)
     if ( date('n',$dCurrentDate)==date('n',$d) )
     {
       echo '<td class="date_next '.$arrWeekCss[$intDay].'"'.(date('z',$dToday)==date('z',$d) ? ' id="todaynext"' : '').'>';
-      echo isset($arrEventsN[$intShiftItem]) ? '<a class="date_next" href="'.Href('qti_calendars.php').'?s='.$s.'&m='.$intMonthN.'">'.$intShiftDay.'</a>' : $intShiftDay;
+      echo isset($arrEventsN[$intShiftItem]) ? '<a class="date_next" href="'.url('qti_calendars.php').'?s='.$s.'&m='.$intMonthN.'">'.$intShiftDay.'</a>' : $intShiftDay;
     }
     else
     {

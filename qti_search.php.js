@@ -30,7 +30,7 @@ function setToday() {
   if (d.getElementById("date1")) d.getElementById("date1").value = dt.toJSON().substring(0,10);
   if (d.getElementById("date2")) d.getElementById("date2").value = dt.toJSON().substring(0,10);
 }
-function addHrefDataset(d, reject=[]) {
+function addurlDataset(d, reject=[]) {
   if ( !d ) return;
   for(data in d.dataset) {
     if ( d.dataset[data]==="*" || d.dataset[data]==="" || reject.includes(data) ) continue;

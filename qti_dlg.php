@@ -115,7 +115,7 @@ case 'itemsType':
   // FORM (default type/status is U=unchanged)
 
   $frm_title = L('Change').' '.L('type').'/'.L('status');
-  $frm[] = '<form method="post" action="'.Href($oH->selfuri).'" onsubmit="return validateForm(this)">';
+  $frm[] = '<form method="post" action="'.url($oH->selfuri).'" onsubmit="return validateForm(this)">';
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,false,true);
@@ -124,7 +124,7 @@ case 'itemsType':
   $frm[] = '<p>'.L('Type').' <select id="newtype" name="type" size="1"><option value="U" selected>('.L('unchanged').')</option>';
   $frm[] .= asTags(CTopic::getTypes()).'</select> '.L('Status').' <select id="newstatus" name="status" size="1"><option value="U" selected>('.L('unchanged').')</option>'.asTags(CTopic::getStatuses('T',true)).'</select></p>';
   $frm[] = '</article>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
   $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/>';
   $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
   $frm[] = '</form>';
@@ -169,7 +169,7 @@ case 'itemsTags':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Change').' '.L('tags');
-  $frm[] = '<form method="post" action="'.Href($oH->selfuri).'" autocomplete="off">';
+  $frm[] = '<form method="post" action="'.url($oH->selfuri).'" autocomplete="off">';
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,true);
@@ -186,7 +186,7 @@ case 'itemsTags':
   $frm[] = '<input required type="text" id="tag-edit" name="tag-edit" size="15" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" data-multi="1" autocomplete="off"/><button type="reset" class="tag-btn" title="'.L('Reset').'" onclick="qtFocus(`tag-edit`)">'.getSVG('backspace').'</button>&nbsp;<button type="submit" name="tag-ok" class="tag-btn" value="addtag" title="'.L('Add').'">'.getSVG('plus').'</button><button type="submit" name="tag-ok" class="tag-btn" value="deltag" title="'.L('Delete_tags').'">'.getSVG('minus').'</button>';
   $frm[] = '</div>';
   $frm[] = '</article>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button></p>';
   $frm[] = '<input type="hidden" name="ids" value="'.$strIds.'"/><input type="hidden" name="uri" value="'.$parentUri.'"/>';
   $frm[] = '</form>';
   $oH->scripts['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" id="tagdesc" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
@@ -212,7 +212,7 @@ case 'itemsMove':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Move').' '.L('item+');
-  $frm[] = '<form method="post" action="'.Href($oH->selfuri).'" onsubmit="return validateForm(this)">';
+  $frm[] = '<form method="post" action="'.url($oH->selfuri).'" onsubmit="return validateForm(this)">';
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,false,true,true);
@@ -232,7 +232,7 @@ case 'itemsMove':
   </select></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="dropprefix" name="dropprefix" checked/> <label for="dropprefix">'.L('Remove').' '.L('item').' '.L('prefix').'</label></span></p>';
   $frm[] = '</article>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
   $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/><input type="hidden" name="uri" value="'.$parentUri.'"/>';
   $frm[] = '</form>';
 
@@ -274,7 +274,7 @@ case 'itemsMove':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Delete');
-  $frm[] = '<form method="post" action="'.Href($oH->selfuri).'" onsubmit="return validateForm(this)">';
+  $frm[] = '<form method="post" action="'.url($oH->selfuri).'" onsubmit="return validateForm(this)">';
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,false,true,true);
@@ -283,7 +283,7 @@ case 'itemsMove':
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteT" name="deleteT"/> <label for="deleteT">'.L('Delete').' '.L('item+').'</label></span></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteR" name="deleteR"/> <label for="deleteR">'.L('Delete').' '.L('reply+').'</label></span></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteA" name="dropattach"/> <label for="deleteA">'.L('Drop_attachments').'<small id="attachoption"></small></label></span></p>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' (<span id="submit-sum">...</span>)</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' (<span id="submit-sum">...</span>)</button></p>';
   $frm[] = '<input type="hidden" id="ids" name="ids" value="'.implode(',',$ids).'"/>';
   $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
   $frm[] = '</form>';
@@ -376,14 +376,14 @@ case 'replyDelete':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Delete');
-  $frm[] = '<form method="post" action="'.Href($oH->selfuri).'">';
+  $frm[] = '<form method="post" action="'.url($oH->selfuri).'">';
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Reply').':</p>';
   $frm[] = renderReply($p);
   $frm[] = '</article>';
   $frm[] = '<p class="row-confirm">'.L('Confirm').':</p>';
   $frm[] = '<p><span class="cblabel"><input required type="checkbox" id="deletereply" name="deletereply"/> <label for="deletereply">'.L('Delete').' '.L('reply').'</label></span></p>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '<input type="hidden" name="t" value="'.$t.'"/>';
   $frm[] = '<input type="hidden" name="p" value="'.$p.'"/>';
   $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
@@ -403,16 +403,16 @@ case 'itemParam':
 
   $arr = qtExplode($oT->param);
   // Support for legacy options-coding
-  if ( !isset($arr['Istatus']) && isset($arr['Itype']) ) $arr['Istatus']=$arr['Itype'];
-  if ( !isset($arr['Iaggr']) && isset($arr['Istat']) ) $arr['Iaggr']=$arr['Istat'];
+  if ( !isset($arr['Istatus']) && isset($arr['Itype']) ) $arr['Istatus'] = $arr['Itype'];
+  if ( !isset($arr['Iaggr']) && isset($arr['Istat']) ) $arr['Iaggr'] = $arr['Istat'];
 
   // SUBMITTED
   if ( isset($_POST['ok']) )
   {
     // change settings
-    $arr = qtArrAdd($arr,'Istatus',$_POST['status']);
-    $arr = qtArrAdd($arr,'Ilevel',$_POST['level']);
-    $arr = qtArrAdd($arr,'Iaggr',$_POST['aggr']);
+    $arr['Istatus'] = $_POST['status'];
+    $arr['Ilevel'] = $_POST['level'];
+    $arr['Iaggr'] = $_POST['aggr'];
     $oT->param = qtImplode($arr,';');
     $oT->updateMF('param');
 
@@ -430,7 +430,7 @@ case 'itemParam':
 
   // FORM
   $frm_title = L('Inspection').' '.L('Parameters');
-  $frm[] = '<form method="post" action="'.Href($oH->selfuri).'">';
+  $frm[] = '<form method="post" action="'.url($oH->selfuri).'">';
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item').':</p>';
   $frm[] = renderItems($ids,false,true,true);
@@ -460,7 +460,7 @@ case 'itemParam':
     ],
     $arr['Iaggr']).'</select></p>';
     $frm[] = '</article>';
-    $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.Href('qti_item.php').'?t='.$t.'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
+    $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url('qti_item.php').'?t='.$t.'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/>';
   $frm[] = '</form>';
 

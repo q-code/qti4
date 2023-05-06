@@ -3,7 +3,7 @@
 * @var CTopic $oT
 */
 echo '<div id="optionsbar">
-<form method="post" action="'.Href('qti_item.php').'" id="modaction">
+<form method="post" action="'.url('qti_item.php').'" id="modaction">
 <input type="hidden" name="s" value="'.$oT->pid.'"/>
 <input type="hidden" name="t" value="'.$oT->id.'"/>
 '.getSVG('user-M').'&nbsp;<select name="Maction" onchange="document.getElementById(`modaction`).submit()">
@@ -23,7 +23,7 @@ echo '</optgroup>
 </select>
 </form>
 ';
-echo '<form method="post" action="'.Href('qti_item.php').'" id="modactor" autocomplete="off">
+echo '<form method="post" action="'.url('qti_item.php').'" id="modactor" autocomplete="off">
 <input type="hidden" id="usr-t" value="M"/>
 <input type="hidden" name="s" value="'.$oT->pid.'"/>
 <input type="hidden" name="t" value="'.$oT->id.'"/>
