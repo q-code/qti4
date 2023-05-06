@@ -7,16 +7,20 @@
  * @param boolean|string $prefix file prefix (true for the default)
  * @return string the converted url, or the original url when urlrewrite is not active
  */
-function url(string $url='', string $ext='.html', bool $prefix=true)
+function url(string $url='', string $ext='.html', bool $hidePrefix=true)
 {
   if ( !QT_URLREWRITE ) return $url;
-  if ( $prefix ) $prefix = APP.'_';
-  if ( empty($url) ) die('url: empty argument');
+  if ( empty($url) ) die(__FUNCTION__.' url empty');
   // Ex: 'qtx_login.php?a=1' becomes 'login.html?a=1'
-  $i = strlen($prefix);
-  if ( $i && substr($url,0,$i)===$prefix ) $url = substr($url,$i); // $i>0
-  if ( strpos($url,'.php') ) $url = str_replace('.php',$ext,$url);
-  return $url;
+  if ( $hidePrefix )
+  {
+    $i = strlen(APP.'_');
+    if ( substr($url,0,$i)===APP.'_' ) $url = substr($url,$i);
+    // @version str_starts_with requires php8
+  }
+  $i = strrpos($url,'.php'); // only last .php is changed
+  if ( $i===false ) return $url;
+  return substr($url,0,$i).$ext.substr($url,$i+4);
 }
 function getSVG(string $id='info', string $attr='', string $wrapper='', bool $addSvgClass=false)
 {
@@ -113,14 +117,21 @@ function attrAddClass(array &$arr, string $value='')
  * @param string $format format when $n is used ('n w' shows the number+word, '' hides the number and shows only the word)
  * @param array $A dictionnary (automatically assigned to the global dictionnary $L by default)
  * @param string $pk parentkey (automatically assigned when accessing sub-dictionnary)
- * @param bool $dropDoublequote (default true) removes " to secure html attr value insertion
+ * @param bool $dropDoublequote (default true) removes " to secure html attr value
  * @return string|array (can be an array of all sub-items when 'key.*' is requested)
  */
 function L(string $k, int $n=null, string $format='n w', array $A=[], string $pk='', bool $dropDoublequote=true)
 {
   // Initialise
-  if ( empty($A) ) { global $L; $A = $L; } // if no dictionnary, uses global dictionnary $L
-  $str = substr($k,-2)==='.*' ? [] : $pk.$k; // default result is the key (if dico entry not found) or an empty array (if dico array not found)
+  if ( !$A ) { global $L; $A = $L; } // if no dictionnary, uses global dictionnary $L
+  $res = substr($k,-2)==='.*' ? [] : $pk.$k; // failed returns the key (or an empty array)
+  // On key with '.' works recursively (sub-dictionnary $A[...])
+  if ( strpos($k, '.')>0 ) {
+    $part = explode('.', $k, 2);
+    $pk = $part[0];
+    if ( empty($A[$pk]) || !is_array($A[$pk]) || $part[1]==='' ) return $res; // check sub-dictionnary exists (and a sub-key was in $k)
+    return $part[1]==='*' ? $A[$pk] : L($part[1], $n, $format, $A[$pk], $pk.'.');
+  }
   // Format (formula shortcut)
   // Note: php format can also be used, but pay attention that $format is only used when a $n exists (not null) and that the word will be the 2nd input in the formula
   switch($format){
@@ -130,61 +141,51 @@ function L(string $k, int $n=null, string $format='n w', array $A=[], string $pk
     case '': $f = '%2$s'; break;
     default: $f = $format;
   }
-  // Check subarray request (use recursive call)
-  if ( strpos($k, '.')>0 ) {
-    $part = explode('.', $k, 2);
-    if ( empty($A[$part[0]]) || !is_array($A[$part[0]]) ) return $str;
-    if ( $part[1]==='*' ) return $A[$part[0]];
-    return L($part[1], $n, $format, $A[$part[0]], $part[0].'.');
-  }
   // Check if plural form must be searched (i.e. search for key with '+')
   $p = $n===null || $n<2 ? '' : '+';
   // Resolve word
   if ( !empty($A[$k.$p]) ) {
-    $str = $A[$k.$p];
+    $res = $A[$k.$p];
   } elseif ( !empty($A[ucfirst($k.$p)]) ) {
-    $str = mb_strtolower($A[ucfirst($k.$p)]);
+    $res = mb_strtolower($A[ucfirst($k.$p)]);
   } elseif ( !empty($A[$k]) ) {
-    $str = $A[$k];
+    $res = $A[$k];
   } elseif ( !empty($A[ucfirst($k)]) ) {
-    $str = mb_strtolower($A[ucfirst($k)]);
+    $res = mb_strtolower($A[ucfirst($k)]);
   } else {
-    if ( substr($str,0,2)==='E_' ) $str = 'error: '.substr($str,2); // key is an (un-translated) error code, returns the error code
-    if ( strpos($str,'_')!==false ) $str = str_replace('_',' ',$str); // When word is missing, returns the key code without _ (with the parentkey if used)
-    if ( isset($_SESSION['QTdebuglang']) && $_SESSION['QTdebuglang'] ) $str = '<span style="color:red;text-shadow:0 0 2px black">'.$str.'</span>';
+    if ( substr($res,0,2)==='E_' ) $res = 'error: '.substr($res,2); // key is an (un-translated) error code, returns the error code
+    if ( strpos($res,'_')!==false ) $res = str_replace('_',' ',$res); // When word is missing, returns the key code without _ (with the parentkey if used)
+    if ( isset($_SESSION['QTdebuglang']) && $_SESSION['QTdebuglang'] ) $res = '<span style="color:red;text-shadow:0 0 2px black">'.$res.'</span>';
   }
   // Return the word (with $n if not null)
-  if ( $dropDoublequote && strpos($str,'"')!==false ) $str = str_replace('"','',$str);
-  return $n===null ? $str : sprintf($f, $format==='k w' ? intK($n) : $n, $str);
-/*
-ABOUT KEYS:
-A dot in the key indicates a sub-dictionnary entry (when words are stored in array of array)
-Dictionnary have case-sensitive keys (and first character is uppercase) and can have language specific plural form (key+)
-Using lowercase-key will lowercase the translation
-  Example in french:
-  L('Save') returns 'Sauver',
-  L('save') returns 'sauver'
-You can add a number $n as second argument to request the plural form of a word. When $n>1 the plural form is returned (if the plural form is not defined in the dictionnary, the singular translation is returned)
-By default when a number is defined, it is added before the word. You can hide this number using $format=''
-  Example in french:
-  L('Domain',0) returns '0 Domaine' - here no plural (the number is inserted by default)
-  L('domain',1) returns '1 domaine' - same but lowercase version
-  L('Domain',2) returns '2 Domaines' - returns the plural version
-  L('Domain',2,'') returns 'Domaines' - returns the plural version, while the number is hidden
-Sub-array level are accessible with the dot-key (and can be returned as array with key.*)
-  Example:
-  L('DateMMM.Ja') returns 'January'
-  L('DateMMM.*') returns ['January',...,'Decembre']
-  Tips: When using sub-array, only the last key can be used to switch to the lowercase version
-  L('DateMMM.ja') returns 'january'
-  L('datemmm.ja') will fail (and the key is returned)
-Fallback - If the requested key (or subkey) is not defined in the language file (or the sub-array is not defined) the function returns the key itself without '_'
-  Example:
-  L('Unknown_key') returns 'Unknown key'
-  L('Error.404') returns 'Error.404'
-  L('E_101') [key used as error code] returns 'error: 101' when not defined in the language file.
-Debug - If you define a session variable 'QTdebuglang' set to '1', the function shows in red the key not defined in the language file. A session variable can be set with url 'index.php?debuglang=1'
-*/
+  if ( $dropDoublequote && strpos($res,'"')!==false ) $res = str_replace('"','',$res);
+  return $n===null ? $res : sprintf($f, $format==='k w' ? intK($n) : $n, $res);
+  /*
+  ABOUT KEYS:
+  A dot in the key indicates a sub-dictionnary entry (when words are stored in array of array)
+  Dictionnary have case-sensitive keys (and first character is uppercase) and can have language specific plural form (key+)
+  Using lowercase-key will lowercase the translation
+  You can add a number $n as second argument to request the plural form of a word. When $n>1 the plural form is returned (if the plural form is not defined in the dictionnary, the singular translation is returned)
+  By default, when a number is defined, it is added before the word. Use $format='' to hide it.
+    Example in french:
+    L('Domain',0) returns '0 Domaine' - here no plural (the number is inserted by default)
+    L('domain',1) returns '1 domaine' - same but lowercase version
+    L('Domain',2) returns '2 Domaines' - returns the plural version
+    L('Domain',2,'') returns 'Domaines' - returns the plural version and hidden number
+  Sub-array level are accessible with the dot-key (and can be returned as array with key.*)
+    Example:
+    L('DateMMM.Ja') returns 'January'
+    L('DateMMM.*') returns ['January',...,'Decembre']
+    Tips: When using sub-array, only the last key can be used to switch to the lowercase version
+    L('DateMMM.ja') returns 'january'
+    L('datemmm.ja') will fail (and the key is returned)
+  Fallback - If the requested key (or subkey) is not defined in the language file (or the sub-array is not defined) the function returns the key itself without '_'
+    Example:
+    L('Unknown_key') returns 'Unknown key'
+    L('Error.404') returns 'Error.404'
+    L('E_101') [key used as error code] returns 'error: 101' when not defined in the language file.
+  Debug - If you define a session variable 'QTdebuglang' set to '1', the function shows in red the key not defined in the language file. A session variable can be set with url 'index.php?debuglang=1'
+  */
 }
 function qtCtype_digit(string $str)
 {
@@ -194,7 +195,7 @@ function qtCtype_digit(string $str)
   return false;
 }
 /**
- * Assign GET/POST values into typed-variables listed in $def with prefix str: int: boo: or flo: defining the type. Suffix ! means a GET/POST is required
+ * Assign GET/POST values into typed-variables listed in $def. Suffix ! means a GET/POST is required
  * @param string $def list of type:variable, space separated. Ex. "a! b int:c boo:d"
  * @param boolean $inGet read value from $_GET
  * @param boolean $inPost read value from $_POST
@@ -315,16 +316,15 @@ function qtAttr(string $str, int $size=0, string $unquote='')
  * When duplicate keys exist, the last value overwrites previous values<br>
  * Key without a value is valid i.e. 'key1=;key2=value2' returns ['key1'=>'','key2'=>'value2']</p>
  */
-function qtExplode(string $str, string $sep=';', array $skip=[], string $fx='')
+function qtExplode(string $str, string $sep=';', array $skip=[])
 {
   if ( empty($str) ) return [];
-  if ( !empty($fx) && !function_exists($fx) ) die('qtExplode: '.$fx.' is unknown function');
   $arr = [];
   foreach(explode($sep,$str) as $str) {
-    if ( empty($str) || strpos($str,'=')===false ) continue; // skip parts without =
+    if ( strpos($str,'=')===false ) continue; // skip parts without =
     $parts = explode('=',$str,2); $parts[0] = trim($parts[0]); // trim the keys
     if ( $parts[0]==='' || ($skip && in_array($parts[0], $skip, true)) ) continue;
-    $arr[$parts[0]] = empty($fx) ? $parts[1] : $fx($parts[1]);
+    $arr[$parts[0]] = $parts[1];
   }
   return $arr;
   // array keys and $skips must be [string] (nevertheless php converts integer-like-keys to integers)
@@ -350,13 +350,13 @@ function asCleanArray(string $str, string $sep=';', array $append=[])
  * @param string $fx ex: 'urldecode' each value (key remains unchanged)
  * @return array (empty array when the uri does not contains query parts)
  */
-function qtExplodeUri(string $str='', array $skip=[], string $fx='')
+function qtExplodeUri(string $str='', array $skip=[])
 {
   if ( empty($str) ) $str = $_SERVER['REQUEST_URI'];
   $str = parse_url($str,PHP_URL_QUERY); // null if no url query part
   if ( empty($str) ) return [];
   if ( strpos($str,'&amp;')!==false ) $str = str_replace('&amp;','&',$str);
-  return qtExplode($str, '&', $skip, $fx);
+  return qtExplode($str, '&', $skip);
 }
 /**
  * Return the URI-part of the current REQUEST_URI
@@ -374,15 +374,15 @@ function qtURI(string $skip='', string $skipsep='|')
  * @param string $key
  * @param mixed $alt (value if key not found)
  * @param string $sep
- * @param string $fx
+ * @param array $skip
  * @return string can be also $alt [mixed]
  */
-function qtExplodeGet(string $str, string $key, $alt='', string $sep=';', array $skip=[], string $fx='')
+function qtExplodeGet(string $str, string $key, $alt='', string $sep=';', array $skip=[])
 {
   // qtExplodeGet('a=1;b=2', 'a') returns '1'
   if ( empty($str) ) die(__FUNCTION__.' Invalid multifield string');
   if ( empty($key) ) die(__FUNCTION__.' Invalid key');
-  $arr = qtExplode($str, $sep, $skip, $fx); // can be [] when str is empty
+  $arr = qtExplode($str, $sep, $skip); // can be [] when str is empty
   return isset($arr[$key]) ? $arr[$key] : $alt;
   // Note on alt:
   // for wrong format, $alt is returned. Ex: in 'a;b=2', a is not a declaration string, thus $alt is returned
@@ -397,14 +397,12 @@ function qtExplodeGet(string $str, string $key, $alt='', string $sep=';', array 
  * @param boolean $skipNull do not include key=value when value is null
  * @return string (or '' if $arr is empty)
  */
-function qtImplode(array $arr, string $sep='&', string $fx='', bool $skipNull=true)
+function qtImplode(array $arr, string $sep='&', bool $skipNull=true)
 {
-  if ( !empty($fx) && !function_exists($fx) ) die(__FUNCTION__.' requested function ['.$fx.'] is unknown');
   $str = '';
-  foreach($arr as $key=>$value)
-  {
+  foreach($arr as $key=>$value) {
     if ( $skipNull && is_null($value) ) continue;
-    $str .= (isset($str[0]) ? $sep : '').$key.'='.(empty($fx) ? $value : $fx($value));
+    $str .= (isset($str[0]) ? $sep : '').$key.'='.$value;
   }
   return $str;
 }

@@ -8,7 +8,7 @@ function makeFormCertificate(string $publickey)
     case '5ca766092492acd750e3061b032bd0d8':
     case '65699386509abf064aec83e5124c1f30':
     case 'b7033b5983ec3b0fef7b3c251f6d0b92':
-    case '3cb4bd2256f4642777c70f1cc0efcc77': return md5($publickey.APP.$_SERVER['REMOTE_ADDR'].QT_HASHKEY);
+    case '3cb4bd2256f4642777c70f1cc0efcc77': return md5($publickey.APP.$_SERVER['REMOTE_ADDR'].SECURE_QT_HASHKEY);
     default: global $oH; $oH->log[]='makeFormCertificate: cannot make certificate on public key '.$publickey; return '';
   }
   // Allow checking that POST requests come from a qtx page (register,login,search,items,item,edit)
