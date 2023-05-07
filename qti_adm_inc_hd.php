@@ -7,7 +7,7 @@
  * @var CDatabase $oDB
  */
 $oH->links['icon'] = '<link rel="shortcut icon" href="bin/css/qti_icon.ico"/>';
-$oH->links['cssBase'] = '<link rel="stylesheet" type="text/css" href="bin/css/qt_base.css"/>'; // attention qt_base
+$oH->links['cssBase'] = '<link rel="stylesheet" type="text/css" href="bin/css/qt_core.css"/>'; // attention qt_core
 unset($oH->links['cssContrast']);
 $oH->links['css'] = '<link rel="stylesheet" type="text/css" href="bin/css/qti_styles.css"/>';
 $oH->scripts[] = 'var e0 = '.(isset($L['E_editing']) ? '"'.L('E_editing').'"' : 'Data not yet saved. Quit without saving?').';';

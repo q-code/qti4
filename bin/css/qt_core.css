@@ -8,22 +8,22 @@ table{table-layout:auto;width:100%;border-collapse:separate;border-spacing:0;bor
 th, td{padding:0.2rem;text-align:left;vertical-align:middle;font-weight:normal}
 form{display:inline}
 input, button, textarea, select, optgroup, option{font:inherit}
-a, button, .button, .clickable, .magnifier{cursor:pointer} .disabled, .active, .current{cursor:default}
+button, .button, .clickable, .magnifier{cursor:pointer} .disabled, .active, .current{cursor:default}
 img{border:none;vertical-align:middle}
 button.nostyle,
 button.nostyle:hover{margin:0;padding:0;background:none;border:none}
-button.nostyle:focus{border:solid 1px black}
 
 /* FOCUS improvement */
-input:focus, select:focus, textarea:focus{outline:none;border:1px solid #000}
-a.button:focus, button:focus{outline:1px solid #ffff00; outline-offset:-2px}
-.cblabel:focus-within{outline:1px solid transparent;outline-offset:4px; animation:cblabel 600ms}
+:hover, :focus{opacity:1}
+input:focus, select:focus, textarea:focus{outline:none; border:1px solid #000}
+.cblabel:focus-within{outline:1px solid transparent; outline-offset:4px; animation:cblabel 600ms}
 @keyframes cblabel{from{outline-color:#000} to{outline-color:#FFF}}
 
 /* LAYOUT */
 @media screen and (max-width:840px){.secondary{display:none !important}}
 /* grid gap and padding */
-:root{--gap:6px} @media screen and (max-width:1023px) {:root{--gap:4px}}
+:root{--gap:6px}
+@media screen and (max-width:1023px) {:root{--gap:4px}}
 /* Responsive design flex (left-right)*/
 .flex-sp{display:flex;flex-direction:row;justify-content:space-between;align-items:center}
 .flex-sp.top{align-items:flex-start}
@@ -58,6 +58,7 @@ select{max-width:260px}
 /* INLINE (p has margin in article and msgbox) */
 article p, .article p, p.article, .msgboxbody p{margin-bottom:0.5rem}
 p.submit, .msgboxbody p.submit{margin:0.8rem 0 0 0;text-align:center}
+p.error{margin:0.3rem}
 p.debug{font-family:Arial;font-size:8pt}
 p.list{margin-bottom:2px}
 .indent{margin-left:1rem} .indent2{margin-left:2rem}
@@ -116,7 +117,7 @@ div.pan{margin: 0 0 10px 0;padding:10px 15px 15px 15px;border:1px solid #AAA;bac
 #splash{
 display:flex;align-items:center;opacity:0;z-index:12;position:fixed;top:20px;left:50%;
 margin-left:-150px;width:300px;padding:20px;
-font-weight:bold;white-space:pre-line;vertical-align:middle;
+color:black;font-weight:bold;white-space:pre-line;vertical-align:middle;
 background:#ffc;border:1px solid #666;border-radius:8px;box-shadow:0 0 5px 5px #AAA;
 }
 @keyframes splashFade{0%{opacity:0}100%{opacity:1}}/*javascript triggers animation: splashFade 2s ease 1s 2 alternate;*/
@@ -130,7 +131,7 @@ background:#ffc;border:1px solid #666;border-radius:8px;box-shadow:0 0 5px 5px #
   opacity:0.6;color:black;background-color:#e7e7e7;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:Calibri,Arial;font-size:min(1rem,20px)}
 .ac-list button:focus,
-.ac-list button:hover{box-shadow:unset}
+.ac-list button:hover{box-shadow:unset;opacity:1}
 
 .jvalue img{margin:0 4px 0 0}
 .jinfo{font-style:italic}

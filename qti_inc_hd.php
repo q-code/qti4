@@ -225,5 +225,5 @@ if ( $oH->selfurl==='qti_index.php' && !empty($bMyBoard) ) include 'qti_inc_mybo
 $str =  isset($oS) && $oS->id>=0 ? ' data-section-type="'.$oS->type.'" data-section-status="'.$oS->status.'"' : '';
 echo '<div id="main-ct" class="pg-'.baseFile($oH->selfurl).'"'.$str.'>
 ';
-if ( !empty($error) ) echo '<p id="infomessage" class="error center">'.$error.'</p>';
+if ( !empty($error) ) echo '<p class="error center">'.$error.'</p>';
 if ( isset($bodyctId) ) echo '<div id="pg-'.$bodyctId.'"></div>'.PHP_EOL;
