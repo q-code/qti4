@@ -221,7 +221,7 @@ if ( isset($_POST['dosend']) ) try {
 		$oT->title = $oP->title;
 		if ( $withDoc )
 		{
-      $strDir = getRepository('',$oP->id);
+      $strDir = getDataDir('',$oP->id);
       $oP->attach = $strDir.$oP->id.'_'.$_FILES['newdoc']['name'];
       copy($_FILES['newdoc']['tmp_name'],QT_DIR_DOC.$oP->attach);
 		  unlink($_FILES['newdoc']['tmp_name']);
@@ -250,7 +250,7 @@ if ( isset($_POST['dosend']) ) try {
 		$oP->issuedate = $now;
 		if ( $withDoc )
 		{
-      $strDir = getRepository('',$oP->id);
+      $strDir = getDataDir('',$oP->id);
       $oP->attach = $strDir.$oP->id.'_'.$_FILES['newdoc']['name'];
       copy($_FILES['newdoc']['tmp_name'],QT_DIR_DOC.$oP->attach);
 		  unlink($_FILES['newdoc']['tmp_name']);
@@ -299,7 +299,7 @@ if ( isset($_POST['dosend']) ) try {
     // Add attach
     if ( $withDoc )
     {
-      $strDir = getRepository('',$oP->id);
+      $strDir = getDataDir('',$oP->id);
       $oP->attach = $strDir.$oP->id.'_'.$_FILES['newdoc']['name'];
       copy($_FILES['newdoc']['tmp_name'],QT_DIR_DOC.$oP->attach);
       unlink($_FILES['newdoc']['tmp_name']);

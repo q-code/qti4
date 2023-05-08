@@ -257,9 +257,9 @@ function renderUserMailSymbol($row)
   if ( empty($row['mail']) || empty($row['id']) || !isset($row['privacy']) )
   return '<span class="disabled" title="no e-mail"><svg class="svg-symbol"><use href="#symbol-envelope" xlink:href="#symbol-envelope"></use></svg></span>';
   $str = '';
-  if ( (int)$row['privacy']===2 ) $str = asEmails($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
-  if ( (int)$row['privacy']===1 && SUser::role()!=='V' ) $str = asEmails($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
-  if ( SUser::id()==$row['id'] || SUser::isStaff() ) $str = asEmails($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
+  if ( (int)$row['privacy']===2 ) $str = renderEmail($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
+  if ( (int)$row['privacy']===1 && SUser::role()!=='V' ) $str = renderEmail($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
+  if ( SUser::id()==$row['id'] || SUser::isStaff() ) $str = renderEmail($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
   return $str;
 }
 
@@ -336,9 +336,9 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
     $str = '';
     if ( !empty($row['mail']) )
     {
-    if ( $row['privacy']==2 ) $str = asEmails($row['mail'],'icojava');
-    if ( $row['privacy']==1 && SUser::role()!=='V' ) $str = asEmails($row['mail'],'icojava');
-    if ( SUser::id()==$row['id'] || SUser::isStaff() ) $str = asEmails($row['mail'],'icojava');
+    if ( $row['privacy']==2 ) $str = renderEmail($row['mail'],'icojava');
+    if ( $row['privacy']==1 && SUser::role()!=='V' ) $str = renderEmail($row['mail'],'icojava');
+    if ( SUser::id()==$row['id'] || SUser::isStaff() ) $str = renderEmail($row['mail'],'icojava');
     }
     $row['u.mail'] = $str;
   }

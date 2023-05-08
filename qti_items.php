@@ -159,7 +159,7 @@ switch($q)
   case 'ref': $pageTitle .= sprintf( L('Search_results_ref'), $v[0] ); break;
   case 'qkw':
   case 'kw':
-    $arrVlbl = qtQuoted($v,"&'");
+    $arrVlbl = qtQuote($v,"&'");
     $to = isset($_GET['to']) ? $_GET['to'] : '0';
     $pageTitle .= sprintf( L('Search_results_keyword'), strtolower(implode(' '.L('or').' ',$arrVlbl)) );
     // for refine search detection: trim and remove quote on $v to avoid trailing quote be interpreted as a 2d word
@@ -181,7 +181,7 @@ switch($q)
   case 'insp': $pageTitle .= L('Search_results_'.$q); break;
   case 'adv':
     if ( empty($v2) ) $v2 = '*';
-    $arrVlbl = qtQuoted($v,"&'");
+    $arrVlbl = qtQuote($v,"&'");
     $pageTitle .= sprintf( L(empty($arrVlbl) ? 'Search_results' : 'Search_results_tags'), strtolower(implode(' '.L('or').' ',$arrVlbl)) );
     if ( $v2!=='*' ) {
       switch($v2){

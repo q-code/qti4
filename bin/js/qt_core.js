@@ -29,12 +29,12 @@ function qtToggle(id='tgl-container', display='block', idctrl='tgl-ctrl', attr='
     if ( ctrl ) ctrl.classList.toggle(attr);
   }
 }
-function qturlShow(a){
+function qtEmailShow(a){
   const emails = qtDecodeEmails(a.dataset.emails);
   a.href = 'mailto:' + emails;
   a.title = emails.indexOf(',')<1 ? emails : emails.split(',')[0]+', ...';
 }
-function qturlHide(a){
+function qtEmailHide(a){
   a.href = 'javascript:void(0)';
   a.title = '';
 }

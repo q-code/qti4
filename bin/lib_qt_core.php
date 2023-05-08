@@ -31,7 +31,6 @@ function getSVG(string $id='info', string $attr='', string $wrapper='', bool $ad
   if ( !empty($wrapper) ) $svg = '<'.$wrapper.attrRender($attr).'>'. $svg.'</'.$wrapper.'>';
   return $svg;
 }
-
 /**
  * Returns the language path (with final /)
  * @param string $str
@@ -47,7 +46,7 @@ function getLangDir(string $iso='')
   }
   return $dir.$iso.'/';
 }
-function getRepository(string $root='', int $id=0, bool $check=false)
+function getDataDir(string $root='', int $id=0, bool $check=false)
 {
   // Get directory/subdirectory for Id (with final /).
   $i1 = $id>0 ? floor($id/1000) : 0;
@@ -417,14 +416,11 @@ function qtImplode(array $arr, string $sep='&', bool $skipNull=true)
  */
 function qtMail(string $strTo, string $strSubject, string $strMessage, string $strCharset='utf-8', string $engine='')
 {
-  $strHeaders = 'Content-Type: text/plain; charset='.$strCharset;
   if ( $engine==='' ) $engine = $_SESSION[QT]['use_smtp'];
-  switch($engine)
-  {
+  switch($engine) {
   case '1':
     require 'bin/class/class.phpmailer.php';
-    if ( substr($_SESSION[QT]['smtp_host'],0,4)==='pop3' )
-    {
+    if ( substr($_SESSION[QT]['smtp_host'],0,4)==='pop3' ) {
       require 'bin/class/class.pop3.php';
       $pop = new POP3();
       $pop->Authorise($_SESSION[QT]['smtp_host'], $_SESSION[QT]['smtp_port'], 30, $_SESSION[QT]['smtp_username'], $_SESSION[QT]['smtp_password'], 1);
@@ -444,17 +440,16 @@ function qtMail(string $strTo, string $strSubject, string $strMessage, string $s
     $mail->Subject = $strSubject;
     $mail->Body    = $strMessage;
     $mail->AltBody = $strMessage;
-    if ( !$mail->Send() )
-    {
+    if ( !$mail->Send() ) {
       echo '<br>Message could not be sent.';
       echo '<br>Mailer Error: ' . $mail->ErrorInfo;
       echo '<br>Subject: '.$mail->Subject;
       echo '<br>Message: '.$mail->Body;
       exit;
     }
-    //echo "Message has been sent";
     break;
   default:
+    $strHeaders = 'Content-Type: text/plain; charset='.$strCharset;
     mail($strTo,$strSubject,$strMessage,'From:'.$_SESSION[QT]['admin_email']."\r\n".$strHeaders);
     break;
   }
@@ -482,10 +477,10 @@ function intK(int $n, string $unit='k', string $unit2='M')
  * @param bool $keepnumeric int/float are returned as int/float (not quoted)
  * @return string|array (with array, index and non-string element remain unchanged)
  */
-function qtQuoted($txt, string $q1='"', string $q2='', bool $keepNum=false)
+function qtQuote($txt, string $q1='"', string $q2='', bool $keepNum=false)
 {
   // Works recursively on array
-  if ( is_array($txt) ) { foreach($txt as $k=>$item) $txt[$k] = qtQuoted($item,$q1,$q2,$keepNum); return $txt; }
+  if ( is_array($txt) ) { foreach($txt as $k=>$item) $txt[$k] = qtQuote($item,$q1,$q2,$keepNum); return $txt; }
   // Returns a quoted string (except int/float with $keepNum=true)
   if ( $keepNum && (is_int($txt) || is_float($txt)) ) return $txt;
   if ( empty($q2) ) {
@@ -510,7 +505,6 @@ function qtQuoted($txt, string $q1='"', string $q2='', bool $keepNum=false)
   if ( is_string($txt) || is_int($txt) || is_float($txt) ) return $q1.$txt.$q2;
   throw new Exception( __FUNCTION__.' invalid argument' );
 }
-
 /**
  * Convert apostrophe (and optionally doublequote, &, <, >) to html entity (used for sql statement values insertion)
  * @param string $str
@@ -540,12 +534,6 @@ function qtDbDecode(string $str, bool $double=true, bool $amp=QT_CONVERT_AMP, bo
   if ( $amp && strpos($str,'&#38;')!==false ) $str = str_replace('&#38;','&',$str);
   return $str;
 }
-
-/**
- * Drop diacritics
- * @param string|array $str
- * @return string|array (with array, indexes remain unchanged)
- */
 function qtDropDiacritics($str) {
   // Works recursively on array
   if ( is_array($str) ) { foreach($str as $k=>$item) $str[$k] = qtDropDiacritics($item); return $str; }
@@ -555,26 +543,15 @@ function qtDropDiacritics($str) {
   $res = $tl->transliterate($str);
   return $res===false ? $str : $res;
 }
-/**
- * Truncate and add the trailing $end (works also on an array)
- * @param string|array $txt
- * @param integer $max maximum size (including trailing characters)
- * @param string $end trailing characters
- * @return string|array (with array, index and non-string element remain unchanged)
- */
 function qtTrunc($txt, int $max=255, string $end='...')
 {
-  if ( $max<1 ) die('qtTrunc arg #2 must be positif');
-  if ( is_string($txt) ) {
-    if ( $max<=strlen($end) ) $txt = $end; // truncate too short
-    if ( isset($txt[$max]) ) $txt = substr($txt,0,$max-strlen($end)).$end;
-    return $txt;
-  }
-  if ( is_array($txt) ) {
-    foreach($txt as $k=>$item) if ( is_string($item) || is_array($item) ) $txt[$k] = qtTrunc($item,$max,$end);
-    return $txt;
-  }
-  throw new Exception( 'invalid argument txt' );
+  // Works recursively on array
+  if ( is_array($txt) ) { foreach($txt as $k=>$item) $txt[$k] = qtTrunc($item,$max,$end); return $txt; }
+  // Truncate and add the trailing $end
+  if ( !is_string($txt) || $max<1 ) throw new Exception(__FUNCTION__.' invalid argument');
+  if ( $max<=strlen($end) ) return $end; // truncate too short
+  if ( isset($txt[$max]) ) $txt = substr($txt,0,$max-strlen($end)).$end;
+  return $txt;
 }
 /**
  * Convert multiline text into one line (truncate and unbbc)
@@ -694,7 +671,6 @@ function qtDateTranslate(string $str, array $translations)
   }
   return str_replace(array_keys($dico),array_values($dico),$str);
 }
-
 function qtBbc(string $str, string $nl='<br>', array $tip=array(), string $bold='<b>$1</b>', string $italic='<i>$1</i>')
 {
   // Converts bbc to html
@@ -772,7 +748,6 @@ function qtUnbbc(string $str, bool $deep=true, array $tip=array())
       array('$1','$1','$1','',($deep ? '' : '$1'),($deep ? '' : '$1'),($deep ? '' : '$1'),'$1','$1','$1','$1',($deep ? '' : $tip['Quotation'].': '),($deep ? '' : $tip['Quotation_from'].' $1: '),'',($deep ? '' : $tip['Code'].': '),''),
       $str );
 }
-
 function qtIsPwd(string $str, int $intMin=4, int $intMax=50, bool $trim=false)
 {
   if ( empty($str) ) return false;
@@ -781,11 +756,14 @@ function qtIsPwd(string $str, int $intMin=4, int $intMax=50, bool $trim=false)
   if ( !isset($str[$intMin-1]) ) return false; //length < $intMin
   return true;
 }
-function qtIsMail(string $str, bool $multiple=true)
+function qtIsMail($mails, bool $multiple=true)
 {
-  if ( empty($str) || $str!=trim($str) ) return false;
-  $arr = $multiple && strpos($str,',')!==false ? asCleanArray($str,',') : [$str];
-  foreach ($arr as $str) if ( !preg_match("/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i",$str) ) return false;
+  // Works recursively on array
+  if ( is_array($mails) ) { foreach($mails as $k=>$item) if ( !qtIsMail($item,$multiple) ) return false; return true; }
+  // string (or csv)
+  if ( !is_string($mails) || empty($mails) || $mails!==trim($mails) ) return false;
+  $mails = $multiple && strpos($mails,',')!==false ? asCleanArray($mails,',') : [$mails];
+  foreach ($mails as $mail) if ( !preg_match("/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i",$mail) ) return false;
   return true;
 }
 function qtIsBetween($n, $min=0, $max=99999)
@@ -795,8 +773,7 @@ function qtIsBetween($n, $min=0, $max=99999)
   // Only numeric
   if ( !is_numeric($n) || !is_numeric($min) || !is_numeric($max) ) die(__FUNCTION__.' arguments must be a numeric');
   if ( $min>=$max ) die(__FUNCTION__.' invalid min > max');
-  if ( $n<$min ) return false;
-  if ( $n>$max ) return false;
+  if ( $n<$min || $n>$max ) return false;
   return true;
 }
 function qtIsValiddate($d, bool $pastYear=true, bool $futurYear=false)
