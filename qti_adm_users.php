@@ -105,7 +105,7 @@ echo '</table>
 ';
 
 echo '</div>
-<div id="participants">
+<div id="participants" class="strongbox">
 <p class="title">'.L('Top_participants').'</p>
 <table>
 ';

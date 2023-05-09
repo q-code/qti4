@@ -90,7 +90,7 @@ echo '</p>
 </div>
 ';
 
-echo '<div id="participants"'.(isset($_POST['title']) ? ' style="display:none"' : '').'>
+echo '<div id="participants"'.(isset($_POST['title']) ? ' style="display:none"' : '').' class="strongbox">
 <p class="title">'.L('Top_participants').'</p>
 <table>
 ';
