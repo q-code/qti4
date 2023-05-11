@@ -6,7 +6,7 @@ echo '<div id="optionsbar">
 <form method="post" action="'.url('qti_item.php').'" id="modaction">
 <input type="hidden" name="s" value="'.$oT->pid.'"/>
 <input type="hidden" name="t" value="'.$oT->id.'"/>
-'.getSVG('user-M').'&nbsp;<select name="Maction" onchange="document.getElementById(`modaction`).submit()">
+'.qtSVG('user-M').'&nbsp;<select name="Maction" onchange="document.getElementById(`modaction`).submit()">
 <option hidden disabled selected>'.L('Staff').' '.L('commands').'...</option>
 <optgroup label="'.L('Item').'">
 <option value="reply">'.L('Reply').'...</option>

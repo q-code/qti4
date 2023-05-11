@@ -19,7 +19,7 @@ $oH->selfurl = APP.'_adm_time.php';
 $oH->selfname = 'Server time';
 $oH->selfparent = L('Settings');
 $oH->exiturl = APP.'_adm_region.php';
-$oH->exitname = getSVG('angle-left').' '.L('Board_region');
+$oH->exitname = qtSVG('angle-left').' '.L('Board_region');
 
 // Default time zone setting
 

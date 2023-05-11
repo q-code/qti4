@@ -64,7 +64,7 @@ $stats = isset($_SectionsStats) ? $_SectionsStats : SMem::get('_SectionsStats');
 $strStatusText = '';
 
 echo '<aside>'.PHP_EOL;
-echo '<a id="aside-ctrl" class="tgl-ctrl" onclick="toggleAside(); return false;" title="'.L('Showhide_legend').'">'.getSVG('info').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a>'.PHP_EOL;
+echo '<a id="aside-ctrl" class="tgl-ctrl" onclick="toggleAside(); return false;" title="'.L('Showhide_legend').'">'.qtSVG('info').qtSVG('angle-down','','',true).qtSVG('angle-up','','',true).'</a>'.PHP_EOL;
 echo '<div id="aside__info" class="article" style="display:none">'.PHP_EOL;
   echo '<h2>'.L('Information').'</h2>'.PHP_EOL;
   // section info
@@ -123,7 +123,7 @@ else
   echo '<p>'.asImg( QT_SKIN.'img/topic_i_0.gif', 'alt=I|class=i-item' ).' '.L('Ico_item_i').'</p>';
   foreach(CTopic::getStatuses() as $k=>$arrValue)
     echo '<p>'.asImg( QT_SKIN.'img/'.$arrValue['icon'], 'alt=T|class=i-item' ).' '.$arrValue['name'].'</p>';
-  if ( $oH->selfurl==='qti_item.php' ) echo '<p><span title="'.L('Ico_post_r').'">'.getSVG('comment-dots').'</span> '.L('Ico_post_r').'</p>';
+  if ( $oH->selfurl==='qti_item.php' ) echo '<p><span title="'.L('Ico_post_r').'">'.qtSVG('comment-dots').'</span> '.L('Ico_post_r').'</p>';
   echo '</div>'.PHP_EOL;
 }
 echo '</div>'.PHP_EOL;
@@ -157,9 +157,9 @@ echo '<footer class="flex-sp">
 ';
 
 // MODULE RSS
-if ( !$_SESSION[QT]['board_offline'] && useModule('rss') && $_SESSION[QT]['m_rss']=='1' ) {
+if ( !$_SESSION[QT]['board_offline'] && qtModule('rss') && $_SESSION[QT]['m_rss']=='1' ) {
 if ( SUser::role()!=='V' || SUser::role().substr($_SESSION[QT]['m_rss_conf'],0,1)==='VV' ) {
-  $navMenu->add('rss', 'text='.getSVG('rss-square').'|id=menu-rss|href=qtim_rss.php');
+  $navMenu->add('rss', 'text='.qtSVG('rss-square').'|id=menu-rss|href=qtim_rss.php');
 }}
 
 // footer menu extra definition

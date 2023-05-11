@@ -213,7 +213,7 @@ echo '</tr>'.PHP_EOL;
             }
             else
             {
-              echo '<a class="ajaxmouseover" id="u'.$arrValues['id'].'" href="'.url(APP.'_user.php').'?id='.$arrValues['id'].'" title="'.$arrValues['name'].' ('.$intAge.')">'.getSVG('user').'</a> ';
+              echo '<a class="ajaxmouseover" id="u'.$arrValues['id'].'" href="'.url(APP.'_user.php').'?id='.$arrValues['id'].'" title="'.$arrValues['name'].' ('.$intAge.')">'.qtSVG('user').'</a> ';
             }
             if ( $intDayEvents>7 ) break;
           }

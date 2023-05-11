@@ -1,4 +1,5 @@
 <?php // v4 build:20230430
+error_reporting(E_ALL);//!!!
 $_SESSION['QTdebugmem']=true;/*!!!*/
 
 // Connection config and Constants

@@ -24,7 +24,7 @@ $oH->selfurl = 'qti_adm_section.php';
 $oH->selfname = L('Section_upd');
 $oH->selfparent = L('Board_content');
 $oH->exiturl = 'qti_adm_sections.php';
-$oH->exitname = getSVG('angle-left').' '.L('Section+');
+$oH->exitname = qtSVG('angle-left').' '.L('Section+');
 
 $arrDomains = CDomain::getTitles();
 $arrStaff = getUsers('S');
@@ -157,7 +157,7 @@ echo '<form method="post" action="'.$oH->selfurl.'?s='.$s.'&pan='.$pan.'">
 <tr>
 <th style="width:150px; text-align:right"><span class="texthead">'.L('Domain').'</span></th>
 <td><select name="domain" onchange="qtFormSafe.not();">
-<option value="'.$oS->pid.'"'.' selected'.'>'.$arrDomains[$oS->pid].'</option>'.asTags($arrDest).'</select></td>
+<option value="'.$oS->pid.'"'.' selected'.'>'.$arrDomains[$oS->pid].'</option>'.qtTags($arrDest).'</select></td>
 </tr>
 </table>
 ';
@@ -194,7 +194,7 @@ echo '<input type="hidden" id="usr-t" value="M"/><input type="hidden" name="owne
 else
 {
 echo '<input type="hidden" name="owneridold" value="'.$oS->ownerid.'" onchange="qtFormSafe.not();"/>
-<select id="ownerid" class="stamprole" name="ownerid" onchange="qtFormSafe.not();" style="width:285px">'.asTags($arrStaff, $oS->ownerid).'</select>';
+<select id="ownerid" class="stamprole" name="ownerid" onchange="qtFormSafe.not();" style="width:285px">'.qtTags($arrStaff, $oS->ownerid).'</select>';
 }
 echo '</td>
 </tr>
@@ -208,24 +208,24 @@ echo '<h2 class="subconfig">'.L('Specific_fields').'</h2>
 </tr>
 <tr>
 <th style="text-align: right; width:150px"><span class="texthead"><label for="titlefield">'.L('Show_item_title').'</label></span></th>
-<td><select id="titlefield" name="titlefield" onchange="qtFormSafe.not();">'.asTags(L('Item_title.*'),$oS->titlefield).'</select>&nbsp;<span class="small">'.L('H_Show_item_title').'</span></td>
+<td><select id="titlefield" name="titlefield" onchange="qtFormSafe.not();">'.qtTags(L('Item_title.*'),$oS->titlefield).'</select>&nbsp;<span class="small">'.L('H_Show_item_title').'</span></td>
 </tr>
 <tr title="'.L('H_Item_prefix').'">
 <th style="text-align: right; width:150px"><span class="texthead"><label for="prefix">'.L('Item_prefix').'</label></span></th>
 <td>
 <select id="prefix" name="prefix" onchange="qtFormSafe.not();">
 <option value="0"'.($oS->prefix==='0' ? ' selected' : '').'>'.L('None').'</option>
-'.asTags(L('PrefixSerie.*'),$oS->prefix).'
+'.qtTags(L('PrefixSerie.*'),$oS->prefix).'
 </select>&nbsp;<a class="small" href="qti_adm_prefixicon.php" target="_blank">'.L('Item_prefix_demo').'</a>
 </td>
 </tr>
 <tr>
 <th style="text-align: right; width:150px"><span class="texthead"><label for="numfield">'.L('Show_item_wisheddate').'</label></span></th>
-<td><select id="wisheddate" name="wisheddate" onchange="qtFormSafe.not();">'.asTags(L('Item_wisheddate.*'),$wisheddate).'</select> default <select id="wisheddate_dflt" name="wisheddate_dflt" onchange="qtFormSafe.not();"'.($oS->wisheddate!=2 ? ' disabled' : '').'>'.asTags(array(0=>L('None'),L('dateSQL.Today'),L('Day').' +1',L('Day').' +2'),$wisheddate_dflt).'</select></td>
+<td><select id="wisheddate" name="wisheddate" onchange="qtFormSafe.not();">'.qtTags(L('Item_wisheddate.*'),$wisheddate).'</select> default <select id="wisheddate_dflt" name="wisheddate_dflt" onchange="qtFormSafe.not();"'.($oS->wisheddate!=2 ? ' disabled' : '').'>'.qtTags(array(0=>L('None'),L('dateSQL.Today'),L('Day').' +1',L('Day').' +2'),$wisheddate_dflt).'</select></td>
 </tr>
 <tr title="'.L('H_Show_item_notify').'">
 <th style="text-align: right; width:150px"><span class="texthead"><label for="alternate">'.L('Show_item_notify').'</label></span></th>
-<td><select id="alternate" name="alternate" onchange="qtFormSafe.not();"'.($oS->notify===0 ? ' disabled': '').'>'.asTags(L('Item_notify.*'),$oS->notifycc).'</select></td>
+<td><select id="alternate" name="alternate" onchange="qtFormSafe.not();"'.($oS->notify===0 ? ' disabled': '').'>'.qtTags(L('Item_notify.*'),$oS->notifycc).'</select></td>
 </tr>
 </table>
 ';
@@ -281,7 +281,7 @@ $strOrder = $oS->getMF('options','order','lastpostdate');
 echo '<tr>
 <th><span class="texthead">'.L('Default_items_order').'</span></th>
 <td>
-<select name="dfltorder" onchange="qtFormSafe.not();">'.asTags($arr,$strOrder).'</select>
+<select name="dfltorder" onchange="qtFormSafe.not();">'.qtTags($arr,$strOrder).'</select>
 </td>
 </tr>
 ';
@@ -295,7 +295,7 @@ $arr['none'] = L('None');
 $dflt_lastcol = $oS->getMF('options','last'); if  (strtolower($dflt_lastcol)==='n' || empty($dflt_lastcol) ) $dflt_lastcol = 'none';
 echo '<tr>
 <th><span class="texthead">'.L('Infofield').'</span></th>
-<td><select name="lastcolumn" onchange="qtFormSafe.not();">'.asTags($arr,$dflt_lastcol).'
+<td><select name="lastcolumn" onchange="qtFormSafe.not();">'.qtTags($arr,$dflt_lastcol).'
 </select></td>
 </tr>
 </table>

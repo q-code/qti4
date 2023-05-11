@@ -176,11 +176,11 @@ echo '
 <table class="t-conf">
 <tr title="',L('H_Visitors_can'),'">
 <th>',L('Visitors_can'),'</th>
-<td><select name="pal" onchange="qtFormSafe.not();">',asTags(L('Pal.*'),(int)$_SESSION[QT]['visitor_right']),'</select></td>
+<td><select name="pal" onchange="qtFormSafe.not();">',qtTags(L('Pal.*'),(int)$_SESSION[QT]['visitor_right']),'</select></td>
 </tr>
 <tr>
 <th>',L('View_memberlist'),'</th>
-<td><select name="memberlist" onchange="qtFormSafe.not();">',asTags($arr,$_SESSION[QT]['show_memberlist']),'</select></td>
+<td><select name="memberlist" onchange="qtFormSafe.not();">',qtTags($arr,$_SESSION[QT]['show_memberlist']),'</select></td>
 </tr>
 </table>
 ';
@@ -197,7 +197,7 @@ foreach($oDB->getSettings('param LIKE "m_%:login"') as $param=>$alias)
   if ( isset($_SESSION[QT][$addon]) && $_SESSION[QT][$addon]!=='0' ) $arrAddons[$addon] = 'Module '.$alias;
 }
 // If several authorities are possible, show a selector, otherwise shows '0' the internale authority
-$strAuth = count($arrAddons)==1 ? $arrAddons['0'] :'<select id="login_addon" name="login_addon" onchange="qtFormSafe.not();">'.asTags($arrAddons,$_SESSION[QT]['login_addon']).'</select>';
+$strAuth = count($arrAddons)==1 ? $arrAddons['0'] :'<select id="login_addon" name="login_addon" onchange="qtFormSafe.not();">'.qtTags($arrAddons,$_SESSION[QT]['login_addon']).'</select>';
 
 echo '<h2 class="config">',L('Registration'),'</h2>
 <table class="t-conf">
@@ -209,7 +209,7 @@ echo '<h2 class="config">',L('Registration'),'</h2>
 <th><label for="regmode">',L('Reg_mode'),'</label></th>
 <td>
 <select id="regmode" name="regmode" onchange="qtFormSafe.not();">
-',asTags(array('direct'=>L('Reg_direct'),'email'=>L('Reg_email'),'backoffice'=>L('Reg_backoffice')),$_SESSION[QT]['register_mode']),'
+',qtTags(array('direct'=>L('Reg_direct'),'email'=>L('Reg_email'),'backoffice'=>L('Reg_backoffice')),$_SESSION[QT]['register_mode']),'
 </select>
 </tr>
 ';
@@ -305,7 +305,7 @@ echo '<tr title="'.L('H_Allow_upload').'">
 <th>'.L('Allow_upload').'</th>
 <td>
 <select id="upload" name="upload" onchange="toggleParams(this.id,this.value); qtFormSafe.not();">
-'.asTags($arr,$_SESSION[QT]['upload']).'
+'.qtTags($arr,$_SESSION[QT]['upload']).'
 </select> <div id="upload-params" style="display:'.($_SESSION[QT]['upload']=='0' ? 'none' : 'inline-block').'">Max.<input type="number" id="uploadsize" name="uploadsize" min="1" max="'.QT_UPLOAD_MAXSIZE.'" value="'.$i.'" onchange="qtFormSafe.not();"/>Mb<small> (server limit '.(function_exists('ini_get') ? max_fileuploadbytes().'Mb' : 'unknown').')</small></div>
 </td>
 </tr>
@@ -313,14 +313,14 @@ echo '<tr title="'.L('H_Allow_upload').'">
 echo '<tr title="'.L('H_Show_calendar').'">
 <th>'.L('Show_calendar').'</th>
 <td>
-<select id="show_calendar" name="show_calendar" onchange="qtFormSafe.not();">'.asTags($arr,$_SESSION[QT]['show_calendar']).'</select>
+<select id="show_calendar" name="show_calendar" onchange="qtFormSafe.not();">'.qtTags($arr,$_SESSION[QT]['show_calendar']).'</select>
 </td>
 </tr>
 ';
 echo '<tr title="'.L('H_Show_statistics').'">
 <th>'.L('Show_statistics').'</th>
 <td>
-<select id="show_stats" name="show_stats" onchange="qtFormSafe.not();">'.asTags($arr,$_SESSION[QT]['show_stats']).'</select>
+<select id="show_stats" name="show_stats" onchange="qtFormSafe.not();">'.qtTags($arr,$_SESSION[QT]['show_stats']).'</select>
 </td>
 </tr>
 ';
@@ -333,13 +333,13 @@ $arr = array(
 echo '<tr>
 <th>'.L('Allow_tags').'</th>
 <td><select id="tags" name="tags">
-'.asTags($arr,$_SESSION[QT]['tags']).'
+'.qtTags($arr,$_SESSION[QT]['tags']).'
 </select></td>
 </tr>
 <tr>
 <td colspan="2" class="void">
-'.getSVG('info').' '.L('H_Allow_tags').'<br>
-'.getSVG('info').' '.L('Upload').': '.$strUploadmax.' (configuration limit '.QT_UPLOAD_MAXSIZE.'Mb)
+'.qtSVG('info').' '.L('H_Allow_tags').'<br>
+'.qtSVG('info').' '.L('Upload').': '.$strUploadmax.' (configuration limit '.QT_UPLOAD_MAXSIZE.'Mb)
 </td>
 </tr>
 </table>

@@ -240,7 +240,7 @@ if ( $_SESSION[QT]['board_offline']=='0' )
 {
 echo '
 <tr>
-<th>'.getSVG('exclamation-triangle').'</th>
+<th>'.qtSVG('exclamation-triangle').'</th>
 <td>It is recommended to turn the board off-line while importing. <a href="qti_adm_index.php">Board status...</a></td>
 </tr>
 ';
@@ -274,7 +274,7 @@ echo '<h2 class="config">'.$L['Destination'].'</h2>
 <tr>
 <th><label for="status">'.$L['Status'].'</label></th>
 <td><select id="status"  name="status">
-'.asTags(CTopic::getStatuses(),$strStatus).'</select></td>
+'.qtTags(CTopic::getStatuses(),$strStatus).'</select></td>
 </tr>
 <tr>
 <th>'.$L['Import_Dropdate'].'</th>

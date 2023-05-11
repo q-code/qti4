@@ -88,17 +88,17 @@ echo '<form method="post" action="'.$oH->selfurl.'">
 <table class="t-conf">
 <tr title="'.L('H_Board_skin').'">
 <th>'.L('Board_skin').'</th>
-<td class="flex-sp"><select name="skin" onchange="qtFormSafe.not();toggleCustomCss(this.value,`'.$currentCss.'`);">'.asTags($arrFiles,$currentCss).'</select><small id="custom-css">'.(empty($customCss) ? '' : '('.L('and').' custom.css <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$customCss.'" title="'.L('Edit').'" onclick="return qtFormSafe.exit(e0);">'.getSVG('pen-square').'</a>)').'</small></td>
+<td class="flex-sp"><select name="skin" onchange="qtFormSafe.not();toggleCustomCss(this.value,`'.$currentCss.'`);">'.qtTags($arrFiles,$currentCss).'</select><small id="custom-css">'.(empty($customCss) ? '' : '('.L('and').' custom.css <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$customCss.'" title="'.L('Edit').'" onclick="return qtFormSafe.exit(e0);">'.qtSVG('pen-square').'</a>)').'</small></td>
 </tr>
 <tr title="'.L('H_Show_banner').'">
 <th>'.L('Show_banner').'</th>
-<td><select name="show_banner" onchange="qtFormSafe.not();">'.asTags(array(L('Show_banner0'),L('Show_banner1'),L('Show_banner2')),(int)$_SESSION[QT]['show_banner']).'</select></td>
+<td><select name="show_banner" onchange="qtFormSafe.not();">'.qtTags(array(L('Show_banner0'),L('Show_banner1'),L('Show_banner2')),(int)$_SESSION[QT]['show_banner']).'</select></td>
 </tr>
 <tr title="'.L('H_Show_welcome').'">
 <th>'.L('Show_welcome').'</th>
 <td class="flex-sp"><select name="show_welcome" onchange="qtFormSafe.not();">';
-echo asTags([2=>L('Y'),0=>L('N'),1=>L('While_unlogged')], $_SESSION[QT]['show_welcome'] );
-echo '</select><small id="welcome-txt">'.(empty($welcomeTxt) ? '' : ' ('.L('edit').' '.L('file').' <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$welcomeTxt.'" title="'.L('Edit').'" onclick="return qtFormSafe.exit(e0);">'.getSVG('pen-square').'</a>)').'</small></td>
+echo qtTags([2=>L('Y'),0=>L('N'),1=>L('While_unlogged')], $_SESSION[QT]['show_welcome'] );
+echo '</select><small id="welcome-txt">'.(empty($welcomeTxt) ? '' : ' ('.L('edit').' '.L('file').' <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$welcomeTxt.'" title="'.L('Edit').'" onclick="return qtFormSafe.exit(e0);">'.qtSVG('pen-square').'</a>)').'</small></td>
 </tr>
 </table>
 ';
@@ -110,20 +110,20 @@ if ( $_SESSION[QT]['items_per_page']==='20' || $_SESSION[QT]['items_per_page']==
 echo '<tr title="'.L('H_Items_per_section_page').'">
 <th>'.L('Items_per_section_page').'</th>
 <td><select name="items_per_page" onchange="qtFormSafe.not();">
-'.asTags($arr,'n'.$_SESSION[QT]['items_per_page']).'
+'.qtTags($arr,'n'.$_SESSION[QT]['items_per_page']).'
 </select></td>
 </tr>
 <tr title="'.L('H_Replies_per_item_page').'">
 <th>'.L('Replies_per_item_page').'</th>
 <td><select name="replies_per_page" onchange="qtFormSafe.not();">
-'.asTags($arr,'n'.$_SESSION[QT]['replies_per_page']).'
+'.qtTags($arr,'n'.$_SESSION[QT]['replies_per_page']).'
 </select></td>
 </tr>
 ';
 echo '<tr title="'.L('H_Show_legend').'">
 <th>'.L('Show_legend').'</th>
 <td>
-<select name="show_legend" onchange="qtFormSafe.not();">'.asTags([L('N'),L('Y')],(int)$_SESSION[QT]['show_legend']).'</select>
+<select name="show_legend" onchange="qtFormSafe.not();">'.qtTags([L('N'),L('Y')],(int)$_SESSION[QT]['show_legend']).'</select>
 </td>
 </tr>
 </table>
@@ -134,7 +134,7 @@ echo '<h2 class="config">'.L('Your_website').'</h2>
 echo '<tr title="'.L('H_Home_website_name').'">
 <th>'.L('Add_home').'</th>
 <td>
-<select name="home_menu" onchange="toggleHome(this.value); qtFormSafe.not();">'.asTags([L('N'),L('Y')],(int)$_SESSION[QT]['home_menu']).'</select>
+<select name="home_menu" onchange="toggleHome(this.value); qtFormSafe.not();">'.qtTags([L('N'),L('Y')],(int)$_SESSION[QT]['home_menu']).'</select>
 &nbsp;<input type="text" id="home_name" name="home_name" size="20" maxlength="64" value="'.qtAttr($_SESSION[QT]['home_name'],64),'"',($_SESSION[QT]['home_menu']=='0' ? ' disabled' : '').' onchange="qtFormSafe.not();"/></td>
 </tr>
 <tr title="'.L('H_Website').'">
@@ -151,7 +151,7 @@ echo '<tr id="home_url_help"'.($_SESSION[QT]['home_menu'] ? '': ' style="display
 ';
 
 // Start helper
-if ( $_SESSION[QT]['home_menu'] && (strlen($_SESSION[QT]['home_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/',$_SESSION[QT]['home_url'])) ) echo '<p>'.getSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.L('Home_website_url').' '.L('invalid').'</p>';
+if ( $_SESSION[QT]['home_menu'] && (strlen($_SESSION[QT]['home_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/',$_SESSION[QT]['home_url'])) ) echo '<p>'.qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.L('Home_website_url').' '.L('invalid').'</p>';
 
 if ( !isset($_SESSION[QT]['item_firstline']) ) $_SESSION[QT]['item_firstline']='1'; // new in v4.0
 $sections = sectionsAsOption();
@@ -161,7 +161,7 @@ echo '<h2 class="config">'.L('Section+').' '.L('display_options').'</h2>
 <tr title="'.L('H_Item_firstline').'">
 <th>'.L('Item_firstline').'</th>
 <td style="display:flex;justify-content:space-between">
-<select name="item_firstline" onchange="qtFormSafe.not();">'.asTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['item_firstline']).'</select>
+<select name="item_firstline" onchange="qtFormSafe.not();">'.qtTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['item_firstline']).'</select>
 <span class="small" style="display:'.($_SESSION[QT]['item_firstline']==2 ? 'inline' : 'none').'">
 &nbsp;'.L('Edit').' '.L('options').'
 <select onchange="if ( this.value>=0) window.location=`qti_adm_section.php?pan=2&s=` + this.value;">
@@ -174,7 +174,7 @@ echo '<h2 class="config">'.L('Section+').' '.L('display_options').'</h2>
 echo '<tr title="'.L('H_Show_news_on_top').'">
 <th>'.L('Show_news_on_top').'</th>
 <td style="display:flex;justify-content:space-between">
-<select name="news_on_top" onchange="qtFormSafe.not();">'.asTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['news_on_top']).'</select>
+<select name="news_on_top" onchange="qtFormSafe.not();">'.qtTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['news_on_top']).'</select>
 <span class="small" style="display:'.($_SESSION[QT]['news_on_top']==2 ? 'inline' : 'none').'">
 &nbsp;'.L('Edit').' '.L('options').'
 <select onchange="if ( this.value>=0) window.location=`qti_adm_section.php?pan=2&s=` + this.value;">
@@ -187,7 +187,7 @@ echo '<tr title="'.L('H_Show_news_on_top').'">
 echo '<tr title="'.L('H_Show_quick_reply').'">
 <th>'.L('Show_quick_reply').'</th>
 <td style="display:flex;justify-content:space-between">
-<select name="show_quick_reply" onchange="qtFormSafe.not();">'.asTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['show_quick_reply']).'</select>
+<select name="show_quick_reply" onchange="qtFormSafe.not();">'.qtTags(array(L('N'),L('Y'),L('By_section')),(int)$_SESSION[QT]['show_quick_reply']).'</select>
 <span class="small" style="display:'.($_SESSION[QT]['show_quick_reply']==2 ? 'inline' : 'none').'">
 &nbsp;'.L('Edit').' '.L('options').'
 <select onchange="if ( this.value>=0) window.location=`qti_adm_section.php?pan=2&s=` + this.value;">

@@ -77,7 +77,7 @@ try {
   }
 
   // Module antispam
-  if ( useModule('antispam') ) include 'qtim_antispam.php';
+  if ( qtModule('antispam') ) include 'qtim_antispam.php';
 
   // check upload
   if ( $_SESSION[QT]['upload']!=='0' && !empty($_FILES['newdoc']['name']) ) {
@@ -127,4 +127,4 @@ if ( !empty($error) ) echo '<p><span class="error">'.$error.'</span></p>';
 
 echo $oP->render($oS,$oT,true,'',QT_SKIN,'1');
 
-echo '<p class="right">'.( empty($oP->attach) ? '' : '<small>'.getSVG('info').' '.L('No_attachment_preview').'</small>').'</p><br>';
+echo '<p class="right">'.( empty($oP->attach) ? '' : '<small>'.qtSVG('info').' '.L('No_attachment_preview').'</small>').'</p><br>';

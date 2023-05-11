@@ -188,7 +188,7 @@ echo '<h2 class="config">'.L('Gmap.Mapping_config').'</h2>
 </tr>
 <tr>
 <th style="width:150px;">'.L('Gmap.Background').'</th>
-<td><select id="maptype" name="maptype" size="1" onchange="qtFormSafe.not();">'.asTags(L('Gmap.Back.*'),substr($_SESSION[QT]['m_gmap_gbuttons'],0,1)).'</select></td>
+<td><select id="maptype" name="maptype" size="1" onchange="qtFormSafe.not();">'.qtTags(L('Gmap.Back.*'),substr($_SESSION[QT]['m_gmap_gbuttons'],0,1)).'</select></td>
 <td><span class="small">'.L('Gmap.H_Background').'</span></td>
 </tr>
 <tr>

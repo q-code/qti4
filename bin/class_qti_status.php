@@ -66,7 +66,7 @@ public static function isAZ(string $str, bool $noAZ=false)
 public static function getIcon(string $str='A', string $attr='')
 {
   $src = self::getIconFile($str);
-  if ( substr($src,-4)==='.svg' ) return getSVG(substr($src,0,-4), $attr);
+  if ( substr($src,-4)==='.svg' ) return qtSVG(substr($src,0,-4), $attr);
   return asImg(QT_SKIN.'img/'.$src, $attr);
 }
 public static function getName(string $str='A')

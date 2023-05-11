@@ -122,7 +122,7 @@ if ( QT_WEEKSTART>1 )
 
 // MAP MODULE
 
-if ( useModule('gmap') )
+if ( qtModule('gmap') )
 {
   /**
    * @var string $strCheck
@@ -441,7 +441,7 @@ $oH->scripts[] = 'function show_gmap(latlng,id="gmapCalendar"){
 if ( document.getElementById("gmapCalendar") ) document.getElementById("gmapCalendar").style.visibility="hidden";
 const dir ="'.QT_DIR_PIC.'";
 const iso ="'.QT_LANG.'";
-const lang = "'.getLangDir().'";
+const lang = "'.qtDirLang().'";
 const elements = document.querySelectorAll(".ajaxmouseover");
 elements.forEach( el => el.addEventListener("mouseover", (e) => {
   fetch( `bin/srv_calendaritem.php?term=${el.id}&iso=${iso}&lang=${lang}` )

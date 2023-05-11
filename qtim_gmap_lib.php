@@ -102,11 +102,11 @@ class cCanvas
       global $oH;
 			if ( $_SESSION[QT]['m_gmap_hidelist'] )
 			{
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('hidemap').'&showmap">'.getSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('hidemap').'&showmap">'.qtSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
 			}
 			else
 			{
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('showmap').'&hidemap">'.getSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('showmap').'&hidemap">'.qtSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
 			}
 		}
 
@@ -151,7 +151,7 @@ class cCanvas
   public function Footer($str='find', $id='', $class='footer')
 	{
      if ( $str==='find' ) {
-       $str = L('Gmap.addrlatlng').' <input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('map_H_addrlatlng').'" onkeypress="qtKeypress(event,`btn-geocode`);"/><span id="btn-geocode" title="'.L('Search').'" onclick="showLocation(document.getElementById(`find`).value,null);">'.getSVG('search').'</span>';
+       $str = L('Gmap.addrlatlng').' <input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('map_H_addrlatlng').'" onkeypress="qtKeypress(event,`btn-geocode`);"/><span id="btn-geocode" title="'.L('Search').'" onclick="showLocation(document.getElementById(`find`).value,null);">'.qtSVG('search').'</span>';
      }
      if ( !empty($str) ) {
        $this->footer .= '<p'.cCanvas::idclass($id,$class).'>'.$str.'</p>';

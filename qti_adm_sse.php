@@ -145,7 +145,7 @@ echo '</td>
 ';
 echo '<tr>
 <th>'.L('Recent_messages').'</th>
-<td><select id="sse_max_rows" name="MAX_ROWS" onchange="qtFormSafe.not();">'.asTags(array(1=>1,2,3,4,5),(int)$_POST['MAX_ROWS']).'</select></td>
+<td><select id="sse_max_rows" name="MAX_ROWS" onchange="qtFormSafe.not();">'.qtTags([1=>1,2,3,4,5],(int)$_POST['MAX_ROWS']).'</select></td>
 </tr>
 ';
 echo '<tr>
@@ -157,7 +157,7 @@ echo '</td>
 ';
 echo '<tr>
 <th>'.L('External_server').'</th>
-<td><select id="useServer" name="useServer" onchange="qtToggle(`sse_server`,`inline`);qtFormSafe.not();">'.asTags([L('N'),L('Y')],(empty($_POST['SERVER']) ? 0 : 1)).'</select>
+<td><select id="useServer" name="useServer" onchange="qtToggle(`sse_server`,`inline`);qtFormSafe.not();">'.qtTags([L('N'),L('Y')],(empty($_POST['SERVER']) ? 0 : 1)).'</select>
  <input id="sse_server" type="text" name="SERVER" onchange="qtFormSafe.not();" size="50" style="display:'.(empty($_POST['SERVER']) ? 'none' : 'inline').'" placeholder="Path to ext directory, ex: https://srv01.domain.com/app/qti/" />
 </td>
 </tr>

@@ -19,7 +19,7 @@ $oH->selfuri = 'qti_adm_status.php?id='.$id;
 $oH->selfname = L('Statuses');
 $oH->selfparent = L('Board_content');
 $oH->exiturl = 'qti_adm_statuses.php';
-$oH->exitname = getSVG('angle-left').' '.L('Statuses');
+$oH->exitname = qtSVG('angle-left').' '.L('Statuses');
 
 // --------
 // SUBMITTED

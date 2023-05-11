@@ -61,7 +61,7 @@ case 'Ddelete':
   if ( count($arrSections)>0 )
   {
   $frm[] = '<p>'.L('Move_sections_to').':</p>';
-  $frm[] = '<p class="indent"><select name="dest" size="1">'.asTags(CDomain::getTitles($s), 0).'</select></p><br>';
+  $frm[] = '<p class="indent"><select name="dest" size="1">'.qtTags(CDomain::getTitles($s), 0).'</select></p><br>';
   }
   $frm[] = '<p class="row-confirm">'.L('Confirm').':</p>';
   $frm[] = '<p class="indent"><span class="cblabel">
@@ -132,11 +132,11 @@ case 'Sprune':
   $frm[] = '<p>'.L('Items_in_section').':</p>';
   $frm[] = '<p class="ellipsis indent"><span class="bold">'.CSection::translate($s).'</span><br>';
   $frm[] = '<span class="minor">'.L('Unreplied',$countU).', '.L('Unreplied_news',$countUA).' &middot; #'.$s.' '.(isset($_Sections[$s]['title']) ? $_Sections[$s]['title'] : 'Domain '.$s).'</span></p><br>';
-  $frm[] = '<p><span class="minor">'.getSVG('info').' '.L('Unreplied').': '.sprintf(L('unreplied_def'),$days).'</span></p><br>';
+  $frm[] = '<p><span class="minor">'.qtSVG('info').' '.L('Unreplied').': '.sprintf(L('unreplied_def'),$days).'</span></p><br>';
   $frm[] = '<p>'.L('Options').':</p>';
   $frm[] = '<p class="indent">'.L('Type').' <select id="inType" name="type" size="1"'.($countUA>0 ? '' : ' disabled').'>
   <option value="*" selected>('.L('all').')</option>
-  '.asTags(CTopic::getTypes() ).'
+  '.qtTags(CTopic::getTypes() ).'
   </select></p><br>';
   $frm[] = '<p class="row-confirm">'.L('Confirm').':</p>';
   $frm[] = '<p class="indent"><span class="cblabel"><input required type="checkbox" id="inPrune" name="PruneT"/> <label for="inPrune">'.L('Delete').'</label></span></p>';
@@ -225,15 +225,15 @@ case 'Scntdelete':
   $frm[] = '<p>'.L('Options').':</p>';
   $frm[] = '<p class="indent">'.L('Year').' <select id="tf" name="tf" size="1">
   <option value="*" selected>('.L('all').')</option>
-  '.asTags($arrYears,'','','',$arrDisabled).'
+  '.qtTags($arrYears,'','','',$arrDisabled).'
   </select></p>';
   $frm[] = '<p class="indent">'.L('Type').' <select id="inType" name="type" size="1">
   <option value="*" selected>('.L('all').')</option>
-  '.asTags(CTopic::getTypes() ).'
+  '.qtTags(CTopic::getTypes() ).'
   </select></p>';
   $frm[] = '<p class="indent">'.L('Status').' <select id="inStatus" name="status" size="1">
   <option value="*" selected>('.L('all').')</option>
-  '.asTags(CTopic::getStatuses() ).'
+  '.qtTags(CTopic::getStatuses() ).'
   </select></p><br>';
   $frm[] = '<p class="row-confirm">'.L('Confirm').':</p>';
   $frm[] = '<p class="indent"><span class="cblabel"><input type="checkbox" id="deleteT" name="deleteT"/> <label for="deleteT">'.L('Delete').' '.L('item+').'</label></span></p>';
@@ -364,15 +364,15 @@ case 'Scntmove':
   $frm[] = '<p>'.L('Options').':</p>';
   $frm[] = '<p class="indent">'.L('Year').' <select id="inTF" name="tf" size="1">
   <option value="*" selected>('.L('all').')</option>
-  '.asTags($arrYears,'','','',$arrDisabled).'
+  '.qtTags($arrYears,'','','',$arrDisabled).'
   </select></p>';
   $frm[] = '<p class="indent">'.L('Type').' <select id="inType" name="type" size="1">
   <option value="*" selected>('.L('all').')</option>
-  '.asTags(CTopic::getTypes()).'
+  '.qtTags(CTopic::getTypes()).'
   </select></p>';
   $frm[] = '<p class="indent">'.L('Status').' <select id="inStatus" name="status" size="1">
   <option value="*" selected>('.L('all').')</option>
-  '.asTags(CTopic::getStatuses()).'
+  '.qtTags(CTopic::getStatuses()).'
   </select></p><br>';
   $frm[] = '<p class="row-confirm">'.L('Confirm').':</p>';
   $frm[] = '<p class="indent"><span class="cblabel"><input required type="checkbox" id="inMove" name="MoveT"/> <label for="inMove">'.L('Move').' '.L('item+').'</label></span></p>';

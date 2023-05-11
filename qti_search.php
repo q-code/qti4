@@ -99,7 +99,7 @@ include APP.'_search_ui.php';
 // SEARCH OPTIONS
 echo '<h2>'.L('Search_option').'</h2>'.PHP_EOL;
 echo '<section class="search-box options" id="broadcasted-options">'.PHP_EOL;
-echo getSVG('cog', 'id=opt-icon|class=filigrane'.($s==='*' ? '' : ' spinning'), true);
+echo qtSVG('cog', 'id=opt-icon|class=filigrane'.($s==='*' ? '' : ' spinning'), true);
 echo '<div>'.L('Section').' <select id="opt-s" name="s" size="1" autocomplete="off">'.sectionsAsOption($s,[],[],L('In_all_sections')).'</select></div>';
 echo '</section>'.PHP_EOL;
 
@@ -112,7 +112,7 @@ if ( !empty($criteriaError) ) echo '<p class="error">'.$criteriaError.'</p>';
 // SEARCH BY KEY
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <section class="search-box criteria">
-'.getSVG('search', 'class=filigrane').'
+'.qtSVG('search', 'class=filigrane').'
 <div>'.L('Keywords').' <div id="ac-wrapper-kw" class="ac-wrapper"><input required type="text" id="kw" name="v" size="40" maxlength="64" value="'.($q=='kw' ? qtAttr($v,0,'&quot;') : '').'" data-multi="1"/></div>*</div>
 <div><span class="cblabel"><input type="checkbox" id="to" name="to"'.($to ? ' checked' : '').' value="1"/> <label for="to">'.L('In_title_only').'</label></span></div>
 <div style="flex-grow:1;text-align:right">
@@ -135,7 +135,7 @@ if ( $refExists )
 {
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
-'.getSVG('search', 'class=filigrane').'
+'.qtSVG('search', 'class=filigrane').'
 <div>'.L('Ref').' <div id="ac-wrapper-ref" class="ac-wrapper"><input required type="text" id="ref" name="v" size="5" minlength="1" maxlength="10" value="'.($q=='ref' ? qtAttr($v,0,'&quot;') : '').'"/>&nbsp;<label for="title">'.L('H_Reference').'</label></div></div>
 <div style="flex-grow:1;text-align:right">
 <input type="hidden" name="q" value="ref"/>
@@ -151,15 +151,15 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 $arrS = SMem::get('_Statuses');
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
-'.getSVG('search', 'class=filigrane').'
+'.qtSVG('search', 'class=filigrane').'
 <div>'.L('Status').'&nbsp;<select id="st" name="st" size="1">
 <option value="*"'.($st==='*' ? ' selected' : '').'>'.L('Any_status').'</option>
-'.asTags($arrS,$st).'</select> '.L('Date').'&nbsp;<select id="ti" name="v2" size="1">
+'.qtTags($arrS,$st).'</select> '.L('Date').'&nbsp;<select id="ti" name="v2" size="1">
 <option value="*"'.($v2==='*' ? ' selected' : '').'>'.L('Any_time').'</option>
 <option value="w"'.($v2==='w' ? ' selected' : '').'>&nbsp; '.L('This_week').'</option>
 <option value="m"'.($v2==='m' ? ' selected' : '').'>&nbsp; '.L('This_month').'</option>
 <option value="y"'.($v2==='y' ? ' selected' : '').'>&nbsp; '.L('This_year').'</option>
-'.asTags($L['dateMMM'],(int)$v2).'
+'.qtTags($L['dateMMM'],(int)$v2).'
 </select><input type="hidden" id="y" name="y" value="'.date('Y').'"/>
 ';
 if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-tag-edit" class="ac-wrapper"><input type="text" id="tag-edit" name="v" size="30" value="'.($q==='adv' ? qtAttr($v) : '').'" data-multi="1"/></div>*
@@ -176,10 +176,10 @@ if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-
 // SEARCH NAME
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
-'.getSVG('search', 'class=filigrane').'
+'.qtSVG('search', 'class=filigrane').'
 <div>
 <select name="q" size="1">
-'.asTags( ['user'=>L('Item').' '.L('author'),'userm'=>L('Item').'/'.L('reply').' '.L('author'),'actor'=>L('Item').' '.L('actor')], $q ).'
+'.qtTags( ['user'=>L('Item').' '.L('author'),'userm'=>L('Item').'/'.L('reply').' '.L('author'),'actor'=>L('Item').' '.L('actor')], $q ).'
 </select> <div id="ac-wrapper-user" class="ac-wrapper"><input type="hidden" id="userid" type="text" name="v2" value="'.$v2.'"/><input required id="user" type="text" name="v" value="'.(empty($v) || substr($q,0,4)!=='user' ? '' : qtAttr($v,0,'&quot;')).'" size="32" maxlenght="64"/></div></div>
 <div style="flex-grow:1;text-align:right">
 <input type="hidden" id="user-s" name="s" value="'.$s.'"/>
@@ -195,7 +195,7 @@ $date1 = ''; if ( $q=='btw' && strlen($v)==8 ) { $date1 = substr($v,0,4).'-'.sub
 $date2 = ''; if ( $q=='btw' && strlen($v2)==8 ) { $date2 = substr($v2,0,4).'-'.substr($v2,4,2).'-'.substr($v2,6,2);  $v2=''; }
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
-'.getSVG('search', 'class=filigrane').'
+'.qtSVG('search', 'class=filigrane').'
 <div>'.L('Between_date').' <input required type="date" id="date1" name="v" size="20" value="'.$date1.'" min="2000-01-01"/>
 '.L('and').' <input required type="date" id="date2" name="v2" size="20" value="'.$date2.'" max="2100-01-01"/> <a href="javascript:void(0)" onclick="setToday(); return false;""><small>'.L('dateSQL.today').'</small></a></div>
 <div style="flex-grow:1;text-align:right">

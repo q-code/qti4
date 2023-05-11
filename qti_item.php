@@ -88,7 +88,7 @@ if ( isset($_POST['tag-ok']) && isset($_POST['tag-new']) )
  * @var string $strPcoord
  * @var boolean $bMapGoogle
  */
-if ( useModule('gmap') ) { $strCheck=$s; include 'qtim_gmap_ini.php'; } else { $bMap=false; }
+if ( qtModule('gmap') ) { $strCheck=$s; include 'qtim_gmap_ini.php'; } else { $bMap=false; }
 
 if ( $bMap ) {
 if ( !empty($oT->y) && !empty($oT->x) ) {
@@ -105,8 +105,8 @@ if ( !empty($oT->y) && !empty($oT->x) ) {
   if ( is_object($oSettings) ) foreach(array('icon','shadow','printicon','printshadow') as $prop) if ( property_exists($oSettings,$prop) ) $oMapPoint->$prop = $oSettings->$prop;
 
   $arrExtData = array($oMapPoint);
-  $strCoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><span title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'">'.getSVG('map-marker').'</span></a>';
-  $strPcoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('map_Center').'">'.getSVG('map-marker').'</a> Lat,Lon: '.QTdd2dms($y).','.QTdd2dms($x).( $_SESSION[QT]['viewmode']==='c' ? '' : ' DD: '.round($oT->y,8).','.round($oT->x,8) );
+  $strCoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><span title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'">'.qtSVG('map-marker').'</span></a>';
+  $strPcoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('map_Center').'">'.qtSVG('map-marker').'</a> Lat,Lon: '.QTdd2dms($y).','.QTdd2dms($x).( $_SESSION[QT]['viewmode']==='c' ? '' : ' DD: '.round($oT->y,8).','.round($oT->x,8) );
 
 }}
 
@@ -182,18 +182,18 @@ echo $oP->render($oS,$oT,true,true,QT_SKIN,'r1');
 if ( $_SESSION[QT]['tags']!='0' && ($tagEditor || !empty($oT->descr)) )
 {
   $arrTags= empty($oT->descr) ? array() : explode(';',$oT->descr);
-  echo '<div class="tags right" style="padding:4px 0"><span class="tags" title="'.L('Tags').'">'.getSVG('tag'.(count($arrTags)>1 ? 's' : '')).'</span>&nbsp; ';
+  echo '<div class="tags right" style="padding:4px 0"><span class="tags" title="'.L('Tags').'">'.qtSVG('tag'.(count($arrTags)>1 ? 's' : '')).'</span>&nbsp; ';
   if ( $tagEditor )
   {
     foreach($arrTags as $k=>$item) $arrTags[$k] = empty($item) ? '' : '<span class="tag" onclick="tagClick(this.innerHTML)" title="..." data-tagdesc="'.$item.'">'.$item.'</span>';
     echo '<div id="tag-shown" style="display:inline-block">'.implode(' ',$arrTags).'</div>';
-    echo ' &nbsp; <a href="javascript:void(0)" id="tag-ctrl" class="tgl-ctrl" onclick="qtToggle(`tag-container`,`block`,`tag-ctrl`)" title="'.L('Edit').'">'.getSVG('pen').getSVG('angle-down','','',true).getSVG('angle-up','','',true).'</a>'.PHP_EOL;
+    echo ' &nbsp; <a href="javascript:void(0)" id="tag-ctrl" class="tgl-ctrl" onclick="qtToggle(`tag-container`,`block`,`tag-ctrl`)" title="'.L('Edit').'">'.qtSVG('pen').qtSVG('angle-down','','',true).qtSVG('angle-up','','',true).'</a>'.PHP_EOL;
     echo '<div id="tag-container" style="display:none"><form method="post" action="'.url($oH->selfurl).'?s='.$s.'&t='.$t.'" onreset="qtFocus(`tag-edit`)">';
     echo '<input type="hidden" id="tag-dir" value="'.QT_DIR_DOC.'"/><input type="hidden" id="tag-lang" value="'.QT_LANG.'"/>';
     echo '<input type="hidden" id="tag-saved" value="'.qtAttr($oT->descr).'"/>';
     echo '<input type="hidden" id="tag-new" name="tag-new" maxlength="255" value="'.qtAttr($oT->descr).'"/>';
     echo '<div id="ac-wrapper-tag-edit" class="ac-wrapper"><div style="display:flex;align-items:center">';
-    echo '<input required type="text" id="tag-edit" size="12" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" data-multi="1" autocomplete="off"/><button type="reset" class="tag-btn" title="'.L('Reset').'">'.getSVG('backspace').'</button>&nbsp;<button type="submit" class="tag-btn" title="'.L('Add').'" onclick="tagAdd(); asyncSaveTag('.$t.'); return false;">'.getSVG('plus').'</button><button type="submit" class="tag-btn"  title="'.L('Delete_tags').'" onclick="tagDel(); asyncSaveTag('.$t.'); return false;">'.getSVG('minus').'</button>';
+    echo '<input required type="text" id="tag-edit" size="12" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" data-multi="1" autocomplete="off"/><button type="reset" class="tag-btn" title="'.L('Reset').'">'.qtSVG('backspace').'</button>&nbsp;<button type="submit" class="tag-btn" title="'.L('Add').'" onclick="tagAdd(); asyncSaveTag('.$t.'); return false;">'.qtSVG('plus').'</button><button type="submit" class="tag-btn"  title="'.L('Delete_tags').'" onclick="tagDel(); asyncSaveTag('.$t.'); return false;">'.qtSVG('minus').'</button>';
     echo '</div></div></form></div>';
   }
   else
@@ -242,7 +242,7 @@ if ( $oT->items>0 )
   }
   if ( !empty($arrIReplies) ) {
     echo '<p id="inspection-replies">';
-    echo '<a title="'.L('order').'" href="qti_item.php?'.qtImplode(qtExplodeUri(url('qti_item.php?t='.$oT->id), ['order'])).'&order='.($_SESSION[QT]['replyorder']=='A' ? 'D' : 'A').'">'.getSVG('sort-amount-'.($_SESSION[QT]['replyorder']==='D' ? 'up' : 'down')).'</a>';
+    echo '<a title="'.L('order').'" href="qti_item.php?'.qtImplode(qtExplodeUri(url('qti_item.php?t='.$oT->id), ['order'])).'&order='.($_SESSION[QT]['replyorder']=='A' ? 'D' : 'A').'">'.qtSVG('sort-amount-'.($_SESSION[QT]['replyorder']==='D' ? 'up' : 'down')).'</a>';
     echo ' &middot; ';
     echo L('Reply',$oT->items);
     echo ' &middot; ';
@@ -290,7 +290,7 @@ echo '
 <form id="form-edit" method="post" action="'.url('qti_edit.php').'">
 <div class="quickreply">
 ';
-echo '<div class="g-qr-icon"><p class="i-container" title="'.L('Reply').'">'.getSVG('comment-dots').'</p></div>
+echo '<div class="g-qr-icon"><p class="i-container" title="'.L('Reply').'">'.qtSVG('comment-dots').'</p></div>
 <div class="g-qr-title">'.L('Quick_reply').'</div>
 <div class="g-qr-bbc">'.(QT_BBC ? '<div class="bbc-bar">'.bbcButtons(1).'</div>' : '').'</div>
 <div class="g-qr-text"><textarea'.($oT->type==='I' ? '' : ' required').' id="text" name="text" rows="4"></textarea>';

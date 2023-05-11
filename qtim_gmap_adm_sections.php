@@ -146,12 +146,12 @@ echo '<tr class="hover">
 <select class="small" id="mark_'.$id.'" name="mark_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
 <option value="0">'.L('Gmap.Default').'</option>
 <option value="-" disabled="disabled">&nbsp;</option>
-'.asTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
+'.qtTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
 </select>
 </td>
 <td>
 <select class="small" id="list_'.$id.'" name="list_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
-'.asTags(L('Gmap.List.*'),$arrConfig[$id]['list']).'
+'.qtTags(L('Gmap.List.*'),$arrConfig[$id]['list']).'
 </select>
 </td>
 </tr>
@@ -169,12 +169,12 @@ echo '<tr class="hover">
 <option value="S">'.L('Gmap.From_section').'</option>
 <option value="0">'.L('Gmap.Default').'</option>
 <option value="-" disabled="disabled">&nbsp;</option>
-'.asTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
+'.qtTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
 </select>
 </td>
 <td style="border-top:solid 1px #c3d9ff">
 <select class="small" id="list_'.$id.'" name="list_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
-'.asTags(L('Gmap.List.*'),$arrConfig[$id]['list']).'
+'.qtTags(L('Gmap.List.*'),$arrConfig[$id]['list']).'
 </select>
 </td>
 </tr>
@@ -190,12 +190,12 @@ echo '<tr class="hover">
 <select class="small" id="mark_'.$id.'" name="mark_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
 <option value="0">'.L('Gmap.Default').'</option>
 <option value="-" disabled="disabled">&nbsp;</option>
-'.asTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
+'.qtTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
 </select>
 </td>
 <td>
 <select class="small" id="list_'.$id.'" name="list_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
-'.asTags(L('Gmap.List.*'), $arrConfig[$id]['list']).'
+'.qtTags(L('Gmap.List.*'), $arrConfig[$id]['list']).'
 </select>
 </td>
 </tr>
@@ -225,7 +225,7 @@ if ( $i>=9 ) { echo '</tr><tr>'; $i=0; }
 }
 echo '</tr>
 </table>
-<p class="submit">'.getSVG('chevron-left').'<a href="'.$oH->exiturl.'" onclick="return qtFormSafe.exit(e0);">'.$oH->exitname.'</a></p>
+<p class="submit">'.qtSVG('chevron-left').'<a href="'.$oH->exiturl.'" onclick="return qtFormSafe.exit(e0);">'.$oH->exitname.'</a></p>
 ';
 
 // HTML END

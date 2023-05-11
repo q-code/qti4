@@ -191,13 +191,13 @@ public static function getIconType(string $type='P', string $parentType='T', str
     $strIcon = CTopic::makeIcon($parentType,$parentStatus,'',$id);
     break;
   case 'R':
-    $strIcon = getSVG('comment-dots', 'title='.L('Ico_post_r').(empty($id) ? '' : '|id='.$id));
+    $strIcon = qtSVG('comment-dots', 'title='.L('Ico_post_r').(empty($id) ? '' : '|id='.$id));
     break;
   case 'D':
-    $strIcon = getSVG('trash', 'title='.L('Ico_post_d').(empty($id) ? '' : '|id='.$id));
+    $strIcon = qtSVG('trash', 'title='.L('Ico_post_d').(empty($id) ? '' : '|id='.$id));
     break;
   case 'F':
-    $strIcon = getSVG('share', 'title='.L('Ico_post_f').(empty($id) ? '' : '|id='.$id));
+    $strIcon = qtSVG('share', 'title='.L('Ico_post_f').(empty($id) ? '' : '|id='.$id));
     break;
   default:
     $strIcon = '<img id="'.$id.'" src="'.$skin.'img/post_'.strtolower($type).'.gif" alt="P" title="'.L('Ico_post_'.strtolower($type)).'" class="i-item"/>';
@@ -247,10 +247,10 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   // show the image (if any)
   if ( !empty($this->attach) && strpos($str, 'src="@"') && in_array(substr($this->attach,-4,4),array('.gif','.jpg','jpeg','.png')) ) $str = str_replace('src="@"','src="'.QT_DIR_DOC.$this->attach.'"',$str);
   // if message shortened
-  if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.url('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
+  if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.url('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
   $msg .= $str.'</p>'.PHP_EOL;
   // attachements
-  if ( !empty($this->attach) ) $msg .= '<p class="post-attachment">'.getSVG('paperclip', 'title='.L('Attachment')).' <a href="'.QT_DIR_DOC.$this->attach.'" class="attachment" target="_blank">'.$this->getSrcAttach().'</a></p>';
+  if ( !empty($this->attach) ) $msg .= '<p class="post-attachment">'.qtSVG('paperclip', 'title='.L('Attachment')).' <a href="'.QT_DIR_DOC.$this->attach.'" class="attachment" target="_blank">'.$this->getSrcAttach().'</a></p>';
   // signature
   if ( $_SESSION[QT]['viewmode']!='C' && $this->type!='F' && !empty($this->usersign) )
   {
@@ -315,10 +315,10 @@ public function renderInspectionResult(CSection $oS, CTopic $oT, bool $avatar=tr
   // show the image (if any)
   if ( !empty($this->attach) && strpos($str, 'src="@"') && in_array(substr($this->attach,-4,4),array('.gif','.jpg','jpeg','.png')) ) $str = str_replace('src="@"','src="'.QT_DIR_DOC.$this->attach.'"',$str);
   // if message shortened
-  if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.url('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.getSVG('window-maximize').' '.getSVG('long-arrow-alt-down').'</a>';
+  if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.url('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
   $msg .= $str.'</p>'.PHP_EOL;
   // attachements
-  if ( !empty($this->attach) ) $msg .= '<p><small>'.getSVG('paperclip', 'title='.L('Attachment')).' <a href="'.QT_DIR_DOC.$this->attach.'" class="attachment" target="_blank">'.$this->getSrcAttach().'</a></small></p>';
+  if ( !empty($this->attach) ) $msg .= '<p><small>'.qtSVG('paperclip', 'title='.L('Attachment')).' <a href="'.QT_DIR_DOC.$this->attach.'" class="attachment" target="_blank">'.$this->getSrcAttach().'</a></small></p>';
   // signature
   if ( $_SESSION[QT]['viewmode']!='C' && $this->type!='F' && !empty($this->usersign) )
   {
@@ -327,8 +327,8 @@ public function renderInspectionResult(CSection $oS, CTopic $oT, bool $avatar=tr
   // Commands
   $cmds = '';
   if ( $this->userid==SUser::id() || SUser::isStaff() ) {
-    $cmds .= '<a href="qti_edit.php?t='.$this->topic.'&p='.$this->id.'&a=ed" id="p'.$this->id.'-edit" style="display:none" title="'.L('Edit').'">'.getSVG('pen-square').'</a> &nbsp;';
-    $cmds .= '<a href="qti_dlg.php?s='.$oS->id.'&a=replyDelete&t='.$this->topic.'&p='.$this->id.'" id="p'.$this->id.'-del" style="display:none" title="'.L('Delete').'">'.getSVG('trash').'</a> &nbsp;';
+    $cmds .= '<a href="qti_edit.php?t='.$this->topic.'&p='.$this->id.'&a=ed" id="p'.$this->id.'-edit" style="display:none" title="'.L('Edit').'">'.qtSVG('pen-square').'</a> &nbsp;';
+    $cmds .= '<a href="qti_dlg.php?s='.$oS->id.'&a=replyDelete&t='.$this->topic.'&p='.$this->id.'" id="p'.$this->id.'-del" style="display:none" title="'.L('Delete').'">'.qtSVG('trash').'</a> &nbsp;';
   }
   // Show message
   return '
@@ -338,7 +338,7 @@ public function renderInspectionResult(CSection $oS, CTopic $oT, bool $avatar=tr
   <div class="inspection-text" id="p'.$this->id.'-short">'.qtInline($this->text,200).'</div>
   <div class="inspection-text" id="p'.$this->id.'-long" style="display:none">'.$msg.'</div>
   <div class="inspection-user">'.L('by').' <a href="qti_user.php?id='.$this->userid.'">'.$this->username.'</a></div>
-  <div class="inspection-cmd">'.$cmds.'<a href="javascript:void(0)" onclick="showAlt(`p'.$this->id.'`); return false;">'.getSVG('folder-open').'</a>
+  <div class="inspection-cmd">'.$cmds.'<a href="javascript:void(0)" onclick="showAlt(`p'.$this->id.'`); return false;">'.qtSVG('folder-open').'</a>
   </div>
   </div>
   ';

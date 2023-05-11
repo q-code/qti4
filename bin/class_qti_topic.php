@@ -208,7 +208,7 @@ function getTagIcon()
 {
   if ( empty($this->descr) ) return '';
   $arr = explode(';',$this->descr);
-  return getSVG('tag'.(count($arr)>1 ? 's' : ''), 'title='.implode(',',$arr));
+  return qtSVG('tag'.(count($arr)>1 ? 's' : ''), 'title='.implode(',',$arr));
 }
 public function getStatusName(string $alt='unknown')
 {
@@ -344,7 +344,7 @@ public function NotifyStatus(int $oldactorid=-1, $oP=null, $oS=null)
       if ( empty($this->preview) ) $this->preview = '';
       $strTopic = ($oS->numfield!='N' ? sprintf($oS->numfield,$this->numid).' ' : '').$this->title."\r\n".$this->preview."\r\n".$_SESSION[QT]['site_url'].'/qti_topic.php?t='.$this->id;
 
-      $strFile = getLangDir().'mail_status.php';
+      $strFile = qtDirLang().'mail_status.php';
 
       // notify list
 

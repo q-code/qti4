@@ -50,7 +50,7 @@ function renderUsers(array $ids, array $fields=['name','role','closed'])
     if ( isset($row['name'][24]) ) $row['name']=qtTrunc($row['name'],24);
     $pic = '<p class="list"><span class="magnifier center">'.SUser::getPicture((int)$row['id'], 'data-magnify=0|onclick=this.dataset.magnify=this.dataset.magnify==1?0:1;', 'bin/css/user.gif').'</span>';
     $str .= $pic.' '.$row['name'].' ('.L('Role_'.$row['role']);
-    $str .= empty($row['closed']) ? '' : ' '.getSVG( 'ban', 'title='.L('Banned').' '.L('day',$days[(int)$row['closed']]) );
+    $str .= empty($row['closed']) ? '' : ' '.qtSVG( 'ban', 'title='.L('Banned').' '.L('day',$days[(int)$row['closed']]) );
     $str .= ')</p>';
   }
   return $str.$last;

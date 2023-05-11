@@ -51,7 +51,7 @@ $oH->selfname = L('Profile');
 // MAP MODULE
 
 $bMap=false;
-if ( useModule('gmap') )
+if ( qtModule('gmap') )
 {
   include translate(APP.'m_gmap.php');
   include 'qtim_gmap_lib.php';
@@ -73,7 +73,7 @@ if ( isset($_POST['ok']) ) try {
   // check form
   $strLoca = qtDb(trim($_POST['location']));
   $strMail = str_replace([' ',';'],',',$_POST['mail']);
-  $strMail = implode(',',asCleanArray($strMail));
+  $strMail = implode(',',qtCleanArray($strMail));
   if ( !empty($strMail) && !qtIsMail($strMail) ) throw new Exception( L('Email').' '.$strMail.' '.L('invalid') );
   if ( empty($_POST['birth_y']) || empty($_POST['birth_d']) || empty($_POST['birth_d']) ) {
     $strBirth = '0';
@@ -227,10 +227,10 @@ if ( !empty($row['birthday']) )
   $strBrith_d = intval(substr(strval($row['birthday']),6,2));
 }
 echo '<td><select name="birth_d" size="1">'.PHP_EOL;
-echo asTags(array(0=>'',1=>1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31),$strBrith_d);
+echo qtTags([0=>'',1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],$strBrith_d);
 echo '</select>'.PHP_EOL;
 echo '<select name="birth_m" size="1">'.PHP_EOL;
-echo '<option value="0"></option>'.asTags($L['dateMMM'],$strBrith_m);
+echo '<option value="0"></option>'.qtTags($L['dateMMM'],$strBrith_m);
 echo '</select>'.PHP_EOL;
 echo '<input type="text" id="birth_y" name="birth_y" pattern="(19|20)[0-9]{2}" size="4" maxlength="4" value="'.$strBrith_y.'"/>';
 echo '</td></tr>'.PHP_EOL;
@@ -258,7 +258,7 @@ if ( $bMap )
   $strPosition .= '<div id="map_canvas"></div>'.PHP_EOL;
   $strPosition .= '<p class="small commands" style="margin:4px 0 2px 2px;text-align:right">'.L('Gmap.addrlatlng').' ';
   $strPosition .= '<input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('Gmap.H_addrlatlng').'" onkeypress="enterkeyPressed=qtKeyEnter(event); if ( enterkeyPressed) showLocation(this.value,null);"/>';
-  $strPosition .= '<span id="btn-geocode" onclick="showLocation(document.getElementById(`find`).value,null);" title="'.L('Search').'">'.getSVG('search').'</span></p>';
+  $strPosition .= '<span id="btn-geocode" onclick="showLocation(document.getElementById(`find`).value,null);" title="'.L('Search').'">'.qtSVG('search').'</span></p>';
 
   echo '<tr>'.PHP_EOL;
   echo '<th>'.$L['Coord'].'</th>';
@@ -300,7 +300,7 @@ if ( $countmessages>0 )
   $strParticip .= ', '.strtolower($L['Last_message']).' '.qtDatestr($row['lastdate'],'$','$',true);
   $oDB->query( 'SELECT p.id,p.topic,p.section FROM TABPOST p WHERE p.userid='.$id.' ORDER BY p.issuedate DESC' );
   $row2 = $oDB->getRow();
-  $strParticip .= ' <a href="'.url('qti_item.php').'?t='.$row2['topic'].'#p'.$row2['id'].'" title="'.L('Goto_message').'">'.getSVG('caret-square-right').'</a>';
+  $strParticip .= ' <a href="'.url('qti_item.php').'?t='.$row2['topic'].'#p'.$row2['id'].'" title="'.L('Goto_message').'">'.qtSVG('caret-square-right').'</a>';
 }
 
 echo '
@@ -335,7 +335,7 @@ if ( SUser::id()==$id || SUser::isStaff() ) {
   echo '<p class="right"><small>'.$strPriv.' '.L('Privacy_visible_'.$row['privacy']).'</small></p>';
   $intBan = empty($row['closed']) ? 0 : (int)$row['closed'];
   $days = BAN_DAYS;
-  if ( $intBan && array_key_exists($intBan,$days) ) echo '<p class="right"><small>'.getSVG('ban').' '.$row['name'].' '.strtolower(sprintf(L('Is_banned_since'),L('day',$days[$intBan]))).'</small></p>';
+  if ( $intBan && array_key_exists($intBan,$days) ) echo '<p class="right"><small>'.qtSVG('ban').' '.$row['name'].' '.strtolower(sprintf(L('Is_banned_since'),L('day',$days[$intBan]))).'</small></p>';
 }}
 
 echo '</div>

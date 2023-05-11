@@ -32,17 +32,17 @@ function sectionsAsOption($selected='', array $reject=[], array $disabled=[], st
 function bbcButtons($size=1)
 {
   if ( !QT_BBC || $size==0 ) return '';
-  $str = '<a class="bbc" onclick="qtCaret(`b`)" title="'.L('Bbc.bold').'">'.getSVG('bold').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`i`)" title="'.L('Bbc.italic').'">'.getSVG('italic').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`u`)" title="'.L('Bbc.under').'">'.getSVG('underline').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`quote`)" title="'.L('Bbc.quote').'">'.getSVG('quote-right').'</a>';
+  $str = '<a class="bbc" onclick="qtCaret(`b`)" title="'.L('Bbc.bold').'">'.qtSVG('bold').'</a>';
+  $str .= '<a class="bbc" onclick="qtCaret(`i`)" title="'.L('Bbc.italic').'">'.qtSVG('italic').'</a>';
+  $str .= '<a class="bbc" onclick="qtCaret(`u`)" title="'.L('Bbc.under').'">'.qtSVG('underline').'</a>';
+  $str .= '<a class="bbc" onclick="qtCaret(`quote`)" title="'.L('Bbc.quote').'">'.qtSVG('quote-right').'</a>';
   if ( $size>1 )
   {
-  $str .= '<a class="bbc" onclick="qtCaret(`code`)" title="'.L('Bbc.code').'">'.getSVG('code').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`url`)" title="'.L('Bbc.url').'">'.getSVG('link').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`mail`)" title="'.L('Bbc.mail').'">'.getSVG('envelope').'</a>';
+  $str .= '<a class="bbc" onclick="qtCaret(`code`)" title="'.L('Bbc.code').'">'.qtSVG('code').'</a>';
+  $str .= '<a class="bbc" onclick="qtCaret(`url`)" title="'.L('Bbc.url').'">'.qtSVG('link').'</a>';
+  $str .= '<a class="bbc" onclick="qtCaret(`mail`)" title="'.L('Bbc.mail').'">'.qtSVG('envelope').'</a>';
   }
-  if ( $size>2 ) $str .= '<a class="bbc" onclick="qtCaret(`img`)" title="'.L('Bbc.image').'">'.getSVG('image').'</a>';
+  if ( $size>2 ) $str .= '<a class="bbc" onclick="qtCaret(`img`)" title="'.L('Bbc.image').'">'.qtSVG('image').'</a>';
   return $str;
 }
 
@@ -61,7 +61,7 @@ function exitPage($content='Page not defined', string $title='!', bool $hideMenu
 {
   if ( !is_string($content) && !is_int($content) ) die('exitPage: invalid argument');
   // title can be one svg icon (if ends with '.svg')
-  if ( substr($title,-4)==='.svg' ) $title = getSVG(substr($title,0,-4));
+  if ( substr($title,-4)==='.svg' ) $title = qtSVG(substr($title,0,-4));
   global $oH;
   $oH->exiturl = APP.'_index.php';
   include APP.'_inc_hd.php'; // uses $hideMenuLang (true by default for error/exit pages)
@@ -119,8 +119,8 @@ function htmlLettres(string $baseFile, string $current='ALL', string $strAll='Al
   if ( $bFilterForm ) {
   $strGroups .= ' <form method="get" action="'.$baseFile.'">';
   $strGroups .= '<input required type="text" value="'.($current==='ALL' || in_array($current,$arr) ? '' : qtAttr($current)).'" name="group" size="3" maxlength="10" title="'.qtAttr($strTitle).'"/>';
-  $strGroups .= '<button type="submit" value="submit">'.getSVG('search').'</button>';
-  $strGroups .=  asTags(qtExplodeUri($baseFile),'','tag=hidden','',[],'urldecode',['page','group']);
+  $strGroups .= '<button type="submit" value="submit">'.qtSVG('search').'</button>';
+  $strGroups .= qtTags(array_map('urldecode',qtExplodeUri($baseFile,'page|group')), '', 'tag=hidden');
   $strGroups .= '</form>';
   }
   $strGroups .= '</div>';
@@ -391,14 +391,14 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
         }
       }
       if ( !empty($row['textmsg']) && $_SESSION[QT]['item_firstline']>0 && $showFirstline )
-        $arr[$k] .= '&nbsp;<small class="item-msg-preview">'.qtTrunc(qtUnbbc($row['textmsg'],true,L('Bbc.*')),QT_FIRSTLINE_SIZE).(empty($row['attach']) ? '' : ' '.getSVG('paperclip', 'title='.L('Attachment'))).'</small>';
+        $arr[$k] .= '&nbsp;<small class="item-msg-preview">'.qtTrunc(qtUnbbc($row['textmsg'],true,L('Bbc.*')),QT_FIRSTLINE_SIZE).(empty($row['attach']) ? '' : ' '.qtSVG('paperclip', 'title='.L('Attachment'))).'</small>';
       if ( !empty($row['coord']) ) $arr[$k] .= ' '.$row['coord'];
 			break;
     case 'replies':
       $arr[$k] = ($row['replies']>0 ? '<i data-re="'.$strTableId.'re'.$row['id'].'"></i> ' : '').$row['replies'];
       break;
     case 'views':
-        $arr[$k] = $row['views']==='0' ? '0' : intK((int)$row['views']);
+        $arr[$k] = $row['views']==='0' ? '0' : qtK((int)$row['views']);
         break;
     case 'section':
       $i = (int)$row['section'];
@@ -412,7 +412,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
       if ( empty($row['lastpostdate']) ) {
         $arr[$k] = '&nbsp;';
       } else {
-        $arr[$k] = '<p>'.qtDatestr($row['lastpostdate'],'$','$',true,true,true,'t'.$row['id'].'-lastpostdate').' <a id="t'.$row['id'].'-lastpostico" class="lastitem" href="'.url('qti_item.php').'?t='.$row['id'].'#p'.$row['lastpostid'].'" title="'.L('Goto_message').'">'.getSVG('caret-square-right').'</a></p>';
+        $arr[$k] = '<p>'.qtDatestr($row['lastpostdate'],'$','$',true,true,true,'t'.$row['id'].'-lastpostdate').' <a id="t'.$row['id'].'-lastpostico" class="lastitem" href="'.url('qti_item.php').'?t='.$row['id'].'#p'.$row['lastpostid'].'" title="'.L('Goto_message').'">'.qtSVG('caret-square-right').'</a></p>';
         $arr[$k] .= '<p class="ellipsis"><small>'.L('by').' <a id="t'.$row['id'].'-lastpostname" href="'.url('qti_user.php').'?id='.$row['lastpostuser'].'" title="'.qtAttr($row['lastpostname'],25).'">'.qtTrunc($row['lastpostname'],15).'</a></small></p>';
       }
       break;
