@@ -10,11 +10,11 @@ $ui .= '<div id="optionsbar"'.($_SESSION['EditByRows'] ? '' : ' style="display:n
 
 $ui .= '<select id="pref" name="pref" onchange="doSubmit(`formPref`);">'.PHP_EOL;
 $ui .= '<option value="-" selected disabled hidden>'.L('Show').'</option>';
-$ui .= '<optgroup label="'.L('Item+').'">';
-foreach(array('10','25','50','100') as $i) $ui .= '<option value="n'.$i.'"'.($_SESSION[QT]['items_per_page']===$i ? 'disabled' : '').'>'.$i.' / '.L('page').($_SESSION[QT]['items_per_page']===$i ? ' &#10004;' : '').'</option>';
-$ui .= '</optgroup><optgroup label="'.L('Options').'">';
-$ui .= '<option value="toggleclosed"'.($_SESSION[QT]['show_closed']=='0' && isset($forceShowClosed) && $forceShowClosed=='1' ? ' disabled' : '').'>'.L('Closed_item+').($_SESSION[QT]['show_closed'] ? ' &#10004;' : ' &#10008;').'</option>';
 $ui .= '<option value="togglenewsontop">'.L('News_on_top').($_SESSION[QT]['news_on_top'] ? ' &#10004;' : ' &#10008;').'</option>';
+$ui .= '<option value="toggleclosed"'.($_SESSION[QT]['show_closed']=='0' && isset($forceShowClosed) && $forceShowClosed=='1' ? ' disabled' : '').'>'.L('Closed_item+').($_SESSION[QT]['show_closed'] ? ' &#10004;' : ' &#10008;').'</option>';
+$ui .= '<optgroup label="'.L('Item+').'">';
+foreach(['10','25','50','100'] as $i)
+$ui .= '<option value="n'.$i.'"'.($_SESSION[QT]['items_per_page']===$i ? 'disabled' : '').'>'.$i.' / '.L('page').($_SESSION[QT]['items_per_page']===$i ? ' &#10004;' : '').'</option>';
 $ui .= '</optgroup></select>'.PHP_EOL;
 $ui .= '</form>'.PHP_EOL;
 $oH->scripts[] = 'function doSubmit(idform,idhide="optionsbar"){

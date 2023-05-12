@@ -8,11 +8,9 @@ echo '<div id="optionsbar">
 <input type="hidden" name="t" value="'.$oT->id.'"/>
 '.qtSVG('user-M').'&nbsp;<select name="Maction" onchange="document.getElementById(`modaction`).submit()">
 <option hidden disabled selected>'.L('Staff').' '.L('commands').'...</option>
-<optgroup label="'.L('Item').'">
 <option value="reply">'.L('Reply').'...</option>
 <option value="move">'.L('Move').'...</option>
 <option value="delete">'.L('Delete').'...</option>
-</optgroup>
 <optgroup label="'.L('Status').'">';
 if ( $oT->type!=='T' && $oT->status!=='Z' ) $oT->status = 'A'; // only status A|Z for ticket type A|I
 foreach(CTopic::getStatuses($oT->type,true) as $k=>$strValue) echo '<option value="status_'.$k.'"'.($oT->status==$k ? ' disabled' : '').'>'.$strValue.($oT->status==$k ? ' &#10004;' : '').'</option>'; // caution == array keys can be [int]
