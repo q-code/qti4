@@ -13,7 +13,7 @@ optionsEl.addEventListener("change", (e)=>{
 function iconSpin() {
   const icon = document.getElementById("opt-icon");
   icon.classList.remove("spinning");
-  if (document.getElementById("opt-s").value!=="*" || document.getElementById("opt-st").value!=="*") icon.classList.add("spinning");
+  if ( document.getElementById("opt-s").value!=="*" ) icon.classList.add("spinning");
 }
 function broadcastOption(option,value) {
   ["ref-","id-","kw-","btw-","user-","userm-","adv-"].forEach( id => {
