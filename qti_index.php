@@ -78,17 +78,18 @@ foreach($_Domains as $domId=>$pDomain) {
     $mSec['descr'] = CSection::translate($idSec,'secdesc');
     // output
     $intSec++;
+    $sseId = 's'.$idSec.'-';
     $strLastpost = '&nbsp;';
     $logofile = empty($mSec['options']) ? '' : qtExplodeGet($mSec['options'],'logo',''); // specific logo, or '' for default logo
     if ( $mSec['items']>0 ) {
-      $strLastpost = qtDatestr($mSec['lastpostdate'],'$','$',true,true,true);
-      $strLastpost .= ' <a class="lastitem" href="'.url('qti_item.php').'?t='.$mSec['lastpostpid'].'#p'.$mSec['lastpostid'].'" title="'.L('Goto_message').'">'.qtSVG('caret-square-right').'</a><br><small>'.L('by').' <a href="'.url('qti_user.php').'?id='.$mSec['lastpostuser'].'">'.$mSec['lastpostname'].'</a></span>';
+      $strLastpost = qtDatestr($mSec['lastpostdate'],'$','$',true,true,true, $sseId.'lastpostdate');
+      $strLastpost .= ' <a id="'.$sseId.'lastpostid" class="lastitem" href="'.url('qti_item.php').'?t='.$mSec['lastpostpid'].'#p'.$mSec['lastpostid'].'" title="'.L('Goto_message').'">'.qtSVG('caret-square-right').'</a><br><small>'.L('by').' <a id="'.$sseId.'lastpostuser" href="'.url('qti_user.php').'?id='.$mSec['lastpostuser'].'">'.$mSec['lastpostname'].'</a></span>';
     }
     $t->arrTd[0]->content = asImg( CSection::makeLogo($logofile,$mSec['type'],$mSec['status']), 'title='.L('Ico_section_'.$mSec['type'].'_'.$mSec['status']), url('qti_items.php?s='.$idSec) );
     $t->arrTd[1]->content = '<a class="section" href="'.url('qti_items.php?s='.$idSec).'">'.$mSec['title'].'</a>'.(empty($mSec['descr']) ? '' : '<br><span class="sectiondesc">'.$mSec['descr'].'</span>');
     $t->arrTd[2]->content = $strLastpost;
-    $t->arrTd[3]->content = qtK($mSec['items']);
-    $t->arrTd[4]->content = qtK($mSec['replies']);
+    $t->arrTd[3]->content = qtK($mSec['items']);   $t->arrTd[3]->add('id',$sseId.'items');
+    $t->arrTd[4]->content = qtK($mSec['replies']); $t->arrTd[4]->add('id',$sseId.'replies');
     echo $t->getTDrow('class=hover');
   }
   echo $t->tbody->end();

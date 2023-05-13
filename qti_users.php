@@ -193,7 +193,7 @@ while($row=$oDB->getRow())
 	echo $t->getTDrow('class=t-user hover');
 
 	// map settings
-	if ( $bMap && !QTgempty($row['x']) && !QTgempty($row['y']) )
+	if ( $bMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) )
 	{
 		$y = (float)$row['y']; $x = (float)$row['x'];
 		$strPname = $row['name'];

@@ -331,35 +331,29 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
     $strTicon = CPost::getIconType($row['posttype'], $row['type'], $row['status'], QT_SKIN);
   }
 
-  if ( isset($arrFLD['mail']) || isset($arrFLD['usercontact']) )
-  {
+  if ( isset($arrFLD['mail']) || isset($arrFLD['usercontact']) ) {
     $str = '';
-    if ( !empty($row['mail']) )
-    {
+    if ( !empty($row['mail']) ) {
     if ( $row['privacy']==2 ) $str = renderEmail($row['mail'],'icojava');
     if ( $row['privacy']==1 && SUser::role()!=='V' ) $str = renderEmail($row['mail'],'icojava');
     if ( SUser::id()==$row['id'] || SUser::isStaff() ) $str = renderEmail($row['mail'],'icojava');
     }
     $row['u.mail'] = $str;
   }
-  if ( isset($row['privacy']) )
-  {
+  if ( isset($row['privacy']) ) {
     $row['u.privacy'] = '';
-    if ( SUser::id()>0 )
-    {
+    if ( SUser::id()>0 )  {
     if ( $row['privacy']==0 ) $row['u.privacy'] = '<i class="fa fa-lock'.(SUser::isStaff() || SUser::id()==$row['id'] ? ' private' : '').'" title="'.L('Privacy_0').'"></i>';
     if ( $row['privacy']==1 ) $row['u.privacy'] = '<i class="fa fa-lock" title="'.L('Privacy_1').'"></i>';
     if ( $row['privacy']==2 ) $row['u.privacy'] = '<i class="fa fa-unlock" title="'.L('Privacy_2').'"></i>';
     }
   }
-  if ( $bMap && isset($row['y']) && isset($row['x']) )
-  {
+  if ( $bMap && isset($row['y']) && isset($row['x']) ) {
     $row['coord']='';
     $row['latlon']='';
     $y = floatval($row['y']);
     $x = floatval($row['x']);
-    if ( !empty($y) && !empty($x) )
-    {
+    if ( !empty($y) && !empty($x) ) {/*!!!*/
       $row['coord'] = '<a class="gmappoint" href="javascript:void(0)"'.($_SESSION[QT]['m_gmap_hidelist'] ? '' : ' onclick="gmapPan(`'.$y.','.$x.'`);"').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><i class="fa fa-map-marker" title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'"></i></a>';
       $row['latlon'] = QTdd2dms($y).'<br>'.QTdd2dms($x);
     }
@@ -395,7 +389,8 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
       if ( !empty($row['coord']) ) $arr[$k] .= ' '.$row['coord'];
 			break;
     case 'replies':
-      $arr[$k] = ($row['replies']>0 ? '<i data-re="'.$strTableId.'re'.$row['id'].'"></i> ' : '').$row['replies'];
+      // youreply merged in replies
+      $arr[$k] = $row['replies']==='0' ? '<span id="t'.$row['id'].'-replies">0</span>' : '<span id="'.$strTableId.'re'.$row['id'].'"><svg class="svg-symbol symbol-ireplied"><use href="#symbol-ireplied" xlink:href="#symbol-ireplied"></use></svg></span><span id="t'.$row['id'].'-replies">'.qtK((int)$row['replies']).'</span>';
       break;
     case 'views':
         $arr[$k] = $row['views']==='0' ? '0' : qtK((int)$row['views']);

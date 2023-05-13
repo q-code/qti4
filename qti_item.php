@@ -141,7 +141,7 @@ if ( QT_SHOW_PARENT_DESCR )
 // map module
 if ( $bMap )
 {
-  if ( !QTgemptycoord($oT) )
+  if ( !gmapEmptycoord($oT) )
   {
     $oCanvas = new cCanvas();
     if ( $_SESSION[QT]['viewmode']!=='c' && ($oT->firstpostuser==SUser::id() || SUser::isStaff()) ) $oCanvas->Footer(L('Gmap.editmove'));

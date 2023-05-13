@@ -1,17 +1,17 @@
-// var sseServer, sseConnect, sseOrigin, sid are created in html <script> page
-var sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?sid='+sid+'&retry='+sseConnect); // We include the retry-delay parametre. It will used in the server's broadcasted messages.
-var cseGarbageSection = new Array();
-var cseGarbageTopic = new Array();
-var cseGarbageReply = new Array();
+// const sseServer, sseConnect, sseOrigin, sid are created in html <script> page
+const sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?sid='+sid+'&retry='+sseConnect); // We include the retry-delay parametre. It will used in the server's broadcasted messages.
+const cseGarbageSection = new Array();
+const cseGarbageTopic = new Array();
+const cseGarbageReply = new Array();
 
 sseSource.addEventListener('topic', function(e) {
-  var jd = cseReadSse(e,cseGarbageTopic,['t']); if ( !jd ) return;
+  const jd = cseReadSse(e,cseGarbageTopic,['t']); if ( !jd ) return;
   console.log('SSE type topic: '+e.data);
   cseUpdate(jd,true);
 }, false);
 
 sseSource.addEventListener('section', function(e) {
-  var jd = cseReadSse(e,cseGarbageTopic,['s']); if ( !jd ) return;
+  const jd = cseReadSse(e,cseGarbageTopic,['s']); if ( !jd ) return;
   console.log('SSE type section: '+e.data);
   if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return; }
   if ( !('data' in e) || cseGarbageSection.indexOf(e.data) > -1 ) return;
@@ -26,7 +26,7 @@ sseSource.addEventListener('section', function(e) {
 
 sseSource.addEventListener('error', function(e) {
   if ( !('data' in e) ) return;
-  var hm = new Date();
+  const hm = new Date();
   console.log('SSE('+hm.getHours()+':'+hm.getMinutes()+') Server send error event with data: '+e.data);
   sseSource.close();
   console.log('SSE('+hm.getHours()+':'+hm.getMinutes()+') Client stops sse communication');
@@ -48,7 +48,7 @@ function cseReadSse(e,garbage,minimumData=[]) {
   // Returns an object (json data parsed) or FALSE when the data is in the garbage (or when format/minimumdata is wrong)
   if ( !('origin' in e) || e.origin!=sseOrigin ) { console.log('Unknown sse origin: message came from '+e.origin); return false; }
   if ( !('data' in e) ) return false;
-  var jd = JSON.parse(e.data);
+  const jd = JSON.parse(e.data);
   for (i = minimumData.length - 1; i >= 0; --i) { if ( !(minimumData[i] in jd) ) return false; }
   if ( garbage.indexOf(e.data) > -1 ) return false;
   if ( garbage.length > 5 ) garbage.shift();
@@ -74,8 +74,10 @@ function cseUpdate(jd,light=false) {
     if (light) qtFlash('#'+id+'-issue');
     if ( cseIsset(jd,'lastpostdate',id+'-lastpostdate') ) document.getElementById(id+'-lastpostdate').innerHTML = jd.lastpostdate;
     if ( cseIsset(jd,'lastpostpid',id+'-lastpostpid') ) document.getElementById(id+'-lastpostpid').href = 'qti_item.php?t='+jd.lastpostpid+'#p'+jd.lastpostid;
-    if ( cseIsset(jd,'lastpostuser',id+'-lastpostuser') ) document.getElementById(id+'-lastpostuser').href = 'qti_user.php?id'+jd.lastpostuser;
-    if ( cseIsset(jd,'lastpostname',id+'-lastpostname') ) document.getElementById(id+'-lastpostname').innerHTML = jd.lastpostname;
+    if ( cseIsset(jd,'lastpostuser',id+'-lastpostuser',true) ) {
+      document.getElementById(id+'-lastpostuser').href = 'qti_user.php?id'+jd.lastpostuser;
+      if ( cseIsset(jd,'lastpostname',id+'-lastpostuser') ) document.getElementById(id+'-lastpostuser').innerHTML = jd.lastpostname;
+    }
   }
   // MyLastTicket
   if ( cseIsset(jd,'t','t'+jd.t+'-itemicon') ) { b = qtUpdateItemIcon(jd); if (light && b) qtFlash('#mylastitem > p.title'); }
@@ -97,6 +99,6 @@ function qtUpdateItemIcon(jd,suffix='-itemicon'){
 }
 function qtFlash(id,duration=3000){
   const d = document.querySelector(id);
-  if ( id ) { console.log(duration); }
+  if ( d ) console.log(duration); /*!!! no flash ? */
   return false;
 }

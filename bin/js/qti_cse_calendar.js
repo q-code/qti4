@@ -7,7 +7,7 @@ var cseNewRow = 0;
 
 sseSource.addEventListener('topic', function(e) {
 
-  var jd = cseReadSse(e,cseGarbageTopic,['s','t']); if ( !jd ) return;
+  const jd = cseReadSse(e,cseGarbageTopic,['s','t']); if ( !jd ) return;
   if ( !document.getElementById('t'+jd.t) )  return;
 
   console.log('SSE send topic event with data: '+e.data);
@@ -19,7 +19,7 @@ sseSource.addEventListener('topic', function(e) {
 
 // Error
 // We use a named-event 'error' because the method .onerror is triggered when server script ends
-// When server script ends sseSource must stay opened as the client retry automatically.
+// When server script ends, sseSource must stay opened as the client retry automatically.
 
 sseSource.addEventListener('error', function(e) {
   if ( !('data' in e) ) return;
@@ -50,7 +50,7 @@ function cseReadSse(e,garbage,minimumData=[])
   // Returns an object (json data parsed) or FALSE when the data is in the garbage (or when format/minimumdata is wrong)
   if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return false; }
   if ( !('data' in e) ) return false;
-  var jd = JSON.parse(e.data);
+  const jd = JSON.parse(e.data);
   for (i = minimumData.length - 1; i >= 0; --i) if ( !(minimumData[i] in jd) ) return false;
   if ( garbage.indexOf(e.data) > -1 ) return false;
   if ( garbage.length > 5 ) garbage.shift();
@@ -77,6 +77,6 @@ function qtUpdateItemIcon(jd,suffix='-itemicon')
 function qtFlash(id,duration=3000)
 {
   const d = document.querySelector(id);
-  if ( id ) { console.log(duration); }
+  if ( d ) console.log(duration);
   return false;
 }

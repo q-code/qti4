@@ -1,16 +1,16 @@
-// var sseServer, sseConnect, sseOrigin, sid are created in html <script> page
-var sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?sid='+sid+'&retry='+sseConnect); // We include the retry-delay parametre. It will used in the server's broadcasted messages.
-var cseGarbageSection = new Array();
-var cseGarbageTopic = new Array();
-var cseGarbageReply = new Array();
-var cseNewRow = 0;
+// const sseServer, sseConnect, sseOrigin, sid are created in html <script> page
+const sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?sid='+sid+'&retry='+sseConnect); // We include the retry-delay parametre. It will used in the server's broadcasted messages.
+const cseGarbageSection = new Array();
+const cseGarbageTopic = new Array();
+const cseGarbageReply = new Array();
+const cseNewRow = 0;
 
 // Event handlers
 
 sseSource.addEventListener('topic', function(e) {
 
-  var jd = cseReadSse(e,cseGarbageTopic,['s','t']); if ( !jd ) return;
-  var b =  document.getElementById('pg-s'+jd.s); // can insert
+  const jd = cseReadSse(e,cseGarbageTopic,['s','t']); if ( !jd ) return;
+  let b =  document.getElementById('pg-s'+jd.s); // can insert
   if ( !b ) b = document.getElementById('pg-q-last');
   if ( !b ) b = document.getElementById('pg-q-news') && ('type' in jd) && jd.type=='A';
 
@@ -21,8 +21,8 @@ sseSource.addEventListener('topic', function(e) {
 
 sseSource.addEventListener('reply', function(e) {
 
-  var jd = cseReadSse(e,cseGarbageReply,['s','t']); if ( !jd ) return;
-  var b =  document.getElementById('pg-s'+jd.s);
+  const jd = cseReadSse(e,cseGarbageReply,['s','t']); if ( !jd ) return;
+  let b =  document.getElementById('pg-s'+jd.s);
   if ( !b ) b = document.getElementById('pg-q-last');
   if ( !b ) b = document.getElementById('pg-q-news') && ('type' in jd) && jd.type=='A';
   if ( !b ) return;
@@ -39,7 +39,7 @@ sseSource.addEventListener('reply', function(e) {
 
 sseSource.addEventListener('error', function(e) {
   if ( !('data' in e) ) return;
-  var hm = new Date();
+  const hm = new Date();
   console.log('SSE('+hm.getHours()+':'+hm.getMinutes()+') Server send error event with data: '+e.data);
   sseSource.close();
   console.log('SSE('+hm.getHours()+':'+hm.getMinutes()+') Client stops sse communication');
@@ -63,7 +63,7 @@ function cseReadSse(e,garbage,minimumData=[]) {
   // Returns an object (json data parsed) or FALSE when the data is in the garbage (or when format/minimumdata is wrong)
   if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return false; }
   if ( !('data' in e) ) return false;
-  var jd = JSON.parse(e.data);
+  const jd = JSON.parse(e.data);
   for (i = minimumData.length - 1; i >= 0; --i) if ( !(minimumData[i] in jd) ) return false;
   if ( garbage.indexOf(e.data) > -1 ) return false;
   if ( garbage.length > 5 ) garbage.shift();
@@ -92,7 +92,7 @@ function cseUpdate(jd,light=false) {
 
   if ( !('t' in jd) ) return;
   if ( ('a' in jd) && jd.a==1) return;
-  var idrow = 't1-tr-'+jd.t;
+  const idrow = 't1-tr-'+jd.t;
   let d;
 
   if ( cseIsset(jd,'numid','t'+jd.t+'-c-numid',true) ) {
@@ -151,7 +151,7 @@ function cseUpdate(jd,light=false) {
   if ( cseIsset(jd,'type','t'+jd.t+'-itemicon') ) {
     if ( !('status' in jd) ) jd.status='A';
     jd.imgtitle = csegetIconname(jd.type,jd.status);
-    var b = qtUpdateItemIcon(jd); if (light && b) qtFlash('#'+idrow+' > .c-icon');
+    let b = qtUpdateItemIcon(jd); if (light && b) qtFlash('#'+idrow+' > .c-icon');
   }
   if ( cseIsset(jd,'actorname','t'+jd.t+'-actor'),true ) {
     if ( !('actorid' in jd) ) jd.actorid = 1;
@@ -162,7 +162,7 @@ function cseUpdate(jd,light=false) {
     if ( !('type' in jd) ) jd.type='T';
     if ( !('status' in jd) ) jd.status='A';
     jd.imgtitle = csegetIconname(jd.type,jd.status);
-    var b = qtUpdateItemIcon(jd); if (light && b) qtFlash('#'+idrow+' > .c-icon');
+    let b = qtUpdateItemIcon(jd); if (light && b) qtFlash('#'+idrow+' > .c-icon');
   }
   if ( ('stamp' in jd) ) {
     if (jd.stamp=='' ) { document.querySelector('#'+idrow+' > .c-title > span.news').remove(); } else { d = document.querySelector('#'+idrow+' > .c-title'); d.innerHTML = '<span class="news">'+jd.stamp+'</span>' + d.innerHTML; }
@@ -180,13 +180,11 @@ function cseInsert(tableid,jd) {
   var row1topicid = row1.id.replace(tableid+'-tr-','');
   var row0 = t1.insertRow(0); row0.id = tableid+'-tr-'+jd.t;
   ++cseNewRow;
-  for(i=0;i<row1.cells.length;i++)
-  {
+  for(i=0;i<row1.cells.length;i++) {
     row0.insertCell(i);
     row0.cells[i].className = row1.cells[i].className;
     row0.cells[i].innerHTML = row1.cells[i].innerHTML.replaceAll('id="t'+row1topicid+'-','id="t'+jd.t+'-');
-    var sep = row1.cells[i].id.indexOf('-');
-    row0.cells[i].id = 't'+jd.t + row1.cells[i].id.substring(sep);
+    row0.cells[i].id = 't'+jd.t + row1.cells[i].id.substring(row1.cells[i].id.indexOf('-'));
   }
   if ( ('a' in jd) ) jd.a=0;
   cseClearRow(tableid,jd.t);
@@ -213,7 +211,7 @@ function cseClearRow(tableid,id) {
 function qtUpdateItemIcon(jd,suffix='-itemicon')
 {
   if ( !('id' in jd) && !('t' in jd) ) return false;
-  var id = 't' + (('t' in jd) ? jd.t : jd.id) + suffix;
+  const id = 't' + (('t' in jd) ? jd.t : jd.id) + suffix;
   if ( !document.getElementById(id) ) return false;
   if ( !('imgsrc' in jd) ) jd.imgsrc = 'bin/js/qti_cse_items.gif';
   jd.imgsrc = jd.imgsrc.replace(/\\/g, '');
@@ -228,6 +226,6 @@ function qtUpdateItemIcon(jd,suffix='-itemicon')
 
 function qtFlash(id,duration=3000){
   const d = document.querySelector(id);
-  if ( id ) { console.log(duration); }
+  if ( d )console.log(duration);
   return false;
 }

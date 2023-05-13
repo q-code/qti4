@@ -628,7 +628,7 @@ if ( $oP->type==='P' && $bMap )
 {
   $oCanvas = new cCanvas();
   $strArgs = L('Gmap.cancreate');
-  if ( isset($row) && !QTgemptycoord($row) )
+  if ( isset($row) && !gmapEmptycoord($row) )
   {
     $_SESSION[QT]['m_gmap_gcenter'] = $row['y'].','.$row['x'];
     $strArgs = L('Gmap.canmove');

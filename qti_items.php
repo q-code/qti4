@@ -23,7 +23,8 @@ $s = ''; // section $s can be '*' or [int] (after argument checking only [int] i
 $st = ''; // status $st can be '*' or [string]
 $v = ''; // searched text [string]
 $v2 = ''; // timeframe [string]
-qtArgs('q s st v v2');
+$cid = -1; // allows checking an id when EditByRows (-1 means nothing)
+qtArgs('q s st v v2 int:cid');
 if ( empty($q) ) $q = 's';
 if ( $s==='*' || $s==='' || !is_numeric($s) ) $s = '-1';
 if ( $st==='' ) $st = '*';
@@ -61,11 +62,8 @@ $intLimit = 0;
 if ( isset($_GET['page']) ) { $intPage = (int)$_GET['page']; $intLimit = ($intPage-1)*$_SESSION[QT]['items_per_page']; }
 if ( isset($_GET['order']) ) $strOrder = $_GET['order'];
 if ( isset($_GET['dir']) ) $strDirec = strtolower(substr($_GET['dir'], 0, 4));
-if ( isset($_GET['cid']) ) $intChecked = (int)strip_tags($_GET['cid']); // allow checking an id in edit mode
-if ( isset($_POST['cid']) ) $intChecked = (int)strip_tags($_POST['cid']);
 if ( !isset($_SESSION['EditByRows']) || !SUser::isStaff() ) $_SESSION['EditByRows'] = 0;
 if ( !isset($_SESSION[QT]['lastcolumn']) || $_SESSION[QT]['lastcolumn']=='none' ) $_SESSION[QT]['lastcolumn'] = '0';
-$intChecked = -1; // allows checking an id when EditByRows (-1 means no check)
 $navCommands = '';
 $rowCommands = ''; // commands when EditByRows
 
@@ -137,14 +135,12 @@ $strPaging = makePager( url($oH->selfurl).'?'.$oH->selfuri, $intCount, (int)$_SE
 if ( $strPaging!='') $strPaging = L('Page').$strPaging;
 
 // MAP
-
-$bMap = false;
+$useMap = false;
 if ( qtModule('gmap')) {
   include translate(APP.'m_gmap.php');
   include 'qtim_gmap_lib.php';
-  if ( gmapCan(empty($q) ? $oS->id : 'S')) $bMap = true;
-  if ( $bMap) $oH->links[] = '<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
-
+  if ( gmapCan(empty($q) ? $oS->id : 'S')) $useMap = true;
+  if ( $useMap) $oH->links[] = '<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
   if ( isset($_GET['hidemap'])) $_SESSION[QT]['m_gmap_hidelist'] = true;
   if ( isset($_GET['showmap'])) $_SESSION[QT]['m_gmap_hidelist'] = false;
   if ( !isset($_SESSION[QT]['m_gmap_hidelist'])) $_SESSION[QT]['m_gmap_hidelist'] = false;
@@ -211,20 +207,20 @@ if ( !empty($pageTitle) ) $pageTitle = '<p class="pg-title">'.$pageTitle.'</p>'.
 // --------
 
 // SSE (if section is not empty)
-if ( $intCount>0 && SMemSSE::useSSE() ){
-  $oH->scripts[] = 'var cseMaxRows = '.(defined('SSE_MAX_ROWS') ? SSE_MAX_ROWS : 2).';
-var cseShowZ = '.$_SESSION[QT]['show_closed'].';
+if ( $intCount>0 && SMemSSE::useSSE() ) {
+  $oH->scripts[] = 'const cseMaxRows = '.(defined('SSE_MAX_ROWS') ? SSE_MAX_ROWS : 2).';
+const cseShowZ = '.$_SESSION[QT]['show_closed'].';
 if ( typeof EventSource==="undefined" ) {
   window.setTimeout(function(){location.reload(true);}, 120000); // use refresh (120s) when browser does not support SSE
 } else {
-  var sid = "'.QT.'";
-  var sseServer = "'.SSE_SERVER.'";
-  var sseConnect = '.SSE_CONNECT.';
-  var sseOrigin = "'.(defined('SSE_ORIGIN') ? SSE_ORIGIN : 'http://localhost').'";
-  var cseStatusnames = '.json_encode(CTopic::getStatuses('T',true)).';
-  var cseTypenames = '.json_encode(CTopic::getTypes()).';
+  const sid = "'.QT.'";
+  const sseServer = "'.SSE_SERVER.'";
+  const sseConnect = '.SSE_CONNECT.';
+  const sseOrigin = "'.(defined('SSE_ORIGIN') ? SSE_ORIGIN : 'http://localhost').'";
+  const cseStatusnames = '.json_encode(CTopic::getStatuses('T',true)).';
+  const cseTypenames = '.json_encode(CTopic::getTypes()).';
   window.setTimeout(function(){
-  var script = document.createElement("script");
+  const script = document.createElement("script");
   script.src = "bin/js/qti_cse_items.js";
   document.getElementsByTagName("head")[0].appendChild(script);
   },'.(defined('SSE_LATENCY') ? SSE_LATENCY : 10000).');
@@ -369,7 +365,7 @@ $arrTopics=array(); // topics having replies (use in post-processing)
 $arrTags=array();
 $arrS = isset($t->arrTd['status']) ? SMem::get('_Statuses') : [];
 $arrOptions = [];
-$arrOptions['bmap'] = $bMap;
+$arrOptions['bmap'] = $useMap;
 if ( $_SESSION[QT]['item_firstline']==='0' ) {
   $arrOptions['firstline'] = false;
 } elseif ( $_SESSION[QT]['item_firstline']==='2' ) {
@@ -378,65 +374,55 @@ if ( $_SESSION[QT]['item_firstline']==='0' ) {
   $arrOptions['firstline'] = true;
 }
 if ( $oS->id>=0 && !empty($oS->numfield) ) $arrOptions['numfield'] = $oS->numfield;
+if ( $useMap && !empty($q) && !gmapCan($oS->id) ) $arrOptions['bmap'] = false; // skip map processing when search result includes an item from a section having mapping off
 
-while($row=$oDB->getRow())
-{
-  if ( $row['replies']>0 ) $arrTopics[]=(int)$row['id'];
+while( $row = $oDB->getRow() ) {
 
-  // check if map applicable in case of search results
-  if ( $bMap && !empty($q) && !gmapCan($oS->id) ) $arrOptions['bmap'] = false; // skip map processing when search result includes an item from a section having mapping off
-
-  // prepare values, and insert value into the cells
-  $t->setTDcontent( formatItemRow('t1', $t->getTHnames(), $row, $oS, $arrOptions), false ); // adding extra columns not allowed
-  // handle dynamic style
-  if ( isset($t->arrTd['status']) ) {
-    $t->arrTd['status']->add('style', empty($arrS[$row['status']]['color']) ? '' : 'background-color:'.$arrS[$row['status']]['color']);
-  }
-  // add id in each cell
-  foreach(array_keys($t->arrTd) as $tdname) $t->arrTd[$tdname]->Add('id','t'.$row['id'].'-c-'.$tdname);
-  // prepare checkbox (edit mode)
-  if ( $_SESSION['EditByRows']) {
-    $bChecked = $row['id']==$intChecked;
-    if ( $row['posttype']==='P') $t->arrTd['checkbox']->content = '<input type="checkbox" name="t1-cb[]" id="t1-cb-'.$row['id'].'" value="'.$row['id'].'"'.($bChecked ? 'checked' : '').'/>';
-  }
-  // check if end of a tbody group
+  // check if end of a tbody (dataset group)
   if ( $useNewsOnTop && !empty($row['typea']) && $row['typea']==='Z' ) {
     $useNewsOnTop = false; // end of news on top
     echo $t->tbody->end();
     $t->tbody->add('data-dataset', 'items');
     echo $t->tbody->start();
   }
-  // Show row content
+
+  // FORMAT the data
+  $t->setTDcontent(formatItemRow('t1', $t->getTHnames(), $row, $oS, $arrOptions), false); // adding extra columns not allowed
+  // dynamic style
+  if ( isset($t->arrTd['status']) )
+  $t->arrTd['status']->add('style', empty($arrS[$row['status']]['color']) ? '' : 'background-color:'.$arrS[$row['status']]['color']);
+  // add id in each cell (cse-sse)
+  foreach(array_keys($t->arrTd) as $tdname)
+  $t->arrTd[$tdname]->add('id','t'.$row['id'].'-c-'.$tdname);
+  // add checkbox if edit mode
+  if ( $_SESSION['EditByRows'] && $row['posttype']==='P' )
+  $t->arrTd['checkbox']->content = '<input type="checkbox" name="t1-cb[]" id="t1-cb-'.$row['id'].'" value="'.$row['id'].'"'.($row['id']==$cid ? ' checked' : '').'/>';
+
+  // OUPUT the row
   echo $t->getTDrow('id=t1-tr-'.$row['id'].'|class=t-item hover rowlight');
 
-  // map settings
-  if ( $bMap && !QTgempty($row['x']) && !QTgempty($row['y']) )
-  {
-    $y = (float)$row['y']; $x = (float)$row['x'];
-    $strIco = ''; if ( isset($row['type']) && isset($row['status']) ) $strIco = CTopic::makeIcon($row['type'],$row['status'],false,'',QT_SKIN).' ';
-    $strRef = ''; if ( isset($row['numid']) && isset($row['section']) && isset($arrSEC[(int)$row['section']]['numfield']) ) $strRef = CTopic::getRef($row['numid'],$arrSEC[(int)$row['section']]['numfield']).' ';
-    $strTitle = ''; if ( !empty($row['title']) ) $strTitle = qtTrunc($row['title'],25);
-    $strAttr = ''; if ( isset($row['firstpostdate']) && isset($row['firstpostname']) ) $strAttr = L('By').' '.$row['firstpostname'].' ('.qtDatestr($row['firstpostdate'],'$','$',true,true).')<br>';
+  // COLLECT
+  if ( $row['replies']>0 ) $arrTopics[]=(int)$row['id'];
+  if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && !empty($row['tags']) && count($arrTags)<32 ) $arrTags = qtCleanArray($row['tags'], ';', $arrTags);
+  if ( $useMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) ) {
+    $y = (float)$row['y'];
+    $x = (float)$row['x'];
+    $strIco = $strRef = $strTitle = $strAttr = '';
+     if ( isset($row['type']) && isset($row['status']) ) $strIco = CTopic::makeIcon($row['type'],$row['status'],false,'',QT_SKIN).' ';
+     if ( isset($row['numid']) && isset($row['section']) && isset($arrSEC[(int)$row['section']]['numfield']) ) $strRef = CTopic::getRef($row['numid'],$arrSEC[(int)$row['section']]['numfield']).' ';
+    if ( !empty($row['title']) ) $strTitle = qtTrunc($row['title'],25);
+    if ( isset($row['firstpostdate']) && isset($row['firstpostname']) ) $strAttr = L('By').' '.$row['firstpostname'].' ('.qtDatestr($row['firstpostdate'],'$','$',true,true).')<br>';
     if ( isset($row['replies']) ) $strAttr .= L('Reply',(int)$row['replies']).' ';
     $strPname = $strRef.$strTitle;
     $strPinfo = $strIco.$strRef.'<br>'.$strTitle.'<br><span class="small">'.$strAttr.'</span> <a class="gmap" href="'.url('qti_item.php').'?t='.$row['id'].'">'.L('Open').'</a>';
     $oMapPoint = new CMapPoint($y,$x,$strPname,$strPinfo);
-
     // add extra $oMapPoint properties (if defined in section settings)
     $oSettings = getMapSectionSettings($q==='s' ? $s : 'S');
     if ( is_object($oSettings) ) foreach(array('icon','shadow','printicon','printshadow') as $prop) if ( property_exists($oSettings,$prop) ) $oMapPoint->$prop = $oSettings->$prop;
     $arrExtData[(int)$row['id']] = $oMapPoint;
   }
-
-  // collect tags
-
-  if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)<51 )
-  {
-  if ( !empty($row['tags']) ) $arrTags = array_unique(array_merge($arrTags,explode(';',$row['tags'])));
-  }
-
-  ++$intWhile;
-  if ( $intWhile>=$_SESSION[QT]['items_per_page'] ) break;
+  // security limit break
+  ++$intWhile; if ( $intWhile>=$_SESSION[QT]['items_per_page'] ) break;
 }
 
 // === TABLE END DISPLAY ===
@@ -494,16 +480,12 @@ hideEmptyColumn("t1","c-prefix");';
 
 // MAP MODULE, Show map
 
-if ( $bMap )
-{
+if ( $useMap ) {
   echo PHP_EOL,'<!-- Map module -->'.PHP_EOL;
-  if ( count($arrExtData)==0 )
-  {
+  if ( count($arrExtData)==0 ) {
     echo '<p class="gmap nomap">'.L('Gmap.No_coordinates').'</p>';
-    $bMap=false;
-  }
-  else
-  {
+    $useMap=false;
+  } else {
     $oCanvas = new cCanvas();
     $oCanvas->Header( $arrExtData );
     $oCanvas->Footer( sprintf(L('Gmap.items'),L('item',count($arrExtData)),L('item',$intCount)) );
@@ -522,12 +504,11 @@ if ( $bMap )
  * @var array $gmap_events
  * @var array $gmap_functions
  */
-if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
+if ( $useMap && !$_SESSION[QT]['m_gmap_hidelist'] )
 {
   $gmap_shadow = false;
   $gmap_symbol = false;
-  if ( !empty($_SESSION[QT]['m_gmap_gsymbol']) )
-  {
+  if ( !empty($_SESSION[QT]['m_gmap_gsymbol']) ) {
     $arr = explode(' ',$_SESSION[QT]['m_gmap_gsymbol']);
     $gmap_symbol=$arr[0];
     if ( isset($arr[1]) ) $gmap_shadow=$arr[1];
@@ -538,13 +519,11 @@ if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
   $x = floatval(QTgetx($_SESSION[QT]['m_gmap_gcenter']));
 
   // center on the first item
-  foreach($arrExtData as $oMapPoint)
-  {
-    if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )
-    {
-    $y=$oMapPoint->y;
-    $x=$oMapPoint->x;
-    break;
+  foreach($arrExtData as $oMapPoint) {
+    if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) ) {
+      $y=$oMapPoint->y;
+      $x=$oMapPoint->x;
+      break;
     }
   }
   // update center
@@ -553,10 +532,8 @@ if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
   $gmap_markers = array();
   $gmap_events = array();
   $gmap_functions = array();
-  foreach($arrExtData as $oMapPoint)
-  {
-    if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )
-    {
+  foreach($arrExtData as $oMapPoint) {
+    if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) ) {
       $user_symbol = $gmap_symbol; // required to reset symbol on each user
       if ( !empty($oMapPoint->icon) ) $user_symbol = $oMapPoint->icon;
       $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x,false,$user_symbol,$oMapPoint->title,$oMapPoint->info);
