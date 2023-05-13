@@ -1,4 +1,4 @@
-// var sseServer, sseConnect, sseOrigin, sid are created in html <script> page
+// sseServer, sseConnect, sseOrigin, sid are created in html <script> page
 var sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?sid='+sid+'&retry='+sseConnect); // We include the retry-delay parametre. It will used in the server's broadcasted messages.
 var cseGarbageTopic = new Array();
 var cseNewRow = 0;

@@ -1,5 +1,5 @@
 <?php
-define("SSE_CONNECT",10);
+define("SSE_CONNECT",0);
 define("SSE_SERVER","");
 define("SSE_ORIGIN","http://localhost");
 define("SSE_MAX_ROWS",2);

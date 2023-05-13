@@ -206,28 +206,6 @@ if ( !empty($pageTitle) ) $pageTitle = '<p class="pg-title">'.$pageTitle.'</p>'.
 // HTML BEGIN
 // --------
 
-// SSE (if section is not empty)
-if ( $intCount>0 && SMemSSE::useSSE() ) {
-  $oH->scripts[] = 'const cseMaxRows = '.(defined('SSE_MAX_ROWS') ? SSE_MAX_ROWS : 2).';
-const cseShowZ = '.$_SESSION[QT]['show_closed'].';
-if ( typeof EventSource==="undefined" ) {
-  window.setTimeout(function(){location.reload(true);}, 120000); // use refresh (120s) when browser does not support SSE
-} else {
-  const sid = "'.QT.'";
-  const sseServer = "'.SSE_SERVER.'";
-  const sseConnect = '.SSE_CONNECT.';
-  const sseOrigin = "'.(defined('SSE_ORIGIN') ? SSE_ORIGIN : 'http://localhost').'";
-  const cseStatusnames = '.json_encode(CTopic::getStatuses('T',true)).';
-  const cseTypenames = '.json_encode(CTopic::getTypes()).';
-  window.setTimeout(function(){
-  const script = document.createElement("script");
-  script.src = "bin/js/qti_cse_items.js";
-  document.getElementsByTagName("head")[0].appendChild(script);
-  },'.(defined('SSE_LATENCY') ? SSE_LATENCY : 10000).');
-}';
-
-}
-
 include APP.'_inc_hd.php';
 
 // PAGE title and UI
@@ -246,13 +224,8 @@ $navCommands = $oH->backButton().$navCommands.$navCommandsRefine;
 
 // End if no results
 if ( $intCount==0 ) {
-
   // if no result with sqlHideClosed, re-count without
-  if ( !empty($sqlHideClosed) ) {
-    $oDB->query( $sqlCount );
-    $row = $oDB->getRow();
-    $intCount = (int)$row['countid'];
-  }
+  if ( !empty($sqlHideClosed) ) $intCount = $oDB->count($sqlCount, $sqlValues);
   echo '<div class="nav-top">'.$navCommands.'</div>'.PHP_EOL;
   echo '<p class="center" style="margin:1rem 0">'.L('No_result').'...</p>';
   if ( $oS->type==='2' && !SUser::isStaff() ) echo '<p class="center">'.L('Only_your_items').'</p>';
@@ -263,7 +236,6 @@ if ( $intCount==0 ) {
   echo '<p class="center"><a href="'.url('qti_items.php').'?'.$arg.'">'.L('Try_without_options').'</a></p>';
   include 'qti_inc_ft.php';
   exit;
-
 }
 
 // LIST TOPICS
@@ -569,6 +541,27 @@ if ( isset($_GET['cb']) ) $oH->scripts[] = 'qtCheckboxIds(['.$_GET['cb'].']);';
 
 // hide table-ui-bottom-controls if less than 5 table rows
 $oH->scripts[] = 'qtHideAfterTable("t1-nav-bot");qtHideAfterTable("tablebot");';
+
+// SSE (if section is not empty)
+if ( $intCount>0 && SMemSSE::useSSE() ) {
+  $oH->scripts[] = 'var cseMaxRows = '.(defined('SSE_MAX_ROWS') ? SSE_MAX_ROWS : 2).';
+var cseShowZ = '.$_SESSION[QT]['show_closed'].';
+if ( typeof EventSource==="undefined" ) {
+  window.setTimeout(function(){location.reload(true);}, 120000); // use refresh (120s) when browser does not support SSE
+} else {
+  var sid = "'.QT.'";
+  var sseServer = "'.SSE_SERVER.'";
+  var sseConnect = '.SSE_CONNECT.';
+  var sseOrigin = "'.(defined('SSE_ORIGIN') ? SSE_ORIGIN : 'http://localhost').'";
+  var cseStatusnames = '.json_encode(CTopic::getStatuses('T',true)).';
+  var cseTypenames = '.json_encode(CTopic::getTypes()).';
+  window.setTimeout(function(){
+  const script = document.createElement("script");
+  script.src = "bin/js/qti_cse_items.js";
+  document.getElementsByTagName("head")[0].appendChild(script);
+  },'.(defined('SSE_LATENCY') ? SSE_LATENCY*1000 : 10000).');
+}';
+} // TIPS: sse-constants MUST be VAR to be available in other javascript
 
 // Symbols
 echo '<svg xmlns="http://www.w3.org/2000/svg" style="display:none">'.PHP_EOL;

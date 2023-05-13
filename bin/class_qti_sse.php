@@ -159,7 +159,7 @@ public static function broadcast(string $event, string $jsondata, bool $append=f
     {
     if ( substr($old,0,1)==='[' ) $old = substr($old,1);
     if ( substr($old,-1,1)===']' ) $old = substr($old,0,-1);
-    $str= $old.','.$str;
+    $str = $old.','.$str;
     }
   }
   SMem::set( QT.'_sse_'.$event, '['.$str.']', $timeout+1 );

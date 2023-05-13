@@ -105,19 +105,6 @@ if ( $intSec===0 ) echo '<p>'.(SUser::role()==='V' ? L('E_no_public_section') : 
 
 if ( isset($oS) ) unset($oS);
 
-// DEBUG SSE
-if ( isset($_SESSION['QTdebugsse']) && $_SESSION['QTdebugsse'] ) echo '<div id="serverData"></div>';
-
-
-$oH->scripts[] ='const rows = document.querySelectorAll("tr.wayin");
-rows.forEach( (row) => {
-  if ( row.id.indexOf("-row")>=0 ) {
-    const lnk = document.getElementById("wayout-"+row.id);
-    if ( lnk ) window.location.assign(lnk.href);
-  }
-  row.style.cursor = "pointer";
-});';
-
 if ( SMemSSE::useSSE() )
 {
   $oH->scripts[] = 'if ( typeof EventSource==="undefined" ){
@@ -128,12 +115,25 @@ if ( SMemSSE::useSSE() )
   var sseConnect = '.SSE_CONNECT.';
   var sseOrigin = "'.(defined('SSE_ORIGIN') ? SSE_ORIGIN : 'http://localhost').'";
   window.setTimeout(function(){
-    var script = document.createElement("script");
+    const script = document.createElement("script");
     script.src = "bin/js/qti_cse_index.js";
     document.getElementsByTagName("head")[0].appendChild(script);
-  },10000);
+  },'.(defined('SSE_LATENCY') ? SSE_LATENCY*1000 : 10000).');
  }';
+ // TIPS: sse-constants MUST be VAR to be available in other javascript
 }
+
+// DEBUG SSE
+if ( isset($_SESSION['QTdebugsse']) && $_SESSION['QTdebugsse'] ) echo '<div id="serverData"></div>';
+
+$oH->scripts[] ='const rows = document.querySelectorAll("tr.wayin");
+rows.forEach( (row) => {
+  if ( row.id.indexOf("-row")>=0 ) {
+    const lnk = document.getElementById("wayout-"+row.id);
+    if ( lnk ) window.location.assign(lnk.href);
+  }
+  row.style.cursor = "pointer";
+});';
 
 // Symbols
 echo '<svg xmlns="http://www.w3.org/2000/svg" style="display:none">'.PHP_EOL;
