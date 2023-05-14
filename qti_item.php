@@ -287,16 +287,16 @@ if ( $_SESSION[QT]['show_quick_reply']=='1' || ($_SESSION[QT]['show_quick_reply'
 $certificate = makeFormCertificate('b7033b5983ec3b0fef7b3c251f6d0b92');
 echo '
 <div id="message-preview"></div>
-<form id="form-edit" method="post" action="'.url('qti_edit.php').'">
+<form id="form-qr" method="post" action="'.url('qti_edit.php').'" data-itemtype="'.$oT->type.'">
 <div class="quickreply">
 ';
 echo '<div class="g-qr-icon"><p class="i-container" title="'.L('Reply').'">'.qtSVG('comment-dots').'</p></div>
 <div class="g-qr-title">'.L('Quick_reply').'</div>
 <div class="g-qr-bbc">'.(QT_BBC ? '<div class="bbc-bar">'.bbcButtons(1).'</div>' : '').'</div>
-<div class="g-qr-text"><textarea'.($oT->type==='I' ? '' : ' required').' id="text" name="text" rows="4"></textarea>';
+<div class="g-qr-text"><textarea'.($oT->type==='I' ? '' : ' required').' id="form-qr-text" name="text" rows="4"></textarea>';
 if ( $oT->type==='I' ) echo htmlScore($oT->getMF('param','Ilevel','3'), ' &nbsp;');
 echo '
-<p id="quickreply-footer"><a href="javascript:void(0)" onclick="document.getElementById(`form-edit`).submit();">'.L('More').'...</a></p>
+<p id="quickreply-footer"><a href="javascript:void(0)" onclick="document.getElementById(`form-qr`).submit();">'.L('More').'...</a></p>
 </div>
 ';
 echo '<div class="g-qr-btn">
@@ -308,7 +308,7 @@ echo '<div class="g-qr-btn">
 <input type="hidden" name="ref" value="'.$oT->numid.'"/>
 <input type="hidden" name="icon" value="00"/>
 <input type="hidden" name="title" />
-<button type="submit" id="dopreview" name="dopreview" value="'.$certificate.'" onclick="this.form.dataset.state=0">'.L('Preview').'...</button><button type="submit" id="dosend" name="dosend" value="'.$certificate.'">'.L('Send').'</button>
+<button type="submit" id="form-qr-preview" name="preview" value="'.$certificate.'" onclick="this.form.dataset.state=0">'.L('Preview').'...</button><button type="submit" id="dosend" name="dosend" value="'.$certificate.'">'.L('Send').'</button>
 </div>
 ';
 echo '</div>
@@ -320,19 +320,19 @@ echo '</div>
 // --------
 
 if ( QT_BBC ) $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_bbc.js"></script>';
-$oH->scripts[] = 'const btnPreview = document.getElementById("dopreview");
-if  ( btnPreview ) {
-  btnPreview.addEventListener("click", (e) => {
-    e.preventDefault();
-    let formData = new FormData(document.getElementById("form-edit"));
-    fetch("qti_edit_preview.php", {method:"POST", body:formData})
-    .then( response => response.text() )
-    .then( data => {
-      document.getElementById("message-preview").innerHTML = data;
-      document.querySelectorAll("#message-preview a").forEach( anchor => {anchor.href="javascript:void(0)"; anchor.target="";} ); } )
-    .catch( err => console.log(err) );
-  });
-}';
+$oH->scripts[] = 'const d = document.getElementById("form-qr-preview");
+d.addEventListener("click", (e) => {
+  if ( d.dataset.itemtype!=="I" && document.getElementById("form-qr-text").value==="" ) return false;
+  e.preventDefault();
+  let formData = new FormData(document.getElementById("form-qr"));
+  fetch("qti_edit_preview.php", {method:"POST", body:formData})
+  .then( response => response.text() )
+  .then( data => {
+    document.getElementById("message-preview").innerHTML = data;
+    document.querySelectorAll("#message-preview a").forEach( anchor => {anchor.href="javascript:void(0)"; anchor.target="";} ); } )
+  .catch( err => console.log(err) );
+});
+';
 
 }}}
 

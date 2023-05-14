@@ -18,7 +18,7 @@ div:is(.formLogin, .formPwd) .msgboxbody p{text-align:right}
 .input-pwd{position:relative}
 .toggle-pwd{position:absolute;padding:0 8px;top:50%;transform:translate(-100%,-50%);color:#999}
 .toggle-pwd:hover{color:var(--ah);cursor:pointer}
-textarea#text{width:95%;resize:vertical}
+#form-edit-text, #form-qr-text{width:95%;resize:vertical}
 #rules{margin:0 auto 20px auto;padding:4px 8px;background-color:#FFF;border:solid 1px #AAA;height:200px;overflow:auto}
 fieldset.register{margin:0 0 15px 0;padding:15px 0 0 8px;text-align:right;border:solid 1px var(--bgbtn);border-width:1px 0 0 0}
 fieldset.register legend{color:var(--bgbtn);font-weight:bold;text-align:left}
