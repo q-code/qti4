@@ -136,7 +136,7 @@ $L['Move']='Mover';
 $L['Name']='Nombre';
 $L['None']='Nada';
 $L['Notification']='Notificación';
-$L['Open']='Abrir';
+$L['Opened']='Abierto';
 $L['Options']='Opciones';
 $L['Other']='Otro'; $L['Other+']='Otros';
 $L['Page']='página';

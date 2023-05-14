@@ -75,13 +75,11 @@ switch($a) {
 // MAP
 
 $bMap=false;
-if ( qtModule('gmap') )
-{
+if ( qtModule('gmap') ) {
   include translate('qtim_gmap.php');
   include 'qtim_gmap_lib.php';
   if ( gmapCan($s) ) $bMap=true;
-  if ( $bMap )
-  {
+  if ( $bMap ) {
   $oH->links[]='<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
   if ( !isset($_SESSION[QT]['m_gmap_symbols']) ) $_SESSION[QT]['m_gmap_symbols']='0';
   }
@@ -134,16 +132,14 @@ if ( isset($_POST['dosend']) ) try {
   if ( isset($_POST['notifiedname']) ) {
     $strNotified = trim($_POST['notifiedname']);
     // Complete if missing notified name
-    if ( $strNotified!=='' )
-    {
+    if ( $strNotified!=='' ) {
       $arrNames = getUsers('N',$strNotified,1);
       if ( count($arrNames)!==1 )  { throw new Exception( L('Notify_also').' '.L('invalid') ); }; //...
       $intNotified = array_key_first($arrNames);
     }
   }
 
-  if ( !empty($_POST['wisheddate']) )
-  {
+  if ( !empty($_POST['wisheddate']) ) {
     $strArgs = qtDatestr(trim($_POST['wisheddate']),'Ymd','');
     if ( !is_string($strArgs) ) throw new Exception( L('Wisheddate').' '.L('invalid') );
     if ( substr($strArgs,0,6)==='Cannot' ) throw new Exception( L('Wisheddate').' '.L('invalid') );
@@ -158,14 +154,12 @@ if ( isset($_POST['dosend']) ) try {
 
   // Mandatory submitted fields (in case of new topic)
 
-  if ( $a==='nt' )
-  {
+  if ( $a==='nt' ) {
     if ( $oS->notifycc=='2' && $intNotified<0 ) throw new Exception( L('Notify_also').': '.L('Missing') );
     if ( $oS->wisheddate=='2' && empty($_POST['wisheddate']) ) throw new Exception( L('Wisheddate').': '.L('Missing') );
     if ( $oP->title==='' && $oS->titlefield=='2' ) throw new Exception( L('E_no_title') );
   }
-  if ( $a==='ed' )
-  {
+  if ( $a==='ed' ) {
     if ( $oP->title==='' && $oS->titlefield=='2' ) throw new Exception( L('E_no_title') );
   }
 
@@ -192,8 +186,8 @@ if ( isset($_POST['dosend']) ) try {
 	}
 
 	// PROCESS $a
-	switch($a)
-  {
+	switch($a) {
+
 	case 'nt': // new topic
     $oDB->beginTransac();
 		$oT->id = $oDB->nextId(TABTOPIC);
@@ -285,8 +279,7 @@ if ( isset($_POST['dosend']) ) try {
 
 	case 'ed': // SEND a edit
 
-    if ( $bMap && isset($_POST['coord']) )
-    {
+    if ( $bMap && isset($_POST['coord']) ) {
       if ( empty($_POST['coord']) ) { CTopic::setCoord($oDB,$t,''); } else { CTopic::setCoord($oDB,$t,$_POST['coord']); } //z is not used
     }
 
@@ -297,8 +290,7 @@ if ( isset($_POST['dosend']) ) try {
     if ( $oT->lastpostid!=$oP->id ) $strModif=', modifdate="'.date('Ymd His').'", modifuser='.$oP->modifuser.', modifname="'.$oP->modifname.'"';
 
     // Add attach
-    if ( $withDoc )
-    {
+    if ( $withDoc ) {
       $strDir = qtDirData('',$oP->id);
       $oP->attach = $strDir.$oP->id.'_'.$_FILES['newdoc']['name'];
       copy($_FILES['newdoc']['tmp_name'],QT_DIR_DOC.$oP->attach);
@@ -311,10 +303,8 @@ if ( isset($_POST['dosend']) ) try {
     $oDB->exec( "UPDATE TABPOST SET title='".qtDb($oP->title)."', icon='".$oP->icon."',textmsg='".qtDb($oP->text)."',attach='".$oP->attach."' ".$strModif." WHERE id=".$oP->id );
     if ( isset($_POST['wisheddate']) ) $oDB->exec( 'UPDATE TABTOPIC SET wisheddate="'.$oT->wisheddate.'",modifdate="'.date('Ymd His').'" WHERE id='.$t);
     // topic type (from staff)
-    if ( isset($_POST['topictype']) )
-    {
-      if ( $_POST['topictype']!==$_POST['oldtype'] )
-      {
+    if ( isset($_POST['topictype']) ) {
+      if ( $_POST['topictype']!==$_POST['oldtype'] ) {
       $oT->setType($_POST['topictype']);
       }
     }
@@ -360,10 +350,8 @@ if ( isset($_POST['dosend']) ) try {
 // HTML BEGIN
 // --------
 
-if ( $bMap )
-{
-  if ( !empty($oT->y) && !empty($oT->x) )
-  {
+if ( $bMap ) {
+  if ( !empty($oT->y) && !empty($oT->x) ) {
     $strPname = substr($oP->title,0,25);
     $strPinfo = '<p class="small">Lat: '.QTdd2dms($oT->y).' <br>Lon: '.QTdd2dms($oT->x).'<br><br>DD: '.round($oT->y,8).', '.round($oT->x,8).'</p>';
     $oMapPoint = new CMapPoint($oT->y,$oT->x,$strPname,$strPinfo);
@@ -372,9 +360,7 @@ if ( $bMap )
     $oSettings = getMapSectionSettings($s,true);
     if ( is_object($oSettings) ) foreach(array('icon','shadow','printicon','printshadow') as $prop) if ( property_exists($oSettings,$prop) ) $oMapPoint->$prop = $oSettings->$prop;
     $arrExtData[$oT->id] = $oMapPoint;
-  }
-  else
-  {
+  } else {
     $oMapPoint = new CMapPoint(0,0);
   }
 }
@@ -412,47 +398,32 @@ if ( $oT->type==='I' && ($a=='re' || $a=='qu') ) {
 
 // FORM START
 
-echo '<h2>'.$oH->selfname.'</h2>
-<form id="form-edit" method="post" action="'.url($oH->selfurl).'" enctype="multipart/form-data">
+echo '<form id="form-edit" method="post" action="'.url($oH->selfurl).'" enctype="multipart/form-data">
+<div class="flex-sp">
+<h2>'.$oH->selfname.'</h2>
 ';
 
-if ( SUser::isStaff() )
-{
-  echo '<div id="optionsbar" title="'.L('Staff').' '.L('commands').'">'.qtSVG('user-U').'&nbsp;'.PHP_EOL;
+if ( SUser::isStaff() ) {
+  echo '<div id="optionsbar" title="'.L('Staff').' '.L('commands').'">'.qtSVG('user-M').'&nbsp;'.PHP_EOL;
   if ( $oP->type=='P' ) {
-    echo L('Type').' <select name="topictype" size="1" id="newtopictype" onchange="changeIcon()">';
-    echo qtTags(CTopic::getTypes(),$oT->type);
-    echo '</select> ';
+    echo L('Type').' <select id="newtopictype" name="topictype" size="1">'.qtTags(CTopic::getTypes(),$oT->type).'</select> ';
   } else {
-    echo '<input type="hidden" name="topictype" id="newtopictype" value="'.$oT->type.'">'.PHP_EOL;
+    echo '<input type="hidden" id="newtopictype" name="topictype" value="'.$oT->type.'">'.PHP_EOL;
   }
-  echo L('Status').' <select name="topicstatus" size="1" id="newtopicstatus" '.($oP->type=='P' ? ' onchange="changeIcon();"' : '').'>'.PHP_EOL;
-  $arrS = SMem::get('_Statuses');
-  switch($oT->type)
-  {
-  case 'T': $arr = $arrS; break; // use all statuses in $arr
-  case 'I': $arr = array('A'=>L('I_running'),'Z'=>L('I_closed')); break;
-  default:
-    $strA = empty($arrS['A']['name']) ? L('Opened') : $arrS['A']['name'];
-    $strZ = empty($arrS['Z']['name']) ? L('Closed') : $arrS['Z']['name'];
-    $arr = array('A'=>$strA,'Z'=>$strZ);
-    break;
-  }
-  echo qtTags($arr,$oT->status);
-  echo '</select> ';
-  echo '<div id="ac-wrapper-behalf" class="ac-wrapper">'.L('Send_on_behalf').'&nbsp;<input type="text" name="behalf" id="behalf" size="14" maxlength="24" value="'.$oP->username.'" autocomplete="off"/><input type="hidden"  id="behalfid" name="behalfid" value="-1"></div></div>';
-  echo '</div>'.PHP_EOL;
-
+  echo L('Status').' <select id="newtopicstatus" name="topicstatus" size="1">'.qtTags(CTopic::getStatuses($oT->type,true), $oT->status).'</select> ';
+  echo '<span id="ac-wrapper-behalf" class="ac-wrapper">'.L('Send_on_behalf').'&nbsp;<input type="text" name="behalf" id="behalf" size="14" maxlength="24" value="'.$oP->username.'" autocomplete="off"/><input type="hidden" id="behalfid" name="behalfid" value="-1"></span></div>'; // end opitonsbar
+  echo '</div>'.PHP_EOL; // end flex-sp
+/*!!!
   if ( $oP->type=='P' ) {
     // initialize
     $arrStatus = SMem::get('_Statuses');
     $arrIcons = array();
     $arrNames = array();
-    foreach(array_keys($arrStatus) as $k){
+    foreach(array_keys($arrStatus) as $k) {
       $arrIcons[$k] = isset($arrStatus[$k]['icon']) ? $arrStatus[$k]['icon'] : 'topic_tZ.gif';
       $arrNames[$k] = isset($arrStatus[$k]['name']) ? $arrStatus[$k]['name'] : L('Item');
     }
-  }
+  }*/
 }
 
 echo '<div class="edit-post">
@@ -472,8 +443,7 @@ echo '
 echo '<table>'.PHP_EOL;
 
 // TITLE
-if ( $oT->type==='I' && $oP->type!=='P' )
-{
+if ( $oT->type==='I' && $oP->type!=='P' ) {
   echo '<tr>'.PHP_EOL;
   echo '<th>'.L('Score').'</th>'.PHP_EOL;
   $strLevel = $oT->getMF('param','Ilevel','3');
@@ -481,11 +451,8 @@ if ( $oT->type==='I' && $oP->type!=='P' )
   $score = -1; if ( is_numeric($oP->title) ) $score = (float)$oP->title;
   echo '<td>'.htmlScore($strLevel,$strSep,(float)$score).'</td>'.PHP_EOL;
   echo '</tr>'.PHP_EOL;
-}
-else
-{
-  if ( $oS->titlefield!=0 )
-  {
+} else {
+  if ( $oS->titlefield!=0 ) {
     $strArgs = ''; if ( $oS->titlefield==2 && $oP->type==='P' ) $strArgs = ' required'; // required for topic in section having title required (but not for reply)
     echo '<tr>'.PHP_EOL;
     echo '<th>'.L('Title').'</th>'.PHP_EOL;
@@ -494,12 +461,11 @@ else
   }
 }
 // PREFIX
-if ( !empty($oS->prefix) ){
+if ( !empty($oS->prefix) ) {
   echo '<tr>'.PHP_EOL;
   echo '<th>'.L('Prefix').'</th>'.PHP_EOL;
   echo '<td><span class="cblabel">'.PHP_EOL;
-  for ($i=1;$i<10;$i++)
-  {
+  for ($i=1;$i<10;$i++) {
     $str = icoPrefix($oS->prefix,$i);
     if ( !empty($str) ) echo '<input type="radio" name="icon" id="i0'.$i.'" value="0'.$i.'"'.($oP->icon=='0'.$i ? 'checked' : '').'/><label for="i0'.$i.'">'.$str.'</label> &nbsp;'.PHP_EOL;
   }
@@ -517,21 +483,17 @@ if ( $canUpload ) echo '<p style="margin:0"><a id="tgl-ctrl" class="tgl-ctrl" hr
 echo '</td></tr>'.PHP_EOL;
 
 // attachment
-if ( $canUpload )
-{
+if ( $canUpload ) {
   $intMax = intval($_SESSION[QT]['upload_size'])*1024;
   echo '<tr id="tgl-container" style="display:'.(empty($oP->attach) ? 'none' : 'table-row').'">';
   echo '<th>'.qtSVG('paperclip', 'title='.L('Attachment')).'</th>';
   echo '<td>';
-  if ( !empty($oP->attach) )
-  {
+  if ( !empty($oP->attach) ) {
     if ( strpos($oP->attach,'/') ) { $str = substr(strrchr($oP->attach,'/'),1); } else { $str=$oP->attach; }
     if ( substr($str,0,strlen($oP->id.'_'))==($oP->id).'_' ) $str = substr($str,strlen($oP->id.'_'));
     echo $str.'<input type="hidden" id="oldattach" name="oldattach" value="'.$oP->attach.'"/>';
     echo ' &middot; <input type="checkbox" id="drop" name="drop[]" value="1"/><label for="drop">&nbsp;'.L('Drop_attachment').'</label>';
-  }
-  else
-  {
+  } else {
     echo '<input type="hidden" name="MAX_FILE_SIZE" value="'.$intMax.'"/>';
     echo '<input tabindex="3" type="file" id="attach" name="attach" size="42"/>';
   }
@@ -596,18 +558,15 @@ echo '</div>
 ';
 
 // ADD TAGS
-if ( $_SESSION[QT]['tags']!=='0' && ($a==='nt' || ($a==='ed' && $oP->type==='P') ) )
-{
+if ( $_SESSION[QT]['tags']!=='0' && ($a==='nt' || ($a==='ed' && $oP->type==='P') ) ) {
   $arrTags=explode(';',$oT->descr);
-  if ( $oT->status!=='1' )
-  {
+  if ( $oT->status!=='1' ) {
     if ( SUser::isStaff() ) $tagEditor=true;
     if ( $_SESSION[QT]['tags']==='U' && SUser::id()===$oT->firstpostuser ) $tagEditor=true; // 'U'=members can edit in his own ticket
     if ( $_SESSION[QT]['tags']==='U+' && SUser::role()==='U' ) $tagEditor=true; // 'U+'=members can edit any tickets
     if ( $_SESSION[QT]['tags']==='V' ) $tagEditor=true; // 'V'=Visitor can edit any tickets
   }
-  if ( $tagEditor )
-  {
+  if ( $tagEditor ) {
     $arr = explode(';',$oT->descr);
     foreach($arr as $k=>$item) $arr[$k] = empty($item) ? '' : '<span class="tag" onclick="tagClick(this.innerHTML)">'.$item.'</span>';
     echo '<div class="tags right" style="padding:4px 0"><span class="tags" title="'.L('Tags').'">'.qtSVG('tag'.(count($arrTags)>1 ? 's' : '')).'</span>';
@@ -624,12 +583,10 @@ if ( $_SESSION[QT]['tags']!=='0' && ($a==='nt' || ($a==='ed' && $oP->type==='P')
 }
 
 // map row
-if ( $oP->type==='P' && $bMap )
-{
+if ( $oP->type==='P' && $bMap ) {
   $oCanvas = new cCanvas();
   $strArgs = L('Gmap.cancreate');
-  if ( isset($row) && !gmapEmptycoord($row) )
-  {
+  if ( isset($row) && !gmapEmptycoord($row) ) {
     $_SESSION[QT]['m_gmap_gcenter'] = $row['y'].','.$row['x'];
     $strArgs = L('Gmap.canmove');
   }
@@ -649,8 +606,7 @@ echo '<p class="submit">
 
 // PREVIOUS POSTS (not for inspection)
 
-if ( $oT->type!='I' ) {
-if ( $a=='re' || $a=='qu' ) {
+if ( $oT->type!=='I' && ($a==='re' || $a==='qu') ) {
 
   echo '<div class="view-c">'.PHP_EOL;
   echo '<h2>'.L('Previous_posts').'</h2>'.PHP_EOL;
@@ -671,32 +627,64 @@ if ( $a=='re' || $a=='qu' ) {
   // ======
   echo '</div>'.PHP_EOL;
 
-}}
+}
 
 // HTML END
 
 if ( QT_BBC ) $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_bbc.js"></script>';
 if ( $tagEditor || SUser::isStaff() ) {
-  $oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>
-  <script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
-  $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_tags.js"></script>';
-  $oH->scripts[] = 'acOnClicks["behalf"] = function(focusInput,btn) {
+
+$oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>
+<script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+$oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_tags.js"></script>';
+$oH->scripts[] = 'acOnClicks["behalf"] = function(focusInput,btn) {
   if ( focusInput.id=="behalf" ) document.getElementById("behalfid").value = btn.dataset.id;
 }
-function changeIcon(){
-  const type = document.getElementById("newtopictype").value.toLowerCase();
-  const status = document.getElementById("newtopicstatus").value.toLowerCase();
-  const d = document.querySelector(".i-container img");
-  if ( d ){
-    let src = d.getAttribute("src");
-    if ( src ) {
-      src = src.replace(/topic_._./, "topic_"+type+"_"+status);
-      d.setAttribute("src",src);
-      d.setAttribute("data-type",type);
-      d.setAttribute("data-status",status);
-    }
+const arrStatus = {
+"T":'.json_encode(CTopic::getStatuses('T')).',
+"A":'.json_encode(CTopic::getStatuses('A')).',
+"I":'.json_encode(CTopic::getStatuses('I')).'
+}
+function changeIcon() {
+  const type = selectType.value.toUpperCase();
+  const status = selectStatus.value.toUpperCase();
+  const d = document.querySelector(".i-container img"); if ( !d ) return;
+  d.setAttribute("data-type", type.toLowerCase());
+  d.setAttribute("data-status", status.toLowerCase());
+  d.setAttribute("alt", type);
+  d.setAttribute("title", selectType.options[selectType.selectedIndex].text + " " + selectStatus.options[selectStatus.selectedIndex].text)
+  let ico = "img/ico_status0.gif";
+  switch(type) {
+    case "A": ico = "img/topic_a_0.gif"; break;
+    case "I": ico = "img/topic_i_0.gif"; break;
+    case "T": if ( arrStatus.T.hasOwnProperty(status) && arrStatus["T"][status].hasOwnProperty("icon") ) ico = "img/"+arrStatus[type][status]["icon"]; break;
   }
+  d.setAttribute("src", d.getAttribute("src").replace(/img\/.*/, ico));
+}
+function changeStatusOptions(type) {
+  if ( !selectStatus ) return;
+  while ( selectStatus.options.length>0 ) selectStatus.remove(0);
+  Object.keys(arrStatus[type]).forEach(key => {
+    let newText = type==="T" ? arrStatus[type][key]["name"] : arrStatus[type][key];
+    let newOption = new Option(newText,key);
+    selectStatus.appendChild(newOption);
+  });
+}
+const selectType = document.getElementById("newtopictype");
+const selectStatus = document.getElementById("newtopicstatus");
+if ( selectType && selectStatus) {
+  selectType.addEventListener("change", () => {
+    let sType = selectType.value.toUpperCase();
+    let sStatus = selectStatus.value.toUpperCase();
+    changeStatusOptions(sType);
+    if ( sType!=="T" && sStatus!=="A" && sStatus!=="Z" ) selectStatus.value = "A";
+    changeIcon();
+  });
+  selectStatus.addEventListener("change", () => {
+    changeIcon();
+  });
 }';
+
 }
 
 $oH->scripts[] = 'const btnPreview = document.getElementById("dopreview");
@@ -716,8 +704,7 @@ if  ( btnPreview ) {
 
 // MAP MODULE
 
-if ( $bMap )
-{
+if ( $bMap ) {
   /**
   * @var array $gmap_markers
   * @var array $gmap_events
@@ -734,15 +721,12 @@ if ( $bMap )
   $x = floatval(QTgetx($_SESSION[QT]['m_gmap_gcenter']));
 
   // First item is the item's location and symbol
-  if ( isset($arrExtData[$oT->id]) )
-  {
+  if ( isset($arrExtData[$oT->id]) ) {
     // symbol by role
     $oMapPoint = $arrExtData[$oT->id];
     if ( !empty($oMapPoint->icon) ) $gmap_symbol = $oMapPoint->icon;
-
     // center on first item
-    if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )
-    {
+    if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) ) {
     $y=$oMapPoint->y;
     $x=$oMapPoint->x;
     }
@@ -754,10 +738,8 @@ if ( $bMap )
   $gmap_markers = array();
   $gmap_events = array();
   $gmap_functions = array();
-  foreach($arrExtData as $oMapPoint)
-  {
-    if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )
-    {
+  foreach($arrExtData as $oMapPoint) {
+    if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) ) {
       $strSymbol = $gmap_symbol; // required to reset symbol on each user
       $strShadow = $gmap_shadow;
       if ( !empty($oMapPoint->icon) ) $strSymbol  = $oMapPoint->icon;

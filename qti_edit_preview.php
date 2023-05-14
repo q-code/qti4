@@ -90,8 +90,7 @@ try {
   //... tags is not previewed (part of the topic)
   if ( isset($_POST['notifiedname']) ) $strNotified = trim($_POST['notifiedname']);
   // complete if missing behalf name
-  if ( $strNotified!=='' )
-  {
+  if ( $strNotified!=='' ) {
     $arrNames = getUsers('N',$strNotified,1);
     if ( count($arrNames)!==1 ) throw new Exception( L('Notify_also').' '.L('invalid') ); //...
     $intNotified = array_key_first($arrNames);

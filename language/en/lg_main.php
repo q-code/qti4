@@ -137,7 +137,7 @@ $L['Move']='Move';
 $L['Name']='Name';
 $L['None']='None';
 $L['Notification']='Notification';
-$L['Open']='Open';
+$L['Opened']='Opened';
 $L['Options']='Options';
 $L['or']='or'; // lowercase
 $L['Other']='Other'; $L['Other+']='Others';

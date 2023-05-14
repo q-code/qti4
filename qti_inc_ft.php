@@ -13,7 +13,7 @@
 
 // END MAIN CONTENT
 echo '
-</div>
+</div><!--main-ct-->
 ';
 
 // time and moderator

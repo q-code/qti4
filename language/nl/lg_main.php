@@ -140,7 +140,7 @@ $L['Move']='Verplaatsen';
 $L['Name']='Naam';
 $L['None']='Geen';
 $L['Notification']='Nota';
-$L['Open']='Openen';
+$L['Opened']='Geopend';
 $L['Options']='Opties';
 $L['or']='of'; // lowercase
 $L['Other']='Ander'; $L['Other+']='Anderen';
