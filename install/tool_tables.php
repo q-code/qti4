@@ -1,7 +1,6 @@
 <?php // v4.0 build:20230430
 
 /**
- * @var string $error
  * @var string $strPrev
  * @var string $strNext
  * @var string $urlPrev

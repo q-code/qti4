@@ -1,6 +1,5 @@
 <?php // v4.0 build:20230430
 /**
- * @var string $error
  * @var string $strPrev
  * @var string $strNext
  * @var string $urlPrev
@@ -183,7 +182,7 @@ if ( $row['setting']=='3.0' )
   $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtisetting VALUES ("reCAPTCHAv2sk", "")');
   $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtisetting VALUES ("reCAPTCHAv3pk", "")');
   $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtisetting VALUES ("reCAPTCHAv3sk", "")');
-  $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtisetting VALUES ("sse", "CONNECT=10000;ORIGIN=http://localhost;MAX_ROWS=2;TIEMOUT=30;LATENCY=10000")');
+  $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtisetting VALUES ("sse", "")');
   $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtisetting VALUES ("sse_server", "")');
 
   $oDB->exec( 'ALTER TABLE'.QDB_PREFIX.'qtipost CHANGE forum section INT(11) NOT NULL DEFAULT 0');

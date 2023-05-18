@@ -99,22 +99,17 @@ function insertPost(bool $topicStat=false, bool $bUserStat=false, bool $bCheckUs
   // Lastpost delay control
   $_SESSION[QT.'_usr']['lastpost'] = time();
   // Number of posts today control
-  if ( isset($_SESSION[QT.'_usr']['posts_today']) && $bCheckUserPostsToday )
-  {
+  if ( isset($_SESSION[QT.'_usr']['posts_today']) && $bCheckUserPostsToday ) {
     if ( $this->type==='P' || $this->type==='R' ) ++$_SESSION[QT.'_usr']['posts_today'];
   }
   // User stat
-  if ( $bUserStat )
-  {
-  $oDB->exec( "UPDATE TABUSER SET lastdate='".Date('Ymd His')."', numpost=numpost+1, ip='".$_SERVER['REMOTE_ADDR']."' WHERE id=.$this->userid" );
-  if ( !isset($_SESSION[QT.'_usr']['numpost']) ) $_SESSION[QT.'_usr']['numpost']=0;
-  ++$_SESSION[QT.'_usr']['numpost'];
+  if ( $bUserStat ) {
+    $oDB->exec( "UPDATE TABUSER SET lastdate='".Date('Ymd His')."', numpost=numpost+1, ip='".$_SERVER['REMOTE_ADDR']."' WHERE id=.$this->userid" );
+    if ( !isset($_SESSION[QT.'_usr']['numpost']) ) $_SESSION[QT.'_usr']['numpost']=0;
+    ++$_SESSION[QT.'_usr']['numpost'];
   }
   // broadcast only for reply (new topic is broadcasted by CTopic)
-  if ( $this->type==='R' )
-  {
-  SMemSSE::control( get_class().':'.__FUNCTION__, $this );
-  }
+  if ( $this->type==='R' ) SMemSSE::control(get_class().':'.__FUNCTION__, $this);
 }
 public static function delete($ids)
 {

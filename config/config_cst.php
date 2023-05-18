@@ -76,7 +76,6 @@ const QT_URLREWRITE = false;
 const MEMCACHE_HOST = 'localhost'; // Memcache allows storing frequently used values in memcache server (instead of runnning sql requests)
 const MEMCACHE_PORT = 11211; // memcache port (integer). Default port is 11211.
 const MEMCACHE_TIMEOUT = 9999; // default memcache timeout in seconds (0=no timeout)
-const MEMCACHE_FAILOVER = true; // Use session as failover for memcache values.
 // If memcache is not available on your server use false as host. Ex: const MEMCACHE_HOST = false;
 // otherwise define your host name. Ex: const MEMCACHE_HOST = 'localhost';
 

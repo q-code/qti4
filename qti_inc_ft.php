@@ -1,8 +1,6 @@
 <?php // v4.0 build:20230430
 
 /**
- * @var string $error
- * @var string $warning
  * @var string $strDetailLegend
  * @var CHtml $oH
  * @var array $L

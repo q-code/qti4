@@ -4,7 +4,6 @@ session_start();
 /**
  * @var CHtml $oH
  * @var array $L
- * @var string $warning
  * @var CDatabase $oDB
  */
 require 'bin/init.php';

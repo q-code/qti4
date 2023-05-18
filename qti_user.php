@@ -2,7 +2,6 @@
 
 session_start();
 /**
- * @var string $error
  * @var CHtml $oH
  * @var CDatabase $oDB
  * @var array $L

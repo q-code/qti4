@@ -2,8 +2,6 @@
 
 session_start();
 /**
- * @var string $error
- * @var string $warning
  * @var CHtml $oH
  * @var CDatabase $oDB
  */

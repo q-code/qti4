@@ -113,12 +113,12 @@ if ( SMemSSE::useSSE() )
   var sid = "'.QT.'";
   var sseServer = "'.SSE_SERVER.'";
   var sseConnect = '.SSE_CONNECT.';
-  var sseOrigin = "'.(defined('SSE_ORIGIN') ? SSE_ORIGIN : 'http://localhost').'";
+  var sseOrigin = "'.SSE_ORIGIN.'";
   window.setTimeout(function(){
     const script = document.createElement("script");
     script.src = "bin/js/qti_cse_index.js";
     document.getElementsByTagName("head")[0].appendChild(script);
-  },'.(defined('SSE_LATENCY') ? SSE_LATENCY*1000 : 10000).');
+  }, 10000);
  }';
  // TIPS: sse-constants MUST be VAR to be available in other javascript
 }

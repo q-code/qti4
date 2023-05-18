@@ -1,7 +1,5 @@
 <?php
 /**
- * @var string $error
- * @var string $warning
  * @var CHtml $oH
  * @var array $L
  * @var CDatabase $oDB

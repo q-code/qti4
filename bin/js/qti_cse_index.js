@@ -15,7 +15,7 @@ sseSource.addEventListener('section', function(e) {
   console.log('SSE type section: '+e.data);
   if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return; }
   if ( !('data' in e) || cseGarbageSection.indexOf(e.data) > -1 ) return;
-  if ( jd.s=='reset' ) { window.setTimeout(function(){ location.reload(true); },10000); return; }
+  if ( jd.s==='reset' ) { window.setTimeout(function(){ location.reload(true); },10000); return; }
   if ( !document.getElementById('s'+jd.s+'-row') ) return;
   cseUpdate(jd,true);
 }, false);
@@ -32,11 +32,18 @@ sseSource.addEventListener('error', function(e) {
   console.log('SSE('+hm.getHours()+':'+hm.getMinutes()+') Client stops sse communication');
 }, false);
 
+// debug !!!
+sseSource.addEventListener('debug', function(e) {
+  if ( !('data' in e) ) return;
+  const hm = new Date();
+  console.log('Debugging SSE('+hm.getHours()+':'+hm.getMinutes()+'): '+e.data);
+}, false);
+
 // Default message
 
 sseSource.onmessage = function(e) {
   if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return; }
-  console.log('Message '+JSON.stringify(e.data));
+  console.log('SSE message: '+JSON.stringify(e.data));
   if ( document.getElementById('serverData') ) {
     if ( document.getElementById('serverData').innerHTML.length>255 ) document.getElementById('serverData').innerHTML='';
     document.getElementById('serverData').innerHTML += JSON.stringify(e.data)+'<br/>';

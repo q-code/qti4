@@ -295,7 +295,7 @@ public function insertTopic(bool $userStat=true, bool $canNotify=true, $oP=null,
     $_SESSION[QT.'_usr']['numpost']=(int)$row['countid'];
   }
   // SSE
-  SMemSSE::control( get_class().':'.__FUNCTION__, $this );
+  SMemSSE::control(get_class().':'.__FUNCTION__, $this, '', true); //!!! true to debug
 }
 public function NotifyActor(int $intOldactorid=-1, $oS=null)
 {

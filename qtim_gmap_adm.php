@@ -4,7 +4,6 @@ session_start();
 /**
  * @var CHtml $oH
  * @var CDatabase $oDB
- * @var string $error
  * @var array $gmap_markers
  * @var array $gmap_events
  * @var array $gmap_functions

@@ -2,8 +2,6 @@
 
 session_start();
 /**
- * @var string $error
- * @var string $warning
  * @var CHtml $oH
  * @var CDatabase $oDB
  */
@@ -95,13 +93,13 @@ if ( isset($_POST['ok']) ) try {
 // --------
 
 // Start helper
-if ( strlen($_SESSION[QT]['site_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/',$_SESSION[QT]['site_url']) ) $warning .= L('Site_url').': '.L('E_missing_http').'<br>';
+if ( strlen($_SESSION[QT]['site_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/',$_SESSION[QT]['site_url']) ) $oH->warning .= L('Site_url').': '.L('E_missing_http').'<br>';
 $str = parse_url($_SESSION[QT]['site_url']); $str = empty($str['path']) ? '' : $str['path']; // site url
 $cur = parse_url($_SERVER['REQUEST_URI']); $cur = empty($cur['path']) ? '' : $cur['path']; // current url
-if ( strpos($cur,$str)===false ) $warning .= 'Url do not match with current site url';
-if ( !qtIsMail($_SESSION[QT]['admin_email']) ) $warning .= L('Adm_e_mail').' '.L('invalid').'<br>';
-if ( $strHelper ) $warning .= $strHelper;// '<p>'.qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.$strHelper.'</p>';
-if ( !empty($warning) ) $warning = qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.$warning;
+if ( strpos($cur,$str)===false ) $oH->warning .= 'Url do not match with current site url';
+if ( !qtIsMail($_SESSION[QT]['admin_email']) ) $oH->warning .= L('Adm_e_mail').' '.L('invalid').'<br>';
+if ( $strHelper ) $oH->warning .= $strHelper;// '<p>'.qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.$strHelper.'</p>';
+if ( !empty($oH->warning) ) $oH->warning = qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.$oH->warning;
 
 include APP.'_adm_inc_hd.php';
 

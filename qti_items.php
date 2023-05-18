@@ -101,7 +101,7 @@ $sqlCount = 'SELECT count(*) as countid FROM TABTOPIC t'.$sqlWhere;
 $sqlCountAlt='';
 if ( $q!=='s' ) {
   include 'bin/lib_qti_query.php'; // warning: this changes $sqlFrom to include any post (also replies)
-  $warning = sqlQueryParts($sqlFrom,$sqlWhere,$sqlValues,$sqlCount,$sqlCountAlt,$oH->selfuri); //selfuri is not urldecoded
+  $sqlWarning = sqlQueryParts($sqlFrom,$sqlWhere,$sqlValues,$sqlCount,$sqlCountAlt,$oH->selfuri); //selfuri is not urldecoded
   if ( $q==='adv' && !empty($v) ) $strLastcol = 'tags'; // forces display column tags
 }
 
@@ -218,7 +218,7 @@ if ( !empty($pageTitle) || !empty($ui) ) {
   echo '</div>'.PHP_EOL;
 }
 
-if  ( !empty($warning) ) echo '<p class="warning">'.qtSVG('exclamation-triangle').' '.$warning.'</p>';
+if  ( !empty($sqlWarning) ) echo '<p class="warning">'.qtSVG('exclamation-triangle').' '.$sqlWarning.'</p>';
 
 $navCommands = $oH->backButton().$navCommands.$navCommandsRefine;
 
@@ -544,7 +544,7 @@ $oH->scripts[] = 'qtHideAfterTable("t1-nav-bot");qtHideAfterTable("tablebot");';
 
 // SSE (if section is not empty)
 if ( $intCount>0 && SMemSSE::useSSE() ) {
-  $oH->scripts[] = 'var cseMaxRows = '.(defined('SSE_MAX_ROWS') ? SSE_MAX_ROWS : 2).';
+  $oH->scripts[] = 'var cseMaxRows = '.SSE_MAXROWS.';
 var cseShowZ = '.$_SESSION[QT]['show_closed'].';
 if ( typeof EventSource==="undefined" ) {
   window.setTimeout(function(){location.reload(true);}, 120000); // use refresh (120s) when browser does not support SSE
@@ -552,14 +552,14 @@ if ( typeof EventSource==="undefined" ) {
   var sid = "'.QT.'";
   var sseServer = "'.SSE_SERVER.'";
   var sseConnect = '.SSE_CONNECT.';
-  var sseOrigin = "'.(defined('SSE_ORIGIN') ? SSE_ORIGIN : 'http://localhost').'";
+  var sseOrigin = "'.SSE_ORIGIN.'";
   var cseStatusnames = '.json_encode(CTopic::getStatuses('T',true)).';
   var cseTypenames = '.json_encode(CTopic::getTypes()).';
   window.setTimeout(function(){
   const script = document.createElement("script");
   script.src = "bin/js/qti_cse_items.js";
   document.getElementsByTagName("head")[0].appendChild(script);
-  },'.(defined('SSE_LATENCY') ? SSE_LATENCY*1000 : 10000).');
+  }, 10000);
 }';
 } // TIPS: sse-constants MUST be VAR to be available in other javascript
 

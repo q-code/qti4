@@ -62,9 +62,6 @@ $v = 'firstpostdate';
 qtArgs('int:s! v');
 if ( !in_array($v,array('firstpostdate','lastpostdate','wisheddate')) ) die('Wrong calendar field');
 
-$bSSE = false;
-if ( $s>=0 && SMemSSE::useSSE() ) $bSSE=true;
-
 $intYear = intval(date('Y')); if ( isset($_GET['y']) ) $intYear = intval($_GET['y']);
 $intYearP  = $intYear;
 $intYearN  = $intYear;
@@ -412,10 +409,8 @@ echo '</div>'.PHP_EOL;
 // --------
 // HTML END
 // --------
-
-if ( $bSSE )
-{
-$oH->scripts[] = 'var cseMaxRows = '.(defined('SSE_MAX_ROWS') ? SSE_MAX_ROWS : 2).';
+if ( $s>=0 && SMemSSE::useSSE() ) {
+  $oH->scripts[] = 'var cseMaxRows = '.SSE_MAXROWS.';
 var cseShowZ = '.($_SESSION[QT]['cal_showZ'] ? 1 : 0).';
 if ( typeof EventSource==="undefined" ) {
   window.setTimeout(function(){location.reload(true);}, 120000); // use refresh (120s) when browser does not support SSE
@@ -423,12 +418,12 @@ if ( typeof EventSource==="undefined" ) {
   var sid = "'.QT.'";
   var sseServer = "'.SSE_SERVER.'";
   var sseConnect = '.SSE_CONNECT.';
-  var sseOrigin = "'.(defined('SSE_ORIGIN') ? SSE_ORIGIN : 'http://localhost').'";
+  var sseOrigin = "'.SSE_ORIGIN.'";
   window.setTimeout(function(){
   var script = document.createElement("script");
   script.src = "bin/js/qti_cse_calendar.js";
   document.getElementsByTagName("head")[0].appendChild(script);
-  },'.(defined('SSE_LATENCY') ? SSE_LATENCY : 10000).');
+  }, 10000);
 }';
 }
 

@@ -3,8 +3,6 @@
 session_start();
 /**
  * @var CHtml $oH
- * @var string $warning
- * @var string $error
  * @var CDatabase $oDB
  */
 require 'bin/init.php';

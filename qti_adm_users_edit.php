@@ -4,7 +4,6 @@
  * @var CHtml $oH
  * @var CSection $oS
  * @var CDatabase $oDB
- * @var string $error
  * @var string $formAddUser
  * @var string $rowCommands
  */

@@ -1,6 +1,5 @@
 <?php
 /**
- * @var string $error
 * @var CHtml $oH
   * @var array $gmap_markers
  * @var array $gmap_events

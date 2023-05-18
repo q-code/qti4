@@ -2,8 +2,6 @@
 
 session_start();
 /**
- * @var string $error
- * @var string $warning
  * @var CHtml $oH
  * @var CDatabase $oDB
  * @var array $L
@@ -51,7 +49,7 @@ if ( isset($_POST['ok']) && $pan==1 ) try {
   if ( isset($_POST['ownername']) && $_POST['ownername']!==$_POST['ownernameold'] ) {
     $oS->ownername = $_POST['ownername'];
     $oS->ownerid = array_search($_POST['ownername'],$arrStaff);
-    if ( $oS->ownerid===FALSE || empty($oS->ownerid) ) { $oS->ownerid=1; $oS->ownername=$arrStaff[1]; $warning=L('Role_C').' '.L('invalid'); }
+    if ( $oS->ownerid===FALSE || empty($oS->ownerid) ) { $oS->ownerid=1; $oS->ownername=$arrStaff[1]; $oH->warning=L('Role_C').' '.L('invalid'); }
   }
   if ( isset($_POST['ownerid']) && $_POST['ownerid']!=$_POST['owneridold'] ) {
     $oS->ownername = $arrStaff[$_POST['ownerid']];
@@ -64,7 +62,7 @@ if ( isset($_POST['ok']) && $pan==1 ) try {
   $oS->notifycc = (int)$_POST['alternate'];
   if ( $oS->notify==0 && $oS->notifycc!=0 ) {
     $oS->notifycc=0;
-    $warning = L('Item_no_notify');
+    $oH->warning = L('Item_no_notify');
   }
   // Update
   $oDB->query(

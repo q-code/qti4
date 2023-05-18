@@ -1,6 +1,5 @@
 <?php
 /**
- * @var string $error
  * @var string $strPrev
  * @var string $strNext
  * @var string $urlPrev

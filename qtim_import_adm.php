@@ -2,7 +2,6 @@
 
 session_start();
 /**
-* @var string $error
 * @var string $strValue
 * @var int $t
 * @var int $p

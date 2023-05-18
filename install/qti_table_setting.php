@@ -112,3 +112,4 @@ $oDB->exec( "INSERT INTO ".QDB_PREFIX."qtisetting (param,setting) VALUES ('uploa
 $oDB->exec( "INSERT INTO ".QDB_PREFIX."qtisetting (param,setting) VALUES ('show_stats','U')" ); //v1.3
 $oDB->exec( "INSERT INTO ".QDB_PREFIX."qtisetting (param,setting) VALUES ('tags','U')" ); //v2.0
 $oDB->exec( "INSERT INTO ".QDB_PREFIX."qtisetting (param,setting) VALUES ('unreplied_days','10')" ); //v3.0
+$oDB->exec( "INSERT INTO ".QDB_PREFIX."qtisetting (param,setting) VALUES ('sse','')" ); //v4.0

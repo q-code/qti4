@@ -2,7 +2,6 @@
 
 session_start();
 /**
- * @var string $error
  * @var string $sqlSection
  * @var string $sqlTags
  * @var CHtml $oH

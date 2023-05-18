@@ -3,8 +3,6 @@
 // This is included in _adm_section_img.php and _user_image.php
 
 /**
- * @var string $error
- * @var string $warning
  * @var CHtml $oH
  * @var array $L
  * @var string $upload_path
@@ -39,7 +37,7 @@ $oH->body();
 CHtml::msgBox($oH->selfname, 'class=msgbox|style=width:680px');
 
 if ( !empty($error) ) echo '<span class="error">',$error,'</span>'.PHP_EOL;
-if ( !empty($warning) ) echo $warning.PHP_EOL;
+if ( !empty($oH->warning) ) echo $oH->warning.PHP_EOL;
 
 echo '<div class="flex-sp">
 <div>'.$currentImg.'</div>

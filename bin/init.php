@@ -1,6 +1,5 @@
 <?php // v4 build:20230430
 error_reporting(E_ALL);//!!!
-$_SESSION['QTdebugmem']=true;/*!!!*/
 
 // Connection config and Constants
 require 'config/config_db.php';
@@ -36,14 +35,19 @@ $arrExtData = []; // Can be used by extensions
 
 // Check settings AGE against session age
 if ( !isset($_SESSION[QT.'settingsage']) ) $_SESSION[QT.'settingsage'] = time()-1;
+$oH->log[] = 'session settingsage: '.$_SESSION[QT.'settingsage'];//!!!
+// Read and register settings (if not yet red)
 if ( !isset($_SESSION[QT]['version']) || SMem::get('settingsage')>$_SESSION[QT.'settingsage'] ) {
+  $oH->log[] = 'registering new settings...';
   unset($_SESSION[QT.'settingsage']);
   $oDB->getSettings('',true); // only settings are registered
+  $oH->log[] = $_SESSION[QT]['sse'];
   // IMPORTANT
   // SMem::get('settingsage') returns [int]time, [null]no connection or [false]not found
   // When memchache is disabled (or when session age is not found), settings are read once (session startup)
   // Admin pages put age in shared-memory when saving settings
 }
+$oH->log[] = 'shared-memory settingsage: '.SMem::get('settingsage');//!!!
 
 // check major parameters
 define( 'FORMATDATE', empty($_SESSION[QT]['formatdate']) ? 'j-M-Y' : $_SESSION[QT]['formatdate'] );
@@ -93,14 +97,12 @@ include translate('lg_icon.php');
 // SSE constants
 // ----------------
 // load sse parametre as constants (with SSE_ prefix)
-if ( empty($_SESSION[QT]['sse']) ) $_SESSION[QT]['sse'] = 'CONNECT=0;ORIGIN=http://localhost;MAX_ROWS=2;TIMEMOUT=30;LATENCY=10';
+if ( empty($_SESSION[QT]['sse']) ) $_SESSION[QT]['sse'] = 'CONNECT=0;ORIGIN=http://localhost;MAXROWS=2;TIMEMOUT=30;LATENCY=10;SERVER=0';
 foreach(qtExplode($_SESSION[QT]['sse']) as $key=>$value) if ( !defined('SSE_'.strtoupper($key)) ) define('SSE_'.strtoupper($key),$value);
-define('SSE_SERVER', isset($_SESSION[QT]['sse_server']) ? $_SESSION[QT]['sse_server'] : '');
 
 // ----------------
 // Default HTML settings
 // ----------------
-
 $oH->html = '<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" dir="'.(defined('QT_HTML_DIR') ? QT_HTML_DIR : 'ltr').'" xml:lang="'.(defined('QT_HTML_LANG') ? QT_HTML_LANG : 'en').'" lang="'.(defined('QT_HTML_LANG') ? QT_HTML_LANG : 'en').'">';
 $oH->title = $_SESSION[QT]['site_name'];
 $oH->metas[] = '<meta charset="'.QT_HTML_CHAR.'"/>
@@ -134,8 +136,7 @@ if ( isset($_GET['memflush']) && MEMCACHE_HOST ) {
 // ----------------
 // Check user in case of coockie login
 // ----------------
-if ( QT_REMEMBER_ME && SUser::confirmCookie($oDB) )
-{
+if ( QT_REMEMBER_ME && SUser::confirmCookie($oDB) ) {
   include APP.'_inc_hd.php';
   CHtml::msgBox(L('Login'), 'class=msgbox login');
   echo '<h2>'.L('Welcome').' '.SUser::name().'</h2><p><a href="'.url($oH->exiturl).'">'.L('Continue').'</a> &middot; <a href="'.url(APP.'_login.php?a=out&r=in').'">'.sprintf(L('Welcome_not'),SUser::name()).'...</a></p>';

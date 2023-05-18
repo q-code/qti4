@@ -3,7 +3,6 @@
 session_start();
 require 'bin/init.php';
 /**
-* @var string $error
 * @var CHtml $oH
 * @var array $L
 * @var CDatabase $oDB
