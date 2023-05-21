@@ -247,14 +247,14 @@ if ( empty($strLast) || $strLast==='none' ) $strLast = '';
 // Table definition
 $useNewsOnTop = $_SESSION[QT]['news_on_top'];
 // selfuri contains arguments WITHOUT order,dir
-$t = new TabTable('id=t1|class=t-item', $intCount);
+$t = new TabTable('id=t1|class=t-item|data-cbe', $intCount);
 $t->activecol = $strOrder;
 $t->activelink = '<a href="'.$oH->selfurl.'?'.$oH->selfuri.'&order='.$strOrder.'&dir='.($strDirec==='asc' ? 'desc' : 'asc').'">%s</a> '.qtSVG('caret-'.($strDirec==='asc' ? 'up' : 'down'));
 $t->thead();
 $t->tbody('data-dataset='.($useNewsOnTop ? 'newsontop' : 'items'));
 // TH (note: class are defined after).
 if ( !empty($_SESSION['EditByRows']) )
-$t->arrTh['checkbox'] = new TabHead('<input type="checkbox" name="t1-cb-all" id="t1-cb-all"/>');
+$t->arrTh['checkbox'] = new TabHead('<input type="checkbox"id="t1-cb-all" data-target="t1-cb[]"/>');
 $t->arrTh['icon'] = new TabHead('&bull;', '', '<a href="'.$oH->selfurl.'?'.$oH->selfuri.'&order=icon&dir=asc">%s</a>');
 if ( $q!=='s' || ($q==='s' && $oS->numfield!=='N' && $oS->numfield!=='') )
 $t->arrTh['numid'] = new TabHead(L('Ref'), '', '<a href="'.$oH->selfurl.'?'.$oH->selfuri.'&order=numid&dir=desc">%s</a>');
@@ -286,7 +286,7 @@ if ( $_SESSION['EditByRows']) {
   $rowCommands .= ' &middot; <a class="rowcommands" href="javascript:void(0)" data-action="itemsMove">'.L('Move').'</a>';
   $rowCommands .= ' &middot; <a class="rowcommands" href="javascript:void(0)" data-action="itemsDelete">'.L('Delete').'</a>'.PHP_EOL;
 
-  $oH->scripts[] = '<script id="cbe" type="text/javascript" src="bin/js/qt_table_cb.js" data-tableid="t1"></script>';
+  $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js"></script>';
   $oH->scripts[] = 'const cmds = document.getElementsByClassName("checkboxcmds");
   for (const el of cmds){ el.addEventListener("click", (e)=>{ if ( e.target.tagName==="A" ) datasetcontrol_click("t1-cb[]", e.target.dataset.action); }); }
   function datasetcontrol_click(checkboxname,action)
