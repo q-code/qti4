@@ -293,7 +293,7 @@ echo '
 echo '<div class="g-qr-icon"><p class="i-container" title="'.L('Reply').'">'.qtSVG('comment-dots').'</p></div>
 <div class="g-qr-title">'.L('Quick_reply').'</div>
 <div class="g-qr-bbc">'.(QT_BBC ? '<div class="bbc-bar">'.bbcButtons(1).'</div>' : '').'</div>
-<div class="g-qr-text"><textarea'.($oT->type==='I' ? '' : ' required').' id="form-qr-text" name="text" rows="4"></textarea>';
+<div class="g-qr-text"><textarea'.($oT->type==='I' ? '' : ' required').' id="text-area" name="text" rows="4"></textarea>';
 if ( $oT->type==='I' ) echo htmlScore($oT->getMF('param','Ilevel','3'), ' &nbsp;');
 echo '
 <p id="quickreply-footer"><a href="javascript:void(0)" onclick="document.getElementById(`form-qr`).submit();">'.L('More').'...</a></p>
@@ -322,7 +322,7 @@ echo '</div>
 if ( QT_BBC ) $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_bbc.js"></script>';
 $oH->scripts[] = 'const d = document.getElementById("form-qr-preview");
 d.addEventListener("click", (e) => {
-  if ( d.dataset.itemtype!=="I" && document.getElementById("form-qr-text").value==="" ) return false;
+  if ( d.dataset.itemtype!=="I" && document.getElementById("text-area").value==="" ) return false;
   e.preventDefault();
   let formData = new FormData(document.getElementById("form-qr"));
   fetch("qti_edit_preview.php", {method:"POST", body:formData})

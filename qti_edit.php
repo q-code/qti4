@@ -475,7 +475,7 @@ echo '<tr>'.PHP_EOL;
 echo '<th>'.L('Message').'</th>'.PHP_EOL;
 echo '<td>'.PHP_EOL;
 if ( QT_BBC ) echo '<div class="bbc-bar">'.bbcButtons($intBbc).'</div>';
-echo PHP_EOL.'<a href="textarea"></a><textarea'.($oT->type!=='I' ? ' required': '').' id="form-edit-text" name="text" '.(strlen($oP->text)>500 ? 'rows="25"' : 'rows="10"' ).' tabindex="25" maxlength="'.(empty($_SESSION[QT]['chars_per_post']) ? '4000' : $_SESSION[QT]['chars_per_post']).'">'.$oP->text.'</textarea>'.PHP_EOL;
+echo PHP_EOL.'<a href="textarea"></a><textarea'.($oT->type!=='I' ? ' required': '').' id="text-area" name="text" '.(strlen($oP->text)>500 ? 'rows="25"' : 'rows="10"' ).' tabindex="25" maxlength="'.(empty($_SESSION[QT]['chars_per_post']) ? '4000' : $_SESSION[QT]['chars_per_post']).'">'.$oP->text.'</textarea>'.PHP_EOL;
 
 if ( $canUpload ) echo '<p style="margin:0"><a id="tgl-ctrl" class="tgl-ctrl" href="javascript:void(0)" onclick="qtToggle(`tgl-container`,`table-row`); return false;">'.L('Attachment').qtSVG('angle-down','','',true).qtSVG('angle-up','','',true).'</a></p>';
 echo '</td></tr>'.PHP_EOL;
@@ -687,7 +687,7 @@ if ( selectType && selectStatus) {
 
 $oH->scripts[] = 'const btnPreview = document.getElementById("form-edit-preview");
 btnPreview.addEventListener("click", (e) => {
-  if ( document.getElementById("newtopictype").value!=="I" && document.getElementById("form-edit-text").value.length===0 ) return false;
+  if ( document.getElementById("newtopictype").value!=="I" && document.getElementById("text-area").value.length===0 ) return false;
   e.preventDefault();
   let formData = new FormData(document.getElementById("form-edit"));
   fetch( "qti_edit_preview.php", {method:"POST", body:formData} )
