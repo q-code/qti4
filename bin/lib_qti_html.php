@@ -32,17 +32,17 @@ function sectionsAsOption($selected='', array $reject=[], array $disabled=[], st
 function bbcButtons($size=1)
 {
   if ( !QT_BBC || $size==0 ) return '';
-  $str = '<a class="bbc" onclick="qtCaret(`b`)" title="'.L('Bbc.bold').'">'.qtSVG('bold').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`i`)" title="'.L('Bbc.italic').'">'.qtSVG('italic').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`u`)" title="'.L('Bbc.under').'">'.qtSVG('underline').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`quote`)" title="'.L('Bbc.quote').'">'.qtSVG('quote-right').'</a>';
+  $str = '<a class="bbc" onclick="qtBbc(`b`)" title="'.L('Bbc.bold').'">'.qtSVG('bold').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`i`)" title="'.L('Bbc.italic').'">'.qtSVG('italic').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`u`)" title="'.L('Bbc.under').'">'.qtSVG('underline').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`quote`)" title="'.L('Bbc.quote').'">'.qtSVG('quote-right').'</a>';
   if ( $size>1 )
   {
-  $str .= '<a class="bbc" onclick="qtCaret(`code`)" title="'.L('Bbc.code').'">'.qtSVG('code').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`url`)" title="'.L('Bbc.url').'">'.qtSVG('link').'</a>';
-  $str .= '<a class="bbc" onclick="qtCaret(`mail`)" title="'.L('Bbc.mail').'">'.qtSVG('envelope').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`code`)" title="'.L('Bbc.code').'">'.qtSVG('code').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`url`)" title="'.L('Bbc.url').'">'.qtSVG('link').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`mail`)" title="'.L('Bbc.mail').'">'.qtSVG('envelope').'</a>';
   }
-  if ( $size>2 ) $str .= '<a class="bbc" onclick="qtCaret(`img`)" title="'.L('Bbc.image').'">'.qtSVG('image').'</a>';
+  if ( $size>2 ) $str .= '<a class="bbc" onclick="qtBbc(`img`)" title="'.L('Bbc.image').'">'.qtSVG('image').'</a>';
   return $str;
 }
 
@@ -385,7 +385,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
         }
       }
       if ( !empty($row['textmsg']) && $_SESSION[QT]['item_firstline']>0 && $showFirstline )
-        $arr[$k] .= '&nbsp;<small class="item-msg-preview">'.qtTrunc(qtUnbbc($row['textmsg'],true,L('Bbc.*')),QT_FIRSTLINE_SIZE).(empty($row['attach']) ? '' : ' '.qtSVG('paperclip', 'title='.L('Attachment'))).'</small>';
+        $arr[$k] .= '&nbsp;<small class="item-msg-preview">'.qtTrunc(qtBBclean($row['textmsg'],true,L('Bbc.*')),QT_FIRSTLINE_SIZE).(empty($row['attach']) ? '' : ' '.qtSVG('paperclip', 'title='.L('Attachment'))).'</small>';
       if ( !empty($row['coord']) ) $arr[$k] .= ' '.$row['coord'];
 			break;
     case 'replies':

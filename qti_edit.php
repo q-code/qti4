@@ -629,7 +629,6 @@ if ( $oT->type!=='I' && ($a==='re' || $a==='qu') ) {
 
 // HTML END
 
-if ( QT_BBC ) $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_bbc.js"></script>';
 if ( $tagEditor || SUser::isStaff() ) {
 
 $oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>

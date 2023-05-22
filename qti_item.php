@@ -319,7 +319,6 @@ echo '</div>
 // HTML END
 // --------
 
-if ( QT_BBC ) $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_bbc.js"></script>';
 $oH->scripts[] = 'const d = document.getElementById("form-qr-preview");
 d.addEventListener("click", (e) => {
   if ( d.dataset.itemtype!=="I" && document.getElementById("text-area").value==="" ) return false;

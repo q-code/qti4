@@ -238,7 +238,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   $msg = '<p>';
   if ( !empty($oS->prefix) && $this->icon!='00' ) $msg .=  icoPrefix($oS->prefix,(int)$this->icon).'&nbsp; ';
   // format the text
-  $str = qtBbc($this->text,'',L('Bbc.*'));
+  $str = qtBBcode($this->text,'',L('Bbc.*'));
   // show the image (if any)
   if ( !empty($this->attach) && strpos($str, 'src="@"') && in_array(substr($this->attach,-4,4),array('.gif','.jpg','jpeg','.png')) ) $str = str_replace('src="@"','src="'.QT_DIR_DOC.$this->attach.'"',$str);
   // if message shortened
@@ -249,7 +249,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   // signature
   if ( $_SESSION[QT]['viewmode']!='C' && $this->type!='F' && !empty($this->usersign) )
   {
-    $msg .= '<p class="post-sign">'.qtBbc($this->usersign).'</p>'.PHP_EOL;
+    $msg .= '<p class="post-sign">'.qtBBcode($this->usersign).'</p>'.PHP_EOL;
   }
   // user picture
   $picUser = $_SESSION[QT]['viewmode']!='C' && $avatar ? SUser::getPicture($this->userid,'class=post-user','') : '';
@@ -306,7 +306,7 @@ public function renderInspectionResult(CSection $oS, CTopic $oT, bool $avatar=tr
   $msg = '<p>';
   if ( !empty($oS->prefix) && $this->icon!='00' ) $msg .=  icoPrefix($oS->prefix,(int)$this->icon).'&nbsp; ';
   // format the text
-  $str = qtBbc($this->text,'',L('Bbc.*'));
+  $str = qtBBcode($this->text,'',L('Bbc.*'));
   // show the image (if any)
   if ( !empty($this->attach) && strpos($str, 'src="@"') && in_array(substr($this->attach,-4,4),array('.gif','.jpg','jpeg','.png')) ) $str = str_replace('src="@"','src="'.QT_DIR_DOC.$this->attach.'"',$str);
   // if message shortened
@@ -317,7 +317,7 @@ public function renderInspectionResult(CSection $oS, CTopic $oT, bool $avatar=tr
   // signature
   if ( $_SESSION[QT]['viewmode']!='C' && $this->type!='F' && !empty($this->usersign) )
   {
-    $msg .= '<p class="post-sign">'.qtBbc($this->usersign).'</p>'.PHP_EOL;
+    $msg .= '<p class="post-sign">'.qtBBcode($this->usersign).'</p>'.PHP_EOL;
   }
   // Commands
   $cmds = '';
