@@ -153,9 +153,9 @@ switch($level)
 case '3':
 return '
 <p id="input-choise">
-<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,33.32) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,3).' '.ValueName(1,3).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i50" value="50"'.(qtIsBetween($i,33.33,66.66) ? ' checked' : '').'/><label for="i50">'.ValueScalebar(50,3).' '.ValueName(50,3).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i99" value="99"'.(qtIsBetween($i,66.66) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,3).' '.ValueName(99,3).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,33.32) ? ' checked' : '').'/><label for="i00">'.getScalebar(0,3).' '.getScalebarName(0,3).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i50" value="50"'.(qtIsBetween($i,33.33,66.66) ? ' checked' : '').'/><label for="i50">'.getScalebar(50,3).' '.getScalebarName(50,3).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i100" value="100"'.(qtIsBetween($i,66.66) ? ' checked' : '').'/><label for="i100">'.getScalebar(100,3).' '.getScalebarName(100,3).'</label>'.$sep.'
 <input type="radio" name="inspection" id="inull" value="null"'.($i<0 ? ' checked' : '').'/><label for="inull">'.L('Unknown').'</label>
 </p>
 ';
@@ -163,11 +163,11 @@ break;
 case '5':
 return '
 <p id="input-choise">
-<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,10) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,5).' '.ValueName(1,5).'</label><br>
-<input type="radio" name="inspection" id="i20" value="20"'.(qtIsBetween($i,10.01,30) ? ' checked' : '').'/><label for="i20">'.ValueScalebar(25,5).' '.ValueName(25,5).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i40" value="40"'.(qtIsBetween($i,30.01,50) ? ' checked' : '').'/><label for="i40">'.ValueScalebar(50,5).' '.ValueName(50,5).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i60" value="60"'.(qtIsBetween($i,50.01,70) ? ' checked' : '').'/><label for="i60">'.ValueScalebar(75,5).' '.ValueName(75,5).'</label><br>
-<input type="radio" name="inspection" id="i99" value="99"'.(qtIsBetween($i,70.01) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,5).' '.ValueName(99,5).'</label><br>
+<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,10) ? ' checked' : '').'/><label for="i00">'.getScalebar(0,5).' '.getScalebarName(0,5).'</label><br>
+<input type="radio" name="inspection" id="i20" value="20"'.(qtIsBetween($i,10.01,30) ? ' checked' : '').'/><label for="i20">'.getScalebar(25,5).' '.getScalebarName(25,5).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i40" value="40"'.(qtIsBetween($i,30.01,50) ? ' checked' : '').'/><label for="i40">'.getScalebar(50,5).' '.getScalebarName(50,5).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i60" value="60"'.(qtIsBetween($i,50.01,70) ? ' checked' : '').'/><label for="i60">'.getScalebar(75,5).' '.getScalebarName(75,5).'</label><br>
+<input type="radio" name="inspection" id="i100" value="100"'.(qtIsBetween($i,70.01) ? ' checked' : '').'/><label for="i100">'.getScalebar(100,5).' '.getScalebarName(100,5).'</label><br>
 <input type="radio" name="inspection" id="inull" value="null"'.($i<0 ? ' checked' : '').'/><label for="inull">'.L('Unknown').'</label>
 </p>
 ';
@@ -183,8 +183,8 @@ break;
 case '2':
 return '
 <p id="input-choise">
-<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,49.99) ? ' checked' : '').'/><label for="i00">'.ValueScalebar(1,2).' '.ValueName(1,2).'</label>'.$sep.'
-<input type="radio" name="inspection" id="i99" value="99"'.(qtIsBetween($i,50) ? ' checked' : '').'/><label for="i99">'.ValueScalebar(99,2).' '.ValueName(99,2).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i00" value="0"'.(qtIsBetween($i,0,49.99) ? ' checked' : '').'/><label for="i00">'.getScalebar(1,2).' '.getScalebarName(1,2).'</label>'.$sep.'
+<input type="radio" name="inspection" id="i100" value="100"'.(qtIsBetween($i,50) ? ' checked' : '').'/><label for="i100">'.getScalebar(100,2).' '.getScalebarName(100,2).'</label>'.$sep.'
 <input type="radio" name="inspection" id="inull" value="null"'.($i<0 ? ' checked' : '').'/><label for="inull">'.L('Unknown').'</label>
 </p>
 ';
@@ -374,7 +374,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
     case 'title':
       $arr[$k] = '<a class="item" href="'.url('qti_item.php').'?t='.$row['id'].'"'.(!empty($row['preview']) ? ' title="'.qtAttr($row['preview']).'"' : '').'>'.$row['title'].'</a>';
 			if ( $row['type']==='I' && $row['replies']>0 )
-        $arr[$k] .= '&nbsp;'.ValueScalebar($row['z'], qtExplodeGet($row['param'],'Ilevel','3'), 50, true, L('I_v_'.qtExplodeGet($row['param'],'Iaggr','mean')).': ');
+        $arr[$k] .= '&nbsp;'.getScalebar($row['z'], qtExplodeGet($row['param'],'Ilevel','3'), 50, true, L('I_v_'.qtExplodeGet($row['param'],'Iaggr','mean')).': ');
       if ( !empty($strPrefixSerie) && !empty($row['icon']) && $row['icon']!=='00' )
         $arr[$k] .= ' '.icoPrefix($strPrefixSerie,(int)$row['icon']);
       if ( !empty($arrTags) ) {
@@ -458,7 +458,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
   return $arr;
 }
 
-function ValueName($i=0, string $level='3')
+function getScalebarName($i=0, string $level='3')
 {
   if ( $i<0 ) return '';
   // strLevel can be empty when ticket param is empty (and '' is returned)
@@ -486,39 +486,12 @@ function ValueName($i=0, string $level='3')
   }
   return '';
 }
-
-function ValueScalebar($i=0, string $level='3', int $width=50, bool $title=true, string $prefixtitle='')
+function getScalebar($i=0, string $level='3', int $pxWidth=50, bool $title=true, string $prefixtitle='')
 {
   if ( $i<0 ) return '';
-  // strLevel can be empty when ticket param is empty (and null image is returned)
-  $str = '00';
-  switch($level)
-  {
-  case '2':
-    if ( qtIsBetween($i,50) ) $str='99';
-    break;
-  case '3':
-    if ( qtIsBetween($i,66.67) ) $str='99';
-    elseif ( qtIsBetween($i,33.33,66.66) ) $str='50';
-    break;
-  case '5':
-    if ( qtIsBetween($i,80) ) $str='99';
-    elseif ( qtIsBetween($i,60,79.99) ) $str='70';
-    elseif ( qtIsBetween($i,40,59.99) ) $str='50';
-    elseif ( qtIsBetween($i,20,39.99) ) $str='30';
-    break;
-  case '100':
-    if ( qtIsBetween($i,96) ) $str='99';
-    elseif ( qtIsBetween($i,85,96) ) $str='90';
-    elseif ( qtIsBetween($i,75,85) ) $str='80';
-    elseif ( qtIsBetween($i,65,75) ) $str='70';
-    elseif ( qtIsBetween($i,55,65) ) $str='60';
-    elseif ( qtIsBetween($i,45,55) ) $str='50';
-    elseif ( qtIsBetween($i,35,45) ) $str='40';
-    elseif ( qtIsBetween($i,25,35) ) $str='30';
-    elseif ( qtIsBetween($i,15,25) ) $str='20';
-    elseif ( qtIsBetween($i,4,15) ) $str='10';
-    break;
-  }
-  return '<img src="bin/css/scalebar'.$str.'.gif" style="height:15px; width:'.$width.'px; vertical-align:middle"'.($title ? ' title="'.$prefixtitle.ValueName($i,$level).'"': '').' alt="--"/>';
+  $flag = 'none';
+  if ( $i>0 && $i<33.3 ) $flag='low';
+  if ( $i>33.3 && $i<66.6 ) $flag='medium';
+  if ( $i>66.6 ) $flag='high';
+  return '<span class="scalebar" style="width:'.$pxWidth.'px;"'.($title ? ' title="'.$prefixtitle.getScalebarName($i,$level).'"': '').'><span class="scalevalue" style="width:'.$i.'%;" data-value="'.round($i).'" data-flag="'.$flag.'"></span></span>';
 }

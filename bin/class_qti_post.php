@@ -215,12 +215,12 @@ function getScore(CTopic $oT)
 function getScoreImage(CTopic $oT,$bName=true)
 {
   $i = $this->getScore($oT);
-  return $i<0 ? '<small>('.L('Unknown').')</small>' : ValueScalebar($i,$oT->getMF('param','Ilevel')).($bName ? ' '.ValueName($i,$oT->getMF('param','Ilevel')) : '');
+  return $i<0 ? '<small>('.L('unknown').')</small>' : getScalebar($i,$oT->getMF('param','Ilevel')).($bName ? ' '.getScalebarName($i,$oT->getMF('param','Ilevel')) : '');
 }
 function getScoreName(CTopic $oT)
 {
   $i = $this->getScore($oT);
-  return $i<0 ? '' : ValueName($i,$oT->getMF('param','Ilevel'));
+  return $i<0 ? '' : getScalebarName($i,$oT->getMF('param','Ilevel'));
 }
 public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=true, string $strSkin='skin/default')
 {

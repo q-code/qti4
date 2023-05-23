@@ -440,15 +440,7 @@ if ( QT_LIST_ME && count($arrTopics)>0 && (int)SUser::getInfo('numpost',0)>0 ) {
 }
 
 // hide href column if empty
-if ( $q!=='s' ) $oH->scripts[] = 'function hideEmptyColumn(id="t1",col="c-numid"){
-  const cols = document.querySelectorAll(`#${id} td.${col}`);
-  if ( cols.length===0 ) return;
-  for(i=0;i<cols.length;++i) if ( cols.item(i).innerHTML!=="" ) return;
-  document.querySelector(`#${id} th.${col}`).style.display="none";
-  cols.forEach( el => { el.style.display="none"; } );
-}
-hideEmptyColumn();
-hideEmptyColumn("t1","c-prefix");';
+if ( $q!=='s' ) $oH->scripts[] = 'qtHideEmptyColumn();qtHideEmptyColumn("#t1 td.c-prefix", "#t1 th.c-prefix");';
 
 // MAP MODULE, Show map
 

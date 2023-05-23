@@ -242,12 +242,12 @@ if ( $oT->items>0 )
   }
   if ( !empty($arrIReplies) ) {
     echo '<p id="inspection-replies">';
-    echo '<a title="'.L('order').'" href="qti_item.php?'.qtImplode(qtExplodeUri(url('qti_item.php?t='.$oT->id), ['order'])).'&order='.($_SESSION[QT]['replyorder']=='A' ? 'D' : 'A').'">'.qtSVG('sort-amount-'.($_SESSION[QT]['replyorder']==='D' ? 'up' : 'down')).'</a>';
+    echo '<a title="'.L('order').'" href="qti_item.php?'.qtImplode(qtExplodeUri(url('qti_item.php?t='.$oT->id), 'order')).'&order='.($_SESSION[QT]['replyorder']=='A' ? 'D' : 'A').'">'.qtSVG('sort-amount-'.($_SESSION[QT]['replyorder']==='D' ? 'up' : 'down')).'</a>';
     echo ' &middot; ';
     echo L('Reply',$oT->items);
     echo ' &middot; ';
     echo L('I_v_'.$oT->getMF('param','Iaggr','mean')).' ';
-    echo ValueScalebar($oT->z, $oT->getMF('param','Ilevel','3'));
+    echo getScalebar($oT->z, $oT->getMF('param','Ilevel','3'));
     echo '</p>';
     foreach($arrIReplies as $row) echo $row;
   }
