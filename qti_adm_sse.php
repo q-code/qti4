@@ -46,7 +46,6 @@ if ( isset($_POST['ok']) ) try {
 
   qtArgs('int:sse_connect sse_server sse_origin int:sse_maxrows', false); // in post only
 
-  if ( !qtIsBetween($sse_connect,0,(int)$sse_timeout) ) { $error = L('sse_connect').' '.L('Invalid').' (0-'.$sse_timeout.' seconds)'; $sse_connect = '0'; }
   if ( empty($sse_origin) ) { $error = L('origin').' '.L('Invalid'); $sse_origin = 'http://localhost'; }
   if ( !qtIsBetween($sse_maxrows,1,5) ) { $error = L('rows').' '.L('Invalid').' (0-5)'; $sse_maxrows = '2'; }
 
@@ -130,13 +129,13 @@ echo '<h2 class="config">'.L('Security').'</h2>
 ';
 echo '<tr>
 <th>'.L('Origin').'</th>
-<td><input type="text" id="sse_origin" name="sse_origin" size="50" maxlength="500" value="'.qtAttr($sse_origin).'" onchange="qtFormSafe.not();"/></td>
+<td><input type="text" id="sse_origin" name="sse_origin" size="50" maxlength="500" value="'.qtAttr($sse_origin).'" onchange="qtFormSafe.not();" title="Protocol domain (and port if not default). Ex: https://www.mycompany.com"/></td>
 </tr>
 ';
 echo '<tr>
 <th>&nbsp;</th>
 <td>';
-echo isset($L['SSE_2']) ? $L['SSE_2'] : 'Origin is a security control required to reject messages coming from other servers. It\'s possible to enter here several origins (with semicolumn).<br>If the qti_sse.php script (the server script) is on the same server as the other pages, it must be http://localhost.<br><br>To identify the correct origin, put temporary http://x here, then check the javascript consol log on the index page. The origin will be reported after 10 seconds.';
+echo isset($L['SSE_2']) ? $L['SSE_2'] : 'Origin is a security control required to reject messages coming from other servers. It\'s possible to enter here several origins (space separated). If the server script (qti_srv_sse.php) is on the same server as the other pages, it must be http://localhost.<br><br>To identify the correct origin, put temporary http://x here, then check the javascript consol log on the index page. The origin will be reported after 10 seconds.';
 echo '</td>
 </tr>
 </table>

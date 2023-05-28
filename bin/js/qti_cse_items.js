@@ -1,44 +1,39 @@
-// sseServer, sseConnect, sseOrigin, sid are created in html <script> page
-const sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?sid='+sid+'&retry='+sseConnect); // We include the retry-delay parametre. It will used in the server's broadcasted messages.
+// sseServer, sseConnect, sseOrigin, ns (namespace) are created in html <script> page
+const sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?ns='+ns+'&retry='+sseConnect); // We include the retry-delay parametre. It will used in the server's broadcasted messages.
 const cseGarbageSection = new Array();
 const cseGarbageTopic = new Array();
 const cseGarbageReply = new Array();
 const cseNewRow = 0;
 
-// Event handlers
-
+// Event topic
 sseSource.addEventListener('topic', function(e) {
-
+  if ( !inOrigin(e) || !('data' in e) ) return;
   const jd = cseReadSse(e,cseGarbageTopic,['s','t']); if ( !jd ) return;
   let b =  document.getElementById('pg-s'+jd.s); // can insert
   if ( !b ) b = document.getElementById('pg-q-last');
   if ( !b ) b = document.getElementById('pg-q-news') && ('type' in jd) && jd.type=='A';
-
-  console.log('SSE type topic: '+e.data);
+  console.log('SSE type topic: '+e.data); //!!!
   if ( document.getElementById('t1-tr-'+jd.t) ) { cseUpdate(jd,true); } else { if ( b ) cseInsert('t1',jd); }
-
 }, false);
 
+// Event reply
 sseSource.addEventListener('reply', function(e) {
-
+  if ( !inOrigin(e) || !('data' in e) ) return;
   const jd = cseReadSse(e,cseGarbageReply,['s','t']); if ( !jd ) return;
   let b =  document.getElementById('pg-s'+jd.s);
   if ( !b ) b = document.getElementById('pg-q-last');
   if ( !b ) b = document.getElementById('pg-q-news') && ('type' in jd) && jd.type=='A';
   if ( !b ) return;
   if ( !document.getElementById('t1-tr-'+jd.t) ) return;
-
-  console.log('SSE type reply: '+e.data);
+  console.log('SSE type reply: '+e.data); //!!!
   cseUpdate(jd,true);
-
 }, false);
 
-// Error
+// Event error
 // We use a named-event 'error' because the method .onerror is triggered when server script ends
 // When server script ends sseSource must stay opened as the client retry automatically.
-
 sseSource.addEventListener('error', function(e) {
-  if ( !('data' in e) ) return;
+  if ( !inOrigin(e) || !('data' in e) ) return;
   const hm = new Date();
   console.log('SSE('+hm.getHours()+':'+hm.getMinutes()+') Server send error event with data: '+e.data);
   sseSource.close();
@@ -46,11 +41,9 @@ sseSource.addEventListener('error', function(e) {
 }, false);
 
 // Default message
-
 sseSource.onmessage = function(e) {
-  if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return; }
-  if ( !('data' in e) ) return;
-  console.log('Message '+JSON.stringify(e.data));
+  if ( !inOrigin(e) || !('data' in e) ) return;
+  console.log('SSE message '+JSON.stringify(e.data));
   if ( document.getElementById('serverData') )
   {
     if ( document.getElementById('serverData').innerHTML.length>255 ) document.getElementById('serverData').innerHTML='';
@@ -58,11 +51,22 @@ sseSource.onmessage = function(e) {
   }
 };
 
+/**
+ * @param {MessageEvent} e
+ * @returns {boolean}
+ */
+function inOrigin(e) {
+  let url = e?.origin || e?.target?.url;
+  if ( url ) {
+    url = (new URL(url)).origin; // protocol+domain+port
+    for( const origin of sseOrigin.split(' ') ) if ( url===origin ) return true;
+  }
+  console.log('Unknown sse origin: message from '+url);
+  return false;
+}
 function cseReadSse(e,garbage,minimumData=[]) {
   // This checks the event origin, format, and manage a garbage of already processed events (byref).
   // Returns an object (json data parsed) or FALSE when the data is in the garbage (or when format/minimumdata is wrong)
-  if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return false; }
-  if ( !('data' in e) ) return false;
   const jd = JSON.parse(e.data);
   for (i = minimumData.length - 1; i >= 0; --i) if ( !(minimumData[i] in jd) ) return false;
   if ( garbage.indexOf(e.data) > -1 ) return false;
@@ -87,14 +91,12 @@ function cseIsset(jd,prop,id,diff=false) {
 }
 
 // Update page content
-
 function cseUpdate(jd,light=false) {
 
   if ( !('t' in jd) ) return;
   if ( ('a' in jd) && jd.a==1) return;
   const idrow = 't1-tr-'+jd.t;
   let d;
-
   if ( cseIsset(jd,'numid','t'+jd.t+'-c-numid',true) ) {
     document.getElementById('t'+jd.t+'-c-numid').innerHTML=jd.numid;
     if (light) qtFlash('#t'+jd.t+'-c-numid');
@@ -108,8 +110,7 @@ function cseUpdate(jd,light=false) {
     if (d) {
       let b = true;
       let r = 0;
-      if ( jd.replies=='+1' || jd.replies=='-1' )
-      {
+      if ( jd.replies=='+1' || jd.replies=='-1' ) {
         r = parseInt(d.innerHTML);
         if ( cseIsset(jd,'lastpostid','t'+jd.t+'-lastpostid',true) ) { if ( jd.replies=='+1' ) { ++r; } else { --r; if (r<0) r=0; } } else { b=false; }
         jd.replies=r;
@@ -119,16 +120,14 @@ function cseUpdate(jd,light=false) {
     }
   }
   if ( cseIsset(jd,'firstpostid','t'+jd.t+'-firstpostid',true) ) {
-    if ( ('firstpostdate' in jd) && ('firstpostuser' in jd) && ('firstpostname' in jd) )
-    {
+    if ( ('firstpostdate' in jd) && ('firstpostuser' in jd) && ('firstpostname' in jd) ) {
       if (light) qtFlash('#'+idrow+' > .c-firstpostname');
       d = document.getElementById('t'+jd.t+'-firstpostdate'); if (d) { d.innerHTML=jd.firstpostdate; }
       d = document.getElementById('t'+jd.t+'-firstpostname'); if (d) { d.innerHTML=jd.firstpostname; d.href='qti_user.php?id='+jd.firstpostuser; }
     }
   }
   if ( cseIsset(jd,'lastpostid','t'+jd.t+'-lastpostid',true) ) {
-    if ( ('lastpostdate' in jd) && ('lastpostuser' in jd) && ('lastpostname' in jd) )
-    {
+    if ( ('lastpostdate' in jd) && ('lastpostuser' in jd) && ('lastpostname' in jd) ) {
       if (light) qtFlash('#'+idrow+' > .c-lastpostdate');
       d = document.getElementById('t'+jd.t+'-lastpostid'); if (d) { d.innerHTML=jd.lastpostid; }
       d = document.getElementById('t'+jd.t+'-lastpostico'); if (d) { d.href='qti_item.php?t='+jd.t+"#p"+jd.lastpostid; }
@@ -208,8 +207,7 @@ function cseClearRow(tableid,id) {
   d = document.getElementById('t'+id+'-lastpostname'); if (d) { d.innerHTML='visitor'; d.href='javascript:void(0);'; }
 }
 
-function qtUpdateItemIcon(jd,suffix='-itemicon')
-{
+function qtUpdateItemIcon(jd,suffix='-itemicon') {
   if ( !('id' in jd) && !('t' in jd) ) return false;
   const id = 't' + (('t' in jd) ? jd.t : jd.id) + suffix;
   if ( !document.getElementById(id) ) return false;
@@ -223,9 +221,11 @@ function qtUpdateItemIcon(jd,suffix='-itemicon')
   document.getElementById(id).alt = jd.imgalt;
   return true;
 }
-
+/**
+ * @param {string} id
+ * @param {numeric} duration
+ */
 function qtFlash(id,duration=3000){
   const d = document.querySelector(id);
-  if ( d )console.log(duration);
-  return false;
+  if ( d ) console.log(duration); /*!!! no flash ? */
 }

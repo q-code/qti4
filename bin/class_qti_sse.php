@@ -65,8 +65,7 @@ public static function control(string $event='', $data='', string $metadata='', 
     // Fetch value
     if ( isset($data['section']) ) $s = (int)$data['section'];
     if ( isset($data['topic']) ) $t = (int)$data['topic'];
-    if ( isset($data['status']) )
-    {
+    if ( isset($data['status']) ) {
       $status = $data['status'];
       $type = isset($data['type']) ? $data['type'] : 'T';
       $imgsrc = CTopic::makeIconSrc($type,$status,QT_SKIN);
@@ -117,8 +116,7 @@ public static function control(string $event='', $data='', string $metadata='', 
     if ( !is_array($data) ) break;
     // Fetch section, items and replies
     if ( isset($data['section']) ) $s = (int)$data['section'];
-    if ( isset($data['stats']) )
-    {
+    if ( isset($data['stats']) ) {
     $stats = qtExplode($data['stats']);
     if ( isset($stats['items']) ) $sumitems = (int)$stats['items'];
     if ( isset($stats['replies']) ) $sumreplies = (int)$stats['replies'];
@@ -154,14 +152,16 @@ private static function broadcast(string $event, string $jsondata, bool $append=
   if ( $timeout<5 ) $timeout = 30;
   $str = '{"event":"'.strtolower($event).'","data":'.$jsondata.'}';
   if ( $append ) {
-    $old = SMem::get(QT.'_sse_'.$event);
+    $old = SMem::get('_sse_'.$event);
     if ( $old!==false && $old!=='' ) {
       if ( substr($old,0,1)==='[' ) $old = substr($old,1);
       if ( substr($old,-1,1)===']' ) $old = substr($old,0,-1);
       $str = $old.','.$str;
     }
   }
-  SMem::set( QT.'_sse_'.$event, '['.$str.']', $timeout+1 );
+  $res = SMem::set('_sse_'.$event, '['.$str.']', $timeout+1000 ); //!!!
+  var_dump('res = ', $res);
+  var_dump(SMem::get('_sse_'.$event));
 }
 
 }

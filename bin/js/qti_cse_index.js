@@ -1,78 +1,97 @@
-// sseServer, sseConnect, sseOrigin, sid are created in html <script> page
-const sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?sid='+sid+'&retry='+sseConnect); // We include the retry-delay parametre. It will used in the server's broadcasted messages.
+// sseServer, sseConnect, sseOrigin, ns (namespace) are created in html <script> page
+// jd (json data) is a data object (parsed from a json data string)
+// Garbage(s) are array of (max 5) json data string (not parsed)
+const sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?ns='+ns+'&retry='+sseConnect); // Retry-delay will used in the sse broadcasted messages.
 const cseGarbageSection = new Array();
 const cseGarbageTopic = new Array();
 const cseGarbageReply = new Array();
 
+// Event topic
 sseSource.addEventListener('topic', function(e) {
+  if ( !inOrigin(e) || !('data' in e) ) return;
   const jd = cseReadSse(e,cseGarbageTopic,['t']); if ( !jd ) return;
-  console.log('SSE type topic: '+e.data);
   cseUpdate(jd,true);
 }, false);
 
+// Event section
 sseSource.addEventListener('section', function(e) {
+  if ( !inOrigin(e) || !('data' in e) ) return;
   const jd = cseReadSse(e,cseGarbageTopic,['s']); if ( !jd ) return;
   console.log('SSE type section: '+e.data);
-  if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return; }
-  if ( !('data' in e) || cseGarbageSection.indexOf(e.data) > -1 ) return;
   if ( jd.s==='reset' ) { window.setTimeout(function(){ location.reload(true); },10000); return; }
   if ( !document.getElementById('s'+jd.s+'-row') ) return;
   cseUpdate(jd,true);
 }, false);
 
-// Error
+// Event error
 // We use a named-event 'error' because the method .onerror is triggered when server script ends
 // When server script ends sseSource must stay opened as the client retry automatically.
-
 sseSource.addEventListener('error', function(e) {
-  if ( !('data' in e) ) return;
+  if ( !inOrigin(e) || !('data' in e) ) return;
   const hm = new Date();
   console.log('SSE('+hm.getHours()+':'+hm.getMinutes()+') Server send error event with data: '+e.data);
   sseSource.close();
   console.log('SSE('+hm.getHours()+':'+hm.getMinutes()+') Client stops sse communication');
 }, false);
 
-// debug !!!
-sseSource.addEventListener('debug', function(e) {
-  if ( !('data' in e) ) return;
-  const hm = new Date();
-  console.log('Debugging SSE('+hm.getHours()+':'+hm.getMinutes()+'): '+e.data);
-}, false);
-
 // Default message
-
 sseSource.onmessage = function(e) {
-  if ( !('origin' in e) || sseOrigin.indexOf(e.origin)<0 ) { console.log('Unknown sse origin: message came from '+e.origin); return; }
-  console.log('SSE message: '+JSON.stringify(e.data));
+  if ( !inOrigin(e) ) return;
+  console.log('SSE message '+JSON.stringify(e.data));
   if ( document.getElementById('serverData') ) {
     if ( document.getElementById('serverData').innerHTML.length>255 ) document.getElementById('serverData').innerHTML='';
     document.getElementById('serverData').innerHTML += JSON.stringify(e.data)+'<br/>';
   }
 };
 
-function cseReadSse(e,garbage,minimumData=[]) {
+/**
+ * @param {MessageEvent} e
+ * @returns {boolean}
+ */
+function inOrigin(e) {
+  let url = e?.origin || e?.target?.url;
+  if ( url ) {
+    url = (new URL(url)).origin; // protocol+domain+port
+    for( const origin of sseOrigin.split(' ') ) if ( url===origin ) return true;
+  }
+  console.log('Unknown sse origin: message from '+url);
+  return false;
+}
+/**
+ * @param {MessageEvent} e
+ * @param {Array} garbage
+ * @param {Array} minimumData
+ * @returns {object}
+ */
+function cseReadSse(e, garbage, minimumData=[]) {
   // This checks the event origin, format, and manage a garbage of already processed events (byref).
   // Returns an object (json data parsed) or FALSE when the data is in the garbage (or when format/minimumdata is wrong)
-  if ( !('origin' in e) || e.origin!=sseOrigin ) { console.log('Unknown sse origin: message came from '+e.origin); return false; }
-  if ( !('data' in e) ) return false;
   const jd = JSON.parse(e.data);
-  for (i = minimumData.length - 1; i >= 0; --i) { if ( !(minimumData[i] in jd) ) return false; }
+  for (i = minimumData.length-1; i>=0; --i) { if ( !(minimumData[i] in jd) ) return false; }
   if ( garbage.indexOf(e.data) > -1 ) return false;
   if ( garbage.length > 5 ) garbage.shift();
   garbage.push(e.data);
   return jd;
 }
-
-function cseIsset(jd,prop,id,diff=false) {
+/**
+ * @param {object} jd
+ * @param {string} prop
+ * @param {string} id
+ * @param {boolean} diff
+ * @returns {boolean}
+ */
+function cseIsset(jd, prop, id, diff=false) {
   if ( !(prop in jd) ) return false;
   if ( !document.getElementById(id) ) return false;
-  if ( diff && jd[prop].toString()==document.getElementById(id).innerHTML ) return false;
+  if ( diff && jd[prop].toString()===document.getElementById(id).innerHTML ) return false;
   return true;
 }
-
-// Update page content
-
-function cseUpdate(jd,light=false) {
+/**
+ * Update page content
+ * @param {object} jd
+ * @param {boolean} light
+ */
+function cseUpdate(jd, light=false) {
   if ( !('s' in jd) || jd.s<0 ) jd.s='null';
   var id = 's'+jd.s;
   if ( cseIsset(jd,'sumitems',id+'-items',true) ) { document.getElementById(id+'-items').innerHTML = jd.sumitems; if (light) qtFlash('#'+id+'-items'); }
@@ -89,7 +108,11 @@ function cseUpdate(jd,light=false) {
   // MyLastTicket
   if ( cseIsset(jd,'t','t'+jd.t+'-itemicon') ) { b = qtUpdateItemIcon(jd); if (light && b) qtFlash('#mylastitem > p.title'); }
 }
-
+/**
+ * @param {object} jd
+ * @param {string} suffix
+ * @returns {boolean}
+ */
 function qtUpdateItemIcon(jd,suffix='-itemicon'){
   if ( !('id' in jd) && !('t' in jd) ) return false;
   var id = 't' + (('t' in jd) ? jd.t : jd.id) + suffix;
@@ -104,8 +127,11 @@ function qtUpdateItemIcon(jd,suffix='-itemicon'){
   document.getElementById(id).alt = jd.imgalt;
   return true;
 }
+/**
+ * @param {string} id
+ * @param {numeric} duration
+ */
 function qtFlash(id,duration=3000){
   const d = document.querySelector(id);
   if ( d ) console.log(duration); /*!!! no flash ? */
-  return false;
 }

@@ -422,7 +422,7 @@ public static function sqlCountItems($s, string $q='topics', string $status='',s
   if ( !is_string($where) ) die('CSection::sqlCountItems: arg #5 must be string');
   if ( $days<1 ) die('CSection::sqlCountItems: Wrong argument #2 (d<1)');
   // Items Alias
-  if ( $q==='*' || empty($q) || $q==='-1' ) $q='topics';
+  if ( $q==='*' || empty($q) || $q==='-1' ) $q = 'topics';
   if ( $q=='unreplied' ) { $status='0'; $year=''; $where.= " AND t.replies=0 AND t.firstpostdate<'".addDate(date('Ymd His'),-$days,'day')."'"; }
   if ( $q=='tags' ) { $where.= " AND t.tags<>''"; } // count items having tag(s)
   // build sql criteria
@@ -430,18 +430,18 @@ public static function sqlCountItems($s, string $q='topics', string $status='',s
   if ( $status!=='' ) $status = " AND t.status='$status'";
   if ( $type!=='' ) $type = " AND t.type='$type'";
   if ( $year!=='' ) $year = " AND ".sqlDateCondition($year,'p.issuedate');
-
-  switch($q)
-  {
+  switch($q) {
     // standard query and alias
     case 'items':
     case 'topics':
     case 'unreplied':
-    case 'tags':     $year = str_replace('p.issuedate','t.firstpostdate',$year);
-    return "TABTOPIC t WHERE t.$s $status $type $year $where";
+    case 'tags':
+      $year = str_replace('p.issuedate','t.firstpostdate',$year);
+      return "TABTOPIC t WHERE t.$s $status $type $year $where";
     // specific queries
-    case 'attachs':  if ( $type.$status.$year.$where==='' ) return "TABPOST p WHERE p.attach<>'' AND p.$s";
-    return "TABPOST p INNER JOIN TABTOPIC t ON p.topic=t.id WHERE p.attach<>'' AND p.$s $type $year $where";
+    case 'attachs':
+      if ( $type.$status.$year.$where==='' ) return "TABPOST p WHERE p.attach<>'' AND p.$s";
+      return "TABPOST p INNER JOIN TABTOPIC t ON p.topic=t.id WHERE p.attach<>'' AND p.$s $type $year $where";
     case 'replies':  return "TABPOST p WHERE p.$s AND type<>'P' $year $where";
     case 'repliesZ': return "TABPOST p INNER JOIN TABTOPIC t ON p.topic=t.id WHERE p.$s AND p.type<>'P' AND t.status='1' $where";
     case 'messages': return "TABPOST p WHERE p.$s $where";
@@ -480,7 +480,7 @@ public function updStats($arrValues=array(),$bLastPostDate=false,$bReplies=false
 
   // Process (provided values are not recomputed)
   global $oDB;
-  if ( !isset($arrValues['topics']) )   $arrValues['topics']  = $oDB->count( CSection::sqlCountItems($this->id,'topics') );
+  if ( !isset($arrValues['items']) )   $arrValues['items']  = $oDB->count( CSection::sqlCountItems($this->id,'topics') );
   if ( !isset($arrValues['replies']) )  $arrValues['replies'] = $oDB->count( CSection::sqlCountItems($this->id,'replies') );
   if ( !isset($arrValues['tags']) )     $arrValues['tags']    = $oDB->count( CSection::sqlCountItems($this->id,'tags') );
   if ( !isset($arrValues['itemsZ']) )  $arrValues['itemsZ'] = $oDB->count( CSection::sqlCountItems($this->id,'topics','1') );
@@ -557,7 +557,7 @@ public function updateMF(string $prop)
   if ( empty($prop) || !property_exists('CSection', $prop) ) die('CSection::updateMF invalid property');
   global $oDB;
   $oDB->exec( "UPDATE TABSECTION SET $prop=? WHERE id=$this->id", [$this->$prop] );
-  if ( $prop==='stats' ) SMemSSE::control('CSection:updateStats', array('section'=>$this->id,'stats'=>$this->stats)); //System update
+  if ( $prop==='stats' ) SMemSSE::control('CSection:updateStats', ['section'=>$this->id,'stats'=>$this->stats]); //System update
 }
 
 }

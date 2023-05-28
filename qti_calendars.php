@@ -415,7 +415,7 @@ var cseShowZ = '.($_SESSION[QT]['cal_showZ'] ? 1 : 0).';
 if ( typeof EventSource==="undefined" ) {
   window.setTimeout(function(){location.reload(true);}, 120000); // use refresh (120s) when browser does not support SSE
 } else {
-  var sid = "'.QT.'";
+  var ns = "'.QT.'";
   var sseServer = "'.SSE_SERVER.'";
   var sseConnect = '.SSE_CONNECT.';
   var sseOrigin = "'.SSE_ORIGIN.'";

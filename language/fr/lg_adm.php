@@ -132,7 +132,7 @@ $L['Origin']='Origine';
 $L['Address_http']='devrait commencer par %1$s ou %e$s';
 $L['External_server']='Serveur externe';
 $L['SSE_1']='Pour activer SSE indiquez un délais de rappel (10 sec. recommendé). Indiquez 0 pour désactiver le SSE.';
-$L['SSE_2']='Origine est un contrôle de sécurité nécessaire pour rejetter les messages venant d\'autres serveurs. Il est possible d\'indiquer plusieurs origines (avec point-virgule).<br>Si le script qti_sse.php (le script serveur) est sur le même serveur que les autres pages, l\'origine sera http://localhost.<br><br>Pour identifier l\'origine correcte, mettez temporairement http://x ici, puis examinez la console javascript sur la page index. L\'origine s\'affichera après 10 secondes.';
+$L['SSE_2']='Origine est un contrôle de sécurité nécessaire pour rejetter les messages venant d\'autres serveurs. Il est possible d\'indiquer plusieurs origines (avec point-virgule). Si le script serveur (qti_srv_sse.php) est sur le même serveur que les autres pages, l\'origine sera http://localhost.<br><br>Pour identifier l\'origine correcte, mettez temporairement http://x ici, puis examinez la console javascript sur la page index. L\'origine s\'affichera après 10 secondes.';
 $L['SSE_3']='Nombre de tickets récents pouvant être ajoutés au-dessus de la liste des tickets. Lorsque plus de tickets arrivent, le plus ancien est remplacé (recommendé 2)';
 $L['SSE_4']='Cette option n\'est possible que si memcache et le répertoire [ext] sont sur un autre serveur.';
 

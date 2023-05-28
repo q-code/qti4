@@ -131,7 +131,7 @@ $L['Origin']='Origin';
 $L['Address_http']='should start with %1$s or %2$s';
 $L['External_server']='External server';
 $L['SSE_1']='To enable SSE set a requery delay value (recommended 10 seconds). Use 0 to disable SSE.';
-$L['SSE_2']='Origin is a security control required to reject messages coming from other servers. It\'s possible to enter here several origins (with semicolumn).<br>If the qti_srv_sse.php script (the server script) is on the same server as the other pages, it must be http://localhost.<br><br>To identify the correct origin, put temporarily http://x here, then check the javascript consol log on the index page. The origin will be reported after 10 seconds.';
+$L['SSE_2']='Origin is a security control required to reject messages coming from other servers. It\'s possible to enter here several origins (space separated). If the server script (qti_srv_sse.php) is on the same server as the other pages, the origin must be http://localhost.<br><br>To identify the correct origin, put temporarily http://x here, then check the javascript consol log on the index page. The origin will be reported after 10 seconds.';
 $L['SSE_3']='Number of recent tickets that can be added on top of the section list. When more tickets arrive, the oldest is replaced (recommended 2)';
 $L['SSE_4']='This is possible only if memcache and [ext] directory are on an other server.';
 
