@@ -222,10 +222,13 @@ function qtUpdateItemIcon(jd,suffix='-itemicon') {
   return true;
 }
 /**
- * @param {string} id
+ * @param {string} selector
  * @param {numeric} duration
  */
-function qtFlash(id,duration=3000){
-  const d = document.querySelector(id);
-  if ( d ) console.log(duration); /*!!! no flash ? */
+function qtFlash(selector,duration=2000){
+  const d = document.querySelector(selector);
+  if ( d ) {
+    d.classList.add('bg-flash');
+    setTimeout( () => {d.classList.remove('bg-flash');}, duration);
+  }
 }

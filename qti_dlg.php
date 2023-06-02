@@ -18,16 +18,14 @@ session_start();
 require 'bin/init.php';
 if ( SUser::role()==='V' ) die('Access denied'); // minimum access rights
 
-$a = empty($_GET['a']) ? '' : $_GET['a']; if ( !empty($_POST['a']) ) $a = $_POST['a']; // a come as get or post
-if ( empty($a) ) die('Missing argument'); // a is mandatory
-$s = isset($_GET['s']) ? (int)$_GET['s'] : 0; if ( isset($_POST['s']) ) $s = (int)$_POST['s'];
-$parentUri = isset($_POST['uri']) ? $_POST['uri'] : 's='.$s;
+$a = '';
+$s = 0;
+$ids = ''; // will become array
+qtArgs('a! int:s ids');
 
-// ids [array-of-int] from GET, POST, or Checkboxes
-$ids = array();
-if ( isset($_GET['ids']) ) $ids = array_map( 'intval', explode(',',$_GET['ids']) );
-if ( isset($_POST['ids']) ) $ids = array_map( 'intval', explode(',',$_POST['ids']) );
-if ( isset($_POST['t1-cb']) ) $ids = getCheckedIds('t1-cb');
+$parentUri = isset($_POST['uri']) ? $_POST['uri'] : 's='.$s;
+$ids = array_map( 'intval', explode(',',$ids) );
+if ( isset($_POST['t1-cb']) ) $ids = getPostedValues('t1-cb');
 $strIds = implode(',',$ids);
 
 $oH->selfname = L('Item+');

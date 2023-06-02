@@ -35,19 +35,16 @@ $arrExtData = []; // Can be used by extensions
 
 // Check settings AGE against session age
 if ( !isset($_SESSION[QT.'settingsage']) ) $_SESSION[QT.'settingsage'] = time()-1;
-$oH->log[] = 'session settingsage: '.$_SESSION[QT.'settingsage'];//!!!
 // Read and register settings (if not yet red)
 if ( !isset($_SESSION[QT]['version']) || SMem::get('settingsage')>$_SESSION[QT.'settingsage'] ) {
-  $oH->log[] = 'registering new settings...';
+  $oH->log[] = 'registering new settings...'; //!!!
   unset($_SESSION[QT.'settingsage']);
   $oDB->getSettings('',true); // only settings are registered
-  $oH->log[] = $_SESSION[QT]['sse'];
   // IMPORTANT
   // SMem::get('settingsage') returns [int]time, [null]no connection or [false]not found
   // When memchache is disabled (or when session age is not found), settings are read once (session startup)
   // Admin pages put age in shared-memory when saving settings
 }
-$oH->log[] = 'shared-memory settingsage: '.SMem::get('settingsage');//!!!
 
 // check major parameters
 define( 'FORMATDATE', empty($_SESSION[QT]['formatdate']) ? 'j-M-Y' : $_SESSION[QT]['formatdate'] );

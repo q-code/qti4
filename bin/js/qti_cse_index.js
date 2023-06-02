@@ -5,21 +5,22 @@ const sseSource = new EventSource(sseServer+'ext/qti_srv_sse.php?ns='+ns+'&retry
 const cseGarbageSection = new Array();
 const cseGarbageTopic = new Array();
 const cseGarbageReply = new Array();
+const debug=true;
 
 // Event topic
 sseSource.addEventListener('topic', function(e) {
   if ( !inOrigin(e) || !('data' in e) ) return;
   const jd = cseReadSse(e,cseGarbageTopic,['t']); if ( !jd ) return;
+  if ( debug) console.log('SSE type section: '+e.data);
   cseUpdate(jd,true);
 }, false);
 
 // Event section
 sseSource.addEventListener('section', function(e) {
   if ( !inOrigin(e) || !('data' in e) ) return;
-  const jd = cseReadSse(e,cseGarbageTopic,['s']); if ( !jd ) return;
-  console.log('SSE type section: '+e.data);
+  const jd = cseReadSse(e,cseGarbageSection,['s']); if ( !jd ) return;
+  if ( debug) console.log('SSE type section: '+e.data);
   if ( jd.s==='reset' ) { window.setTimeout(function(){ location.reload(true); },10000); return; }
-  if ( !document.getElementById('s'+jd.s+'-row') ) return;
   cseUpdate(jd,true);
 }, false);
 
@@ -51,39 +52,43 @@ sseSource.onmessage = function(e) {
 function inOrigin(e) {
   let url = e?.origin || e?.target?.url;
   if ( url ) {
-    url = (new URL(url)).origin; // protocol+domain+port
-    for( const origin of sseOrigin.split(' ') ) if ( url===origin ) return true;
+    url = (new URL(url)).origin; // protocol + domain (+port if not 80|443)
+    if ( sseOrigin.split(' ').some(item => item===url) ) return true;
   }
   console.log('Unknown sse origin: message from '+url);
   return false;
 }
 /**
+ * Parse JSON data and manage the Garbage (5 previous data)
  * @param {MessageEvent} e
- * @param {Array} garbage
- * @param {Array} minimumData
- * @returns {object}
+ * @param {Array} garbage (byref)
+ * @param {Array} required mandatory properties in e.data
+ * @returns {object|false} json parsed Object or FALSE when data already in the garbage or missing properties
  */
-function cseReadSse(e, garbage, minimumData=[]) {
-  // This checks the event origin, format, and manage a garbage of already processed events (byref).
-  // Returns an object (json data parsed) or FALSE when the data is in the garbage (or when format/minimumdata is wrong)
-  const jd = JSON.parse(e.data);
-  for (i = minimumData.length-1; i>=0; --i) { if ( !(minimumData[i] in jd) ) return false; }
-  if ( garbage.indexOf(e.data) > -1 ) return false;
-  if ( garbage.length > 5 ) garbage.shift();
-  garbage.push(e.data);
-  return jd;
+function cseReadSse(e, garbage, required=[]) {
+  try{
+    const jd = JSON.parse(e.data);
+    if ( required.some(item => !(item in jd)) ) return false;
+    if ( garbage.indexOf(e.data) > -1 ) return false;
+    if ( garbage.length > 5 ) garbage.shift();
+    garbage.push(e.data);
+    return jd;
+  } catch {
+    return false;
+  }
 }
 /**
+ * Check if property exists in jd, DOM element exists, and (optionaly) if contents are different
  * @param {object} jd
  * @param {string} prop
- * @param {string} id
- * @param {boolean} diff
- * @returns {boolean}
+ * @param {string} id element id
+ * @param {boolean} checkContent check content
+ * @returns {boolean} is old, update can be applied
  */
-function cseIsset(jd, prop, id, diff=false) {
+function cseIsOld(jd, prop, id, checkContent=false) {
   if ( !(prop in jd) ) return false;
   if ( !document.getElementById(id) ) return false;
-  if ( diff && jd[prop].toString()===document.getElementById(id).innerHTML ) return false;
+  if ( checkContent && jd[prop].toString()===document.getElementById(id).innerHTML ) return false;
   return true;
 }
 /**
@@ -94,19 +99,19 @@ function cseIsset(jd, prop, id, diff=false) {
 function cseUpdate(jd, light=false) {
   if ( !('s' in jd) || jd.s<0 ) jd.s='null';
   var id = 's'+jd.s;
-  if ( cseIsset(jd,'sumitems',id+'-items',true) ) { document.getElementById(id+'-items').innerHTML = jd.sumitems; if (light) qtFlash('#'+id+'-items'); }
-  if ( cseIsset(jd,'sumreplies',id+'-replies',true) ) { document.getElementById(id+'-replies').innerHTML = jd.sumreplies; if (light) qtFlash('#'+id+'-replies'); }
-  if ( cseIsset(jd,'lastpostdate',id+'-issue') ) {
+  if ( cseIsOld(jd,'sumitems',id+'-items',true) ) { document.getElementById(id+'-items').innerHTML = jd.sumitems; if (light) qtFlash('#'+id+'-items'); }
+  if ( cseIsOld(jd,'sumreplies',id+'-replies',true) ) { document.getElementById(id+'-replies').innerHTML = jd.sumreplies; if (light) qtFlash('#'+id+'-replies'); }
+  if ( cseIsOld(jd,'lastpostdate',id+'-issue') ) {
     if (light) qtFlash('#'+id+'-issue');
-    if ( cseIsset(jd,'lastpostdate',id+'-lastpostdate') ) document.getElementById(id+'-lastpostdate').innerHTML = jd.lastpostdate;
-    if ( cseIsset(jd,'lastpostpid',id+'-lastpostpid') ) document.getElementById(id+'-lastpostpid').href = 'qti_item.php?t='+jd.lastpostpid+'#p'+jd.lastpostid;
-    if ( cseIsset(jd,'lastpostuser',id+'-lastpostuser',true) ) {
+    if ( cseIsOld(jd,'lastpostdate',id+'-lastpostdate') ) document.getElementById(id+'-lastpostdate').innerHTML = jd.lastpostdate;
+    if ( cseIsOld(jd,'lastpostpid',id+'-lastpostpid') ) document.getElementById(id+'-lastpostpid').href = 'qti_item.php?t='+jd.lastpostpid+'#p'+jd.lastpostid;
+    if ( cseIsOld(jd,'lastpostuser',id+'-lastpostuser',true) ) {
       document.getElementById(id+'-lastpostuser').href = 'qti_user.php?id'+jd.lastpostuser;
-      if ( cseIsset(jd,'lastpostname',id+'-lastpostuser') ) document.getElementById(id+'-lastpostuser').innerHTML = jd.lastpostname;
+      if ( cseIsOld(jd,'lastpostname',id+'-lastpostuser') ) document.getElementById(id+'-lastpostuser').innerHTML = jd.lastpostname;
     }
   }
   // MyLastTicket
-  if ( cseIsset(jd,'t','t'+jd.t+'-itemicon') ) { b = qtUpdateItemIcon(jd); if (light && b) qtFlash('#mylastitem > p.title'); }
+  if ( cseIsOld(jd,'t','t'+jd.t+'-itemicon') ) { b = qtUpdateItemIcon(jd); if (light && b) qtFlash('#mylastitem > p.title'); }
 }
 /**
  * @param {object} jd
@@ -128,10 +133,13 @@ function qtUpdateItemIcon(jd,suffix='-itemicon'){
   return true;
 }
 /**
- * @param {string} id
+ * @param {string} selector
  * @param {numeric} duration
  */
-function qtFlash(id,duration=3000){
-  const d = document.querySelector(id);
-  if ( d ) console.log(duration); /*!!! no flash ? */
+function qtFlash(selector,duration=2000){
+  const d = document.querySelector(selector);
+  if ( d ) {
+    d.classList.add('bg-flash');
+    setTimeout( () => {d.classList.remove('bg-flash');}, duration);
+  }
 }

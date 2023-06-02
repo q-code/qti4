@@ -26,10 +26,9 @@ $q = '';  // query model
 $v = '';  // keyword(s), tag(s), userid or date1
 $v2 = ''; // username, timeframe or date2
 $to = false; // title only
-$s = '*';  // section filter can be '*' or [int]
+$s = -1;  // [int]
 $st = '*';
-qtArgs('q v v2 boo:to s st');
-if ( $s==='' || $s==='-1' || !is_numeric($s) ) $s='*';
+qtArgs('q v v2 boo:to int:s st');
 if ( $st==='' || $st==='-1' ) $st='*';
 
 // --------
@@ -99,7 +98,7 @@ include APP.'_search_ui.php';
 // SEARCH OPTIONS
 echo '<h2>'.L('Search_option').'</h2>'.PHP_EOL;
 echo '<section class="search-box options" id="broadcasted-options">'.PHP_EOL;
-echo qtSVG('cog', 'id=opt-icon|class=filigrane'.($s==='*' ? '' : ' spinning'));
+echo qtSVG('cog', 'id=opt-icon|class=filigrane'.($s<0 ? '' : ' spinning'));
 echo '<div>'.L('Section').' <select id="opt-s" name="s" size="1" autocomplete="off">'.sectionsAsOption($s,[],[],L('In_all_sections')).'</select></div>';
 echo '</section>'.PHP_EOL;
 

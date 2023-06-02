@@ -135,7 +135,7 @@ echo '<tr>
 echo '<tr>
 <th>&nbsp;</th>
 <td>';
-echo isset($L['SSE_2']) ? $L['SSE_2'] : 'Origin is a security control required to reject messages coming from other servers. It\'s possible to enter here several origins (space separated). If the server script (qti_srv_sse.php) is on the same server as the other pages, it must be http://localhost.<br><br>To identify the correct origin, put temporary http://x here, then check the javascript consol log on the index page. The origin will be reported after 10 seconds.';
+echo isset($L['SSE_2']) ? $L['SSE_2'] : 'Origin is a security control required to reject messages coming from other servers. It\'s possible to enter here several origins (space separated). If the server script (qti_srv_sse.php) is on the same server as the other pages, it must be your board url (http://www.yourdomain.com).<br><br>To identify the correct origin, put temporary http://x here, then check the javascript consol log on the index page. The origin will be reported after 10 seconds.';
 echo '</td>
 </tr>
 </table>

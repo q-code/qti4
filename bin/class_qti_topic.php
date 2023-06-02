@@ -69,7 +69,7 @@ public function setFrom($ref=null)
     if ( $ref<0 ) die(__METHOD__.' Argument must be positive');
     global $oDB;
     $oDB->query( "SELECT * FROM TABTOPIC WHERE id=$ref" );
-    $row = $oDB->getRow(); if ( $row===false ) die(__METHOD__.' No domain '.$ref);
+    $row = $oDB->getRow(); if ( $row===false ) die(__METHOD__.' No id '.$ref);
     $ref = $row; // continue as array
   }
   if ( is_array($ref) ) {
@@ -545,20 +545,17 @@ public function tagsDel(string $str, $oS=null)
 }
 
 /**
- * Delete reply-posts in the topic $ids (can work on several topics)
+ * Delete all reply-posts in the topic $ids (can work on several topics)
  * @param integer|array $ids the topic id or a list of id
  * @param boolean $dropAttachs
- * @return integer the number of posts affected
  */
 public static function deleteReplies($ids, bool $dropAttachs=true) {
-  if ( is_int($ids) ) $ids = array($ids);
-  if ( !is_array($ids) ) die('CTopic::deleteReplies Invalid argument');
-  $i = count($ids);
-  global $oDB;
+  if ( is_int($ids) ) $ids = [$ids];
+  if ( !is_array($ids) ) die(__METHOD__.' invalid argument');
   $ids = implode(',',$ids);
+  global $oDB;
   if ( $dropAttachs ) CPost::dropAttachSql( "SELECT id,attach FROM TABPOST WHERE attach<>'' AND type<>'P' AND topic IN ($ids)", false );
-  $oDB->exec( "DELETE FROM TABPOST WHERE type<>'P' AND topic IN ($ids)" );
-  return $i;
+  return $oDB->exec( "DELETE FROM TABPOST WHERE type<>'P' AND topic IN ($ids)" );
 }
 /**
  * Delete the topic, replies and attachements (can work on several topics)

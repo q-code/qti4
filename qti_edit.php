@@ -22,7 +22,7 @@ if ( isset($_POST['dosend']) && $_POST['dosend']!==$certificate ) die('Unable to
 // INITIALISE
 // --------
 
-$a = '';
+$a = ''; // required
 $s = -1;
 $t = -1;
 $p = -1;
