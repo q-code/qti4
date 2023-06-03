@@ -69,7 +69,7 @@ if ( isset($_POST['ok']) ) try {
   }
   memFlushLang(); // clear cache
   $_SESSION[QT.'splash'] = L('S_save');
-  $oH->redirect($oH->exiturl);
+  $oH->redirect('exit');
 
 } catch (Exception $e) {
 

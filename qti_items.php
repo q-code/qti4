@@ -23,8 +23,7 @@ $s = -1; // [int]
 $st = '*'; // Status [string] {'*'|status-key}, caution: can be '0'
 $v = ''; // Searched [string] text (converted to array of strings)
 $v2 = ''; // timeframe [string] or userid
-$cid = -1; // allows checking an id when EditByRows (-1 means nothing)
-qtArgs('q int:s st v v2 int:cid');
+qtArgs('q int:s st v v2');
 if ( empty($q) ) $q = 's';
 if ( $q==='s' && $s<0 ) die(__FILE__.' Missing argument s');
 $v = qtCleanArray($v); // array of (unique) values trimmed (not empty)
@@ -364,7 +363,7 @@ while( $row = $oDB->getRow() ) {
   $t->arrTd[$tdname]->add('id','t'.$row['id'].'-c-'.$tdname);
   // add checkbox if edit mode
   if ( $_SESSION['EditByRows'] && $row['posttype']==='P' )
-  $t->arrTd['checkbox']->content = '<input type="checkbox" name="t1-cb[]" id="t1-cb-'.$row['id'].'" value="'.$row['id'].'"'.($row['id']==$cid ? ' checked' : '').'/>';
+  $t->arrTd['checkbox']->content = '<input type="checkbox" name="t1-cb[]" id="t1-cb-'.$row['id'].'" value="'.$row['id'].'"/>';
 
   // OUPUT the row
   echo $t->getTDrow('id=t1-tr-'.$row['id'].'|class=t-item hover rowlight');

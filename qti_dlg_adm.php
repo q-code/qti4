@@ -41,7 +41,7 @@ case 'Ddelete':
     CDomain::delete($s);
     // exit
     $_SESSION[QT.'splash'] = L('S_delete');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
   }
 
   // FORM
@@ -80,7 +80,7 @@ case 'Sdelete':
     CSection::delete($s);
     // exit
     $_SESSION[QT.'splash'] = L('S_delete');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
   }
 
   // FORM
@@ -120,7 +120,7 @@ case 'Sprune':
     CSection::deleteItems( $s, '0', (isset($_POST['type']) ? $_POST['type'] : ''), '', " AND replies=0 AND firstpostdate<'".addDate(date('Ymd His'),-$days,'day')."'" );
     // exit
     $_SESSION[QT.'splash'] = L('S_delete');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
   }
 
   // FORM (default type/status is U=unchanged)
@@ -195,7 +195,7 @@ case 'Scntdelete':
       CSection::deleteItems( $s, $_POST['status'], $_POST['type'], $_POST['tf'], '' ,$onlyReplies );
       // exit
       $_SESSION[QT.'splash'] = L('S_delete');
-      $oH->redirect($oH->exiturl);
+      $oH->redirect('exit');
     } else {
       $error = L('Nothing_selected');
     }
@@ -323,7 +323,7 @@ case 'Scntmove':
       CSection::moveAllItems( $s, (int)$_POST['dest'],(int)$_POST['renum'], isset($_POST['dropprefix']), $_POST['status'], $_POST['type'], $_POST['tf'] );
       // exit
       $_SESSION[QT.'splash'] = L('S_update');
-      $oH->redirect($oH->exiturl);
+      $oH->redirect('exit');
     } else {
       $error = L('Nothing_selected');
     }
@@ -412,7 +412,7 @@ case 'status_del':
     SStatus::delete($s,$_POST['dest']);
     // exit
     $_SESSION[QT.'splash'] = L('S_delete');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
   }
 
   // FORM

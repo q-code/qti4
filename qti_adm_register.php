@@ -73,7 +73,7 @@ case 'usersrole':
       SMem::clear('_Sections');
     }// exit
     $_SESSION[QT.'splash'] = L('S_update');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
   }
 
   // FORM
@@ -104,7 +104,7 @@ case 'usersdel':
 
     // Exit
     $_SESSION[QT.'splash'] = L('S_delete');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
   }
 
   // FORM
@@ -152,7 +152,7 @@ case 'catdel':
     $b = $oDB->exec( 'DELETE FROM TABUSER WHERE '.$where );
     // Exit
     $_SESSION[QT.'splash'] = $b ? L('S_update') : 'E|'.L('E_failed');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
   }
 
   // FORM
@@ -181,7 +181,7 @@ case 'usersban':
     $oDB->exec( "UPDATE TABUSER SET closed='$ban' WHERE id IN ($list)" );
     // exit
     $_SESSION[QT.'splash'] = L('S_update');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
 
   } catch (Exception $e) {
 
@@ -217,7 +217,7 @@ case 'userspic':
     SUser::deletePicture($ids);
     // exit
     $_SESSION[QT.'splash'] = L('S_delete');
-    $oH->redirect($oH->exiturl);
+    $oH->redirect('exit');
 
   } catch (Exception $e) {
 
