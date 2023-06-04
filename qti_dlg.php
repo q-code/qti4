@@ -20,26 +20,29 @@ if ( SUser::role()==='V' ) die('Access denied'); // minimum access rights
 
 $a = '';
 $s = 0;
-$ids = ''; // will become array
-qtArgs('a! int:s ids');
-
-$parentUri = isset($_POST['uri']) ? $_POST['uri'] : 's='.$s;
-$ids = array_map( 'intval', explode(',',$ids) );
+$ids = '';
+$uri = '';
+qtArgs('a! int:s ids uri');
+$ids = array_map('intval', explode(',',$ids));
 if ( isset($_POST['t1-cb']) ) $ids = getPostedValues('t1-cb');
 $strIds = implode(',',$ids);
 
 $oH->selfname = L('Item+');
 $oH->selfurl = APP.'_dlg.php';
-$oH->selfuri = $oH->selfurl.'?a='.$a; // When confirmed, ids (and other parameters) must be in POST
-$oH->exiturl = APP.'_items.php?'.$parentUri;
 $oH->exitname = L('Exit');
+$oH->exiturl = APP.'_items.php';
+$oH->exituri = empty($uri) ? 's='.$s : $uri;
+
 $frm_title = 'Multiple edit';
+$frm_dflt_args = '<input type="hidden" name="a" value="'.$a.'"/>
+<input type="hidden" id="ids" name="ids" value="'.$strIds.'"/>
+<input type="hidden" name="s" value="'.$s.'"/>
+<input type="hidden" name="uri" value="'.$uri.'"/>';
 $frm_hd = '';
-$frm = array();
+$frm = [];
 $frm_ft = '';
 
-function renderItems(array $ids, bool $tags=false, bool $replies=false, bool $attach=false, bool $typeIcon=true)
-{
+function renderItems(array $ids, bool $tags=false, bool $replies=false, bool $attach=false, bool $typeIcon=true) {
   $topIds = array_slice($ids,0,5);
   // process ids [array of int]
   $str = '';
@@ -58,8 +61,7 @@ function renderItems(array $ids, bool $tags=false, bool $replies=false, bool $at
   }
   return $str.(count($ids)>5 ? '<p>...</p>' : '');
 }
-function renderReply(int $id, string $parentType='T', string $parentStatus='1')
-{
+function renderReply(int $id, string $parentType='T', string $parentStatus='1') {
   global $oDB;
   $oDB->query( "SELECT * FROM TABPOST WHERE id=$id" );
   while( $row=$oDB->getRow() ) {
@@ -69,8 +71,7 @@ function renderReply(int $id, string $parentType='T', string $parentStatus='1')
   }
   return $str;
 }
-function ListTags(array $ids, bool $sort=true, bool $format=true, int $max=32)
-{
+function ListTags(array $ids, bool $sort=true, bool $format=true, int $max=32) {
   $arr = array();
   global $oDB;
   $oDB->query( "SELECT tags FROM TABTOPIC WHERE id IN (".implode(',',$ids).")" );
@@ -94,8 +95,8 @@ case 'itemsType':
   if ( !SUser::isStaff() ) die('Access denied');
 
   // SUBMITTED
-  if ( isset($_POST['ok']) )
-  {
+  if ( isset($_POST['ok']) ) {
+
     // update status (in not U unchanged)
     if ( isset($_POST['status']) && $_POST['status']!=='U' ) {
     $oDB->exec( 'UPDATE TABTOPIC SET status="'.$_POST['status'].'",statusdate="'.date('Ymd His').'" WHERE id IN ('.implode(',',$ids).')' );
@@ -107,12 +108,12 @@ case 'itemsType':
     memFlushStats(); // clear cache
     $_SESSION[QT.'splash'] = L('S_update');
     $oH->redirect('exit');
+
   }
 
   // FORM (default type/status is U=unchanged)
-
   $frm_title = L('Change').' '.L('type').'/'.L('status');
-  $frm[] = '<form method="post" action="'.url($oH->selfuri).'" onsubmit="return validateForm(this)">';
+  $frm[] = '<form method="post" action="'.url($oH->self()).'" onsubmit="return validateForm(this)">'.$frm_dflt_args;
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,false,true);
@@ -121,9 +122,7 @@ case 'itemsType':
   $frm[] = '<p>'.L('Type').' <select id="newtype" name="type" size="1"><option value="U" selected>('.L('unchanged').')</option>';
   $frm[] .= qtTags(CTopic::getTypes()).'</select> '.L('Status').' <select id="newstatus" name="status" size="1"><option value="U" selected>('.L('unchanged').')</option>'.qtTags(CTopic::getStatuses('T',true)).'</select></p>';
   $frm[] = '</article>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
-  $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/>';
-  $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
   $frm[] = '</form>';
   $oH->scripts[] = 'function validateForm(f) {
   if ( f.elements[0].value=="U" && f.elements[1].value=="U") { alert("'.L('Nothing_selected').'"); return false; }
@@ -151,22 +150,22 @@ case 'itemsTags':
   if ( !SUser::isStaff() ) die('Access denied');
 
   // SUBMITTED
-  if ( isset($_POST['tag-ok']) && !empty($_POST['tagsedit']) )
-  {
+  if ( isset($_POST['tag-ok']) && !empty($_POST['tagsedit']) ) {
+
     // update status
-    foreach($ids as $id)
-    {
+    foreach($ids as $id) {
       $oT = new CTopic($id);
       if ( $_POST['tag-ok']==='addtag' ) $oT->tagsAdd($_POST['tag-edit']);
       if ( $_POST['tag-ok']==='deltag' ) $oT->tagsDel($_POST['tag-edit']);
     }
     // exit
     $_SESSION[QT.'splash'] = L('S_update');
+
   }
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Change').' '.L('tags');
-  $frm[] = '<form method="post" action="'.url($oH->selfuri).'" autocomplete="off">';
+  $frm[] = '<form method="post" action="'.url($oH->self()).'" autocomplete="off">'.$frm_dflt_args;
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,true);
@@ -183,8 +182,7 @@ case 'itemsTags':
   $frm[] = '<input required type="text" id="tag-edit" name="tag-edit" size="15" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" data-multi="1" autocomplete="off"/><button type="reset" class="tag-btn" title="'.L('Reset').'" onclick="qtFocus(`tag-edit`)">'.qtSVG('backspace').'</button>&nbsp;<button type="submit" name="tag-ok" class="tag-btn" value="addtag" title="'.L('Add').'">'.qtSVG('plus').'</button><button type="submit" name="tag-ok" class="tag-btn" value="deltag" title="'.L('Delete_tags').'">'.qtSVG('minus').'</button>';
   $frm[] = '</div>';
   $frm[] = '</article>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button></p>';
-  $frm[] = '<input type="hidden" name="ids" value="'.$strIds.'"/><input type="hidden" name="uri" value="'.$parentUri.'"/>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button></p>';
   $frm[] = '</form>';
   $oH->scripts['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" id="tagdesc" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
   $oH->scripts['tags'] = '<script type="text/javascript" src="bin/js/qt_tags.js"></script>';
@@ -199,8 +197,7 @@ case 'itemsMove':
   if ( !SUser::isStaff() ) die('Access denied');
 
   // SUBMITTED
-  if ( isset($_POST['ok']) && isset($_POST['destination']) && $_POST['destination']!=='' )
-  {
+  if ( isset($_POST['ok']) && isset($_POST['destination']) && $_POST['destination']!=='' ) {
     CSection::moveItems($ids, (int)$_POST['destination'], (int)$_POST['ref'], isset($_POST['dropprefix']) ? true : false);
     // exit
     $_SESSION[QT.'splash'] = L('S_update');
@@ -209,15 +206,15 @@ case 'itemsMove':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Move').' '.L('item+');
-  $frm[] = '<form method="post" action="'.url($oH->selfuri).'" onsubmit="return validateForm(this)">';
+  $frm[] = '<form method="post" action="'.url($oH->self()).'" onsubmit="return validateForm(this)">'.$frm_dflt_args;
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,false,true,true);
   $frm[] = '</article>';
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Destination').' <select name="destination" size="1" required>
-  <option value="" disabled selected hidden></option>
-  '.sectionsAsOption().'
+  <option value="-1" disabled selected hidden></option>
+  '.sectionsAsOption(-1,[],[$q]).'
   </select></p>';
   $frm[] = '</article>';
   $frm[] = '<article>';
@@ -229,8 +226,7 @@ case 'itemsMove':
   </select></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="dropprefix" name="dropprefix" checked/> <label for="dropprefix">'.L('Remove').' '.L('item').' '.L('prefix').'</label></span></p>';
   $frm[] = '</article>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
-  $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/><input type="hidden" name="uri" value="'.$parentUri.'"/>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
   $frm[] = '</form>';
 
   break; // =======
@@ -271,7 +267,7 @@ case 'itemsMove':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Delete');
-  $frm[] = '<form method="post" action="'.url($oH->selfuri).'" onsubmit="return validateForm(this)">';
+  $frm[] = '<form method="post" action="'.url($oH->self()).'" onsubmit="return validateForm(this)">'.$frm_dflt_args;
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,false,true,true);
@@ -280,9 +276,7 @@ case 'itemsMove':
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteT" name="deleteT"/> <label for="deleteT">'.L('Delete').' '.L('item+').'</label></span></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteR" name="deleteR"/> <label for="deleteR">'.L('Delete').' '.L('reply+').'</label></span></p>';
   $frm[] = '<p><span class="cblabel"><input type="checkbox" id="deleteA" name="dropattach"/> <label for="deleteA">'.L('Drop_attachments').'<small id="attachoption"></small></label></span></p>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' (<span id="submit-sum">...</span>)</button></p>';
-  $frm[] = '<input type="hidden" id="ids" name="ids" value="'.implode(',',$ids).'"/>';
-  $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' (<span id="submit-sum">...</span>)</button></p>';
   $frm[] = '</form>';
   $oH->scripts[] = 'const deleteT = document.getElementById("deleteT");
 const deleteR = document.getElementById("deleteR");
@@ -356,8 +350,7 @@ case 'replyDelete':
   if ( !SUser::isStaff() && SUser::id()!==CPost::getOwner($p) ) die('Access denied');
 
   // SUBMITTED
-  if ( isset($_POST['ok']) )
-  {
+  if ( isset($_POST['ok']) ) {
     // delete only reply posts
     if ( isset($_POST['deletereply']) ) {
       CPost::delete($p);
@@ -373,17 +366,14 @@ case 'replyDelete':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Delete');
-  $frm[] = '<form method="post" action="'.url($oH->selfuri).'">';
+  $frm[] = '<form method="post" action="'.url($oH->self()).'"><input type="hidden" name="t" value="'.$t.'"/><input type="hidden" name="p" value="'.$p.'"/>'.$frm_dflt_args;
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Reply').':</p>';
   $frm[] = renderReply($p);
   $frm[] = '</article>';
   $frm[] = '<p class="row-confirm">'.L('Confirm').':</p>';
   $frm[] = '<p><span class="cblabel"><input required type="checkbox" id="deletereply" name="deletereply"/> <label for="deletereply">'.L('Delete').' '.L('reply').'</label></span></p>';
-  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exiturl).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
-  $frm[] = '<input type="hidden" name="t" value="'.$t.'"/>';
-  $frm[] = '<input type="hidden" name="p" value="'.$p.'"/>';
-  $frm[] = '<input type="hidden" name="uri" value="'.$parentUri.'"/>';
+  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '</form>';
 
   break; // =======
@@ -404,8 +394,8 @@ case 'itemParam':
   if ( !isset($arr['Iaggr']) && isset($arr['Istat']) ) $arr['Iaggr'] = $arr['Istat'];
 
   // SUBMITTED
-  if ( isset($_POST['ok']) )
-  {
+  if ( isset($_POST['ok']) ) {
+
     // change settings
     $arr['Istatus'] = $_POST['status'];
     $arr['Ilevel'] = $_POST['level'];
@@ -415,19 +405,19 @@ case 'itemParam':
 
     // activate inspection and recompute aggregation
     $oT->setStatus($arr['Istatus'],false);
-    if ( $oT->items>0 )
-    {
+    if ( $oT->items>0 ) {
       $oT->z = $oT->InspectionAggregate();
       $oDB->exec( 'UPDATE TABTOPIC SET z='.$oT->z.' WHERE id='.$oT->id );
     }
     // exit
     $_SESSION[QT.'splash'] = L('S_update');
     $oH->redirect('exit');
+
   }
 
   // FORM
   $frm_title = L('Inspection').' '.L('Parameters');
-  $frm[] = '<form method="post" action="'.url($oH->selfuri).'">';
+  $frm[] = '<form method="post" action="'.url($oH->self()).'">'.$frm_dflt_args;
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item').':</p>';
   $frm[] = renderItems($ids,false,true,true);
@@ -458,7 +448,6 @@ case 'itemParam':
     $arr['Iaggr']).'</select></p>';
     $frm[] = '</article>';
     $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url('qti_item.php').'?t='.$t.'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
-  $frm[] = '<input type="hidden" name="ids" value="'.implode(',',$ids).'"/>';
   $frm[] = '</form>';
 
   break; // =======
