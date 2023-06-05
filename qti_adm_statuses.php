@@ -57,7 +57,7 @@ if ( isset($_POST['ok_show']) ) {
 
 include APP.'_adm_inc_hd.php';
 
-echo '<form method="post" action="'.$oH->selfurl.'">
+echo '<form method="post" action="'.$oH->self().'">
 <table class="t-item">
 <tr>
 <th style="width:30px;text-align:center">Id</th>
@@ -97,7 +97,7 @@ echo '
 ';
 
 echo '<h2 class="config">'.L('Display_options').'</h2>
-<form method="post" action="'.$oH->selfurl.'">
+<form method="post" action="'.$oH->self().'">
 <table class="t-conf">
 <tr>
 <th style="width:150px"><label for="show_closed">'.L('Show_z').'</label></th>

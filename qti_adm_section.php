@@ -145,7 +145,7 @@ $wisheddate      = $oS->wisheddate>2 ? 2 : $oS->wisheddate;   // 0=no, 1=optiona
 $wisheddate_dflt = $oS->wisheddate>2 ? $oS->wisheddate-2 : 0; // 3 4 5 = today, day+1, day+2
 if ( $oS->notify===0 ) $oS->notifycc==="0";
 
-echo '<form method="post" action="'.$oH->selfurl.'?s='.$s.'&pan='.$pan.'">
+echo '<form method="post" action="'.$oH->self().'?s='.$s.'&pan='.$pan.'">
 <h2 class="subconfig">'.L('Definition').'</h2>
 <table class="t-conf">
 <tr>
@@ -262,7 +262,7 @@ if ( !empty($strFile) ) {
   $addOption = '<option value="'.$strFile.'"'.(empty($oS->getMF('options','logo')) ? '' : 'selected').'>'.L('Specific_image').'</option>';
 }
 
-echo '<form method="post" action="'.$oH->selfurl.'">
+echo '<form method="post" action="'.$oH->self().'">
 <table class="t-conf">
 <tr>
 <th><span class="texthead">Logo</span></th>
@@ -352,7 +352,7 @@ $arrDescTrans = SLang::get('secdesc','*','s'.$oS->id);
 
 echo '<p><small>'.L('E_no_translation').'<strong style="color:#1364B7">'.$oS->title.'</strong></small></p>
 ';
-echo '<form method="post" action="'.$oH->selfurl.'">
+echo '<form method="post" action="'.$oH->self().'">
 <table class="t-conf input100">
 <tr>
 <th>'.L('Title').'</th>

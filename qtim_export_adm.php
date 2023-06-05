@@ -148,7 +148,7 @@ if ( isset($_POST['ok']) )
 
 include APP.'_adm_inc_hd.php';
 
-echo '<form method="post" action="'.$oH->selfurl.'">
+echo '<form method="post" action="'.$oH->self().'">
 <h2 class="config">'.$L['Export_Content'].'</h2>
 <table class="t-conf">
 <tr>

@@ -77,7 +77,7 @@ include APP.'_adm_inc_hd.php';
 
 // FORM
 echo '
-<form method="post" action="'.$oH->selfurl.'">
+<form method="post" action="'.$oH->self().'">
 <h2 class="config">SSE</h2>
 <table class="t-conf">
 ';

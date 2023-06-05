@@ -595,7 +595,7 @@ if ( $oP->type==='P' && $bMap ) {
 
 // FORM END
 echo '<p class="submit">
-<button type="button" tabindex="98" onclick="window.location=`'.$oH->exiturl.'`;">'.L('Cancel').'</button>&nbsp;
+<button type="button" tabindex="98" onclick="window.location=`'.$oH->exit().'`;">'.L('Cancel').'</button>&nbsp;
 <button type="submit" id="form-edit-preview" name="dopreview" value="'.$certificate.'" tabindex="99" onclick="this.form.dataset.state=0">'.L('Preview').'...</button>&nbsp;
 <button type="submit" id="dosend" name="dosend" value="'.$certificate.'" tabindex="97" onclick="this.form.dataset.state=1">'.L('Send').'</button>
 </p>

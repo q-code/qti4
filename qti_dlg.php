@@ -142,7 +142,7 @@ nt.addEventListener("change", ()=>{
 });
   ';
 
-  break; // =======
+  break;==
 
 case 'itemsTags':
 
@@ -229,7 +229,7 @@ case 'itemsMove':
   $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
   $frm[] = '</form>';
 
-  break; // =======
+  break;==
 
   case 'itemDelete':
   case 'itemsDelete':
@@ -376,7 +376,7 @@ case 'replyDelete':
   $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '</form>';
 
-  break; // =======
+  break;==
 
 case 'itemParam':
 
@@ -450,7 +450,7 @@ case 'itemParam':
     $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url('qti_item.php').'?t='.$t.'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '</form>';
 
-  break; // =======
+  break;==
 
 default: die('Unknown command '.$a);
 
