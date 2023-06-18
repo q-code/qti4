@@ -36,6 +36,7 @@ function memInit(string $key, $onUnknownKey=false)
   // Dataset memory
   switch($key) {
     case 'settingsage': return time();
+    case '_SectionIds': return CSection::getIds();
     case '_Domains': return CDomain::getPropertiesAll(); // ALL domains (including empty/invisible domains), array contains property=>value from CDomain class
     case '_Sections': return CSection::getPropertiesAll(); // ALL sections (including empty/invisible sections), array contains property=>value from CSection class
     case '_NewUser': global $oDB; return SUser::getLastMember($oDB); // last registered user
@@ -45,11 +46,13 @@ function memInit(string $key, $onUnknownKey=false)
   // Unknown key (false)
   return $onUnknownKey;
 }
-function memFlush(array $arrKeep=['_Domains'])
+function memFlush(array $arrKeep=['_Domains'], string $option='')
 {
   if ( MEMCACHE_HOST===false ) return;
+  // DEEP FLUSH
+  if ( $option==='**' ) SMem::clear('**'); // only admin can use option to deep flush
   // Flush keys, if not in the $arrKeep list (by default, _Domains is preserved)
-  foreach(['_Domains','_Sections','_SectionsStats','_Statuses'] as $k) if ( !in_array($k,$arrKeep) ) SMem::clear($k);
+  foreach(['_Domains','_SectionIds','_Sections','_SectionsStats'] as $k) if ( !in_array($k,$arrKeep) ) SMem::clear($k);
   return true;
 }
 function memFlushLang()

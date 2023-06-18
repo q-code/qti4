@@ -135,6 +135,15 @@ public static function getOwner(int $id)
   $row=$oDB->getRow();
   return (int)$row['ownerid'];
 }
+public static function getIds()
+{
+  $arr = [];
+  global $oDB;
+  $oDB->query( "SELECT id FROM TABSECTION" );
+  while($row=$oDB->getRow()) $arr[] = (int)$row['id'];
+  return $arr;
+}
+
 // --------
 // Other methods
 // --------
@@ -221,9 +230,13 @@ public static function getIdsInContainer(int $pid)
 }
 public static function getSectionsStats(bool $closed=false)
 {
-  // Returns items and replies by section
-  // Array also includes a 'all' key, containing the sums
-  $arr = ['all'=>['items'=>0,'replies'=>0,'itemsZ'=>0,'repliesZ'=>0,'lastpostid'=>-1,'lastpostpid'=>-1,'lastpostdate'=>'','lastpostuser'=>-1,'lastpostname'=>'']];
+  $arr = [];
+  // Initialize each section to 0 (because sql will skip empty sections)
+  global $_SectionIds;
+  foreach($_SectionIds as $id)
+  $arr[$id] = ['items'=>0,'replies'=>0,'itemsZ'=>0,'repliesZ'=>0,'lastpostid'=>-1,'lastpostpid'=>-1,'lastpostdate'=>'','lastpostuser'=>-1,'lastpostname'=>''];
+  $arr['all'] = ['items'=>0,'replies'=>0,'itemsZ'=>0,'repliesZ'=>0,'lastpostid'=>-1,'lastpostpid'=>-1,'lastpostdate'=>'','lastpostuser'=>-1,'lastpostname'=>''];
+   // Query
   global $oDB;
   $oDB->query( "SELECT section,count(id) as items,sum(replies) as replies FROM TABTOPIC GROUP BY section" );
   while($row=$oDB->getRow()) {
@@ -462,18 +475,6 @@ public static function getPropertiesAll(string $order='d.titleorder,s.titleorder
   }
   return $arr;
 }
-public function updLastPostDate()
-{
-  global $oDB;
-  if ( in_array(QDB_SYSTEM,array('pdo.sqlite','sqlite','pdo.sqlsrv','sqlsrv','pdo.pg','pg')) )
-  {
-  $oDB->exec( 'UPDATE TABTOPIC SET lastpostdate=(SELECT MAX(issuedate) FROM TABPOST p, TABTOPIC t WHERE t.id=p.topic) WHERE section='.$this->id );
-  }
-  else
-  {
-  $oDB->exec( 'UPDATE TABTOPIC t SET t.lastpostdate=(SELECT MAX(p.issuedate) FROM TABPOST p WHERE t.id=p.topic) WHERE t.section='.$this->id );
-  }
-}
 public function updStats($arrValues=array(),$bLastPostDate=false,$bReplies=false)
 {
   if ( $this->id<0 ) die('CSection::updStats Wrong id');
@@ -489,7 +490,7 @@ public function updStats($arrValues=array(),$bLastPostDate=false,$bReplies=false
   $this->stats = qtImplode($arrValues,';');
   $this->updateMF('stats'); // also send sse
   // Update lastpostdate or replies of EACH item in this section
-  if ( $bLastPostDate ) CSection::updLastPostDate($this->id); // used after import or prune
+  //!!!if ( $bLastPostDate ) CSection::updLastPostDate($this->id); // used after import or prune
   if ( $bReplies ) CSection::updEachItemReplies($this->id);  // used after import
 
   return $this->stats;

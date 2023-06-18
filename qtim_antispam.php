@@ -60,7 +60,7 @@ if ( $_SESSION[QT]['m_antispam']>0 ) // this parametre can be >1
     antispamThrow($oH, 'E1');
   }
   // minimum size
-  if ( $checkSize && strlen($oP->text)<=$minSize ) antispamThrow($oH, 'E2'); //!!!throw new Exception( L('Antispam.E2') );
+  if ( $checkSize && strlen($oP->text)<=$minSize ) antispamThrow($oH, 'E2');
   // sampling text
   $strM = mb_strtolower(qtDropDiacritics(substr($oP->text,0,500)));
   // simple characters exists

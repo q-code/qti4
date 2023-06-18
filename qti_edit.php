@@ -411,17 +411,6 @@ if ( SUser::isStaff() ) {
   echo L('Status').' <select id="newtopicstatus" name="topicstatus" size="1">'.qtTags(CTopic::getStatuses($oT->type,true), $oT->status).'</select> ';
   echo '<span id="ac-wrapper-behalf" class="ac-wrapper">'.L('Send_on_behalf').'&nbsp;<input type="text" name="behalf" id="behalf" size="14" maxlength="24" value="'.$oP->username.'" autocomplete="off"/><input type="hidden" id="behalfid" name="behalfid" value="-1"></span></div>'; // end opitonsbar
   echo '</div>'.PHP_EOL; // end flex-sp
-/*!!!
-  if ( $oP->type=='P' ) {
-    // initialize
-    $arrStatus = SMem::get('_Statuses');
-    $arrIcons = array();
-    $arrNames = array();
-    foreach(array_keys($arrStatus) as $k) {
-      $arrIcons[$k] = isset($arrStatus[$k]['icon']) ? $arrStatus[$k]['icon'] : 'topic_tZ.gif';
-      $arrNames[$k] = isset($arrStatus[$k]['name']) ? $arrStatus[$k]['name'] : L('Item');
-    }
-  }*/
 }
 
 echo '<div class="edit-post">

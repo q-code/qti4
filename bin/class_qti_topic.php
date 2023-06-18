@@ -265,6 +265,8 @@ public function getTopicTitle()
 }
 public function insertTopic(bool $userStat=true, bool $canNotify=true, $oP=null, $oS=null)
 {
+  if ( empty($this->firstpostdate) ) $this->firstpostdate = date('Ymd His');
+  if ( empty($this->lastpostdate) ) $this->lastpostdate = $this->firstpostdate;
   // Pass smile to CTopic
   $this->smile='00';
   if ( isset($oP) && !empty($oP->icon) &&  $oP->icon!=='00') $this->smile = $oP->icon;

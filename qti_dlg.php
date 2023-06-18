@@ -54,7 +54,7 @@ function renderItems(array $ids, bool $tags=false, bool $replies=false, bool $at
     if ( $typeIcon ) $str .= $oT->getIcon(QT_SKIN).' ';
     $str .= '"'.qtTrunc($oT->title,30).'"';
     if ( $replies && $oT->items ) $str .= ' '.qtSVG('comments', 'title='.L('reply',$oT->items));
-    if ( $attach && !empty($oT->attachinfo) ) $str .= ' '.qtSVG('paperclip', 'title='.L('Attachment'));//!!!
+    if ( $attach && !empty($oT->attachinfo) ) $str .= ' '.qtSVG('paperclip', 'title='.L('Attachment'));
     if ( $tags ) $str .= ' '.$oT->getTagIcon();
     $str .= ' <span class="minor">'.L('by').' '.qtTrunc($oT->firstpostname,20).' ('.qtDatestr($oT->firstpostdate,'j M').')</span>';
     $str .= '</p>';
