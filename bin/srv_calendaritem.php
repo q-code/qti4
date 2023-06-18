@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230430
+<?php // v4.0 build:20230618
 
 if ( empty($_GET['term']) || substr($_GET['term'],0,1)!=='t' ) { echo 'configuration error'; return; }
 

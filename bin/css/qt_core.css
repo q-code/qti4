@@ -52,12 +52,12 @@ input:disabled{opacity:0.6}
 option{background-color:#FFF;color:#000}
 optgroup{background-color:#EEE;color:#444}
 option:disabled{color:#888}
-select{max-width:260px}
+select{max-width:260px} select[name="secret_q"]{max-width:360px}
 .cblabel .prefix_icon{vertical-align:baseline}
 
 /* INLINE (p has margin in article and msgbox) */
 article p, .article p, p.article, .msgboxbody p{margin-bottom:0.5rem}
-p.submit, .msgboxbody p.submit{margin:0.8rem 0 0 0;text-align:center}
+p.submit, .msgboxbody p.submit{margin:1rem 0 0 0;text-align:center}
 p.error{margin:0.3rem}
 p.debug{font-family:Arial;font-size:8pt}
 p.list{margin-bottom:2px}
@@ -91,10 +91,6 @@ p.list{margin-bottom:2px}
 .square32{display:flex;width:32px;height:32px;align-items:center;justify-content:center}
 .bg-flash{animation:bgFlash 1s ease-in 0s 2 alternate;}
 @keyframes bgFlash{from{background-color:transparent} to{background-color:rgb(255, 255, 146)} }
-
-/* scalebar (width are specified in the html) */
-.scalebar{display:inline-block;margin-bottom:2px;vertical-align:middle;height:12px;border:solid 1px #999}
-.scalevalue{display:block;height:100%;background-color:#ccc}
 
 /* MSGBOX */
 .msgboxbody article{margin-bottom:1.2rem}

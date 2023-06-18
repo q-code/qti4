@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230430
+<?php // v4.0 build:20230618
 
 echo '<div class="myboard">'.PHP_EOL;
 echo '<div class="myboardheader"><p class="title">'.L('My_last_item').'</p>'.PHP_EOL;

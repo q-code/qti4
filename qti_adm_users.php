@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230430
+<?php // v4.0 build:20230618
 
 session_start();
 /**
@@ -49,15 +49,13 @@ if ( isset($_GET['ipp']) && in_array($_GET['ipp'],['25','50','100']) ) {
 }
 $intLimit = ($intPage-1)*25;
 
-// User menu
-
-include 'qti_adm_users_edit.php';
+// User menu (POST submitted and FORM $formAddUser)
+include 'qti_adm_users_add.php';
 
 // Prepare to check the last created user
 if ( isset($_GET['cid']) )  $intChecked = (int)strip_tags($_GET['cid']); // allow checking an id. Note checklast overridres this id
 if ( isset($_POST['cid']) ) $intChecked = (int)strip_tags($_POST['cid']);
-if ( isset($_POST['checklast']) || isset($_GET['checklast']) )
-{
+if ( isset($_POST['checklast']) || isset($_GET['checklast']) ) {
   $oDB->query( 'SELECT max(id) as countid FROM '.TABUSER); // Find last id. This overrides the cid value !
   $row = $oDB->getRow();
   $intChecked = (int)$row['countid'];
@@ -109,15 +107,12 @@ echo '</div>
 <p class="title">'.L('Top_participants').'</p>
 <table>
 ';
-  // Top 5 participants
-  $strState = 'name, id, numpost FROM TABUSER WHERE id>0';
-  $oDB->query( sqlLimit($strState,'numpost DESC',0,5) );
-  for ($i=0;$i<5;$i++)
-  {
-    $row = $oDB->getRow();
-    if ( !$row ) break;
-    echo '<tr><td><a href="'.url('qti_user.php').'?id='.$row['id'].'">'.$row['name'].'</a></td><td class="right">'.qtK((int)$row['numpost']).'</td></tr>';
-  }
+// Top 5 participants
+$strState = 'name, id, numpost FROM TABUSER WHERE id>0';
+$oDB->query( sqlLimit($strState,'numpost DESC',0,5) );
+while($row = $oDB->getRow()) {
+  echo '<tr><td><a href="'.url('qtf_user.php').'?id='.$row['id'].'">'.$row['name'].'</a></td><td class="right">'.qtK((int)$row['numpost']).'</td></tr>';
+}
 echo '</table>';
 
 echo '</div>
