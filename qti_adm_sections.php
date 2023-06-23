@@ -112,7 +112,7 @@ if ( !empty($a) )
 // --------
 
 $arrDomains = CDomain::getTitles(); // titles translated
-$arrSections = getSections('A',-2); // titles translated, optimisation: get all sections at once (grouped by domain)
+$arrSections = CSection::getSections('A',-2); // titles translated, optimisation: get all sections at once (grouped by domain)
 if ( count($arrDomains)>12 ) { $oH->warning .= 'You have a lot of domains. Try to remove unused domains. '; $_SESSION[QT.'splash'] = 'W|'.$oH->warning; }
 if ( count($arrSections,COUNT_RECURSIVE)>120 ) { $oH->warning .= 'You have a lot of sections. Try to remove unused sections. '; $_SESSION[QT.'splash'] = 'W|'.$oH->warning; }
 if ( !empty($oH->warning) ) $oH->warning = qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.$oH->warning;

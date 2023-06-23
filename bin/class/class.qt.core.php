@@ -147,14 +147,14 @@ class SLang
     // Process
     global $oDB;
     if ( $id==='*' ) {
-      $arr = array();
+      $arr = [];
       $oDB->query( "SELECT objid,objname FROM TABLANG WHERE objtype='$type' AND objlang='$lang'" );
       while($row=$oDB->getRow()) {
         if ( !empty($row['objname']) ) $arr[$row['objid']] = $row['objname'];
       }
       return $arr;
     } elseif ( $lang==='*' ) {
-      $arr = array();
+      $arr = [];
       $oDB->query( "SELECT objlang,objname FROM TABLANG WHERE objtype='$type' AND objid='$id'" );
       while($row=$oDB->getRow()) {
         $arr[$row['objlang']] = $row['objname'];

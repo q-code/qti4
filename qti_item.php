@@ -221,8 +221,8 @@ if ( $oT->items>0 )
   // ========
   $iMsgNum = $limit+1;
   $intWhile= 0;
-  $arrPReplies = array(); // post replies
-  $arrIReplies = array(); // inspection replies
+  $arrPReplies = []; // post replies
+  $arrIReplies = []; // inspection replies
   // ========
   while ( $row=$oDB->getRow() )
   {
@@ -375,9 +375,9 @@ if ( $bMap ) {
   // update center
   $_SESSION[QT]['m_gmap_gcenter'] = $y.','.$x;
 
-  $gmap_markers = array();
-  $gmap_events = array();
-  $gmap_functions = array();
+  $gmap_markers = [];
+  $gmap_events = [];
+  $gmap_functions = [];
   foreach($arrExtData as $oMapPoint)
   {
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )

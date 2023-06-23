@@ -47,7 +47,7 @@ function ArraySwap($arr,$n=1)
     $arrK = array_keys($arr);
     while($n>0) { array_push($arr,array_shift($arr)); $n--; }
     $arrV = array_values($arr);
-    $arr = array();
+    $arr = [];
     for($i=0;$i<count($arrK);++$i) $arr[$arrK[$i]] = $arrV[$i];
   }
   return $arr;
@@ -138,8 +138,8 @@ else
 // LIST OF TOPICS PER DAY IN THIS FORUM
 // --------
 
-$arrEvents = array();
-$arrEventsN = array();
+$arrEvents = [];
+$arrEventsN = [];
 $intEvents = 0;
 $intEventsN = 0;
 
@@ -488,9 +488,9 @@ if ( $bMap )
   // update center
   $_SESSION[QT]['m_gmap_gcenter'] = $y.','.$x;
 
-  $gmap_markers = array();
-  $gmap_events = array();
-  $gmap_functions = array();
+  $gmap_markers = [];
+  $gmap_events = [];
+  $gmap_functions = [];
   foreach($arrExtData as $oMapPoint)
   {
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )

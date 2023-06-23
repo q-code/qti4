@@ -7,7 +7,7 @@ class SStatus
 
 public static function getAll($translate=false)
 {
-  $arr = array();
+  $arr = [];
   global $oDB; $oDB->query( "SELECT * FROM ".TABSTATUS." ORDER BY id" );
   while($row=$oDB->getRow()) {
     $arr[$row['id']]['name'] = $row['name'];

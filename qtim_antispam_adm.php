@@ -72,7 +72,7 @@ if ( !isset($_SESSION[QT]['m_antispam_conf']) )
 }
 
 $file = QT_DIR_DOC.'qtim_spamip.txt';
-$arrIp = array();
+$arrIp = [];
 if ( file_exists($file) ) {
   $arrIp = explode("\n", file_get_contents($file));
 }

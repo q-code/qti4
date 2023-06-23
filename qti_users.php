@@ -52,7 +52,7 @@ if ( count($arrGroup)==1 ) {
   Default:    $sqlWhere = ' AND '.sqlFirstChar('name','u',strlen($pageGroup)).'="'.strtoupper($pageGroup).'"'; Break;
   }
 } else {
-  $arr = array();
+  $arr = [];
   foreach($arrGroup as $str) $arr[] = sqlFirstChar('name','u').'="'.strtoupper($str).'"';
   $sqlWhere = ' AND ('.implode(' OR ',$arr).')';
 }
@@ -288,9 +288,9 @@ if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
   // update center
   $_SESSION[QT]['m_gmap_gcenter'] = $y.','.$x;
 
-  $gmap_markers = array();
-  $gmap_events = array();
-  $gmap_functions = array();
+  $gmap_markers = [];
+  $gmap_events = [];
+  $gmap_functions = [];
   foreach($arrExtData as $oMapPoint)
   {
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )

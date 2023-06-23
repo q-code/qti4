@@ -38,7 +38,7 @@ $oH->selfname = $L['rss']['Rss'];
 
 $strRssUrl = $_SESSION[QT]['site_url'].'/rss/';
 
-$arrDS = array(); // only public sections (type '0')
+$arrDS = []; // only public sections (type '0')
 foreach(SMem::get('_Sections') as $id=>$mSec)
 {
   if ( $mSec['type'] ) continue;
@@ -71,7 +71,6 @@ echo '<h2>'.$oH->selfname.'</h2><p>Format: '.($strForm=='atom' ? 'Atom' : 'Rss 2
 
 foreach($arrDS as $domId=>$arrSections)
 {
-//  $arrSections = getSections('V',$intDomain);
     echo '<table class="t-sec">'.PHP_EOL;
     echo '<tr class="t-sec">';
     echo '<th style="width:50px">&nbsp;</th>';

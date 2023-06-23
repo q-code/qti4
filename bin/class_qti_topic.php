@@ -131,23 +131,6 @@ public static function getRef(int $numid=0, $format='', string $none='')
   if ( $format==='N' ) return $none;
   return empty($format) ? (string)$numid : sprintf($format,$numid);
 }
-public static function getSections($ids)
-{
-  // Get sections from a list of topic ids (or a [string] csv id)
-  if ( is_string($ids) ) $ids = explode(',',$ids);
-  if ( !is_array($ids) ) die('CTopic::getSections: wrong argument');
-  global $oDB;
-	$arrS = array();
-	foreach ($ids as $id)
-	{
-    $oDB->query( 'SELECT section FROM TABTOPIC WHERE id='.$id );
-		while( $row=$oDB->getRow() )
-		{
-    if ( !in_array((int)$row['section'],$arrS) ) $arrS[]=(int)$row['section'];
-		}
-	}
-	return $arrS;
-}
 public static function makeIconSrc(string $type='T', string $status='A', string $skin='skin/default/', array $arrStatus=[], bool $checkfile=true)
 {
   // Build icon filename (with skin path) and check if file exists
@@ -277,7 +260,7 @@ public function insertTopic(bool $userStat=true, bool $canNotify=true, $oP=null,
     $this->z=-1 ; // Inspection score < 0 means unknown
   }
   // bulk prepare values
-  $arrValues = array();
+  $arrValues = [];
   foreach($this->dbFields() as $k=>$prop) {
     if ( !property_exists('CTopic',$prop) ) die('no property: CTopic:'.$prop);
     $arrValues[$k]=$this->$prop;
@@ -354,7 +337,7 @@ public function NotifyStatus(int $oldactorid=-1, $oP=null, $oS=null)
       $lstMails = array_unique($lstMails);
 
       // notify mails
-      $arrMails = array();
+      $arrMails = [];
       foreach($lstMails as $intUser)
       {
         switch($intUser)
@@ -471,8 +454,8 @@ public static function tagsClear($str, bool $dropDuplicate=true)
   $str = qtDropDiacritics($str);
   $str = str_replace(',',';',$str);
   $arr = explode(';',$str);
-  $arrClear = array();
-  $arrClearLC = array();
+  $arrClear = [];
+  $arrClearLC = [];
   foreach($arr as $str)
   {
     $str=trim($str);
@@ -527,7 +510,7 @@ public function tagsDel(string $str, $oS=null)
   {
     $arrTag = explode(';',$this->descr); // Current tags
     $arrDel = explode(';',strtolower($str)); // Tag to delete
-    $arr = array(); // new tags
+    $arr = []; // new tags
     foreach($arrTag as $tag) if ( !in_array(strtolower($tag),$arrDel) ) $arr[]=$tag; // keep not deleted tags
     $this->descr = implode(';',$arr);
   }
@@ -583,7 +566,7 @@ public function updMetadata(int $intMax=0, bool $inspectionUpdateScore=true)
 
   // Count
   global $oDB;
-  $arr = array();
+  $arr = [];
   $this->items = 0;
   $oDB->query( 'SELECT id,userid,username,issuedate,type FROM TABPOST WHERE topic='.$this->id.' ORDER BY issuedate'); // issuedate to be able to extract first and last
   while($row=$oDB->getRow())
@@ -648,7 +631,7 @@ function InspectionAggregate()
   {
   case 'mean':
     $oDB->query( 'SELECT title FROM TABPOST WHERE topic='.$this->id.' AND type="R" AND title<>""');
-    $arr = array();
+    $arr = [];
     $i=0;
     while($row=$oDB->getRow())
     {

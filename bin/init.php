@@ -78,12 +78,12 @@ if ( !isset($_SESSION[QT]['show_welcome']) ) $_SESSION[QT]['show_welcome'] = '1'
 // $_name means that the variable will be global, using $GLOBALS['_name'] in function or class
 // Note: SMem::get() puts the data in the shared-memory if not existing, and returns the data
 // When one changes, the class clears the shared-memory while following get() recomputes and stores it
+$_L = SMem::get('_L'.QT_LANG); // includes types ['index','domain','sec','secdesc','status','statusdesc'], for each id (words translated to QT_LANG)
 $_Domains = SMem::get('_Domains');
-$_SectionIds = SMem::get('_SectionIds');
+$_SectionsTitle = SMem::get('_SectionsTitle');
 $_SectionsStats = SMem::get('_SectionsStats');
 $_Sections = SMem::get('_Sections');
 $_Statuses = SMem::get('_Statuses');
-$_L = SMem::get('_L'.QT_LANG); // includes types ['index','domain','sec','secdesc','status','statusdesc'], for each id (words translated to QT_LANG)
 
 // ----------------
 // Load dictionary
@@ -109,10 +109,10 @@ $oH->metas[] = '<meta charset="'.QT_HTML_CHAR.'"/>
 <meta name="keywords" content="quickticket,trouble ticket,knowledge,qt-cute,OpenSource"/>
 <meta name="author" content="qt-cute.org"/>';
 $oH->links['ico'] = '<link rel="shortcut icon" href="'.QT_SKIN.'img/qti_icon.ico"/>';
-$oH->links['cssBase'] = '<link rel="stylesheet" type="text/css" href="bin/css/qt_core.css"/>';
+$oH->links['cssCore'] = '<link rel="stylesheet" type="text/css" href="bin/css/qt_core.css"/>';
 $oH->links['css'] = '<link rel="stylesheet" type="text/css" href="'.QT_SKIN.'qti_styles.css"/>';
 if ( file_exists(QT_SKIN.'custom.css') ) $oH->links['cssCustom'] = '<link rel="stylesheet" type="text/css" href="'.QT_SKIN.'custom.css"/>';
-$oH->scripts_top['base'] = '<script type="text/javascript" src="bin/js/qt_core.js"></script>';
+$oH->scripts_top['core'] = '<script type="text/javascript" src="bin/js/qt_core.js"></script>';
 $oH->scripts_top[] = 'const acOnClicks = [];'; /* const required before autocomplete api configuration */
 
 // -----------------

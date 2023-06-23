@@ -50,7 +50,7 @@ case 'deldom':
   }
 
   // FORM
-  $arrSections = CSection::getTranslatedTitles(CSection::getIdsInContainer($s));
+  $arrSections = CSection::getTitles(true, 'WHERE id IN ('.implode(',',CSection::getIdsInContainer($s)).')');
   $strSections = '('.L('none').')';
   if ( count($arrSections)>4 ) { $arrSections = array_slice($arrSections,0,4); $arrSections[]='...'; }
   if ( count($arrSections)>0 ) { $strSections = implode('<br>',$arrSections); }
@@ -217,7 +217,7 @@ case 'delsecitems':
 
   // FORM (default type/status is U=unchanged)
   // stat by year (keys with 'y-' required to force index as string)
-  $arrCount= array();
+  $arrCount= [];
   $arrCount['*']['T'] = $oDB->count( CSection::sqlCountItems($s) );
   $arrCount['*']['R'] = $arrCount['*']['T']===0 ? 0 : $oDB->count( CSection::sqlCountItems($s,'replies') );
   $arrCount['*']['A'] = $arrCount['*']['T']===0 ? 0 : $oDB->count( CSection::sqlCountItems($s,'items','','A') );

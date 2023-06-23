@@ -47,10 +47,10 @@ foreach(array('m_gmap_gkey','m_gmap_gcenter','m_gmap_gzoom','m_gmap_gfind','m_gm
   }
 }
 
-$arrSections = getSections('A');
+$arrSections = CSection::getSections('A');
 
 // Read png in directory (shadow is obsolete)
-$arrFiles = array();
+$arrFiles = [];
 foreach(glob('qtim_gmap/*.png') as $file) {
   $file = substr($file,10,-4);
   if ( strpos($file,'_shadow') ) continue;
@@ -97,7 +97,7 @@ if ( isset($_POST['ok']) )
 
 // prepare section settings
 
-$_SESSION[QT]['m_gmap'] = array();
+$_SESSION[QT]['m_gmap'] = [];
 if ( file_exists('qtim_gmap/config_db.php') ) require 'qtim_gmap/config_db.php';
 
   if ( !isset($_SESSION[QT]['m_gmap']['U']) ) $_SESSION[QT]['m_gmap']['U'] = array(0=>false);
@@ -232,9 +232,9 @@ if ( !empty($_SESSION[QT]['m_gmap_gkey']) )
     if ( isset($arr[1]) ) $gmap_shadow=$arr[1];
   }
 
-  $gmap_markers = array();
-  $gmap_events = array();
-  $gmap_functions = array();
+  $gmap_markers = [];
+  $gmap_events = [];
+  $gmap_functions = [];
 
   $gmap_markers[] = gmapMarker($_SESSION[QT]['m_gmap_gcenter'],true,$gmap_symbol,L('Gmap.Default_center'),'',$gmap_shadow);
   $gmap_events[] = '

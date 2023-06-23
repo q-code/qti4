@@ -38,12 +38,12 @@ $oH->selfversion = L('Gmap.Version').' 4.0';
 $oH->exiturl = 'qtim_gmap_adm.php';
 $oH->exitname = $oH->selfname;
 
-$arrSections = getSections('A'); // sql
+$arrSections = CSection::getSections('A'); // sql
 
 // Read png in directory
 
 $intHandle = opendir('qtim_gmap');
-$arrFiles = array();
+$arrFiles = [];
 while ( false!==($strFile = readdir($intHandle)) )
 {
   if ( $strFile!='.' && $strFile!='..' ) {
@@ -64,7 +64,7 @@ if ( isset($_POST['ok']) && !empty($_SESSION[QT]['m_gmap_gkey']) )
   // save setting files
   $strFilename = 'qtim_gmap/config_gmap.php';
 
-  $arrData = array();
+  $arrData = [];
   $arrData['U'] = array('section'=>'U','enabled'=>(isset($_POST['sec_U']) ? 1 : 0));
   if ( $arrData['U']['enabled']==1 && isset($_POST['list_U']) ) $arrData['U']['list']=(int)$_POST['list_U'];
   if ( $arrData['U']['enabled']==1 && isset($_POST['mark_U']) ) $arrData['U']['icon']=$_POST['mark_U'];

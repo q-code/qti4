@@ -140,7 +140,7 @@ public static function control(string $event='', $data='', string $metadata='', 
   case 'CDomain:Drop':
     SMem::clear('_Sections');
     SMem::clear('_Domains');
-    $GLOBALS['_L'] = array();
+    $GLOBALS['_L'] = [];
     self::broadcast('section','{"s":"reset"}');
     break;
 

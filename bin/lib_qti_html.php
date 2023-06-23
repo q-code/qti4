@@ -194,7 +194,7 @@ function formatCsvRow($arrFLD,$row,$arrSEC=array())
   if ( isset($arrFLD['numid']) && isset($arrSEC[$s]) ) $row['s.numfield'] = $arrSEC[$s]['numfield'];
 
   // Process
-  $arrValues = array();
+  $arrValues = [];
   foreach(array_keys($arrFLD) as $strKey)
   {
     $str='';
@@ -289,7 +289,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
   if ( empty($formatRef) ) $formatRef = 'N';
 
   // PRE-PROCESS if required, this adds section-data or user-data into $row[]
-  $arr = array();
+  $arr = [];
   $strPrefixSerie = '';
   // prefix smile
   if ( isset($row['icon']) )

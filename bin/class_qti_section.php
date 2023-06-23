@@ -135,15 +135,32 @@ public static function getOwner(int $id)
   $row=$oDB->getRow();
   return (int)$row['ownerid'];
 }
-public static function getIds()
+public static function getTitles($translate=true, $sqlWhere='')
 {
   $arr = [];
-  global $oDB;
-  $oDB->query( "SELECT id FROM TABSECTION" );
-  while($row=$oDB->getRow()) $arr[] = (int)$row['id'];
+  global $oDB; $oDB->query( "SELECT id,title FROM TABSECTION $sqlWhere" );
+  while($row=$oDB->getRow()) $arr[$row['id']] = $translate ? SLang::translate('sec', 's'.$row['id'], $row['title']) : $row['title'];
   return $arr;
 }
-
+public static function getSections(string $role='V', int $domain=-1, array $reject=[], string $order='d.titleorder,s.titleorder')
+{
+  // Returns an array of [key] section id, array of [values] section (db attributes, no translation)
+  // Use $domain to get sections in this domain. -1 means in any domain. -2 grouped by domain
+  // Attention: using $domain -2, when a domains does NOT contains sections, this key is NOT returned
+  $arrSections = [];
+  $sqlWhere = 's.domainid'.($domain<0 ? '>=0' : '='.$domain).($role==='V' || $role==='U' ? " AND s.type<>'1'" : '');
+  global $oDB; $oDB->query( "SELECT s.* FROM TABSECTION s INNER JOIN TABDOMAIN d ON s.domainid=d.id WHERE $sqlWhere ORDER BY $order" );
+  while($row=$oDB->getRow()) {
+    $id = (int)$row['id']; if ( in_array($id,$reject,true) ) continue;
+    // compile sections
+    if ( $domain===-2 ) {
+      $arrSections[(int)$row['domainid']][$id] = $row;
+    } else {
+      $arrSections[$id] = $row;
+    }
+  }
+  return $arrSections;
+}
 // --------
 // Other methods
 // --------
@@ -232,8 +249,8 @@ public static function getSectionsStats(bool $closed=false)
 {
   $arr = [];
   // Initialize each section to 0 (because sql will skip empty sections)
-  global $_SectionIds;
-  foreach($_SectionIds as $id)
+  global $_SectionsTitle;
+  foreach(array_keys($_SectionsTitle) as $id)
   $arr[$id] = ['items'=>0,'replies'=>0,'itemsZ'=>0,'repliesZ'=>0,'lastpostid'=>-1,'lastpostpid'=>-1,'lastpostdate'=>'','lastpostuser'=>-1,'lastpostname'=>''];
   $arr['all'] = ['items'=>0,'replies'=>0,'itemsZ'=>0,'repliesZ'=>0,'lastpostid'=>-1,'lastpostpid'=>-1,'lastpostdate'=>'','lastpostuser'=>-1,'lastpostname'=>''];
    // Query
@@ -306,7 +323,7 @@ public static function getTagsUsed(int $s=-1, int $intMax=20, string $sqlWhere='
 
   // Process
 
-  $arrTags = array();
+  $arrTags = [];
   global $oDB;
   $oDB->query( 'SELECT DISTINCT t.tags,t.lastpostdate FROM TABTOPIC t '.$sqlWhere.' ORDER BY t.lastpostdate DESC' );
   $i=0;
@@ -461,11 +478,11 @@ public static function sqlCountItems($s, string $q='topics', string $status='',s
     default: die('CSection::sqlCountItems: Wrong argument (q) '.$q);
   }
 }
-public static function getPropertiesAll(string $order='d.titleorder,s.titleorder')
+public static function getProperties(string $order='d.titleorder,s.titleorder')
 {
   // Returns an array of all objects properties
   global $oDB;
-  $arr = array();
+  $arr = [];
   $oDB->query( "SELECT s.* FROM TABSECTION s INNER JOIN TABDOMAIN d ON s.domainid=d.id ORDER BY $order" );
   while($row=$oDB->getRow()) {
     $oS = new CSection($row);

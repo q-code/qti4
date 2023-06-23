@@ -36,9 +36,9 @@ function memInit(string $key, $onUnknownKey=false)
   // Dataset memory
   switch($key) {
     case 'settingsage': return time();
-    case '_SectionIds': return CSection::getIds();
-    case '_Domains': return CDomain::getPropertiesAll(); // ALL domains (including empty/invisible domains), array contains property=>value from CDomain class
-    case '_Sections': return CSection::getPropertiesAll(); // ALL sections (including empty/invisible sections), array contains property=>value from CSection class
+    case '_SectionsTitle': return CSection::getTitles();
+    case '_Domains': return CDomain::getProperties(); // ALL domains (including empty/invisible domains), array contains property=>value from CDomain class
+    case '_Sections': return CSection::getProperties(); // ALL sections (including empty/invisible sections), array contains property=>value from CSection class
     case '_NewUser': global $oDB; return SUser::getLastMember($oDB); // last registered user
     case '_SectionsStats': return CSection::getSectionsStats(true); // count topics|Z and replies|Z, by section (all)
     case '_Statuses': return SStatus::getAll();
@@ -52,7 +52,7 @@ function memFlush(array $arrKeep=['_Domains'], string $option='')
   // DEEP FLUSH
   if ( $option==='**' ) SMem::clear('**'); // only admin can use option to deep flush
   // Flush keys, if not in the $arrKeep list (by default, _Domains is preserved)
-  foreach(['_Domains','_SectionIds','_Sections','_SectionsStats'] as $k) if ( !in_array($k,$arrKeep) ) SMem::clear($k);
+  foreach(['_Domains','_SectionsTitle','_Sections','_SectionsStats'] as $k) if ( !in_array($k,$arrKeep) ) SMem::clear($k);
   return true;
 }
 function memFlushLang()
@@ -156,44 +156,8 @@ function addDate(string $d='', int $i=-1, string $str='year')
   if ( $intM==2 && $intD>28 ) { $intM++; $intD -= 28; }
   return (string)($intY*10000+$intM*100+$intD).(strlen($d)>8 ? substr($d,8) : '');
 }
-
-function getSections(string $role='V', int $domain=-1, array $reject=[], string $filter='', string $order='d.titleorder,s.titleorder')
-{
-  // Returns an array of [key] section id, array of [values] section
-  // Use $domain to get section in this domain only
-  // $domain=-1 mean in alls domains. -2 means in all domains but grouped by domain
-  // Attention: using $domain -2, when a domains does NOT contains sections, this key is NOT existing in the returned list !
-
-  global $oDB;
-
-  $sqlWhere = $domain>=0 ? "s.domainid=$domain" : "s.domainid>=0";
-  if ( $role=='V' || $role=='U' ) $sqlWhere .= " AND s.type<>'1'";
-  if ( !empty($filter) ) $sqlWhere .= " AND $filter";
-
-  $arrSections = array();
-  $oDB->query( "SELECT s.* FROM TABSECTION s INNER JOIN TABDOMAIN d ON s.domainid=d.id WHERE $sqlWhere ORDER BY $order" );
-  while($row=$oDB->getRow())
-  {
-    $id = (int)$row['id'];
-    // if reject
-    if ( in_array($id,$reject,true) ) continue;
-    // search translation
-    $row['title'] = SLang::translate('sec', 's'.$id, $row['title']);
-    // compile sections
-    if ( $domain==-2 )
-    {
-      $arrSections[(int)$row['domainid']][$id] = $row;
-    }
-    else
-    {
-      $arrSections[$id] = $row;
-    }
-  }
-  return $arrSections;
-}
-
 function getItemsInfo(CDatabase $oDB) {
-  $arr = array();
+  $arr = [];
   $arr['post'] = $oDB->count( TABPOST );
   $arr['startdate'] = $arr['post']==0 ? '' : qtDatestr( $oDB->count( "SELECT min(firstpostdate) as countid FROM ".TABTOPIC ),'$', '' );
   $arr['topic'] = $oDB->count( TABTOPIC );
@@ -201,7 +165,6 @@ function getItemsInfo(CDatabase $oDB) {
   $arr['content'] = L('Message',$arr['post']).' <span  class="small">('.L('Item',$arr['topic']).', '.L('Reply',$arr['reply']).')</span>';
   return $arr;
 }
-
 function getUserInfo($ids, string $fields='name', bool $excludezero=true)
 {
    return array_shift(getUsersInfo($ids, $fields, $excludezero)); // can return null (if ids not found)
@@ -226,7 +189,7 @@ function getUsersInfo($ids, string $fields='name', bool $excludezero=true)
   }
   if ( empty($where) ) die('getUsersInfo: invalid ids');
 
-  $res = array();
+  $res = [];
   global $oDB; $oDB->query( "SELECT id,$fields FROM TABUSER WHERE $where" );
   while( $row=$oDB->getRow() ) $res[(int)$row['id']] = $row;
   return $res;
@@ -257,7 +220,7 @@ function getUsers(string $q='A', string $name='', int $max=100)
     default: die('getUser: invalid query');
   }
   $oDB->query( "SELECT id,name FROM TABUSER WHERE $where ORDER BY name" );
-  $res = array();
+  $res = [];
   while ($row=$oDB->getRow())
   {
     $res[(int)$row['id']]=$row['name'];
@@ -388,7 +351,7 @@ function array_prefix_keys($str,$arrSource)
   // add the prefix $str to the keys in an array.
   if ( empty($str) || !is_string($str) ) die('array_prefix_keys: arg #1 must be a string');
   if ( !is_array($arrSource) ) die('array_prefix_keys: arg #2 must be an array');
-  $arr = array();
+  $arr = [];
   foreach($arrSource as $key=>$value) $arr[$str.$key]=$value;
   return $arr;
 }

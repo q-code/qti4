@@ -40,7 +40,7 @@ function getSimpleSVG(string $id='info', bool $addClass=true) {
 }
 
 // SERVICE ARGUMENTS
-$L = array(); include '../language/'.(isset($_GET['lang']) ? $_GET['lang'] : 'en').'/app_error.php';
+$L = []; include '../language/'.(isset($_GET['lang']) ? $_GET['lang'] : 'en').'/app_error.php';
 $e0 = empty($L['No_result']) ? 'No result' : $L['No_result'];
 $q = isset($_GET['q']) ? $_GET['q'] : 'u';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0; // 0 visitor

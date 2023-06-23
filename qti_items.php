@@ -91,7 +91,7 @@ $sqlFrom = ' FROM TABTOPIC t INNER JOIN TABPOST p ON t.firstpostid=p.id'; // war
 $sqlWhere = ' WHERE t.section'.($q==='s' ? '='.$s : '>=0');
   // In private section, show topics created by user himself
   if ( $q==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR (t.type='A' AND t.status='A'))";
-$sqlValues = array(); // list of values for the prepared-statements
+$sqlValues = []; // list of values for the prepared-statements
 $sqlCount = 'SELECT count(*) as countid FROM TABTOPIC t'.$sqlWhere;
 $sqlCountAlt='';
 if ( $q!=='s' ) {
@@ -420,7 +420,7 @@ if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)>0 ) {
 
 // Post-compute user's replied items (for topics having replies). Result is added using js.
 if ( QT_LIST_ME && count($arrTopics)>0 && (int)SUser::getInfo('numpost',0)>0 ) {
-  $arr = array();
+  $arr = [];
   $oDB->query( 'SELECT topic,issuedate FROM TABPOST WHERE type="R" AND userid='.SUser::id().' AND topic IN ('.implode(',',$arrTopics).')' );
   while($row=$oDB->getRow()) $arr[(int)$row['topic']] = '"'.qtDatestr($row['issuedate'],'j M','H:i',true,true).'"';
   if ( count($arr)>0 ) {
@@ -488,9 +488,9 @@ if ( $useMap && !$_SESSION[QT]['m_gmap_hidelist'] )
   // update center
   $_SESSION[QT]['m_gmap_gcenter'] = $y.','.$x;
 
-  $gmap_markers = array();
-  $gmap_events = array();
-  $gmap_functions = array();
+  $gmap_markers = [];
+  $gmap_events = [];
+  $gmap_functions = [];
   foreach($arrExtData as $oMapPoint) {
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) ) {
       $user_symbol = $gmap_symbol; // required to reset symbol on each user

@@ -5,9 +5,9 @@
  * @var array $gmap_events
  * @var array $gmap_functions
  */
-if ( !isset($gmap_markers) ) $gmap_markers = array();
-if ( !isset($gmap_events) ) $gmap_events = array();
-if ( !isset($gmap_functions) ) $gmap_functions = array();
+if ( !isset($gmap_markers) ) $gmap_markers = [];
+if ( !isset($gmap_events) ) $gmap_events = [];
+if ( !isset($gmap_functions) ) $gmap_functions = [];
 
 $mapTypeId = gmapMarkerMapTypeId(substr($_SESSION[QT]['m_gmap_gbuttons'],0,1));
 $streetView = substr($_SESSION[QT]['m_gmap_gbuttons'],1,1)==='1' ? 'true' : 'false';

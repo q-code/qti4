@@ -721,9 +721,9 @@ if ( $bMap ) {
   // update center
   $_SESSION[QT]['m_gmap_gcenter'] = $y.','.$x;
 
-  $gmap_markers = array();
-  $gmap_events = array();
-  $gmap_functions = array();
+  $gmap_markers = [];
+  $gmap_events = [];
+  $gmap_functions = [];
   foreach($arrExtData as $oMapPoint) {
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) ) {
       $strSymbol = $gmap_symbol; // required to reset symbol on each user

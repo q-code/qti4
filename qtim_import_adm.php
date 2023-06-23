@@ -29,15 +29,15 @@ function startElement($parser, $strTag, $arrTagAttr)
   switch($strTag)
   {
   case 'topic':
-    $arrTopic = array();
-    $arrPosts = array();
+    $arrTopic = [];
+    $arrPosts = [];
     if ( isset($arrTagAttr['ID']) ) { $t=intval($arrTagAttr['ID']); } else { $t=0; }
     $arrTopic['id'] = $t;
     $arrTopic['type'] = (isset($arrTagAttr['TYPE']) ? $arrTagAttr['TYPE'] : 'T');
     break;
   case 'post':
     if ( isset($arrTagAttr['ID']) ) { $p=intval($arrTagAttr['ID']); } else { $p=0; }
-    $arrPosts[$p] = array();
+    $arrPosts[$p] = [];
     $arrPosts[$p]['id'] = $p;
     $arrPosts[$p]['type'] = (isset($arrTagAttr['TYPE']) ? $arrTagAttr['TYPE'] : 'P');
     break;
@@ -144,8 +144,8 @@ if ( isset($_POST['ok']) ) try {
   if ( $_FILES['title']['type']!=='text/xml' ) throw new Exception(L('Import_E_format'));
 
   // import xml
-  $arrTopic = array();
-  $arrPosts = array();
+  $arrTopic = [];
+  $arrPosts = [];
   $t = 0;
   $p = 0;
   $strValue = '';

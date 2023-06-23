@@ -43,10 +43,10 @@ if ( isset($_POST['ok']) ) try {
   $icon = htmlspecialchars($icon,ENT_QUOTES);
   if ( $icon!=trim($_POST['icon']) ) throw new Exception( L('Icon').' '.L('invalid') );
   // check notified
-  $lst_mail = array();
+  $lst_mail = [];
   if ( isset($_POST['mailto'])) $lst_mail = $_POST['mailto'];
   $lst_others = preg_split("/[\s,]+/", $_POST['others']);
-  $lst_saved = array();
+  $lst_saved = [];
   $i=array_search('U',$lst_mail);
   if ( ($i===false) || (is_null($i)) ) { $bolUser=false; } else { $bolUser=true; $lst_saved[] = 'U'; }
   $i=array_search('MA',$lst_mail);
