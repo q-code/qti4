@@ -378,7 +378,7 @@ while( $row = $oDB->getRow() ) {
      if ( isset($row['type']) && isset($row['status']) ) $strIco = CTopic::makeIcon($row['type'],$row['status'],false,'',QT_SKIN).' ';
      if ( isset($row['numid']) && isset($row['section']) && isset($arrSEC[(int)$row['section']]['numfield']) ) $strRef = CTopic::getRef($row['numid'],$arrSEC[(int)$row['section']]['numfield']).' ';
     if ( !empty($row['title']) ) $strTitle = qtTrunc($row['title'],25);
-    if ( isset($row['firstpostdate']) && isset($row['firstpostname']) ) $strAttr = L('By').' '.$row['firstpostname'].' ('.qtDatestr($row['firstpostdate'],'$','$',true,true).')<br>';
+    if ( isset($row['firstpostdate']) && isset($row['firstpostname']) ) $strAttr = L('By').' '.$row['firstpostname'].' ('.qtDate($row['firstpostdate'],'$','$',true,true).')<br>';
     if ( isset($row['replies']) ) $strAttr .= L('Reply',(int)$row['replies']).' ';
     $strPname = $strRef.$strTitle;
     $strPinfo = $strIco.$strRef.'<br>'.$strTitle.'<br><span class="small">'.$strAttr.'</span> <a class="gmap" href="'.url('qti_item.php').'?t='.$row['id'].'">'.L('Open').'</a>';
@@ -422,7 +422,7 @@ if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)>0 ) {
 if ( QT_LIST_ME && count($arrTopics)>0 && (int)SUser::getInfo('numpost',0)>0 ) {
   $arr = [];
   $oDB->query( 'SELECT topic,issuedate FROM TABPOST WHERE type="R" AND userid='.SUser::id().' AND topic IN ('.implode(',',$arrTopics).')' );
-  while($row=$oDB->getRow()) $arr[(int)$row['topic']] = '"'.qtDatestr($row['issuedate'],'j M','H:i',true,true).'"';
+  while($row=$oDB->getRow()) $arr[(int)$row['topic']] = '"'.qtDate($row['issuedate'],'j M','H:i',true,true).'"';
   if ( count($arr)>0 ) {
     $oH->scripts[] = 'function addIRe(table,tids,ttitles,title="I replied") {
       for (let i=0;i<tids.length;++i) {

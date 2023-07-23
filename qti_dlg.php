@@ -56,7 +56,7 @@ function renderItems(array $ids, bool $tags=false, bool $replies=false, bool $at
     if ( $replies && $oT->items ) $str .= ' '.qtSVG('comments', 'title='.L('reply',$oT->items));
     if ( $attach && !empty($oT->attachinfo) ) $str .= ' '.qtSVG('paperclip', 'title='.L('Attachment'));
     if ( $tags ) $str .= ' '.$oT->getTagIcon();
-    $str .= ' <span class="minor">'.L('by').' '.qtTrunc($oT->firstpostname,20).' ('.qtDatestr($oT->firstpostdate,'j M').')</span>';
+    $str .= ' <span class="minor">'.L('by').' '.qtTrunc($oT->firstpostname,20).' ('.qtDate($oT->firstpostdate,'j M').')</span>';
     $str .= '</p>';
   }
   return $str.(count($ids)>5 ? '<p>...</p>' : '');
@@ -67,7 +67,7 @@ function renderReply(int $id, string $parentType='T', string $parentStatus='1') 
   while( $row=$oDB->getRow() ) {
     $str = '<p class="indent" class="list ellipsis">'.CPost::getIconType($row['type'],$parentType,$parentStatus,QT_SKIN);
     $str .= ' "'.qtTrunc($row['textmsg'],100).'"<br>';
-    $str .= '<small>'.L('by').' '.qtTrunc($row['username'],20).' ('.strtolower(qtDatestr($row['issuedate'],'j M')).')</small></p>';
+    $str .= '<small>'.L('by').' '.qtTrunc($row['username'],20).' ('.strtolower(qtDate($row['issuedate'],'j M')).')</small></p>';
   }
   return $str;
 }
@@ -142,7 +142,7 @@ nt.addEventListener("change", ()=>{
 });
   ';
 
-  break;==
+  break;
 
 case 'itemsTags':
 
@@ -189,7 +189,7 @@ case 'itemsTags':
   $oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>
   <script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 
-  break; //=======
+  break;
 
 case 'itemsMove':
 
@@ -229,7 +229,7 @@ case 'itemsMove':
   $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').' ('.count($ids).')</button></p>';
   $frm[] = '</form>';
 
-  break;==
+  break;
 
   case 'itemDelete':
   case 'itemsDelete':
@@ -337,7 +337,7 @@ function updateCounts(q) {
 }
 function submitSum(n="...") { document.getElementById("submit-sum").innerHTML = n; }';
 
-  break; //=======
+  break;
 
 case 'replyDelete':
 
@@ -376,7 +376,7 @@ case 'replyDelete':
   $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url($oH->exit()).'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '</form>';
 
-  break;==
+  break;
 
 case 'itemParam':
 
@@ -450,7 +450,7 @@ case 'itemParam':
     $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.url('qti_item.php').'?t='.$t.'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>';
   $frm[] = '</form>';
 
-  break;==
+  break;
 
 default: die('Unknown command '.$a);
 
