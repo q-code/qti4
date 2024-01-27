@@ -7,7 +7,7 @@ switch($oDB->type)
 
 case 'pdo.mysql':
 case 'mysql':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtistatus (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtistatus (
   id char(1),
   name varchar(24),
   icon varchar(24),
@@ -19,7 +19,7 @@ case 'mysql':
 
 case 'pdo.sqlsrv':
 case 'sqlsrv':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtistatus (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtistatus (
   id char(1) NOT NULL CONSTRAINT pk_'.QDB_PREFIX.'qtistatus PRIMARY KEY,
   name varchar(24) NULL,
   icon varchar(24) NULL,
@@ -30,7 +30,7 @@ case 'sqlsrv':
 
 case 'pdo.pg':
 case 'pg':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtistatus (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtistatus (
   id char(1),
   name varchar(24),
   icon varchar(24),
@@ -42,7 +42,7 @@ case 'pg':
 
 case 'pdo.sqlite':
 case 'sqlite':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtistatus (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtistatus (
   id text,
   name text,
   icon text,
@@ -54,7 +54,7 @@ case 'sqlite':
 
 case 'pdo.oci':
 case 'oci':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtistatus (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtistatus (
   id char(1),
   name varchar2(24),
   icon varchar2(24),
@@ -69,7 +69,7 @@ default:
 }
 
 echo '<span style="color:blue;">';
-$b=$oDB->exec($strQ);
+$b = $oDB->exec($sql);
 echo '</span>';
 
 if ( !empty($oDB->error) || $b===false )

@@ -7,7 +7,7 @@ switch($oDB->type)
 
 case 'pdo.mysql':
 case 'mysql':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtilang (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtilang (
   objtype varchar(10),
   objlang varchar(2),
   objid varchar(24),
@@ -18,7 +18,7 @@ case 'mysql':
 
 case 'pdo.sqlsrv':
 case 'sqlsrv':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtilang (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtilang (
   objtype varchar(10),
   objlang varchar(2),
   objid varchar(24),
@@ -29,7 +29,7 @@ case 'sqlsrv':
 
 case 'pdo.pg':
 case 'pg':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtilang (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtilang (
   objtype varchar(10),
   objlang varchar(2),
   objid varchar(24),
@@ -40,7 +40,7 @@ case 'pg':
 
 case 'pdo.sqlite':
 case 'sqlite':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtilang (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtilang (
   objtype text,
   objlang text,
   objid text,
@@ -51,7 +51,7 @@ case 'sqlite':
 
 case 'pdo.oci':
 case 'oci':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtilang (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtilang (
   objtype varchar2(10),
   objlang varchar2(2),
   objid varchar2(24),
@@ -65,7 +65,7 @@ default:
 }
 
 echo '<span style="color:blue;">';
-$b=$oDB->exec($strQ);
+$b = $oDB->exec($sql);
 echo '</span>';
 
 if ( !empty($oDB->error) || $b===false )

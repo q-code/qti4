@@ -7,7 +7,7 @@ switch($oDB->type)
 
 case 'pdo.mysql':
 case 'mysql':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtitopic (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtitopic (
   id int,
   numid int NOT NULL default 0,
   section int NOT NULL default 0,
@@ -41,7 +41,7 @@ case 'mysql':
 
 case 'pdo.sqlsrv':
 case 'sqlsrv':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtitopic (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtitopic (
   id int NOT NULL CONSTRAINT pk_'.QDB_PREFIX.'qtitopic PRIMARY KEY,
   numid int NOT NULL default 0,
   section int NOT NULL default 0,
@@ -74,7 +74,7 @@ case 'sqlsrv':
 
 case 'pdo.pg':
 case 'pg':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtitopic (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtitopic (
   id integer,
   numid integer NOT NULL default 0,
   section integer NOT NULL default 0,
@@ -108,7 +108,7 @@ case 'pg':
 
 case 'pdo.sqlite':
 case 'sqlite':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtitopic (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtitopic (
   id integer,
   numid integer NOT NULL default 0,
   section integer NOT NULL default 0,
@@ -142,7 +142,7 @@ case 'sqlite':
 
 case 'pdo.oci':
 case 'oci':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtitopic (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtitopic (
   id number(32),
   numid number(32) default 0 NOT NULL,
   section number(32) default 0 NOT NULL,
@@ -179,7 +179,7 @@ default:
 }
 
 echo '<span style="color:blue;">';
-$b=$oDB->exec($strQ);
+$b = $oDB->exec($sql);
 echo '</span>';
 
 if ( !empty($oDB->error) || $b===false )

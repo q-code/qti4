@@ -7,7 +7,7 @@ switch($oDB->type)
 
 case 'pdo.mysql':
 case 'mysql':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisection (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisection (
   id int,
   type char(1) NOT NULL default "0",
   status char(1) NOT NULL default "0",
@@ -30,7 +30,7 @@ case 'mysql':
 
 case 'pdo.sqlsrv':
 case 'sqlsrv':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisection (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisection (
   id int NOT NULL CONSTRAINT pk_'.QDB_PREFIX.'qtisection PRIMARY KEY,
   type char(1) NOT NULL default "0",
   status char(1) NOT NULL default "0",
@@ -52,7 +52,7 @@ case 'sqlsrv':
 
 case 'pdo.pg':
 case 'pg':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisection (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisection (
   id integer,
   type char(1) NOT NULL default "0",
   status char(1) NOT NULL default "0",
@@ -75,7 +75,7 @@ case 'pg':
 
 case 'pdo.sqlite':
 case 'sqlite':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisection (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisection (
   id integer,
   type text NOT NULL default "0",
   status text NOT NULL default "0",
@@ -98,7 +98,7 @@ case 'sqlite':
 
 case 'pdo.oci':
 case 'oci':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisection (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisection (
   id number(32),
   type char(1) default "0" NOT NULL,
   status char(1) default "0" NOT NULL,
@@ -124,7 +124,7 @@ default:
 }
 
 echo '<span style="color:blue;">';
-$b=$oDB->exec($strQ);
+$b = $oDB->exec($sql);
 echo '</span>';
 
 if ( !empty($oDB->error) || $b===false )
@@ -134,12 +134,12 @@ if ( !empty($oDB->error) || $b===false )
   exit;
 }
 
-$strQ="INSERT INTO ".QDB_PREFIX."qtisection (
+$sql = "INSERT INTO ".QDB_PREFIX."qtisection (
 id,type,status,notify,domainid,title,titleorder,moderator,moderatorname,stats,options,numfield,titlefield,wisheddate,alternate,prefix)
 VALUES (0,'1','0','0',0,'Administration section',0,0,'Admin','','logo=0','T-%03s','1','0','0','a')";
-$oDB->exec($strQ);
+$oDB->exec($sql);
 
-$strQ="INSERT INTO ".QDB_PREFIX."qtisection (
+$sql = "INSERT INTO ".QDB_PREFIX."qtisection (
   id,type,status,notify,domainid,title,titleorder,moderator,moderatorname,stats,options,numfield,titlefield,wisheddate,alternate,prefix)
   VALUES (1,'0','0','0',1,'Public section',0,0,'Admin','','logo=0','T-%03s','1','0','0','a')";
-$oDB->exec($strQ);
+$oDB->exec($sql);

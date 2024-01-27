@@ -402,7 +402,7 @@ echo '<form id="form-edit" method="post" action="'.url($oH->selfurl).'" enctype=
 ';
 
 if ( SUser::isStaff() ) {
-  echo '<div id="optionsbar" title="'.L('Staff').' '.L('commands').'">'.qtSVG('user-M').'&nbsp;'.PHP_EOL;
+  echo '<div id="optionsbar" title="'.L('Staff').' '.L('commands').'">'.qtSVG('user-m').'&nbsp;'.PHP_EOL;
   if ( $oP->type=='P' ) {
     echo L('Type').' <select id="newtopictype" name="topictype" size="1">'.qtTags(CTopic::getTypes(),$oT->type).'</select> ';
   } else {

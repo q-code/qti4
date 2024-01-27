@@ -47,7 +47,7 @@ $L['Help_1'] = '<span class="bold">Database type</span>: The database type you a
 $L['Help_2'] = '<span class="bold">Database tables</span>: This will install the tables in your database. If you are making an update, you must skip this step.<br>';
 $L['Help_3'] = '<span class="bold">Board e-mail</span>: It\'s recommended to provide a contact e-mail address. This adress is visible in the page: Legal notices.<br>';
 
-$L['Prevent_install'] = 'Prevent other installation';
+$L['Prevent_install'] = 'Secure your installation';
 $L['Disable_install'] = 'For security reason it\'s mandatory to remove or protect your install folder.<br>
 <br>Select your preference :<br>';
 $L['Disable'][0] = 'I will perform this action later';

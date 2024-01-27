@@ -7,7 +7,7 @@ switch($oDB->type)
 
 case 'pdo.mysql':
 case 'mysql':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisetting (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisetting (
   param varchar(24),
   setting varchar(255)
   )';
@@ -15,7 +15,7 @@ case 'mysql':
 
 case 'pdo.sqlsrv':
 case 'sqlsrv':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisetting (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisetting (
   param varchar(24),
   setting varchar(255)
   )';
@@ -23,7 +23,7 @@ case 'sqlsrv':
 
 case 'pdo.pg':
 case 'pg':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisetting (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisetting (
   param varchar(24),
   setting varchar(255)
   )';
@@ -31,7 +31,7 @@ case 'pg':
 
 case 'pdo.sqlite':
 case 'sqlite':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisetting (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisetting (
   param text,
   setting text
   )';
@@ -39,7 +39,7 @@ case 'sqlite':
 
 case 'pdo.oci':
 case 'oci':
-  $strQ='CREATE TABLE '.QDB_PREFIX.'qtisetting (
+  $sql = 'CREATE TABLE '.QDB_PREFIX.'qtisetting (
   param varchar2(24),
   setting varchar2(255)
   )';
@@ -51,7 +51,7 @@ default:
 }
 
 echo '<span style="color:blue;">';
-$b=$oDB->exec($strQ);
+$b = $oDB->exec($sql);
 echo '</span>';
 
 if ( !empty($oDB->error) || $b===false )
