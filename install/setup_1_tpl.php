@@ -7,7 +7,8 @@
  */
 session_start();
 include 'init.php';
-$urlPrev = APP.'_setup_1.php';
+$urlPrev = 'setup_1.php';
+$urlNext = 'setup_1.php';
 $result = '';
 
 // --------
@@ -15,16 +16,10 @@ $result = '';
 // --------
 if ( isset($_POST['ok']) && !empty($_POST['template']) && file_exists('../config/'.$_POST['template'])) {
 
-  $file = '../config/'.$_POST['template'];
-  copy('../config/config_db.php', '../config/config_db_backup.php');
-  if ( copy($file, '../config/config_db.php') )
-  {
-    $result = '<div class="setup_ok">Backup created. Template successfully loaded.</div>';
-    $urlNext = APP.'_setup_1.php';
-  } else {
-    $result = '<div class="setup_err">Fail to copy</div>';
-  }
-
+  $copied = true;
+  if ( $_POST['template']!=='config_db_backup.php' ) $copied = copy('../config/config_db.php', '../config/config_db_backup.php');
+  $copied = copy('../config/'.$_POST['template'], '../config/config_db.php');
+  $result = $copied ? '<p class="is_ok">Backup created. Template successfully loaded.</p>' : '<p class="is_err">Fail to copy</p>';
 }
 
 // --------
@@ -36,12 +31,11 @@ while(false!==($strFile=readdir($intHandle))) if ( $strFile!='.' && $strFile!='.
 closedir($intHandle);
 asort($arrFiles);
 
-include APP.'_setup_hd.php'; // this will show $error
+include 'setup_hd.php'; // this will show $error
 
-echo '<div style="margin:20px">';
 echo $result;
 if ( count($arrFiles)>0 ) {
-  echo '<form method="post" action="'.APP.'_setup_0.php">';
+  echo '<form method="post" action="setup_1_tpl.php">';
   echo 'Template <select name="template">';
   foreach($arrFiles as $strFile) echo '<option value="'.qtAttr($strFile).'">'.$strFile.'</option>';
   echo '</select>';
@@ -50,11 +44,11 @@ if ( count($arrFiles)>0 ) {
 } else {
   echo 'No template in /config/ directory...';
 }
-echo '<p style="margin-top:20px"><small>Templates are php files starting with "config_db_" in the "/config/" folder.<br>On load, previous parametres are saved as "config_db_backup".</small></p>';
-echo '</div>';
+echo '<p style="margin-top:20px;font-size:0.8rem">On load, previous parametres are saved as "config_db_backup".<br>
+Templates are in the "/config/" folder.</p>';
 
 // --------
 // HTML END
 // --------
 
-include APP.'_setup_ft.php';
+include 'setup_ft.php';

@@ -7,12 +7,16 @@
  */
 session_start();
 include 'init.php';
-$error='';
-$strPrev= L('Back');
-$strNext= APPNAME;
-$urlPrev = APP.'_setup_4.php';
-$urlNext  = '../qti_login.php?dfltname=Admin';
-$selfurl = APP.'_setup_9.php';
+$error = '';
+$strPrev = L('Back');
+$strNext = APPNAME;
+$urlPrev = 'setup_4.php';
+$urlNext = '../qti_login.php?dfltname=Admin';
+$selfurl = 'setup_9.php';
+$tools = '<p class="tools">';
+if ( file_exists('tool_tables.php') ) $tools .= '<a href="tool_tables.php">Tool tables...</a>';
+if ( file_exists('tool_check.php') ) $tools .= ' | <a href="tool_check.php">Check installation...</a>';
+$tools .= '</p>';
 
 function redirect(string $u, string $s='Continue')
 {
@@ -58,19 +62,13 @@ function deleteDir(string $dirPath) {
 // HTML BEGIN
 // --------
 
-include APP.'_setup_hd.php'; // this will show $error
-
-echo '<p style="text-align:right">';
-if ( file_exists('tool_tables.php') ) echo '<a href="tool_tables.php">Tool tables...</a>';
-if ( file_exists('tool_check.php') ) echo ' | <a href="tool_check.php">Check installation...</a>';
-echo '</p>';
+include 'setup_hd.php'; // this will show $error
 
 // SUBMITTED
 
 if ( isset($_POST['method']) )
 {
-  switch($_POST['method'])
-  {
+  switch($_POST['method']) {
     case 'm0':
       redirect($urlNext);
       break;
@@ -88,7 +86,7 @@ if ( isset($_POST['method']) )
         $_SESSION[QT.'splash'] = 'Install deleted';
         redirect('../'.APP.'_index.php');
       } catch (Exception $e) {
-        echo '<div class="setup_err">'.$e->getMessage().'</div>';
+        echo '<p class="is_err">'.$e->getMessage().'</p>';
       }
       break;
   }
@@ -96,25 +94,24 @@ if ( isset($_POST['method']) )
 
 // Tables do drop
 
-echo '<h2>'.L('Prevent_install').'</h2>';
+echo '<h1>'.L('Prevent_install').'</h1>';
 
 echo '<p>'.L('Disable_install').'</p>';
 
-echo '<div style="margin:20px"><form action="'.$selfurl.'" method="post">';
+echo '<form action="'.$selfurl.'" method="post">';
 echo '<p style="margin:10px 0"><input type="radio" id="m0" name="method" value="m0" checked>&nbsp;<label for="m0">'.L('Disable.0').'</label></p>';
 echo '<p style="margin:10px 0"><input type="radio" id="m1" name="method" value="m1">&nbsp;<label for="m1">'.L('Disable.1').'</label></p>';
 echo '<p style="margin:10px 0"><input type="radio" id="m2" name="method" value="m2">&nbsp;<label for="m2">'.L('Disable.2').'</label></p>';
 echo '<p style="margin:10px 0"><button type="submit">'.L('Ok').'</button></p>';
-echo '</form>
-</div>';
+echo '</form>';
 
 
 // --------
 // HTML END
 // --------
-include APP.'_setup_ft.php'; // this will show $error
+include 'setup_ft.php'; // this will show $error
 
 // DISCONNECT to reload new variables (keep same language)
-$str = $_SESSION[APP.'_setup_lang'];
+$str = $_SESSION['setup_lang'];
 $_SESSION = [];
-$_SESSION[APP.'_setup_lang']=$str;
+$_SESSION['setup_lang']=$str;

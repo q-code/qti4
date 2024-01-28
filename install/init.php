@@ -68,14 +68,15 @@ function saveToFile(string $file, string $str='', bool $create=true)
 include '../config/config_db.php';
 require '../config/config_cst.php';
 include '../bin/class/class.qt.db.php'; if ( strpos(QDB_SYSTEM,'sqlite') ) define ('QDB_SQLITEPATH', '../');
+$error = '';
 
 // Language (GET from url, otherwise use session)
-if ( isset($_GET['lang']) ) $_SESSION[APP.'_setup_lang']=$_GET['lang'];
-if ( !isset($_SESSION[APP.'_setup_lang']) ) $_SESSION[APP.'_setup_lang']='en';
+if ( isset($_GET['lang']) ) $_SESSION['setup_lang']=$_GET['lang'];
+if ( !isset($_SESSION['setup_lang']) ) $_SESSION['setup_lang']='en';
 
 // load language
-if ( file_exists('../language/'.$_SESSION[APP.'_setup_lang'].'/'.'lg_install.php') ) {
-  include '../language/'.$_SESSION[APP.'_setup_lang'].'/'.'lg_install.php';
+if ( file_exists('../language/'.$_SESSION['setup_lang'].'/'.'lg_install.php') ) {
+  include '../language/'.$_SESSION['setup_lang'].'/'.'lg_install.php';
 } else {
   include 'lg_install.php'; // fallback language
 }

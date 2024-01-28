@@ -23,8 +23,7 @@ $L['Table_prefix'] = 'Préfixe des tables';
 $L['Htablecreator'] = 'Si l\'utilisateur BDD n\'a pas le droit de créer des tables, vous pouvez spécifier ici un autre login.';
 $L['Create_tables'] = 'Créer les tables dans la base de donnée [%s]';
 $L['End_message'] = 'Vous pouvez accéder à QuickTicket en tant qu\'Admin';
-$L['Upgrade'] = 'Si vous faites une mise à jour de la version 2.x, vos précédents paramètres sont affichés. Vous pouvez passer à l\'étape suivante.';
-$L['Upgrade2'] = 'Si vous faites une mise à jour  de la version 2.x, vous ne devez PAS réinstaller les tables. Vous pouvez passer à l\'étape suivante.';
+$L['Not_install_on_upgrade'] = 'Si vous faites une mise à jour de la version 3.x, vous ne devez PAS réinstaller les tables. Vous pouvez passer à l\'étape suivante.';
 $L['Check_install'] = 'Contrôler l\'installation';
 
 $L['Default_setting'] = 'paramètres par défaut insérés.';

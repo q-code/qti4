@@ -10,8 +10,8 @@ include 'init.php';
 $error='';
 $strPrev= L('Back');
 $strNext= L('Finish');
-$urlPrev = APP.'_setup_3.php';
-$urlNext = APP.'_setup_9.php';
+$urlPrev = 'setup_3.php';
+$urlNext = 'setup_9.php';
 
 // CHECK DB VERSION (in case of update)
 $oDB = new CDatabase();
@@ -217,7 +217,7 @@ if ( $row['setting']=='3.0' )
 // HTML BEGIN
 // --------
 
-include APP.'_setup_hd.php';
+include 'setup_hd.php';
 
 if ( !empty($strMessage) ) echo $strMessage;
 
@@ -245,4 +245,4 @@ echo '<p>';
 if ( file_exists('tool_check.php') ) echo '<a href="tool_check.php">',L('Check_install'),'...</a>';
 echo '</p>';
 
-include APP.'_setup_ft.php';
+include 'setup_ft.php';

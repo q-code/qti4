@@ -9,7 +9,7 @@
  * the PHP License and are unable to obtain it through the web, please
  * send a note to license@php.net so we can mail you a copy immediately.
  *
- * @package    QuickTalk
+ * @package    QuickTicket
  * @author     Philippe Vandenberghe <info@qt-cute.org>
  * @copyright  2012 The PHP Group
  * @version    4.0 build:20230618

@@ -111,7 +111,7 @@ echo '</div>
 $strState = 'name, id, numpost FROM TABUSER WHERE id>0';
 $oDB->query( sqlLimit($strState,'numpost DESC',0,5) );
 while($row = $oDB->getRow()) {
-  echo '<tr><td><a href="'.url('qtf_user.php').'?id='.$row['id'].'">'.$row['name'].'</a></td><td class="right">'.qtK((int)$row['numpost']).'</td></tr>';
+  echo '<tr><td><a href="'.url('qti_user.php').'?id='.$row['id'].'">'.$row['name'].'</a></td><td class="right">'.qtK((int)$row['numpost']).'</td></tr>';
 }
 echo '</table>';
 

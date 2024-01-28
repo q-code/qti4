@@ -9,7 +9,7 @@
  * the PHP License and are unable to obtain it through the web, please
  * send a note to license@php.net so we can mail you a copy immediately.
  *
- * @package    QuickTalk
+ * @package    QuickTicket
  * @author     Philippe Vandenberghe <info@qt-cute.org>
  * @copyright  2012 The PHP Group
  * @version    4.0 build:20230618
@@ -39,7 +39,7 @@ if ( isset($_SESSION[QT]['m_antispam_conf']) ) unset($_SESSION[QT]['m_antispam_c
 
 $strQTF = VERSION; if ( substr(VERSION,0,1)==='v') $strQTF = substr(VERSION,1);
 $arrQTF = explode('.',$strQTF);
-if ( intval($arrQTF[0])<2 ) $error="Your QuickTalk version is $strQTF. Please, upgrade to QuickTalk 2.0 before installing this module...";
+if ( intval($arrQTF[0])<2 ) $error="Your QuickTicket version is $strQTF. Please, upgrade to QuickTicket 2.0 before installing this module...";
 if ( !empty($error) ) $bStep0 = false;
 
 // STEP 1

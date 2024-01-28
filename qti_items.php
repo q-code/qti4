@@ -402,7 +402,7 @@ if ( SUser::isStaff() && !empty($_SESSION['EditByRows']) ) echo '</form>'.PHP_EO
 // BUTTON LINE AND PAGER
 $strCsv = '';
 if ( SUser::isStaff() && !empty($_SESSION['EditByRows'])) $strCsv .= '<a id="cmd-export-selected" class="csv" href="javascript:void(0)" title="'.L('H_Csv').' ('.L('selected').')">'.L('Export').qtSVG('check-square').'</a> &middot; ';
-$strCsv .= SUser::role()==='V' ? '' : htmlCsvLink(url('qtf_items_csv.php').'?'.$oH->selfuri, $intCount, $intPage);
+$strCsv .= SUser::role()==='V' ? '' : htmlCsvLink(url('qti_items_csv.php').'?'.$oH->selfuri, $intCount, $intPage);
 echo '<div id="tablebot" class="table-ui bot">';
 echo $rowCommands ? '<div id="t1-edits-bot" class="left checkboxcmds">'.qtSVG('corner-down-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
 echo '<div class="right">'.$strPaging.'</div></div>'.PHP_EOL;

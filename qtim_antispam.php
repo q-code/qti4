@@ -39,7 +39,7 @@ function antispamThrow(CHtml $oH, string $err='E0')
  */
 if ( $_SESSION[QT]['m_antispam']>0 ) // this parametre can be >1
 {
-  include translate('qtfm_antispam_error.php');
+  include translate('qtim_antispam_error.php');
   if ( !isset($_SESSION[QT]['m_antispam_conf']) ) $oDB->getSettings('param="m_antispam_conf"',true);
   if ( !isset($_SESSION[QT]['m_antispam_count']) ) $_SESSION[QT]['m_antispam_count'] = 0;
   $checkAZ    = substr($_SESSION[QT]['m_antispam_conf'],0,1)==='1';
@@ -92,7 +92,7 @@ if ( $_SESSION[QT]['m_antispam']>0 ) // this parametre can be >1
   if ( $checkWord && count($words)<=$minWord ) antispamThrow($oH, 'E6');
   // language
   if ( $checkGood || $checkBad ) {
-    include translate('qtfm_antispam_goodbad.php'); /** @var array $voc */
+    include translate('qtim_antispam_goodbad.php'); /** @var array $voc */
     if ( $checkGood ) {
       $matchWords = array_intersect($voc['good'],$words);
       if ( count($matchWords)<=$minGood ) antispamThrow($oH, 'E7');

@@ -1,7 +1,7 @@
 <?php // V4.0 build:20230618
 
 $root = '../';
-define('THISAPPNAME', 'QuickTicket');
+define('THISAPPNAME', 'QuickTicket forum');
 
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" xml:lang="en" lang="en">
@@ -21,7 +21,7 @@ p,select,input,textarea,td,th,a,fieldset {font-size:9pt; text-decoration:none}
 a {color:#0000FF}
 a.visited {color:#0000FF}
 a:hover {color:#0000FF; text-decoration:underline}
-p.check {margin:5px 0 0 0; padding:0}
+p.tool_check {margin:5px 0 0 0; padding:0}
 p.endcheck {margin:5px 0 0 0; padding:5px; border:solid 1px #aaaaaa}
 span.ok {color:#00aa00; background-color:inherit}
 span.nok {color:#ff0000; background-color:inherit}
@@ -30,11 +30,14 @@ span.nok {color:#ff0000; background-color:inherit}
 
 <body>
 
+
 <div class="page">
+
 
 <div id="banner">
 <img id="logo" src="'.$root.'bin/css/qti_logo.gif" width="175" height="50" style="border-width:0" alt="'.THISAPPNAME.'" title="'.THISAPPNAME.'"/>
 </div>
+
 
 <div class="body">
 ';
@@ -44,7 +47,8 @@ span.nok {color:#ff0000; background-color:inherit}
 // --------
 
 echo '<p style="text-align:right">'.THISAPPNAME.' 4.0 build:20230618</p>';
-echo '<p style="text-align:right"><a href="qti_setup.php">Install...</a>';
+
+echo '<p style="text-align:right"><a href="setup.php">Install...</a>';
 if ( file_exists('tool_tables.php') ) echo ' | <a href="tool_tables.php">Tool tables...</a>';
 echo '</p>';
 
@@ -54,14 +58,14 @@ $error = '';
 
 // 1 file exist
 
-  echo '<p class="check">Checking installed files... ';
+  echo '<p class="tool_check">Checking installed files... ';
 
   if ( !file_exists($root.'config/config_db.php') ) $error .= 'File <b>config_db.php</b> is not in the <b>config</b> directory. Communication with database is impossible.<br>';
   if ( !file_exists($root.'bin/init.php') ) $error .= 'File <b>init.php</b> is not in the <b>bin</b> directory. Application cannot start.<br>';
   if ( !file_exists($root.'bin/lib_qt_core.php') ) $error .= 'File <b>lib_qt_core.php</b> is not in the <b>bin</b> directory. Application cannot start.<br>';
   if ( !file_exists($root.'bin/lib_qti_base.php') ) $error .= 'File <b>lib_qti_base.php</b> is not in the <b>bin</b> directory. Application cannot start.<br>';
-  if ( !file_exists($root.'bin/class/class.qt.core.php') ) $error .= 'File <b>class.qt.core.php</b> is not in the <b>bin/class</b> directory. Application cannot start.<br>';
   if ( !file_exists($root.'bin/class/class.qt.db.php') ) $error .= 'File <b>class.qt.db.php</b> is not in the <b>bin/class</b> directory. Application cannot start.<br>';
+  if ( !file_exists($root.'bin/class/class.qt.core.php') ) $error .= 'File <b>class.qt.core.php</b> is not in the <b>bin/class</b> directory. Application cannot start.<br>';
   if ( !file_exists($root.'bin/class_qti_section.php') ) $error .= 'File <b>class_qti_section.php</b> is not in the <b>bin/class</b> directory. Application cannot start.<br>';
   if ( !file_exists($root.'bin/class_qti_topic.php') ) $error .= 'File <b>class_qti_topic.php</b> is not in the <b>bin/class</b> directory. Application cannot start.<br>';
   if ( !file_exists($root.'bin/class_qti_post.php') ) $error .= 'File <b>class_qti_post.php</b> is not in the <b>bin/class</b> directory. Application cannot start.<br>';
@@ -77,7 +81,7 @@ $error = '';
 
 // 2 config is correct
 
-  echo '<p class="check">Checking config folder... ';
+  echo '<p class="tool_check">Checking config folder... ';
 
   include $root.'config/config_db.php'; $database = strpos(QDB_SYSTEM,'sqlite') ? $root.QDB_DATABASE : QDB_DATABASE; // using SQLite, database file is in the root directory
   include $root.'config/config_cst.php';
@@ -92,9 +96,9 @@ $error = '';
 
   if ( !empty($error) )  die('<span class="nok">'.$error.'</span>');
 
-  // check db type
+  // tool_check db type
   if ( !in_array(QDB_SYSTEM,array('pdo.mysql','mysql','pdo.sqlsrv','sqlsrv','pdo.pg','pg','pdo.sqlite','sqlite','pdo.oci','oci')) ) die('Unknown db type '.QDB_SYSTEM);
-  // check other values
+  // tool_check other values
   if ( empty(QDB_DATABASE) )  $error .= '<br>Variable <b>QDB_DATABASE</b> is not defined in the file <b>config/config_db.php</b>. Communication with database is impossible.';
 
   if ( empty($error) )
@@ -108,7 +112,7 @@ $error = '';
 
 // 3 test db connection
 
-  echo '<p class="check">Connecting to database... ';
+  echo '<p class="tool_check">Connecting to database... ';
 
   include $root.'bin/class/class.qt.db.php';
 
@@ -139,7 +143,7 @@ echo '
 
 // 1 setting table
 
-  echo '<p class="check">Checking setting table... ';
+  echo '<p class="tool_check">Checking setting table... ';
 
   $oDB->query( 'SELECT setting FROM '.QDB_PREFIX.'qtisetting WHERE param="version"');
   if ( !empty($oDB->error) ) die('<span class="nok">Problem with table '.QDB_PREFIX.'qtisetting</span>');
@@ -152,31 +156,31 @@ echo '
 
 // 2 domain table
 
-  echo '<p class="check">Checking domain table... ';
+  echo '<p class="tool_check">Checking domain table... ';
   $intCount = $oDB->count( QDB_PREFIX.'qtidomain' );
   echo '<span class="ok">Table [',QDB_PREFIX,'qtidomain] exists. ',$intCount,' domain(s) found.</span></p>';
 
 // 3 team table
 
-  echo '<p class="check">Checking forum table...';
+  echo '<p class="tool_check">Checking forum table...';
   $intCount = $oDB->count( QDB_PREFIX.'qtisection' );
   echo '<span class="ok">Table [',QDB_PREFIX,'qtisection] exists. ',$intCount,' section(s) found.</span></p>';
 
 // 4 topic table
 
-  echo '<p class="check">Checking topic table...';
+  echo '<p class="tool_check">Checking topic table...';
   $intCount = $oDB->count( QDB_PREFIX.'qtitopic' );
   echo '<span class="ok">Table [',QDB_PREFIX,'qtitopic] exists. ',$intCount,' topic(s) found.</span></p>';
 
 // 5 post table
 
-  echo '<p class="check">Checking post table...';
-  $intCount = $oDB->count( QDB_PREFIX.'qtipost');
+  echo '<p class="tool_check">Checking post table...';
+  $intCount = $oDB->count( QDB_PREFIX.'qtipost' );
   echo '<span class="ok">Table [',QDB_PREFIX,'qtipost] exists. ',$intCount,' post(s) found.</span></p>';
 
 // 6 user table
 
-  echo '<p class="check">Checking user table... ';
+  echo '<p class="tool_check">Checking user table... ';
   $intCount = $oDB->count( QDB_PREFIX.'qtiuser' );
   echo '<span class="ok">Table [',QDB_PREFIX,'qtiuser] exists. ',$intCount,' user(s) found.</span></p>';
 
@@ -194,7 +198,7 @@ echo '
 <h1>Checking language and skin options</h1>
 ';
 
-  echo '<p class="check">Files... ';
+  echo '<p class="tool_check">Files... ';
 
   $oDB->query( 'SELECT setting FROM '.QDB_PREFIX.'qtisetting WHERE param="language"');
   $row = $oDB->getRow();
@@ -249,18 +253,18 @@ echo '
 
 // 1 admin email
 
-  echo '<p class="check">Email setting... ';
+  echo '<p class="tool_check">Email setting... ';
 
   $oDB->query( 'SELECT setting FROM '.QDB_PREFIX.'qtisetting WHERE param="admin_email"');
   $row = $oDB->getRow();
   $strMail = $row['setting'];
   if ( empty($strMail) )
   {
-  $error .= 'Administrator e-mail is not yet defined. It\'s mandatory to define it!';
+  $error .= 'Administrator e-mail is not yet defined. It\'s mandatory to define it.';
   }
   else
   {
-  if ( !preg_match("/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i",$strMail) ) $error .= 'Administrator e-mail format seams incorrect. Please check it';
+  if ( !preg_match("/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i",$strMail) ) $error .= 'Administrator e-mail format seams incorrect. Please tool_check it';
   }
   if ( empty($error) ) {
     echo '<span class="ok">Done.</span></p>';
@@ -270,6 +274,7 @@ echo '
   $error = '';
 
 // 2 admin password
+
   echo '<p class="tool_check">Security check... <span class="ok">Done.</span><br>';
 
   $oDB->query( 'SELECT pwd FROM '.QDB_PREFIX.'qtiuser WHERE id=1');
@@ -281,35 +286,31 @@ echo '
 
 // 3 site url
 
-  echo '<p class="check">Site url... ';
-
+  echo '<p class="tool_check">Site url... ';
   $oDB->query( 'SELECT setting FROM '.QDB_PREFIX.'qtisetting WHERE param="site_url"');
   $row = $oDB->getRow();
   $strText = trim($row['setting']);
+  echo '<span class="ok">'.$strText.'</span><br>';
   if ( substr($strText,0,7)!=='http://' && substr($strText,0,8)!=='https://' )
   {
-    $error .= 'Site url is not yet defined (or not starting by http://). It\'s mandatory to define it !<br>';
+    $error .= 'Site url is not yet defined (or not starting by http://). It\'s mandatory to define it!<br>';
   }
   else
   {
-    $strURL = ( empty($_SERVER['SERVER_HTTPS']) ? 'http://' : 'https://' ).$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-    $strURL = substr($strURL,0,-10);
-    if ( $strURL!=$strText ) $error .= 'Site url seams to be different that the current url. Please check it<br>';
+    $strURL = 'http'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on' ? 's' : '').'://'.$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+    if ( strpos($strURL,$strText)===false ) {
+      if ( substr($strURL,0,5)!==substr($strText,0,5) ) $error .= 'Site is registered with '.substr($strText,0,5).' while current protocol is '.substr($strURL,0,5).'... ';
+      $error .= 'Site url seams to be different that the current url. Please check it<br>';
+    }
   }
-
-  if ( empty($error) )
-  {
-  echo '<span class="ok">Done.</span></p>';
-  }
-  else
-  {
-  echo '<span class="nok">',$error,'</span></p>';
-  }
+  if ( !empty($error) ) echo '<span class="nok">',$error,'</span>';
+  echo '</p>';
   $error = '';
+
 
 // 4 avatar folder permission
 
-  echo '<p class="check">Folder permissions... ';
+  echo '<p class="tool_check">Folder permissions... ';
 
   if ( !is_dir($root.'avatar') )
   {
@@ -333,16 +334,16 @@ echo '<p class="endcheck">Administration tips completed.</p>';
 
 echo '
 <h1>Result</h1>
-<p class="check">The checker did not found blocking issues in your configuration.<br>';
+<p class="tool_check">The checker did not found blocking issues in your configuration.<br>';
 
   $oDB->query( 'SELECT setting FROM '.QDB_PREFIX.'qtisetting WHERE param="board_offline"');
   $row = $oDB->getRow();
   $strOff = $row['setting'];
   if ( $strOff=='1' ) echo 'Your board seams well installed, but is currently <font color="red">off-line</font>.<br>Log as Administrator and go to the Administration panel to turn your board on-line.<br>';
 
-  echo '</p><p>';
-  if ( is_dir($root.'install') ) echo '<a href="qti_setup_9.php">Secure your installation...</a> | ';
-  echo '<a href="'.$root.'qti_index.php">Go to '.THISAPPNAME.'</a></p>';
+echo '</p><p>';
+if ( is_dir($root.'install') ) echo '<a href="setup_9.php">Secure your installation...</a> | ';
+echo '<a href="'.$root.'qti_index.php">Go to '.THISAPPNAME.'</a></p>';
 
 // --------
 // HTML END
@@ -350,6 +351,7 @@ echo '
 
 echo '
 </div>
+
 
 </div>
 </body>

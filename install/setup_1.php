@@ -7,26 +7,20 @@
  */
 session_start();
 include 'init.php';
-
-// Language passed from qtg_setup starting page (using get method to not interfere with this page Form)
-if ( isset($_GET['lang']) ) $_SESSION[APP.'_setup_lang']=$_GET['lang'];
+$self = 'setup_1';
+$tools = '<p class="tools"><a href="setup_1_tpl.php">Load from template...</a></p>';
 
 // manipulate config values through $arr holding const defined in the file
 $arr = [];
 foreach(array('QDB_SYSTEM','QDB_HOST','QDB_DATABASE','QDB_PREFIX','QDB_USER','QDB_PWD','QDB_INSTALL') as $key) $arr[$key] = defined($key) ? constant($key) : '';
-$urlPrev = APP.'_setup.php';
-$urlNext = APP.'_setup_2.php';
+$urlPrev = 'setup.php';
+$urlNext = 'setup_2.php';
 
 // --------
 // HTML BEGIN
 // --------
 
-include APP.'_setup_hd.php'; // this will show $error
-
-echo '
-<table>
-<tr valign="top">
-<td style="width:470px;padding:0 5px 0 0">';
+include 'setup_hd.php'; // this will show $error
 
 // --------
 // SUBMITTED create sqlite file
@@ -39,14 +33,17 @@ if ( !empty($_GET['sqlite']) ) try {
   $oDB = new CDatabase($arr['QDB_SYSTEM'],'',$arr['QDB_DATABASE'],'','',true); // true to create sqlite file
   if ( !empty($oDB->error) ) throw new Exception( 'Unable to create SQLite database file: '.$arr['QDB_DATABASE'].'<br>'.$oDB->error );
   // end
-  echo '<div class="setup_ok">',L('S_connect'),'</div>';
+  echo '<p class="is_ok">'.L('S_connect').'</p>';
 
 } catch (Exception $e) {
 
   $error = $e->getMessage();
-  echo '<div class="setup_err">Unable to create SQLite database file: '.$arr['QDB_DATABASE'].'<br>'.$error.'</div>';
+  echo '<p class="is_err">Unable to create SQLite database file: '.$arr['QDB_DATABASE'].'<br>'.$error.'</p>';
 
 }
+
+echo '<form method="post" name="install" action="setup_1.php">
+';
 
 // --------
 // SUBMITTED connect
@@ -77,58 +74,52 @@ if ( isset($_POST['ok']) ) try {
   const QDB_PREFIX = "'.$arr['QDB_PREFIX'].'";
   const QDB_USER = "'.$arr['QDB_USER'].'";
   const QDB_PWD = "'.$arr['QDB_PWD'].'";
-  const QDB_INSTALL = "'.$date.' '.APP.substr($date,-1).'";'; // default memory namespace is "qtx{n}"
+  const QDB_INSTALL = "'.$date.' '.APP.substr($date,-1).'";'; // default memory namespace is "qti{n}"
   $error = saveToFile('../config/config_db.php',$str); // SAVE TO FILE
   if ( !empty($error) ) throw new Exception( L('E_save').'<br>'.$error );
-  echo '<div class="setup_ok">',L('S_save'),'</div>';
+  echo '<p class="is_ok">'.L('S_save').'</p>';
 
   // Test Connection
   if ( $arr['QDB_SYSTEM']=='pdo.sqlite' || $arr['QDB_SYSTEM']=='sqlite' )
   {
     // for sqlite, check filename insead of connect()
-    if ( !file_exists('../'.$arr['QDB_DATABASE']) ) throw new Exception( '<p>SQLite database file not found: '.$arr['QDB_DATABASE'].'</p><p><a href="qti_setup_1.php?sqlite='.$arr['QDB_DATABASE'].'">Create SQLite file ['.$arr['QDB_DATABASE'].']...</a></p>' );
+    if ( !file_exists('../'.$arr['QDB_DATABASE']) ) throw new Exception( '<p>SQLite database file not found: '.$arr['QDB_DATABASE'].'</p><p><a href="setup_1.php?sqlite='.$arr['QDB_DATABASE'].'">Create SQLite file ['.$arr['QDB_DATABASE'].']...</a></p>' );
   }
   else
   {
     if ( isset($_SESSION['qti_dbologin']) )
     {
-      $oDB = new CDatabase($arr['QDB_SYSTEM'],$arr['QDB_HOST'],$arr['QDB_DATABASE'],$_SESSION['qti_dbologin'],$_SESSION['qti_dbopwd']);
+    $oDB = new CDatabase($arr['QDB_SYSTEM'],$arr['QDB_HOST'],$arr['QDB_DATABASE'],$_SESSION['qti_dbologin'],$_SESSION['qti_dbopwd']);
     }
     else
     {
-      $oDB = new CDatabase($arr['QDB_SYSTEM'],$arr['QDB_HOST'],$arr['QDB_DATABASE'],$arr['QDB_USER'],$arr['QDB_PWD']);
+    $oDB = new CDatabase($arr['QDB_SYSTEM'],$arr['QDB_HOST'],$arr['QDB_DATABASE'],$arr['QDB_USER'],$arr['QDB_PWD']);
     }
     if ( !empty($oDB->error) ) throw new Exception( sprintf(L('E_connect'),$arr['QDB_DATABASE'],$arr['QDB_HOST']).'<br>'.$oDB->error );
   }
-
   // Test Result
-  echo '<div class="setup_ok">',L('S_connect'),'</div>';
+  echo '<p class="is_ok">'.L('S_connect').'</p>';
 
 } catch (Exception $e) {
 
   $error = $e->getMessage();
-  echo '<div class="setup_err">'.$error.'</div>';
+  echo '<p class="is_err">'.$error.'</p>';
 
 }
-
 
 // --------
 // FORM
 // --------
 
-echo '<form method="post" name="install" action="qti_setup_1.php">
+echo '<h1>'.L('Connection_db').'</h1>
 <table class="t-conn">
-<tr>
-<td colspan="2"><h2>',L('Connection_db'),'</h2>
-<p style="margin:0 0 20px 0"><a href="qti_setup_0.php">Load from template...</a></p></td>
-</tr>
 ';
 echo '<tr>
 <td>',L('Database_type'),'</td>
 <td><select name="db_system" onchange="toggleHostLogin(this.value)">
 <optgroup label="PDO connectors">
 <option value="pdo.mysql"',($arr['QDB_SYSTEM']==='pdo.mysql' ? ' selected' : ''),'>MariaDb/MySQL (5 or next)</option>
-<option value="pdo.sqlsrv"',($arr['QDB_SYSTEM']==='pdo.sqlsrv' ? ' selected' : ''),'>SQL sever (or Express or on Azure)</option>
+<option value="pdo.sqlsrv"',($arr['QDB_SYSTEM']==='pdo.sqlsrv' ? ' selected' : ''),'>SQL sever (or Express)</option>
 <option value="pdo.pg"',($arr['QDB_SYSTEM']==='pdo.pg' ? ' selected' : ''),'>PostgreSQL</option>
 <option value="pdo.sqlite"',($arr['QDB_SYSTEM']==='pdo.sqlite' ? ' selected' : ''),'>SQLite</option>
 <option value="pdo.oci"',($arr['QDB_SYSTEM']==='pdo.oci' ? ' selected' : ''),'>Oracle</option>
@@ -163,8 +154,8 @@ echo '<tr id="db-host"',($arr['QDB_SYSTEM']==='pdo.sqlite' || $arr['QDB_SYSTEM']
 <tr id="user-login"',($arr['QDB_SYSTEM']==='pdo.sqlite' || $arr['QDB_SYSTEM']==='sqlite' ? ' style="display:none"' : ''),'>
 <td>Database user/password</td>
 <td>
-<input type="text" name="db_user" value="',$arr['QDB_USER'],'" size="15" maxlength="100" placeholder="username"/>
-<input type="text" name="db_pwd" value="',$arr['QDB_PWD'],'" size="15" maxlength="100" placeholder="password"/>
+<input type="text" name="db_user" value="',$arr['QDB_USER'],'" size="15" maxlength="255" placeholder="username"/>
+<input type="text" name="db_pwd" value="',$arr['QDB_PWD'],'" size="15" maxlength="255" placeholder="password"/>
 </td>
 </tr>
 <tr id="dbo-login-info"',($arr['QDB_SYSTEM']==='pdo.sqlite' || $arr['QDB_SYSTEM']==='sqlite' ? ' style="display:none"' : ''),'>
@@ -173,8 +164,8 @@ echo '<tr id="db-host"',($arr['QDB_SYSTEM']==='pdo.sqlite' || $arr['QDB_SYSTEM']
 <tr id="dbo-login"',($arr['QDB_SYSTEM']==='pdo.sqlite' || $arr['QDB_SYSTEM']==='sqlite' ? ' style="display:none"' : ''),'>
 <td style="background-color:#ddd">Table creator/password</td>
 <td style="background-color:#ddd">
-<input type="text" name="qti_dbouser" value="',(isset($_SESSION['qti_dbouser']) ? $_SESSION['qti_dbouser'] : ''),'" size="15" maxlength="100" placeholder="username"/>
-<input type="text" name="qti_dbopwd" value="',(isset($_SESSION['qti_dbopwd']) ? $_SESSION['qti_dbopwd'] : ''),'" size="15" maxlength="100" placeholder="password"/>
+<input type="text" name="qti_dbouser" value="',(isset($_SESSION['qti_dbouser']) ? $_SESSION['qti_dbouser'] : ''),'" size="15" maxlength="255" placeholder="username"/>
+<input type="text" name="qti_dbopwd" value="',(isset($_SESSION['qti_dbopwd']) ? $_SESSION['qti_dbopwd'] : ''),'" size="15" maxlength="255" placeholder="password"/>
 </td>
 </tr>
 <tr>
@@ -185,7 +176,15 @@ echo '<tr id="db-host"',($arr['QDB_SYSTEM']==='pdo.sqlite' || $arr['QDB_SYSTEM']
 </tr>
 </table>
 </form>
-<script type="text/javascript">
+';
+
+$aside = L('Help_1');
+
+// --------
+// HTML END
+// --------
+
+echo '<script type="text/javascript">
 function toggleHostLogin(str) {
 let d = document.getElementById("db-host");
 if ( d ) d.style.display = str=="sqlite" || str=="pdo.sqlite" ? "none" : "table-row";
@@ -196,17 +195,6 @@ if ( d ) d.style.display = str=="sqlite" || str=="pdo.sqlite" ? "none" : "table-
 d = document.getElementById("dbo-login");
 if ( d ) d.style.display = str=="sqlite" || str=="pdo.sqlite" ? "none" : "table-row";
 }
-</script>
-';
+</script>';
 
-echo '
-</td>
-<td><div class="setup_help">',L('Help_1'),'</div></td>
-</tr>
-</table>
-';
-// --------
-// HTML END
-// --------
-
-include 'qti_setup_ft.php';
+include 'setup_ft.php';

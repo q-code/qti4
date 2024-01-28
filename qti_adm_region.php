@@ -81,7 +81,7 @@ echo '
 ';
 echo '<tr>
 <th><label for="language">'.L('Dflt_language').'</label></th>
-<td><select id="language" name="language" onchange="qtFormSafe.not();">'.qtTags( $arrFiles, $_SESSION[QT]['language'] ).'</select><span class="small indent">'.(file_exists('language/readme.txt') ? '<a href="tool_txt.php?ro=1&exit=qtf_adm_region.php&file=language/readme.txt&title=How to add languages" onclick="return qtFormSafe.exit(e0);">How to add languages...</a>' :'').'</span></td>
+<td><select id="language" name="language" onchange="qtFormSafe.not();">'.qtTags( $arrFiles, $_SESSION[QT]['language'] ).'</select><span class="small indent">'.(file_exists('language/readme.txt') ? '<a href="tool_txt.php?ro=1&exit=qti_adm_region.php&file=language/readme.txt&title=How to add languages" onclick="return qtFormSafe.exit(e0);">How to add languages...</a>' :'').'</span></td>
 </tr>
 ';
 echo '<tr>
