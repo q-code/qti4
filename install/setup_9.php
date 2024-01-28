@@ -21,12 +21,9 @@ $tools .= '</p>';
 function redirect(string $u, string $s='Continue')
 {
   if ( empty($u) ) die('CHtml::redirect arg must be string');
-  if ( headers_sent() )
-  {
-    echo '<a href="'.$u.'">',$s,'</a><meta http-equiv="REFRESH" content="0;url='.$u.'">';
-  }
-  else
-  {
+  if ( headers_sent() ) {
+    echo '<a href="'.$u.'">'.$s.'</a><meta http-equiv="REFRESH" content="0;url='.$u.'">';
+  } else {
     header('Location: '.$u);
   }
   exit;
