@@ -173,12 +173,8 @@ echo '<p id="footer-credit">powered by <a href="http://www.qt-cute.org">QT-cute<
 // HTML END
 // --------
 
-if ( isset($oDB->stats) )
-{
-  $end = (float)vsprintf('%d.%06d', gettimeofday());
-  if ( isset($oDB->stats['num']) ) echo $oDB->stats['num'],' queries. ';
-  if ( isset($oDB->stats['start']) ) echo 'End queries in ',round($end-$oDB->stats['start'],4),' sec. ';
-  if ( isset($oDB->stats['pagestart']) ) echo 'End page in ',round($end-$oDB->stats['pagestart'],4),' sec. ';
+if ( isset($oDB->stats) ) {
+  $oH->log[] = vsprintf('%d queries. %d rows fetched in %01.4f sec.', [$oDB->stats['num'], $oDB->stats['rows'], (float)vsprintf('%d.%06d', gettimeofday()) - $oDB->stats['start']]);
 }
 
 // Automatic add script {file.php.js} if existing
