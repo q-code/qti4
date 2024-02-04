@@ -57,10 +57,9 @@ foreach(glob('qtim_gmap/*.png') as $file) {
   $arrFiles[$file] = ucfirst(str_replace('_',' ',$file));
 }
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) )
 {
   // save gkey
@@ -91,10 +90,9 @@ if ( isset($_POST['ok']) )
   $_SESSION[QT.'splash'] = (empty($error) ? L('S_save') : 'E|'.$error);
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 // prepare section settings
 
 $_SESSION[QT]['m_gmap'] = [];
@@ -129,9 +127,9 @@ echo '
 </tr>
 ';
 
-//-----------
+//------
 if ( !empty($_SESSION[QT]['m_gmap_gkey']) ) {
-//-----------
+//------
 
 // current symbol
 $current = empty($_SESSION[QT]['m_gmap_gsymbol']) ? 'default' : $_SESSION[QT]['m_gmap_gsymbol'];
@@ -198,9 +196,9 @@ echo '<h2 class="config">'.L('Gmap.Mapping_config').'</h2>
 </tr>
 ';
 
-//-----------
+//------
 }
-//-----------
+//------
 
 echo '</table>
 <p style="text-align:center"><button type="submit" name="ok" value="save">'.L('Save').'</button></p>

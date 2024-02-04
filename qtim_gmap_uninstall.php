@@ -36,10 +36,9 @@ $oDB->exec( 'DELETE FROM TABSETTING WHERE param="module_gmap" OR param="m_gmap_g
 unset($_SESSION[QT]['module_gmap']);
 SMem::set('settingsage',time());
 
-// --------
+// ------
 // Html start
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 $strInfo = '';

@@ -8,20 +8,18 @@ session_start();
 require 'bin/init.php';
 if ( !SUser::canView('V6') ) die(L('E_11'));
 
-// --------
+// ------
 // Check posted certificates
-// --------
-
+// ------
 $certificate = makeFormCertificate('3cb4bd2256f4642777c70f1cc0efcc77');
 // Forwarding certificate. Note: 'dopreview' is ajax-transfered to edit_preview.php
 if ( isset($_POST['dosend']) && $_POST['dosend']===makeFormCertificate('b7033b5983ec3b0fef7b3c251f6d0b92') ) $_POST['dosend']=$certificate;
 // validate certificates
 if ( isset($_POST['dosend']) && $_POST['dosend']!==$certificate ) die('Unable to check certificate');
 
-// --------
+// ------
 // INITIALISE
-// --------
-
+// ------
 $a = ''; // required
 $s = -1;
 $t = -1;
@@ -83,10 +81,9 @@ if ( qtModule('gmap') ) {
   }
 }
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['dosend']) ) try {
 
   // Current editor/creator (modifuser), can be the onbehalf
@@ -226,10 +223,10 @@ if ( isset($_POST['dosend']) ) try {
     ++$_SESSION[QT.'_usr']['numpost'];
     // location insert
     if ( $bMap && !empty($_POST['coord']) ) CTopic::setCoord($oDB,$oT->id,$_POST['coord']);
-    // ----------
+    // ------
     // module rss, except for hidden section (type=0)
     if ( $oS->type!=='0' && qtModule('rss') ) { if ( $_SESSION[QT]['m_rss']==='1' ) include 'qtim_rss_inc.php'; }
-    // ----------
+    // ------
     break;
 
 	case 're':
@@ -344,10 +341,9 @@ if ( isset($_POST['dosend']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 if ( $bMap ) {
   if ( !empty($oT->y) && !empty($oT->x) ) {
     $strPname = substr($oP->title,0,25);

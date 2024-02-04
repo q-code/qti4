@@ -69,10 +69,9 @@ if ( empty($error) )
   SMem::set('settingsage',time());
 }
 
-// --------
+// ------
 // Html start
-// --------
-
+// ------
 include 'qti_adm_inc_hd.php';
 
 if ( !$bStep0 )
@@ -98,8 +97,7 @@ echo '<h2>Installation completed</h2>';
 
 echo '<p style="margin:10px 0"><a href="qtim_antispam_adm.php">Configure...</a></p>';
 
-// --------
+// ------
 // Html end
-// --------
-
+// ------
 include 'qti_adm_inc_ft.php';

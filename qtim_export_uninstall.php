@@ -38,9 +38,9 @@ unset($_SESSION[QT]['m_'.MODULE]);
 unset($_SESSION[QT]['m_'.MODULE.'_conf']);
 SMem::set('settingsage',time());
 
-// --------
+// ------
 // Html start
-// --------
+// ------
 include APP.'_adm_inc_hd.php';
 
 $strInfo = '';

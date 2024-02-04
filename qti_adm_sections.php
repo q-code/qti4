@@ -32,10 +32,9 @@ $oH->selfurl = APP.'_adm_sections.php';
 $oH->selfname = L('Section+');
 $oH->selfparent = L('Board_content');
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 // REODER DOMAINS/SECTIONS 'neworder' contains a csv list of s{id} or d{id} created by java drag and drop events
 if ( isset($_POST['neworder']) ) {
   if ( substr($_POST['neworder'],0,1)==='d' ) {
@@ -107,20 +106,18 @@ if ( !empty($a) )
   }
 }
 
-// --------
+// ------
 // INITIALISE (no cache)
-// --------
-
+// ------
 $arrDomains = CDomain::getTitles(); // titles translated
 $arrSections = CSection::getSections('A',-2); // titles translated, optimisation: get all sections at once (grouped by domain)
 if ( count($arrDomains)>12 ) { $oH->warning .= 'You have a lot of domains. Try to remove unused domains. '; $_SESSION[QT.'splash'] = 'W|'.$oH->warning; }
 if ( count($arrSections,COUNT_RECURSIVE)>120 ) { $oH->warning .= 'You have a lot of sections. Try to remove unused sections. '; $_SESSION[QT.'splash'] = 'W|'.$oH->warning; }
 if ( !empty($oH->warning) ) $oH->warning = qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.$oH->warning;
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 // Add domain/section

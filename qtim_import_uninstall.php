@@ -36,10 +36,9 @@ $oDB->exec( 'DELETE FROM TABSETTING WHERE param="module_'.MODULE.'" OR param="mo
 unset($_SESSION[QT]['m_'.MODULE]);
 SMem::set('settingsage',time());
 
-// --------
+// ------
 // Html start
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 $strInfo = '';

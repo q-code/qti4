@@ -9,10 +9,9 @@ require 'bin/init.php';
 
 include Translate('lg_reg.php');
 
-// --------
+// ------
 // SUBMITTED for loggout. To redirect to login page use url '?a=out&r=in'
-// --------
-
+// ------
 if ( isset($_GET['a']) && $_GET['a']=='out' ) {
   $str = L('Goodbye');
   SUser::logOut();
@@ -23,19 +22,17 @@ if ( isset($_GET['a']) && $_GET['a']=='out' ) {
   $oH->redirect( APP.'_'.(isset($_GET['r']) && $_GET['r']==='in' ? 'login' : 'index').'.php' );
 }
 
-// --------
+// ------
 // INITIALISE
-// --------
-
+// ------
 $oH->selfurl = 'qti_login.php';
 $oH->selfname = L('Login');
 $strName = isset($_GET['dfltname']) ? qtAttr($_GET['dfltname']) : '';
 $certificate = makeFormCertificate('fd352f14798ecfe7a6ae09fd447c207b');
 
-// --------
+// ------
 // SUBMITTED for login
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   // check certificate
@@ -64,10 +61,9 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'qti_inc_hd.php';
 
 CHtml::msgBox($oH->selfname, 'class=msgbox formLogin');

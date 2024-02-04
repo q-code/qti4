@@ -8,14 +8,14 @@ header('Cache-Control: no-store'); //header('Cache-control: no-cache');
 // This script required the namespace ns (include as a GET parametre)
 // This script is completely isolated (independant from qti classes or variables) this script uses PHP memcache-class (not the class_qt_mem nor DB query)
 // This script required the memcache constants (ext/config_mem.php)
-// -------
+// ------
 // IMPORTANT: sse-messages MUST end with DOUBLE eol (.PHP_EOL.PHP_EOL) to become a text-stream block clientside
-// -------
+// ------
 $debug = false; // allows broadcasting message [debug]
 
-// -------
+// ------
 // Library
-// -------
+// ------
 function sse_echo(string $msg='data: ping', int $retry=10000)
 {
   if ( empty($msg) ) return;
@@ -24,18 +24,18 @@ function sse_echo(string $msg='data: ping', int $retry=10000)
   flush();
 }
 
-// -------
+// ------
 // Checks namespace (ns) and retry
-// -------
+// ------
 if ( !isset($_GET['ns']) || substr($_GET['ns'],0,3)!=='qti' ) { sse_echo( 'event: error'.PHP_EOL.'data: The client do not provide the ns argument'.PHP_EOL.PHP_EOL, 0 ); exit; }
 define('QT',$_GET['ns']);
 if ( !isset($_GET['retry']) || !is_numeric($_GET['retry']) || (int)$_GET['retry']<1 ) { sse_echo( 'event: error'.PHP_EOL.'data: Invalid retry delay'.PHP_EOL.PHP_EOL, 0 ); exit; }
 $retry = ((int)$_GET['retry'])*1000; // use milliseconds
 if ( $debug ) sse_echo('data: [debug] server assigns QT '.QT.', retry '.$retry.' milliseconds from GET'.PHP_EOL.PHP_EOL);
 
-// -------
+// ------
 // Checks memcache
-// -------
+// ------
 include 'config_mem.php'; // config_mem must be in the same directory as qti_srv_sse.php. This generate a warning is file is missing.
 if ( !defined('MEMCACHE_HOST') || empty(MEMCACHE_HOST) ) { sse_echo( 'event: error'.PHP_EOL.'data: Memcache configuration missing or memcache disabled'.PHP_EOL.PHP_EOL,0 ); exit; }
 // Detect library and Connect
@@ -52,9 +52,9 @@ if ( class_exists('Memcached') ) {
 if ( !$isConnected ) { sse_echo( 'event: error'.PHP_EOL.'data: Unable to contact Memcache daemon ['.MEMCACHE_HOST.':'.MEMCACHE_PORT.']'.PHP_EOL.PHP_EOL, 0 ); exit; }
 if ( $debug ) sse_echo('data: [debug] server uses '. get_class($memcache).' daemon on host '.MEMCACHE_HOST.':'.MEMCACHE_PORT.PHP_EOL.PHP_EOL);
 
-// -------
+// ------
 // SSE Broacasting
-// -------
+// ------
 // broadcast 3 shared memories (if they contain values) on each connection request from a client.
 // The default timelap to retry connection (10 seconds) is included in the broadcasted message.
 

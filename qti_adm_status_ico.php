@@ -23,10 +23,9 @@ $oH->exitname = $L['Status+'];
 $arrFiles=array();
 $arrStatuses=array();
 
-// --------
+// ------
 // HTML START
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 include 'qti_adm_p_title.php';
 

@@ -38,10 +38,9 @@ foreach(qtExplode($_SESSION[QT]['sse']) as $key=>$value) {
   $$key = $value;
 }
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   qtArgs('int:sse_connect sse_server sse_origin int:sse_maxrows', false); // in post only
@@ -65,10 +64,9 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN (fieldnames are uppercase as they are used to define constants)
-// --------
-
+// ------
 // warning
 if ( !empty($sse_origin) && substr($sse_origin,0,7)!=='http://' && substr($sse_origin,0,8)!=='https://' ) $oH->warning = L('Origin').' '.sprintf(L('Address_http'),'http','https');
 if ( !empty($sse_server) && substr($sse_server,0,7)!=='http://' && substr($sse_server,0,8)!=='https://' ) $oH->warning = L('Server').' '.sprintf(L('Address_http'),'http','https');

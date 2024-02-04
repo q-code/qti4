@@ -213,10 +213,9 @@ if ( $row['setting']=='3.0' )
   $strMessage .= '<p>Database upgraded to 4.0</p>';
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'setup_hd.php';
 
 if ( !empty($strMessage) ) echo $strMessage;
@@ -237,10 +236,9 @@ $str = $_SESSION[APP.'_setup_lang'];
 $_SESSION = [];
 $_SESSION[APP.'_setup_lang']=$str;
 
-// --------
+// ------
 // HTML END
-// --------
-
+// ------
 echo '<p>';
 if ( file_exists('tool_check.php') ) echo '<a href="tool_check.php">',L('Check_install'),'...</a>';
 echo '</p>';

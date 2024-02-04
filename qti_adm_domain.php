@@ -18,18 +18,16 @@ $oH->selfparent = L('Board_content');
 $oH->exiturl = APP.'_adm_sections.php';
 $oH->exitname = qtSVG('angle-left').' '.L('Section+');
 
-// --------
+// ------
 // INITIALISE (no cache)
-// --------
-
+// ------
 $oDB->query( "SELECT title FROM TABDOMAIN WHERE id=".$id);
 $row = $oDB->getRow();
 $arrTrans = SLang::get('domain','*','d'.$id);
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   $_POST['title'] = trim($_POST['title']);
@@ -55,10 +53,9 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 echo '

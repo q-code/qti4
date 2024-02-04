@@ -18,10 +18,9 @@ if ( $id<0 ) die('Wrong id');
 if ( isset($_GET['edit']) ) $_SESSION[QT]['editing']=($_GET['edit']=='1' ? true : false);
 if ( isset($_POST['edit']) ) $_SESSION[QT]['editing']=($_POST['edit']=='1' ? true : false);
 
-// --------
+// ------
 // FUNCTION
-// --------
-
+// ------
 function show_ban($strRole='V',$intBan=0,$name='')
 {
   if ( $intBan<1 ) return '';
@@ -34,8 +33,7 @@ function show_ban($strRole='V',$intBan=0,$name='')
 
 // ------
 // INITIALISE
-// --------
-
+// ------
 include 'bin/class/class.phpmailer.php';
 include translate('lg_reg.php');
 
@@ -63,10 +61,9 @@ if ( qtModule('gmap') )
   }
 }
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   // check form
@@ -116,10 +113,9 @@ if ( isset($_POST['ok']) ) try {
   $_SESSION[QT.'splash'] = 'E|'.$error;
 }
 
-// --------
+// ------
 // STATS AND USER
-// --------
-
+// ------
 // COUNT TOPICS
 $items = $oDB->count( TABTOPIC.' WHERE firstpostuser='.$id );
 // COUNT MESSAGES
@@ -156,10 +152,9 @@ if ( $bMap && !empty($row['x']) && !empty($row['y']) && SUser::canSeePrivate($ro
 }
 $strPriv = renderUserPrivSymbol($row);
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'qti_inc_hd.php';
 
 if ( $id<0 )  die('Wrong id in qti_user.php');
@@ -287,7 +282,6 @@ echo '
 // ------
 } else {
 // ------
-
 $strParticip = '';
 if ( $items>0 )
 {
@@ -328,7 +322,6 @@ echo '</table>
 // ------
 }
 // ------
-
 if ( !$_SESSION[QT]['editing'] ) {
 if ( SUser::id()==$id || SUser::isStaff() ) {
   echo '<p class="right"><small>'.$strPriv.' '.L('Privacy_visible_'.$row['privacy']).'</small></p>';
@@ -340,10 +333,9 @@ if ( SUser::id()==$id || SUser::isStaff() ) {
 echo '</div>
 ';
 
-// --------
+// ------
 // HTML END
-// --------
-
+// ------
 // MAP MODULE
 
 if ( $bMap )

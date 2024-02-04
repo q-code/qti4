@@ -6,9 +6,9 @@ require 'config/config_db.php';
 include 'config/config_lang.php'; if ( !defined('LANGUAGES') ) define('LANGUAGES',array('en'=>'EN English'));
 require 'config/config_cst.php';
 
-// -----------------
+// ------
 // Class and functions
-// -----------------
+// ------
 require 'bin/lib_qt_core.php';
 require 'bin/class/class.qt.db.php';
 require 'bin/class/class.qt.core.php';
@@ -25,9 +25,9 @@ require 'bin/class_qti_sse.php';
 require 'bin/lib_qti_base.php';
 require 'bin/lib_qti_html.php';
 
-// ----------------
+// ------
 // Initialise Classes
-// ----------------
+// ------
 $oH = new CHtml(); // $oH must be created before $oDB to allow using debug log
 $oDB = new CDatabase();
 SMem::create($oH->warning); // create memcache object (or null), namespace is QT by default (can also issue a $oH->warning message if connection failed)
@@ -68,9 +68,9 @@ if ( empty($isoUser) ) $isoUser =  $_SESSION[QT]['language']; // fallback
 define('QT_SKIN', $_SESSION[QT]['skin_dir']); // format: skin/themename/
 define('QT_LANG', $isoUser); // format: iso-code
 
-// ----------------
+// ------
 // Initialiase cache (domains, sections and title-translations)
-// ----------------
+// ------
 if ( !isset($_SESSION[QT]['viewmode']) ) $_SESSION[QT]['viewmode'] = QT_DFLT_VIEWMODE;
 if ( !isset($_SESSION[QT]['userlang']) ) $_SESSION[QT]['userlang'] = '1';
 if ( !isset($_SESSION[QT]['show_welcome']) ) $_SESSION[QT]['show_welcome'] = '1'; // 1 = while unlogged
@@ -85,22 +85,22 @@ $_SectionsStats = SMem::get('_SectionsStats');
 $_Sections = SMem::get('_Sections');
 $_Statuses = SMem::get('_Statuses');
 
-// ----------------
+// ------
 // Load dictionary
-// ----------------
+// ------
 include translate('lg_main.php');
 include translate('lg_icon.php');
 
-// ----------------
+// ------
 // SSE constants
-// ----------------
+// ------
 // load sse parametre as constants (with SSE_ prefix)
 if ( empty($_SESSION[QT]['sse']) ) $_SESSION[QT]['sse'] = 'CONNECT=0;ORIGIN=http://localhost;MAXROWS=2;TIMEMOUT=30;LATENCY=10;SERVER=0';
 foreach(qtExplode($_SESSION[QT]['sse']) as $key=>$value) if ( !defined('SSE_'.strtoupper($key)) ) define('SSE_'.strtoupper($key),$value);
 
-// ----------------
+// ------
 // Default HTML settings
-// ----------------
+// ------
 $oH->html = '<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" dir="'.(defined('QT_HTML_DIR') ? QT_HTML_DIR : 'ltr').'" xml:lang="'.(defined('QT_HTML_LANG') ? QT_HTML_LANG : 'en').'" lang="'.(defined('QT_HTML_LANG') ? QT_HTML_LANG : 'en').'">';
 $oH->title = $_SESSION[QT]['site_name'];
 $oH->metas[] = '<meta charset="'.QT_HTML_CHAR.'"/>
@@ -115,9 +115,9 @@ if ( file_exists(QT_SKIN.'custom.css') ) $oH->links['cssCustom'] = '<link rel="s
 $oH->scripts_top['core'] = '<script type="text/javascript" src="bin/js/qt_core.js"></script>';
 $oH->scripts_top[] = 'const acOnClicks = [];'; /* const required before autocomplete api configuration */
 
-// -----------------
+// ------
 //  Time setting (for PHP >=5.2)
-// -----------------
+// ------
 if ( PHP_VERSION_ID>=50200 && isset($_SESSION[QT]['defaulttimezone']) && $_SESSION[QT]['defaulttimezone']!=='' ) date_default_timezone_set($_SESSION[QT]['defaulttimezone']);
 
 // Admin system command
@@ -131,9 +131,9 @@ if ( isset($_GET['memflush']) && MEMCACHE_HOST ) {
   }
 }
 
-// ----------------
+// ------
 // Check user in case of coockie login
-// ----------------
+// ------
 if ( QT_REMEMBER_ME && SUser::confirmCookie($oDB) ) {
   include APP.'_inc_hd.php';
   CHtml::msgBox(L('Login'), 'class=msgbox login');

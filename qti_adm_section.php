@@ -29,10 +29,9 @@ $arrStaff = getUsers('S');
 
 $oS = new CSection($s);
 
-// --------
+// ------
 // SUBMITTED pan 1
-// --------
-
+// ------
 if ( isset($_POST['ok']) && $pan==1 ) try {
 
   // CHECK MANDATORY VALUE
@@ -74,17 +73,17 @@ if ( isset($_POST['ok']) && $pan==1 ) try {
 
 } catch (Exception $e) {
 
-  $error = $e->getMessage();
-  $_SESSION[QT.'splash'] = 'E|'.$error;
+  // Splash short message and send error to ...inc_hd.php
+  $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
+  $oH->error = $e->getMessage();
 
 }
 
-// --------
+// ------
 // SUBMITTED pan 2
-// --------
+// ------
+if ( isset($_POST['ok']) && $pan==2 ) try {
 
-if ( isset($_POST['ok']) && $pan==2 )
-{
   $oS->setMF('options', 'order', $_POST['dfltorder'], false);
   $oS->setMF('options', 'last', $_POST['lastcolumn'], false);
   $oS->setMF('options', 'logo', $_POST['sectionlogo'], false);
@@ -94,14 +93,20 @@ if ( isset($_POST['ok']) && $pan==2 )
   $oS->updateMF('options');
   SMem::clear('_Sections'); // memFlush only _Sections
   $_SESSION[QT.'splash'] = L('S_save');
+
+} catch (Exception $e) {
+
+  // Splash short message and send error to ...inc_hd.php
+  $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
+  $oH->error = $e->getMessage();
+
 }
 
-// --------
+// ------
 // SUBMITTED pan 3
-// --------
+// ------
+if ( isset($_POST['ok']) && $pan===3 ) try {
 
-if ( isset($_POST['ok']) && $pan===3 )
-{
   // Translations (cache unchanged)
   SLang::delete('sec,secdesc','s'.$oS->id);
   foreach($_POST as $k=>$posted) {
@@ -111,12 +116,18 @@ if ( isset($_POST['ok']) && $pan===3 )
   }
   memFlushLang(); // Clear cache
   $_SESSION[QT.'splash'] = L('S_save');
+
+} catch (Exception $e) {
+
+  // Splash short message and send error to ...inc_hd.php
+  $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
+  $oH->error = $e->getMessage();
+
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 $arrDest = $arrDomains;
@@ -137,9 +148,7 @@ echo '<div class="pan">
 ';
 
 // FORM 1
-
-if ( $pan===1 )
-{
+if ( $pan===1 ) {
 
 $wisheddate      = $oS->wisheddate>2 ? 2 : $oS->wisheddate;   // 0=no, 1=optional, 2345=mandatory
 $wisheddate_dflt = $oS->wisheddate>2 ? $oS->wisheddate-2 : 0; // 3 4 5 = today, day+1, day+2
@@ -248,7 +257,6 @@ notify.addEventListener("change", ()=>{
 }
 
 // FORM 2
-
 if ( $pan===2 ) {
 
 $addOption='';
@@ -343,9 +351,7 @@ echo '</table>
 }
 
 // FORM 3
-
-if ( $pan===3 )
-{
+if ( $pan===3 ) {
 
 $arrTrans = SLang::get('sec'.'*','s'.$oS->id);
 $arrDescTrans = SLang::get('secdesc','*','s'.$oS->id);

@@ -55,10 +55,9 @@ switch(QDB_SYSTEM)
   case 'oci' : define('MAX_K',3); break; // oracle uses varchar(4000)
   default : define('MAX_K',10); break; // mysql text(64K), sqlite text(>1MB)
 }
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   // check form
@@ -155,10 +154,9 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 // FORM

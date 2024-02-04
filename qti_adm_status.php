@@ -20,10 +20,9 @@ $oH->selfparent = L('Board_content');
 $oH->exiturl = 'qti_adm_statuses.php';
 $oH->exitname = qtSVG('angle-left').' '.L('Statuses');
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   // check id
@@ -79,10 +78,9 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 // ANALYSE NOTIFY

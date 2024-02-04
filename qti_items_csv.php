@@ -11,10 +11,9 @@ require 'bin/init.php';
 $oH->selfurl = 'qti_items_csv.php';
 if ( !SUser::canView('V2') ) exitPage(11,'user-lock.svg'); //...
 
-// ---------
+// ------
 // INITIALISE
-// ---------
-
+// ------
 $strOrder = 'lastpostdate';
 $strDirec = 'desc';
 if ( isset($_GET['order']) ) $strOrder = $_GET['order'];
@@ -118,10 +117,9 @@ if ( $_SESSION[QT]['show_closed']=='0' ) $sqlWhere.=" AND t.status<>'1'";
 // Count topics visible for current user ONLY
 $intCount = $oDB->count($sqlCount);
 
-// --------
+// ------
 // OUPUT
-// --------
-
+// ------
 $t = new TabTable();
 $t->arrTh['type'] = new TabHead(L('Type'));
 $t->arrTh['numid'] = new TabHead(L('Ref'));

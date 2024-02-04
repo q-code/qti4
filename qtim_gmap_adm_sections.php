@@ -55,10 +55,9 @@ while ( false!==($strFile = readdir($intHandle)) )
 closedir($intHandle);
 asort($arrFiles);
 
-// --------
+// ------
 // SUBMITTED for changes
-// --------
-
+// ------
 if ( isset($_POST['ok']) && !empty($_SESSION[QT]['m_gmap_gkey']) )
 {
   // save setting files
@@ -97,10 +96,9 @@ if ( isset($_POST['ok']) && !empty($_SESSION[QT]['m_gmap_gkey']) )
   $_SESSION[QT.'splash'] = (empty($error) ? L('S_save') : 'E|'.$error);
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 // prepare section settings
 
 if ( file_exists('qtim_gmap/config_gmap.php') ) { include 'qtim_gmap/config_gmap.php'; } else { $jMapSections = '[{"section":0,"enabled":0}]'; }

@@ -2,10 +2,10 @@
 
 /* ============
  * map_lib.php
- * ------------
+ * ------
  * version: 4.0 build:20230618
  * This is a module library
- * ------------
+ * ------
  * Class CMapPoint
  * gmapCan gmapHasKey gmapApi gmapEmpty gmapEmptycoord
  * gmapMarker gmapMarkerMapTypeId gmapMarkerIcon
@@ -72,8 +72,7 @@ function getMapSectionSettings($section,$generateDefault=false,$jMapSections='')
   return false;
 }
 
-// ---------
-
+// ------
 class cCanvas
 {
 	private $canvas=''; // default is <div id="map_canvas"></div>
@@ -160,8 +159,7 @@ class cCanvas
 
 }
 
-// ---------
-
+// ------
 // gmapCan
 // $strSection is 'U' users, 'S' search results, or [int] section id
 // $strRole can be '' to skip section list check

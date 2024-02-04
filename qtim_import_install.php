@@ -51,10 +51,9 @@ if ( empty($error) )
   SMem::set('settingsage',time());
 }
 
-// --------
+// ------
 // Html start
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 $strInfo = '';

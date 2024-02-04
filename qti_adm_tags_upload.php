@@ -39,10 +39,9 @@ $oH->selfname = L('Add').' CSV '.L('file');
 $oH->exiturl = 'qti_adm_tags.php';
 $oH->exitname = L('Tags');
 
-// --------
+// ------
 // SUBMITTED FOR UPLOAD
-// --------
-
+// ------
 if ( isset($_POST['ok']) )
 {
   // Check uploaded document
@@ -59,10 +58,9 @@ if ( isset($_POST['ok']) )
   }
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 echo '<br>'.PHP_EOL;

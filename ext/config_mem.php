@@ -6,9 +6,9 @@ define('MEMCACHE_HOST', 'localhost'); // Memcache hostname (ex: 'localhost' or '
 define('MEMCACHE_PORT', 11211);       // Memcache port. Default port is 11211.
 define('MEMCACHE_LIVETIME', 600);     // Livetime (in seconds) of a memcache. Recommended: 600
 
-// -----------------
+// ------
 // MEMCACHE
-// -----------------
+// ------
 // Memcache allow storing frequently used values in server-cache (instead of runnning database sql requests)
 // If memcache library is not available on your server use FALSE as host.
 //

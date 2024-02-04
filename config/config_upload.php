@@ -14,10 +14,9 @@
 // the system will check FIRST the file extensions (and stop uploading if file extension doesn't match).
 // Thus, if you want to use mimetypes only, it's recommended to empty the ALLOWED_FILE_EXT array.
 
-// -----------------
+// ------
 // uploaded files: allowed extensions. Must be noted in lowercase!
-// -----------------
-
+// ------
 // Note here the extensions allowed. Use empty array() to allow all extensions
 
 const ALLOWED_FILE_EXT = array(
@@ -40,10 +39,9 @@ const ALLOWED_FILE_EXT = array(
 'zip'
 );
 
-// -----------------
+// ------
 // uploaded files: allowed mimetypes. Must be noted in lowercase!
-// -----------------
-
+// ------
 // Note here the mimetypes allowed. Use empty array() to allow all mimetypes
 
 const ALLOWED_MIME_TYPE = [];

@@ -64,16 +64,14 @@ $intCount = $pageGroup=='all' ? $intTotal : $oDB->count( TABUSER." WHERE id>0".$
 // User menu (POST submitted and FORM $formAddUser)
 if ( SUser::isStaff() ) include 'qti_adm_users_add.php';
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'qti_inc_hd.php';
 
-// --------
+// ------
 // Title and top 5
-// --------
-
+// ------
 echo '<div id="ct-title" class="fix-sp top">
 <div><h2>'.$oH->selfname.'</h2>
 <p>'.( $pageGroup=='all' ? $intTotal.' '.L('Members') : $intCount.' / '.$intTotal.' '.L('Members') );
@@ -102,10 +100,9 @@ if ( !empty($formAddUser) ) echo $formAddUser;
 
 echo '</div>
 ';
-// --------
+// ------
 // Button line and paging
-// --------
-
+// ------
 // -- build paging --
 $strPaging = makePager( url('qti_users.php?group='.$pageGroup.'&order='.$pageOrder.'&dir='.$pageDirec), $intCount, (int)$_SESSION[QT]['items_per_page'], $intPage );
 if ( !empty($strPaging) ) $strPaging = $L['Page'].$strPaging;
@@ -124,10 +121,9 @@ if ( $intCount==0)
   exit;
 }
 
-// --------
+// ------
 // Memberlist
-// --------
-
+// ------
 $bCompact = FALSE;
 if ( empty(qtExplodeGet($_SESSION[QT]['formatpicture'], 'mime')) ||  $_SESSION[QT]['viewmode']=='C' ) $bCompact = true;
 
@@ -249,10 +245,9 @@ if ( $bMap )
   echo '<!-- Map module end -->'.PHP_EOL;
 }
 
-// --------
+// ------
 // HTML END
-// --------
-
+// ------
 // MAP MODULE
 
 if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )

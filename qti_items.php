@@ -13,10 +13,9 @@ require 'bin/init.php';
 $oH->selfurl = 'qti_items.php';
 if ( !SUser::canView('V2') ) exitPage(11,'user-lock.svg'); //...
 
-// ---------
+// ------
 // INITIALISE
-// ---------
-
+// ------
 // check arguments
 $q = ''; // Search type (not required, use 's' if missing)
 $s = -1; // [int]
@@ -62,10 +61,9 @@ if ( !isset($_SESSION[QT]['lastcolumn']) || $_SESSION[QT]['lastcolumn']=='none' 
 $navCommands = '';
 $rowCommands = ''; // commands when EditByRows
 
-// ---------
+// ------
 // SUBMITTED preferences and staff action
-// ---------
-
+// ------
 if ( isset($_POST['pref'])) {
   if ( in_array($_POST['pref'], array( 'n10', 'n20', 'n30', 'n50', 'n100'))) $_SESSION[QT]['items_per_page'] = substr($_POST['pref'], 1, 3);
   if ( $_POST['pref']=='togglenewsontop') $_SESSION[QT]['news_on_top'] = ($_SESSION[QT]['news_on_top'] ? '0' : '1');
@@ -197,10 +195,9 @@ if ( $q!=='s' ) {
 // full title
 if ( !empty($pageTitle) ) $pageTitle = '<p class="pg-title">'.$pageTitle.'</p>'.(empty($pageSubtitle) ? '' : '<p class="pg-title pg-subtitle">'.$pageSubtitle.'</p>');
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_inc_hd.php';
 
 // PAGE title and UI
@@ -453,10 +450,9 @@ if ( $useMap ) {
   echo '<!-- Map module end -->'.PHP_EOL.PHP_EOL;
 }
 
-// --------
+// ------
 // HTML END
-// --------
-
+// ------
 // MAP MODULE
 /**
  * @var array $gmap_markers

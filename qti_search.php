@@ -31,9 +31,9 @@ $st = '*';
 qtArgs('q v v2 boo:to int:s st');
 if ( $st==='' || $st==='-1' ) $st='*';
 
-// --------
+// ------
 // SUBMITTED
-// --------
+// ------
 if ( isset($_POST['ok']) && !empty($q) )
 {
   $arg=''; // criterias (other than filters)
@@ -86,10 +86,9 @@ if ( isset($_POST['ok']) && !empty($q) )
   }
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'qti_inc_hd.php';
 
 // SEARCH SHORTCUTS

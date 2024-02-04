@@ -15,10 +15,9 @@ $oH->selfname = L('Board_general');
 $oH->selfparent = L('Board_info');
 $strHelper=false;
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   // check sitename
@@ -88,10 +87,9 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 // Start helper
 if ( strlen($_SESSION[QT]['site_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/',$_SESSION[QT]['site_url']) ) $oH->warning .= L('Site_url').': '.L('E_missing_http').'<br>';
 $str = parse_url($_SESSION[QT]['site_url']); $str = empty($str['path']) ? '' : $str['path']; // site url

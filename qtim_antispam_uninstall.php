@@ -38,10 +38,9 @@ unset($_SESSION[QT]['m_antispam_conf']);
 unset($_SESSION[QT]['m_antispam_count']);
 SMem::set('settingsage',time());
 
-// --------
+// ------
 // Html start
-// --------
-
+// ------
 include 'qti_adm_inc_hd.php';
 
 echo '<h2>Removing database settings</h2>
@@ -49,8 +48,7 @@ echo '<h2>Removing database settings</h2>
 <h2>Uninstall completed</h2>
 ';
 
-// --------
+// ------
 // Html end
-// --------
-
+// ------
 include 'qti_adm_inc_ft.php';

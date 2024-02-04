@@ -9,17 +9,15 @@ session_start();
  */
 require 'bin/init.php';
 
-// --------
+// ------
 // SECURITY
-// --------
-
+// ------
 if ( $_SESSION[QT]['board_offline']==='1' ) exitPage(99,'tools.svg',false); //...
 if ( $_SESSION[QT]['visitor_right']<1 && SUser::role()==='V' ) exitPage(11,'user-lock.svg',false); //...
 
-// --------
+// ------
 // INITIALIZE
-// --------
-
+// ------
 // MYBOARD Count MyTopics and MyAssign
 $bMyBoard = SUser::role()!=='V'; // no myboard for visitor
 if ( $bMyBoard ) {
@@ -40,10 +38,9 @@ if ( $bMyBoard ) {
   if ( $intMyTopics===0 && $intMyAssign===0 ) { $bMyBoard=false; } else { $oH->links[] = '<link rel="stylesheet" type="text/css" href="'.QT_SKIN.'qti_myboard.css"/>'; }
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'qti_inc_hd.php'; // includes myboard
 
 // Table definition

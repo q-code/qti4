@@ -36,10 +36,9 @@ $oDB->exec( 'DELETE FROM TABSETTING WHERE param="module_rss" OR param="m_rss" OR
 unset($_SESSION[QT]['module_rss']);
 SMem::set('settingsage',time());
 
-// --------
+// ------
 // Html start
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 echo '<h2>Removing database settings</h2>

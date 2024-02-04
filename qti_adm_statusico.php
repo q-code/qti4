@@ -17,10 +17,9 @@ $oH->exitname = L('Statuses');
 
 $arrFiles=array();
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 const HIDE_MENU_TOC=true;
 const HIDE_MENU_LANG=true;
 

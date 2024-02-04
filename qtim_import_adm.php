@@ -122,10 +122,9 @@ $oH->selfversion = L('Import_Version').' 4.0';
 $oH->exiturl = $oH->selfurl;
 $oH->exitname = $oH->selfname;
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   // check file
@@ -177,10 +176,9 @@ if ( isset($_POST['ok']) ) try {
   unlink($_FILES['title']['tmp_name']);
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 if ( isset($_SESSION['m_import_xml']['dest']) )      $intDest   = $_SESSION['m_import_xml']['dest'];

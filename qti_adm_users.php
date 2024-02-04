@@ -12,10 +12,9 @@ if ( SUser::role()!=='A' ) die('Access denied');
 include translate('lg_adm.php');
 include translate('lg_reg.php');
 
-// ---------
+// ------
 // INITIALISE
-// ---------
-
+// ------
 $oDB->query( 'SELECT count(*) as countid FROM TABUSER WHERE id>0'); // Count all users
 $row = $oDB->getRow();
 $intUsers = (int)$row['countid'];
@@ -61,10 +60,9 @@ if ( isset($_POST['checklast']) || isset($_GET['checklast']) ) {
   $intChecked = (int)$row['countid'];
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'qti_adm_inc_hd.php';
 
 // Global statistics
@@ -127,10 +125,9 @@ echo '<a href="qti_adm_users_imp.php">'.L('Users_import_csv').'...</a> | ';
 echo '<a href="qti_adm_users_exp.php">'.L('Users_export_csv').'...</a></p>';
 if ( !empty($formAddUser) ) echo $formAddUser;
 
-// --------
+// ------
 // Category subform
-// --------
-
+// ------
 if ( $strCateg!='all' ) {
   $intCount = $intFalse;
   if ( $strCateg=='SM' ) $intCount = $intSleeping;
@@ -177,10 +174,9 @@ $strPaging = makePager("qti_adm_users.php?cat=$strCateg&group=$pageGroup&order=$
 if ( !empty($strPaging) ) $strPaging = L('Page').$strPaging;
 if ( $intCount<$intUsers ) $strPaging = '<span class="small">'.L('user',$intCount).' ('.L('from').' '.$intUsers.')</span>'.(empty($strPaging) ? '' : ' | '.$strPaging);
 
-// --------
+// ------
 // Memberlist
-// --------
-
+// ------
 $rowCommands = L('selection').': <a class="datasetcontrol" href="javascript:void(0)" data-action="usersrole">'.L('role').'</a> &middot; <a class="datasetcontrol" href="javascript:void(0)" data-action="usersdel">'.L('delete').'</a> &middot; <a class="datasetcontrol" href="javascript:void(0)" data-action="usersban">'.strtolower(L('Ban')).'</a> &middot; <a class="datasetcontrol" href="javascript:void(0)" data-action="userspic">'.L('picture').'</a>';
 echo PHP_EOL.'<form id="form-users" method="post" action="'.APP.'_adm_register.php"><input type="hidden" id="form-users-action" name="a" />'.PHP_EOL;
 echo '<div id="tabletop" class="table-ui top">';
@@ -219,8 +215,7 @@ echo '<tbody>'.PHP_EOL;
 //-- LIMIT QUERY --
 $strState = 'id,name,closed,role,numpost,firstdate,lastdate,ip FROM TABUSER WHERE id>'.($strCateg=='all' ? '0' : '1').$sqlWhere;
 $oDB->query( sqlLimit($strState,$strOrder.' '.strtoupper($strDirec).($strOrder==='name' ? '' : $strOrder2),$intLimit,$ipp) );
-// --------
-
+// ------
 $arrRow=array(); // rendered row. To remove duplicate in seach result
 $intRow=0; // count row displayed
 $days = BAN_DAYS;

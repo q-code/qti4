@@ -18,10 +18,9 @@ qtArgs('q',false,true,true,false); // do not strip tags because <> can be used i
 // Certificates
 $certificate = makeFormCertificate('5ca766092492acd750e3061b032bd0d8'); // search publickey certificate
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_inc_hd.php';
 echo '<style>
 #sqldump{display:block;max-height:500px;overflow:auto;white-space:nowrap}
@@ -47,10 +46,9 @@ echo '
 <br>
 ';
 
-// ---------
+// ------
 // SUBMITTED
-// ---------
-
+// ------
 if ( isset($_POST['ok']) )
 {
   if ( $_POST['ok']!==$certificate ) die('Unable to check certificate');
@@ -83,8 +81,7 @@ if ( isset($_POST['ok']) )
   }
 }
 
-// ---------
+// ------
 // HTML END
-// ---------
-
+// ------
 include 'qti_inc_ft.php';

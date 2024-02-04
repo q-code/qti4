@@ -20,10 +20,9 @@ $oH->selfname = L('Item+');
 $oH->selfparent = L('Board_content');
 $oH->exitname = '&laquo; '.L('Item+');
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   if ( !qtIsBetween($d,1,99) ) throw new Exception( L('Days').' '.L('invalid').' (1-99)' );
@@ -40,10 +39,9 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 $arrDomains = CDomain::getTitles();

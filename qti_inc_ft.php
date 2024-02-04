@@ -49,10 +49,9 @@ echo '
 </main>
 ';
 
-// --------
+// ------
 // ASIDE INFO & LEGEND
-// --------
-
+// ------
 if ( $_SESSION[QT]['board_offline']!=='1' ) {
 if ( $_SESSION[QT]['show_legend']==='1' ) {
 if ( in_array($oH->selfurl,array('index.php','qti_index.php','qti_items.php','qti_calendars.php','qti_item.php')) ) {
@@ -147,10 +146,9 @@ echo '
 </div>
 ';
 
-// --------
+// ------
 // FOOTER
-// --------
-
+// ------
 echo '<footer class="flex-sp">
 ';
 
@@ -169,10 +167,9 @@ echo '<p id="footer-credit">powered by <a href="http://www.qt-cute.org">QT-cute<
 </footer>
 ';
 
-// --------
+// ------
 // HTML END
-// --------
-
+// ------
 if ( isset($oDB->stats) ) {
   if ( empty($oDB->stats['end']) ) $oDB->stats['end'] = gettimeofday(true);
   $oH->log[] = sprintf('%d queries. %d rows fetched in %01.4f sec.', $oDB->stats['num'], $oDB->stats['rows'], $oDB->stats['end'] - $oDB->stats['start']);

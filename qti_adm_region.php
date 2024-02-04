@@ -17,10 +17,9 @@ $oH->selfparent = L('Settings');
 $oH->exiturl = $oH->selfurl;
 $oH->exitname = $oH->selfname;
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   $_SESSION[QT]['show_time_zone'] = qtDb($_POST['show_time_zone']); // 0=no, 1=time, 2=time+gmt
@@ -63,10 +62,9 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 // Check language subdirectories

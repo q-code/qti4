@@ -16,10 +16,9 @@ if ( !isset($_SESSION[QT]['cal_showinsp']) ) $_SESSION[QT]['cal_showinsp']=FALSE
 if ( !isset($_SESSION[QT]['cal_showall']) ) $_SESSION[QT]['cal_showall']=FALSE;
 if ( !isset($_SESSION[QT]['cal_showZ']) ) $_SESSION[QT]['cal_showZ']=FALSE;
 
-// ---------
+// ------
 // FUNCTIONS
-// ---------
-
+// ------
 function FirstDayDisplay($intYear,$intMonth,$intWeekstart=1)
 {
   // search date of the first 'monday' (or weekstart if not 1)
@@ -53,10 +52,9 @@ function ArraySwap($arr,$n=1)
   return $arr;
 }
 
-// ---------
+// ------
 // INITIALISE
-// ---------
-
+// ------
 $s = -1;
 $v = 'firstpostdate';
 qtArgs('int:s! v');
@@ -134,10 +132,9 @@ else
   $bMap=false;
 }
 
-// --------
+// ------
 // LIST OF TOPICS PER DAY IN THIS FORUM
-// --------
-
+// ------
 $arrEvents = [];
 $arrEventsN = [];
 $intEvents = 0;
@@ -159,10 +156,9 @@ while($row=$oDB->getRow())
   if ( $i>8 ) break;
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 $oH->links[] = '<link rel="stylesheet" type="text/css" href="'.QT_SKIN.'qti_calendar.css"/>';
 
 include 'qti_inc_hd.php';
@@ -192,10 +188,9 @@ echo '
 ';
 }
 
-// --------
+// ------
 // MAIN CALENDAR
-// --------
-
+// ------
 $dCurrentDate = mktime(0,0,0,$intMonth,1,$intYear);
 $dFirstDay = FirstDayDisplay($intYear,$intMonth,QT_WEEKSTART);
 
@@ -406,9 +401,9 @@ echo '<div class="cal_info">'.PHP_EOL;
 echo '</div>'.PHP_EOL;
 echo '</div>'.PHP_EOL;
 
-// --------
+// ------
 // HTML END
-// --------
+// ------
 if ( $s>=0 && SMemSSE::useSSE() ) {
   $oH->scripts[] = 'var cseMaxRows = '.SSE_MAXROWS.';
 var cseShowZ = '.($_SESSION[QT]['cal_showZ'] ? 1 : 0).';

@@ -59,9 +59,9 @@ if ( empty($error) )
   if ( !function_exists('ldap_connect') ) $error = 'LDAP function not found. It seems that module LDAP is not activated on your webserver';
 }
 
-// --------
+// ------
 // Html start
-// --------
+// ------
 include APP.'_adm_inc_hd.php';
 
 $strInfo = '';

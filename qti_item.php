@@ -9,16 +9,16 @@ require 'bin/init.php';
 $oH->selfurl = 'qti_item.php';
 if ( !SUser::canView('V3') ) exitPage(11,'user-lock.svg'); //...
 
-// ---------
+// ------
 // PRE-INITIALISE
-// ---------
+// ------
 $t = -1; qtArgs('int:t!'); if ( $t<0 ) die('Invalid argument');
 $oT = new CTopic($t,SUser::id()); //provide userid to update stats
 $s = $oT->pid;
 
-// ---------
+// ------
 // SUBMITTED
-// ---------
+// ------
 if ( isset($_POST['Maction']) )
 {
   $oH->exiturl  = 'qti_items.php?s='.$s;
@@ -35,9 +35,9 @@ if ( isset($_POST['actorid']) && $_POST['actorid']>0 && !empty($_POST['actorname
   $oT->setActor((int)$_POST['actorid'], true, true, $_POST['actorname']);
   $oH->redirect(url('qti_item.php').'?t='.$t);
 }
-// ---------
+// ------
 // INITIALISE and check grant access
-// ---------
+// ------
 $oS = new CSection($s);
 if ( $oS->type==='1' && (SUser::role()==='V' || SUser::role()==='U') )
 {
@@ -110,10 +110,9 @@ if ( !empty($oT->y) && !empty($oT->x) ) {
 
 }}
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'qti_inc_hd.php';
 
 // -- Title and staff commands --
@@ -315,10 +314,9 @@ echo '</div>
 </form>
 ';
 
-// --------
+// ------
 // HTML END
-// --------
-
+// ------
 $oH->scripts[] = 'const d = document.getElementById("form-qr-preview");
 d.addEventListener("click", (e) => {
   if ( d.dataset.itemtype!=="I" && document.getElementById("text-area").value==="" ) return false;

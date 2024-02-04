@@ -18,10 +18,9 @@ $oH->selfname = L('Statuses');
 $oH->selfparent = L('Board_content');
 $oH->exitname = L('Statuses');
 
-// --------
+// ------
 // SUBMITTED for add
-// --------
-
+// ------
 if ( isset($_POST['ok']) ) try {
 
   // Check id, name and duplicate id
@@ -42,19 +41,17 @@ if ( isset($_POST['ok']) ) try {
 
 }
 
-// --------
+// ------
 // SUBMITTED for show option
-// --------
-
+// ------
 if ( isset($_POST['ok_show']) ) {
   $_SESSION[QT]['show_closed'] = $_POST['show_closed'];
   $oDB->updSetting('show_closed',$_SESSION[QT]['show_closed']);
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 echo '<form method="post" action="'.$oH->self().'">
@@ -111,8 +108,7 @@ echo '<h2 class="config">'.L('Display_options').'</h2>
 </form>
 ';
 
-// --------
+// ------
 // HTML END
-// --------
-
+// ------
 include APP.'_adm_inc_ft.php';

@@ -55,10 +55,9 @@ function deleteDir(string $dirPath) {
   rmdir($dirPath);
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include 'setup_hd.php'; // this will show $error
 
 // SUBMITTED
@@ -103,9 +102,9 @@ echo '<p style="margin:10px 0"><button type="submit">'.L('Ok').'</button></p>';
 echo '</form>';
 
 
-// --------
+// ------
 // HTML END
-// --------
+// ------
 include 'setup_ft.php'; // this will show $error
 
 // DISCONNECT to reload new variables (keep same language)

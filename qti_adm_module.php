@@ -14,10 +14,9 @@ $a = isset($_GET['a']) ? $_GET['a'] : 'add';
 $oH->selfurl = APP.'_adm_module.php';
 $oH->selfname = L('Board_modules');
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) )
 {
   if ( isset($_SESSION[QT]['mModules']) ) unset($_SESSION[QT]['mModules']); // clear memory
@@ -41,10 +40,9 @@ if ( isset($_POST['ok']) )
   }
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 $arr = [];

@@ -85,19 +85,18 @@ if ( !$hideMenuLang ) {
   }
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 $oH->title = (empty($oH->selfname) ? '' : $oH->selfname.' - ').$oH->title;
 $oH->head();
 $oH->body();
 
 CHtml::getPage('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''));
 
-// ----------
+// ------
 // HEADER shows BANNER LANG-MENU NAV
-// ----------
+// ------
 // header layout
 echo '<header id="banner" data-layout="'.$_SESSION[QT]['show_banner'].'">'.PHP_EOL; // css data-layout (0=no-banner|1=nav-after|2=nav-inside)
 // logo
@@ -109,9 +108,9 @@ $skip = array_diff(array_keys($navMenu->menu), ['home','index','search','users',
 echo '<nav>'.$navMenu->build(url($oH->selfurl), 'default', $skip).'</nav>'.PHP_EOL;
 echo '</header>'.PHP_EOL;
 
-// ----------
+// ------
 // SEARCH BAR
-// ----------
+// ------
 if ( QT_SIMPLESEARCH && $oH->selfurl!==APP.'_search.php' ) {
   echo '<div id="searchbar" style="display:none">'.PHP_EOL;
   if ( !SUser::canAccess('search') ) {
@@ -134,9 +133,9 @@ if ( QT_SIMPLESEARCH && $oH->selfurl!==APP.'_search.php' ) {
   echo '</div>'.PHP_EOL;
 }
 
-// ----------
+// ------
 // WELCOME
-// ----------
+// ------
 $showWelcome = false;
 if ( ( $_SESSION[QT]['show_welcome']=='2' || ($_SESSION[QT]['show_welcome']==='1' && !SUser::auth()) ) && file_exists(translate('app_welcome.txt')) && !$_SESSION[QT]['board_offline'] ) $showWelcome = true;
 if ( $showWelcome && $oH->selfurl!==APP.'_register.php' ) {
@@ -145,9 +144,9 @@ if ( $showWelcome && $oH->selfurl!==APP.'_register.php' ) {
   echo '</div>';
 }
 
-// ----------
+// ------
 // MAIN
-// ----------
+// ------
 echo '
 <main>
 ';

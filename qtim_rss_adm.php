@@ -34,10 +34,9 @@ $oH->selfparent = L('Module');
 $oH->selfversion = L('Version').' 4.0';
 $error = '';
 
-// --------
+// ------
 // SUBMITTED
-// --------
-
+// ------
 if ( isset($_POST['ok']) )
 {
   // check others
@@ -58,10 +57,9 @@ if ( isset($_POST['ok']) )
   }
 }
 
-// --------
+// ------
 // HTML BEGIN
-// --------
-
+// ------
 include APP.'_adm_inc_hd.php';
 
 // read values
