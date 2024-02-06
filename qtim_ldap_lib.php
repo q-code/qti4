@@ -26,32 +26,32 @@ function qt_ldap_bind($username,$password)
 
 function qt_ldap_search($username)
 {
-  global $error;
-  $error = '';
+  global $oH;
+  $oH->error = '';
   $mail = '';
-  $c = @ldap_connect($_SESSION[QT]['m_ldap_host']) or $error=ldap_err2str(ldap_errno($c));
+  $c = @ldap_connect($_SESSION[QT]['m_ldap_host']) or $oH->error=ldap_err2str(ldap_errno($c));
   // admin or anonymous bind
-  if ( empty($error) )
+  if ( empty($oH->error) )
   {
     ldap_set_option($c, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($c, LDAP_OPT_REFERRALS, 0);
     if ( $_SESSION[QT]['m_ldap_bind']==='n' )
     {
-      @ldap_bind($c,$_SESSION[QT]['m_ldap_bind_rdn'],$_SESSION[QT]['m_ldap_bind_pwd']) or $error='Connection result: '.ldap_err2str(ldap_errno($c)); // bind (anonymous by default)
+      @ldap_bind($c,$_SESSION[QT]['m_ldap_bind_rdn'],$_SESSION[QT]['m_ldap_bind_pwd']) or $oH->error='Connection result: '.ldap_err2str(ldap_errno($c)); // bind (anonymous by default)
     }
     else
     {
-      @ldap_bind($c) or $error='Connection result: '.ldap_err2str(ldap_errno($c)); // bind (anonymous by default)
+      @ldap_bind($c) or $oH->error='Connection result: '.ldap_err2str(ldap_errno($c)); // bind (anonymous by default)
     }
   }
   // search username
-  if ( empty($error) )
+  if ( empty($oH->error) )
   {
     $filter = str_replace('$username',$username,$_SESSION[QT]['m_ldap_s_filter']);
-    $s = @ldap_search($c,$_SESSION[QT]['m_ldap_s_rdn'],$filter,explode(',',$_SESSION[QT]['m_ldap_s_info'])) or $error='Search result: '.ldap_err2str(ldap_errno($c));
+    $s = @ldap_search($c,$_SESSION[QT]['m_ldap_s_rdn'],$filter,explode(',',$_SESSION[QT]['m_ldap_s_info'])) or $oH->error='Search result: '.ldap_err2str(ldap_errno($c));
   }
   // analyse search results
-  if ( empty($error) )
+  if ( empty($oH->error) )
   {
     $users = ldap_get_entries($c, $s);
     $intEntries = ldap_count_entries($c,$s);
@@ -60,11 +60,9 @@ function qt_ldap_search($username)
       $infos = $users[$i];
       $mail = isset($infos['mail'][0]) ? $infos['mail'][0] : '';
       if ( empty($mail) && isset($infos['email'][0]) ) $mail = $infos['email'][0];
-      if ( empty($mail) )
-      {
-        foreach($infos as $info)
-        {
-          if ( isset($info[0]) && qtIsMail($info[0]) ) { $mail = $info[0]; break; }
+      if ( empty($mail) ) {
+        foreach($infos as $info) {
+          if ( !empty($info[0]) ) { $mail = $info[0]; break; }
         }
       }
       if ( !empty($mail) ) break;

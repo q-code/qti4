@@ -23,7 +23,6 @@ $arrFiles=array();
 const HIDE_MENU_TOC=true;
 const HIDE_MENU_LANG=true;
 
-$oH->links['cssIcons']=''; // remove webicons
 include APP.'_adm_inc_hd.php';
 
 // Browse image file

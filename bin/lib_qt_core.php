@@ -106,7 +106,7 @@ function attrDecode(string $str, string $sep='|', string $required='')
   // Note: For an unformatted $str, the array [0=>$str] is returned
   // $required allow adding some default attributes if not declared in $str
   if ( empty($str) && empty($required) ) return [];
-  $str = $required.$sep.$str;
+  if ( !empty($required) ) $str = $required.$sep.$str;
   if ( substr_count($str,$sep)===0 && substr_count($str,'=')===0 ) return [$str]; // $str not compacted
   $attr = [];
   foreach(qtCleanArray($str,$sep) as $str) {
@@ -388,10 +388,10 @@ function qtImplode(array $arr, string $sep='&', bool $skipNull=true)
 function qtCleanArray(string $str, string $sep=';', array $append=[])
 {
   if ( empty($str) ) return $append ? array_unique(array_filter(array_map('trim',$append))) : [];
-  if ( trim($sep)==='' ) die(__FUNCTION__.' invalid separator (use explode with space separator)' );
+  if ( trim($sep)==='' ) die(__FUNCTION__.' invalid separator. For space use explode()');
   $arr = explode($sep,$str); if ( $append ) $arr = array_merge($arr,$append);
   return array_unique(array_filter(array_map('trim',$arr)));
-  // NOTE: if $append contains sub-array, they are skipped and php generates a warning
+  // NOTE: if $append contains sub-array, they are skipped and php throws a warning
 }
 /**
  * Switch between mail() and external-PHPMailer (unsing class.pop3.php and class.smtp.php)
@@ -427,13 +427,7 @@ function qtMail(string $strTo, string $strSubject, string $strMessage, string $s
     $mail->Subject = $strSubject;
     $mail->Body    = $strMessage;
     $mail->AltBody = $strMessage;
-    if ( !$mail->Send() ) {
-      echo '<br>Message could not be sent.';
-      echo '<br>Mailer Error: ' . $mail->ErrorInfo;
-      echo '<br>Subject: '.$mail->Subject;
-      echo '<br>Message: '.$mail->Body;
-      exit;
-    }
+    if ( !$mail->Send() ) throw new Exception( 'Message could not be sent: '.$mail->ErrorInfo.'<br>Subject: '.$mail->Subject.'<br>Message: '.$mail->Body );
     break;
   default:
     $strHeaders = 'Content-Type: text/plain; charset='.$strCharset;
@@ -558,23 +552,21 @@ function qtInline(string $str, int $max=255, string $end='...', bool $unbbc=true
   // truncate
   return $max>0 ? qtTrunc($str,$max,$end) : $str;
 }
-function qtDateClean($d='now', int $size=14, string $failed='')
+function qtDateClean($d='now', int $size=14, string $e='?')
 {
   // Works recursively on array
-  if ( is_array($d) ) { foreach($d as $k=>$item) $d[$k] = qtDateClean($item,$size,$failed); return $d; }
-  // Returns datetime [string] 'YYYYMMDD[HHMM[SS]]' from 'now', integer or a string like 'YYYY-MM-DD HH:MM:SS'
-  if ( is_int($d) ) $d = (string)$d; // support int
-  if ( !is_string($d) ) die(__FUNCTION__.' invalid arg #1');
-  if ( $size<4 || $size>14) die(__FUNCTION__.' invalid arg #2');
-  if ( empty($d) ) return $failed;
+  if ( is_array($d) ) { foreach($d as $k=>$item) $d[$k] = qtDateClean($item,$size,$e); return $d; }
+  // Returns datetime [string] 'YYYYMMDD[HHMM[SS]]' from 'now'|integer|'YYYY-MM-DD HH:MM:SS'
+  if ( is_int($d) && $d>0 ) $d = (string)$d;
+  if ( !is_string($d) || $size<4 || $size>14 || strlen($d)<4 ) return $e;
   // Sanitize
   if ( $d==='now' ) return substr(date('YmdHis'),0,$size);
-  if ( $d===(string)abs((int)$d) ) return substr($d,0,$size); // unsignedint [string] is sanitized
+  if ( $d===(string)(int)$d ) return substr($d,0,$size);
   $d = str_replace([' ','-','.','/',':'], '', $d);
   if ( $d===(string)(int)$d ) return substr($d,0,$size);
-  return $failed;
+  return $e;
 }
-function qtDate($sDate='now', string $sOutDate='$', string $sOutTime='$', bool $friendly=true, bool $dropOldTime=true, bool $title=false, $titleid=false, $e='?')
+function qtDate($sDate='now', string $sOutDate='$', string $sOutTime='$', bool $friendly=true, bool $dropOldTime=true, bool $title=false, $e='?')
 {
   // Converts a date [string|int|'now'] to a formatted date [string] and translate it.
   // $sDate - The date string, can be 'YYYYMMDD[HH][MM][SS]' or 'now'. It can include [.][/][-][ ]
@@ -582,9 +574,10 @@ function qtDate($sDate='now', string $sOutDate='$', string $sOutTime='$', bool $
   // $sOutTime - The output format for the time (or '$' to use constant FORMATTIME). If not empty, time is appended to the date (or friendlydate)
   // $friendly - Replace date by 'Today','Yesterday'
   // $dropOldTime - Don't show time for date > 2 days.
-  // $e - When $sDate is '0' or empty, or when the input date format is unsupported the function returns $e ('?')
-  // The translation uses $L['dateSQL']. If not existing, the php words remains (english).
-  $sDate = qtDateClean($sDate); if ( empty($sDate) ) return $e; // Clean $sDate to a [string] YYYYMMDD[HHMMSS] (max 14 char, supports 'now')
+  // $e - When $sDate is '0' or empty, or when the input date format is unsupported
+  // The translation uses $L['dateSQL']. If not existing, the php engliqhe remains.
+  $sDate = qtDateClean($sDate); // Clean $sDate to a [string] YYYYMMDD[HHMMSS] (max 14 char, supports 'now')
+  if ( strlen($sDate)<4 || $sDate===$e ) return $e;
   if ( strlen($sDate)===4 ) return $sDate; // Stop if input is a year
   // Analyse date time: returns $e when input is a invalid date otherwhise detect if recent date
   $intDate = false;
@@ -725,16 +718,6 @@ function qtIsPwd(string $str, int $intMin=4, int $intMax=50, bool $trim=false)
   if ( $trim && $str!=trim($str) ) return false;
   if ( isset($str[$intMax]) ) return false; //length > $intMax
   if ( !isset($str[$intMin-1]) ) return false; //length < $intMin
-  return true;
-}
-function qtIsMail($mails, bool $multiple=true)
-{
-  // Works recursively on array
-  if ( is_array($mails) ) { foreach($mails as $k=>$item) if ( !qtIsMail($item,$multiple) ) return false; return true; }
-  // string (or csv)
-  if ( !is_string($mails) || empty($mails) || $mails!==trim($mails) ) return false;
-  $mails = $multiple && strpos($mails,',')!==false ? qtCleanArray($mails,',') : [$mails];
-  foreach ($mails as $mail) if ( !preg_match("/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i",$mail) ) return false;
   return true;
 }
 function qtIsBetween($n, $min=0, $max=99999)

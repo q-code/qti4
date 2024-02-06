@@ -45,14 +45,15 @@ public function getHost(){ return $this->type==='pdo.sqlite' || $this->type==='s
 public function startStats(){ $this->stats = ['num'=>0, 'start'=>gettimeofday(true), 'rows'=>0]; }
 
 // ERROR handler
-private function halt($e, string $sql='')
+private function halt($e, string $sql='', bool $addErrorCode=false)
 {
-  if ( is_a($e,'PDOException') ) { $dflt = $e->getCode().' '.$e->getMessage(); }
-  elseif ( is_a($e,'Exception') ) { $dflt = $e->getMessage().' '.$this->addErrorInfo(); }
-  else { $dflt = (string)$e; }
-  $this->error = '<p class="debug red"><strong>Database error</strong>: '.$dflt.' '.$sql.'</p>'; // Error required to allow rollback
+  if ( is_a($e,'PDOException') ) { $msg = $e->getMessage().($addErrorCode ? ' '.$e->getCode() : ''); }
+  elseif ( is_a($e,'Exception') ) { $msg = $e->getMessage().($addErrorCode ? ' '.$this->addErrorInfo() : ''); }
+  else { $msg = (string)$e; }
+  if ( $this->userrole==='A' ) $msg .= '<br>'.$sql;
+  $this->error = '<p class="debug red"><strong>Database error</strong>: '.$msg.'</p>'; // Error required to allow rollback
   // No halt while in transaction. Commit while error exist triggers a rollback
-  if ( !$this->transac ) throw new Exception( $this->error );
+  if ( !$this->transac ) throw new Exception( $msg );
 }
 private function addErrorInfo()
 {

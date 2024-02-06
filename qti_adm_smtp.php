@@ -24,23 +24,30 @@ if ( isset($_GET['u']) ) $_SESSION[QT]['smtp_username'] = $_GET['u'];
 if ( isset($_GET['w']) ) $_SESSION[QT]['smtp_password'] = $_GET['w'];
 
 // ------
-// SUBMITTED
+// SUBMITTED for send test
 // ------
-if ( isset($_POST['ok']) )
-{
+if ( isset($_POST['ok']) ) try {
+
   // register value used
-  $_SESSION[QT]['smtp_host'] = $_POST['smtphost'];
-  $_SESSION[QT]['smtp_username'] = $_POST['smtpusr'];
-  $_SESSION[QT]['smtp_password'] = $_POST['smtppwd'];
-  if ( !qtIsMail($_POST['mailto']) ) die(L('Email').' '.L('invalid'));
+  $_SESSION[QT]['smtp_host'] = qtDb($_POST['smtphost']);
+  $_SESSION[QT]['smtp_port'] = qtDb($_POST['smtpport']);
+  $_SESSION[QT]['smtp_username'] = qtDb($_POST['smtpusr']);
+  $_SESSION[QT]['smtp_password'] = qtDb($_POST['smtppwd']);
 
   // send mail
-  smtpmail($_POST['mailto'],$_POST['subject'],$_POST['message'],'From:'.$_SESSION[QT]['admin_email']);
+  qtMail($_POST['mailto'], $_POST['subject'], $_POST['message'], 'iso-8859-1', '1');
 
   // exit
-  $oH->exiturl = 'qti_adm_smtp.php';
+  $oH->exiturl = APP.'_adm_smtp.php';
   $oH->exitname = 'SMTP test';
   $oH->pageMessage('', 'Process completed...<br><br>If you have changed the smtp settings during the test, go to the Administration page and SAVE your new settings!', 'admin');
+
+} catch (Exception $e) {
+
+  // Splash short message and send error to ...inc_hd.php
+  $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
+  $oH->error = $e->getMessage();
+
 }
 
 // ------
@@ -48,7 +55,6 @@ if ( isset($_POST['ok']) )
 // ------
 const HIDE_MENU_TOC=true;
 
-$oH->links['cssIcons']=''; // remove webicons
 include APP.'_adm_inc_hd.php';
 
 echo '<form method="post" action="',url($oH->selfurl),'">
