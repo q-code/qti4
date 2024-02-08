@@ -294,9 +294,7 @@ public function NotifyActor(int $intOldactorid=-1, $oS=null)
   if ( $intOldactorid!=$this->actorid ) {
 
     if ( !isset($oS) ) $oS = new CSection($this->pid);
-
-    if ( $oS->notify==1 )
-    {
+    if ( $oS->notify==1 ) {
       global $L;
       // prepare mail
       $strTopic = ''; if ( $oS->numfield!='N' ) $strTopic = sprintf($oS->numfield,$this->numid).' ';
@@ -356,7 +354,7 @@ public function NotifyStatus(int $oldactorid=-1, $oP=null, $oS=null)
           break;
         case 'A': $arrMails = $arrMails + getUsersInfo('A','mail'); break;
         case 'S': $arrMails = $arrMails + getUsersInfo('S','mail'); break;
-        default:  if ( $intUser>=0 ) $arrMails[] = getUsersInfo($intUser,'mail'); break;
+        default:  if ( $intUser>=0 ) $arrMails[] = getUsersInfo($intUser,'mail');
         }
       }
       $arrMails = array_unique($arrMails);

@@ -9,6 +9,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 <head>
 <title>'.THISAPPNAME.' installation checker</title>
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+<link rel="shortcut icon" href="qt.ico" />
 <style type="text/css">
 div.page {margin:5px auto;width:700px}
 #banner {color:inherit;background:linear-gradient(to bottom,#0C4C8C 20%,#156AC2)}
