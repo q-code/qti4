@@ -80,7 +80,6 @@ a.page.last{border-radius:0 3px 3px 0}
 
 .t-item td,
 .t-sec tr.hover td{border-bottom:1px solid #eee;}
-.t-conf td.void {background-color:transparent;}
 
 /* Setting */
 .t-conf th{width:200px;text-align:right;font-weight:bold}

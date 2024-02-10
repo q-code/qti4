@@ -1,5 +1,5 @@
 <?php
-// v4.0 build:20230618
+// v4.0 build:20240210
 // WARNING: requires config/config_db.php
 // WARNING: requires php 5.6.x or next (uses scalar expression const)
 
@@ -10,7 +10,7 @@ const APP = 'qti'; // application file prefix
 const APPNAME = 'QuickTicket';
 define('QT', APP.(defined('QDB_INSTALL') ? substr(QDB_INSTALL,-1) : '')); // memory namespace "qti{n}"
 const VERSION = '4.0';
-const BUILD = 'build:20230618';
+const BUILD = 'build:20240210';
 const TABDOMAIN = QDB_PREFIX.'qtidomain';
 const TABSECTION = QDB_PREFIX.'qtisection';
 const TABUSER = QDB_PREFIX.'qtiuser';

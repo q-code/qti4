@@ -1,4 +1,4 @@
-<?php // v4.0 build:20230618
+<?php // v4.0 build:20240210
 
 session_start();
 /**
@@ -245,7 +245,7 @@ echo '<tr id="reCPATCHAv3keys" style="display:',($_SESSION[QT]['register_safe']=
 </tr>
 ';
 echo '<tr>
-<td colspan="2" class="void">* <span class="small">',L('H_Reg_security'),'</span></td>
+<td colspan="2" class="asterix">* '.L('H_Reg_security').'</td>
 </tr>
 </table>
 ';
@@ -334,7 +334,7 @@ echo '<tr>
 </select></td>
 </tr>
 <tr>
-<td colspan="2" class="void">
+<td colspan="2" class="asterix">
 '.qtSVG('info').' '.L('H_Allow_tags').'<br>
 '.qtSVG('info').' '.L('Upload').': '.$strUploadmax.' (configuration limit '.QT_UPLOAD_MAXSIZE.'Mb)
 </td>
