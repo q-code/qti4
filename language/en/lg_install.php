@@ -8,7 +8,6 @@ $L['Done'] = 'Done';
 $L['Back'] = '&lt;&nbsp;Back';
 $L['Next'] = 'Next&nbsp;&gt;';
 $L['Finish'] = 'Finish';
-$L['Restart'] = 'Restart';
 $L['Board_email'] = 'Board e-mail';
 $L['User'] = 'User';
 $L['Password'] = 'Password';

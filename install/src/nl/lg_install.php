@@ -27,7 +27,7 @@ $L['Check_install'] = 'Installatie controleren';
 
 $L['Default_setting'] = 'parameters toegevoegd.';
 $L['Default_domain'] = 'domain toegevoegd.';
-$L['Default_section'] = 'team toegevoegd.';
+$L['Default_section'] = 'forum toegevoegd.';
 $L['Default_user'] = 'gebruikers toegevoegd.';
 
 $L['S_connect'] = 'Aansluiting succesvol...';
@@ -39,7 +39,7 @@ $L['S_install'] = 'Installatie succesvol...';
 $L['E_install'] = "<b>Probleem om de tabel [%s] int de database [%s] te maken</b><br><br>Mogelige reden :<br>&raquo;&nbsp;De tabel bestaat al (u can dit uitwissen of een prefixe gebruiken).<br>&raquo;&nbsp;De gebruiker [%s] heeft geen recht om tabel te maken.<br><br>\n";
 $L['S_install_exit'] = 'Installatie is succesvol....<br><br>Vergeet niet:<br>- Systeem on-line zetten (Administratie sectie)<br>- Administrator wachtword veranderen<br>- De map /install/ uitwissen<br>';
 
-$L['Help_1'] = '<b>Wat betref database en logins</b>: Behalve SQLite, de database en de gebruiker MOET bestaan. Dit installatie zal alleen tabellen maken in de bestaande database.<br><br><b>Database type</b>: De type van uw database.<br><br><b>Database host</b> (server naam): Als de webserver en de database op de zelfde server staan, gebruik "localhost". Met Azure, host is "tcp:yourapp.database.windows.net,1433". Laat de port leeg, behalve voor PostgreSQL (port 5432).<br><br><b>Database naam</b>: Geef hier de naam van uw database. Met SQLite het is de bestandsnaam (bvb: "quickteam.db"). Met Oracle Express de database naam is "//localhost/XE".<br><br><b>Tabel prefixe</b>: Als u hebt meerdere QT-registerations systeemen op de zelfde database, u can een prefixe voor de tabellen geven.<br><br><b>Gebruiker</b>: Gebruiker die in uw database update/delete/insert acties can maken. De tweede administrator is niet verplicht.';
+$L['Help_1'] = '<b>Wat betref database en logins</b>: Behalve SQLite, de database en de gebruiker MOET bestaan. Dit installatie zal alleen tabellen maken in de bestaande database.<br><br><b>Database type</b>: De type van uw database.<br><br><b>Database host</b> (server naam): Als de webserver en de database op de zelfde server staan, gebruik "localhost". Met Azure, host is "tcp:yourapp.database.windows.net,1433". Laat de port leeg, behalve voor PostgreSQL (port 5432).<br><br><b>Database naam</b>: Geef hier de naam van uw database. Met SQLite het is de bestandsnaam (bvb: "quicktalk.db"). Met Oracle Express de database naam is "//localhost/XE".<br><br><b>Tabel prefixe</b>: Als u hebt meerdere QT-registerations systeemen op de zelfde database, u can een prefixe voor de tabellen geven.<br><br><b>Gebruiker</b>: Gebruiker die in uw database update/delete/insert acties can maken. De tweede administrator is niet verplicht.';
 $L['Help_2'] = 'Als u een upgrade van versie 1.x maakt, u moet NIET tabel installeren. Ga naar de volgende stap.<br>';
 $L['Help_3'] = '<b>Contact e-mail</b>: Het is noodzakelijk om een contact e-mail te geven. Dit is zichtbaar in de pagina: Gebruiksvoorwaarden.<br>';
 

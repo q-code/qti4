@@ -39,7 +39,7 @@ include '../config/config_lang.php';
 $arrOptions = [];
 foreach(LANGUAGES as $iso=>$lang) {
   $arr = explode(' ',$lang,2); if ( empty($arr[1]) ) $arr[1] = $arr[0];
-  if ( file_exists('../language/'.$iso.'/lg_install.php') ) $arrOptions[$iso] = $arr[1];
+  if ( file_exists('src/'.$iso.'/lg_install.php') ) $arrOptions[$iso] = $arr[1];
 }
 asort($arrOptions);
 

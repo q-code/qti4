@@ -123,17 +123,7 @@ default:
 
 }
 
-echo '<span style="color:blue;">';
-$b = $oDB->exec($sql);
-echo '</span>';
-
-if ( !empty($oDB->error) || $b===false )
-{
-  echo '<div class="setup_err">',sprintf (L('E_install'),QDB_PREFIX.'qtisection',QDB_DATABASE,QDB_USER),'</div>';
-  echo '<br /><table class="button"><tr><td></td><td class="button" style="width:120px">&nbsp;<a href="setup_1.php">',L('Restart'),'</a>&nbsp;</td></tr></table>';
-  exit;
-}
-
+$oDB->exec($sql);
 $sql = "INSERT INTO ".QDB_PREFIX."qtisection (
 id,type,status,notify,domainid,title,titleorder,moderator,moderatorname,stats,options,numfield,titlefield,wisheddate,alternate,prefix)
 VALUES (0,'1','0','0',0,'Administration section',0,0,'Admin','','logo=0','T-%03s','1','0','0','a')";

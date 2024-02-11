@@ -168,16 +168,6 @@ default:
 
 }
 
-echo '<span style="color:blue;">';
-$b = $oDB->exec($sql);
-echo '</span>';
-
-if ( !empty($oDB->error) || $b===false )
-{
-  echo '<div class="setup_err">',sprintf (L('E_install'),QDB_PREFIX.'qtiuser',QDB_DATABASE,QDB_USER),'</div>';
-  echo '<br /><table class="button"><tr><td></td><td class="button" style="width:120px">&nbsp;<a href="setup_1.php">',L('Restart'),'</a>&nbsp;</td></tr></table>';
-  exit;
-}
-
+$oDB->exec($sql);
 $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtiuser (id,name,photo,closed,role,firstdate,lastdate,numpost,privacy,children,parentagree) VALUES (0,"Visitor","0","0","V","'.Date('Ymd His').'","'.Date('Ymd His').'",0,"0","0","0")' );
 $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtiuser (id,name,photo,closed,role,pwd,firstdate,lastdate,numpost,privacy,signature,children,parentagree) VALUES (1,"Admin","0","0","A","'.sha1('Admin').'","'.Date('Ymd His').'","'.Date('Ymd His').'",0,"0","[i][b]The board Administrator[/b][/i]","0","0")' );

@@ -68,19 +68,7 @@ default:
 
 }
 
-echo '<span style="color:blue;">';
-$b = $oDB->exec($sql);
-echo '</span>';
-
-if ( !empty($oDB->error) || $b===false )
-{
-  echo '<div class="setup_err">',sprintf (L('E_install'),QDB_PREFIX.'qtistatus',QDB_DATABASE,QDB_USER),'</div>';
-  echo '<br><table class="button"><tr><td></td><td class="button" style="width:120px">&nbsp;<a href="setup_1.php">',L('Restart'),'</a>&nbsp;</td></tr></table>';
-  exit;
-}
-
-// add default values
-
+$oDB->exec($sql);
 $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtistatus (id,name,icon) VALUES ("A","Submitted","ico_status0.gif")');
 $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtistatus (id,name,icon) VALUES ("B","In process","ico_status2.gif")');
 $oDB->exec( 'INSERT INTO '.QDB_PREFIX.'qtistatus (id,name,icon,color) VALUES ("C","Completed","ico_status4.gif","#AFED9A")');
