@@ -260,7 +260,7 @@ for ($intWeek=0;$intWeek<6;++$intWeek)
         if ( $s==$oT->pid ) { $strPname .= ($oS->numfield=='N' ? '' : sprintf($oS->numfield,$oT->numid)); } else { $strPname .= sprintf('%03s',$oT->numid); }
         $strPname .= ' '.$arrS[$oT->status]['name'];
         $strPlink = '<a class="gmap" href="'.url('qti_item.php').'?t='.$oT->id.'">'.L('Item').'</a>';
-        $strPinfo = '<span class="small bold">Lat: '.QTdd2dms($oT->y).' <br>Lon: '.QTdd2dms($oT->x).'</span><br><span class="small">DD: '.round($oT->y,8).', '.round($oT->x,8).'</span><br>'.$strPlink;
+        $strPinfo = '<span class="small bold">Lat: '.QTdd2dms($oT->y).' <br>Lon: '.QTdd2dms($oT->x).'</span><br><small>DD: '.round($oT->y,8).', '.round($oT->x,8).'</span><br>'.$strPlink;
         $oMapPoint = new CMapPoint($oT->y,$oT->x,$strPname,$strPname.'<br>'.$strPinfo);
 
         // add extra $oMapPoint properties (if defined in section settings)

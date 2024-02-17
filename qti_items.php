@@ -378,7 +378,7 @@ while( $row = $oDB->getRow() ) {
     if ( isset($row['firstpostdate']) && isset($row['firstpostname']) ) $strAttr = L('By').' '.$row['firstpostname'].' ('.qtDate($row['firstpostdate'],'$','$',true,true).')<br>';
     if ( isset($row['replies']) ) $strAttr .= L('Reply',(int)$row['replies']).' ';
     $strPname = $strRef.$strTitle;
-    $strPinfo = $strIco.$strRef.'<br>'.$strTitle.'<br><span class="small">'.$strAttr.'</span> <a class="gmap" href="'.url('qti_item.php').'?t='.$row['id'].'">'.L('Open').'</a>';
+    $strPinfo = $strIco.$strRef.'<br>'.$strTitle.'<br><small>'.$strAttr.'</span> <a class="gmap" href="'.url('qti_item.php').'?t='.$row['id'].'">'.L('Open').'</a>';
     $oMapPoint = new CMapPoint($y,$x,$strPname,$strPinfo);
     // add extra $oMapPoint properties (if defined in section settings)
     $oSettings = getMapSectionSettings($q==='s' ? $s : 'S');

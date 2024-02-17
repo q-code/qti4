@@ -256,7 +256,7 @@ if ( $bMap )
 
   echo '<tr>'.PHP_EOL;
   echo '<th>'.$L['Coord'].'</th>';
-  echo '<td><input type="text" id="yx" name="coord" pattern="^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$" size="32" value="'.$strYX.'" title="y,x in decimal degree (without trailing spaces)"/> <span class="small">'.$L['Coord_latlon'].'</span></td>';
+  echo '<td><input type="text" id="yx" name="coord" pattern="^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$" size="32" value="'.$strYX.'" title="y,x in decimal degree (without trailing spaces)"/> <small>'.$L['Coord_latlon'].'</span></td>';
   echo '</tr>'.PHP_EOL;
 }
 
@@ -324,10 +324,10 @@ echo '</table>
 // ------
 if ( !$_SESSION[QT]['editing'] ) {
 if ( SUser::id()==$id || SUser::isStaff() ) {
-  echo '<p class="right"><small>'.$strPriv.' '.L('Privacy_visible_'.$row['privacy']).'</small></p>';
+  echo '<p class="right small">'.$strPriv.' '.L('Privacy_visible_'.$row['privacy']).'</p>';
   $intBan = empty($row['closed']) ? 0 : (int)$row['closed'];
   $days = BAN_DAYS;
-  if ( $intBan && array_key_exists($intBan,$days) ) echo '<p class="right"><small>'.qtSVG('ban').' '.$row['name'].' '.strtolower(sprintf(L('Is_banned_since'),L('day',$days[$intBan]))).'</small></p>';
+  if ( $intBan && array_key_exists($intBan,$days) ) echo '<p class="right small">'.qtSVG('ban').' '.$row['name'].' '.strtolower(sprintf(L('Is_banned_since'),L('day',$days[$intBan]))).'</p>';
 }}
 
 echo '</div>

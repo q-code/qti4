@@ -211,11 +211,11 @@ echo '<h2 class="subconfig">'.L('Specific_fields').'</h2>
 <table class="t-conf">
 <tr>
 <th style="text-align: right; width:150px"><span class="texthead"><label for="numfield">'.L('Show_item_id').'</label></span></th>
-<td><input type="text" id="numfield" size="10" maxlength="24" name="numfield" value="'.($oS->numfield==='N' ? '' : qtAttr($oS->numfield)).'" onchange="qtFormSafe.not();"/>&nbsp;<span class="small">'.L('H_Show_item_id').'</span></td>
+<td><input type="text" id="numfield" size="10" maxlength="24" name="numfield" value="'.($oS->numfield==='N' ? '' : qtAttr($oS->numfield)).'" onchange="qtFormSafe.not();"/>&nbsp;<small>'.L('H_Show_item_id').'</span></td>
 </tr>
 <tr>
 <th style="text-align: right; width:150px"><span class="texthead"><label for="titlefield">'.L('Show_item_title').'</label></span></th>
-<td><select id="titlefield" name="titlefield" onchange="qtFormSafe.not();">'.qtTags(L('Item_title.*'),$oS->titlefield).'</select>&nbsp;<span class="small">'.L('H_Show_item_title').'</span></td>
+<td><select id="titlefield" name="titlefield" onchange="qtFormSafe.not();">'.qtTags(L('Item_title.*'),$oS->titlefield).'</select>&nbsp;<small>'.L('H_Show_item_title').'</span></td>
 </tr>
 <tr title="'.L('H_Item_prefix').'">
 <th style="text-align: right; width:150px"><span class="texthead"><label for="prefix">'.L('Item_prefix').'</label></span></th>
@@ -356,7 +356,7 @@ if ( $pan===3 ) {
 $arrTrans = SLang::get('sec'.'*','s'.$oS->id);
 $arrDescTrans = SLang::get('secdesc','*','s'.$oS->id);
 
-echo '<p><small>'.L('E_no_translation').'<strong style="color:#1364B7">'.$oS->title.'</strong></small></p>
+echo '<p class="small">'.L('E_no_translation').'<strong style="color:#1364B7">'.$oS->title.'</strong></p>
 ';
 echo '<form method="post" action="'.$oH->self().'">
 <table class="t-conf input100">

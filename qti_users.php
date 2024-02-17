@@ -208,7 +208,7 @@ echo '<p class="paging">'.$strPaging.'</p>'.PHP_EOL;
 }
 
 //show table caption
-if ( SUser::role()!=='U' ) echo '<p class="disabled right"><small>Only staff members see privacy settings</small></p>';
+if ( SUser::role()!=='U' ) echo '<p class="disabled right small">Only staff members see privacy settings</p>';
 
 // MAP MODULE, Show map
 

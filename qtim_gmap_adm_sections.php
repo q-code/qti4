@@ -211,12 +211,12 @@ echo '<br>
 <h2 class="config">'.L('Gmap.symbols').'</h2>
 <table class="t-conf">
 <tr>
-<td class="center"><img alt="i" class="marker" src="bin/css/gmap_marker.png"/><br><span class="small">Default</span></td>
+<td class="center"><img alt="i" class="marker" src="bin/css/gmap_marker.png"/><br><small>Default</span></td>
 ';
 $i=0;
 foreach ($arrFiles as $strFile=>$strName)
 {
-echo '<td class="center"><img alt="i" class="marker" src="qtim_gmap/'.$strFile.'.png"/><br><span class="small">'.$strName.'</span></td>
+echo '<td class="center"><img alt="i" class="marker" src="qtim_gmap/'.$strFile.'.png"/><br><small>'.$strName.'</span></td>
 ';
 ++$i;
 if ( $i>=9 ) { echo '</tr><tr>'; $i=0; }

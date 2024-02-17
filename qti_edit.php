@@ -381,7 +381,7 @@ if ( $oT->type==='I' && ($a=='re' || $a=='qu') ) {
   $row=$oDB->getRow();
   $oInspectionPost = new CPost($row);
   $strButton='';
-  if ( !empty($oInspectionPost->modifuser) ) $strButton .= '<td class="post-modif"><span class="small">&nbsp;'.L('Modified_by').' <a href="'.url('qti_user.php').'?id='.$oInspectionPost->modifuser.'" class="small">'.$oInspectionPost->modifname.'</a> ('.qtDate($oInspectionPost->modifdate,'$','$',true,true).')</span></td>'.PHP_EOL;
+  if ( !empty($oInspectionPost->modifuser) ) $strButton .= '<td class="post-modif"><small>&nbsp;'.L('Modified_by').' <a href="'.url('qti_user.php').'?id='.$oInspectionPost->modifuser.'" class="small">'.$oInspectionPost->modifname.'</a> ('.qtDate($oInspectionPost->modifdate,'$','$',true,true).')</span></td>'.PHP_EOL;
   if ( !empty($strButton) ) $strButton .= '<td>'.' '.'</td>'.PHP_EOL;
   if ( !empty($strButton) ) $strButton = '<table style="margin:10px 0 1px 0;"><tr>'.$strButton.'</tr></table>'.PHP_EOL;
   $oInspectionPost->text = qtInline($oInspectionPost->text); // Pre processing data (compact, no button)
@@ -494,7 +494,7 @@ if ( $oP->type=='P' && $oS->wisheddate!=0 ) {
   echo '<th>'.L('Wisheddate').'</th>'.PHP_EOL;
   echo '<td><input type="date" id="wisheddate" name="wisheddate" size="20" maxlength="10" value="'.$strValue.'" tabindex="30" min="'.date('Y-m-d').'"/> '.PHP_EOL;
   echo '<span title="'.L('dateSQL.Today').'" onclick="document.getElementById(`wisheddate`).value=`'.date('Y-m-d').'`;">'.qtSVG('calendar').'</span>'.PHP_EOL;
-  echo '&nbsp;<span class="small">'.L('H_Wisheddate').'</span></td>'.PHP_EOL;
+  echo '&nbsp;<small>'.L('H_Wisheddate').'</span></td>'.PHP_EOL;
   echo '</tr>'.PHP_EOL;
 }
 
@@ -516,7 +516,7 @@ if ( $oS->notify==1 && $oP->type=='P' && $oS->notifycc!=0 ) {
 
 // MAP coordinate field
 if ( $oP->type=='P' && $bMap ) {
-  echo '<tr><th>'.L('Coord').'</th><td><input type="text" id="yx" name="coord" size="32" value="'.(!empty($oT->y) ? $oT->y.','.$oT->x : '').'" tabindex="32"/> <span class="small">'.L('latlon').'</span></td></tr>'.PHP_EOL;
+  echo '<tr><th>'.L('Coord').'</th><td><input type="text" id="yx" name="coord" size="32" value="'.(!empty($oT->y) ? $oT->y.','.$oT->x : '').'" tabindex="32"/> <small>'.L('latlon').'</span></td></tr>'.PHP_EOL;
 }
 
 // SUBMIT

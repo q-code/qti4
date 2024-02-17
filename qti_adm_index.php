@@ -59,7 +59,6 @@ function qtEncrypt(string $key=APP, string $str='install')
   $output = openssl_encrypt($str, 'AES-256-CBC', $key, 0, $iv);
   return base64_encode($output);
   // no need to decrypt (just check that encrypted folder exists)
-  // to decrypt use: return openssl_decrypt(base64_decode($str), 'AES-256-CBC', $key, 0, $iv);
 }
 
 // ------
@@ -100,14 +99,14 @@ echo '<h2 class="config">'.L('Board_status').'</h2>
 // INFO
 echo '<h2 class="config">'.L('Info').'</h2>'.PHP_EOL;
 echo '<table class="t-conf">'.PHP_EOL;
-echo '<tr><th>'.L('Domains').'/'.L('Section+').'</th><td>'.L('Domain',$intDomain).', '.L('Section',$intSection).' <span class="small">('.L('Hidden',$intHidden).')</span>, <a href="'.APP.'_adm_sections.php?add=1">'.L('Add').' '.L('domain').'/'.L('section').'...</a></td></tr>'.PHP_EOL;
+echo '<tr><th>'.L('Domains').'/'.L('Section+').'</th><td>'.L('Domain',$intDomain).', '.L('Section',$intSection).' <small>('.L('Hidden',$intHidden).')</span>, <a href="'.APP.'_adm_sections.php?add=1">'.L('Add').' '.L('domain').'/'.L('section').'...</a></td></tr>'.PHP_EOL;
 if ( !empty($arrItems['startdate']) ) echo '<tr><th>'.L('Board_start_date').'</th><td>'.$arrItems['startdate'].', <a href="'.APP.'_stats.php">'.L('Statistics').'...</a></td></tr>'.PHP_EOL;
 
 $intUser = $oDB->count( TABUSER );
 $intAdmin = $oDB->count( TABUSER." WHERE role='A'" );
 $intMod = $oDB->count( TABUSER." WHERE role='M'" );
 
-echo '<tr><th>'.L('Users').'</th><td>'.L('User',$intUser).' <span class="small">('.L('Role_A',$intAdmin).', '.L('Role_M',$intMod).', '.L('Role_U',$intUser-$intAdmin-$intMod).')</span></td></tr>'.PHP_EOL;
+echo '<tr><th>'.L('Users').'</th><td>'.L('User',$intUser).' <small>('.L('Role_A',$intAdmin).', '.L('Role_M',$intMod).', '.L('Role_U',$intUser-$intAdmin-$intMod).')</span></td></tr>'.PHP_EOL;
 if ( !empty($arrItems['content']) ) echo '<tr><th>'.L('Content').'</th><td>'.$arrItems['content'];
 echo '</table>
 ';
@@ -140,7 +139,7 @@ $file = qtEncrypt(); if ( is_dir($file) ) $arr[] = '<a href="'.APP.'_adm_index.p
 
 echo '<tr>
 <th>Memory</th>
-<td>Cache library: '.SMem::getLibraryName().', namespace '.QT.'</td>
+<td>Cache library: '.SMem::getLibraryName().', namespace '.QT.' &middot; <a href="'.$oH->selfurl.'?memflush=**">clear cache</a> </td>
 </tr>
 <th>PHP</th>
 <td>'.implode(' &middot; ',$arr).'</td>

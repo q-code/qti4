@@ -106,7 +106,7 @@ echo '<h2 class="config">'.L('Settings').'</h2>
 <option value="V"'.($strUser=='V' ? ' selected' : '').'>'.$L['rss']['All_users'].'</option>
 <option value="U"'.($strUser=='U' ? ' selected' : '').'>'.$L['rss']['Members_only'].'</option>
 </select></td>
-<td><span class="small">'.$L['rss']['H_User'].'</span></td>
+<td><small>'.$L['rss']['H_User'].'</span></td>
 </tr>
 <tr>
 <th><label for="rssformat">'.$L['rss']['Format'].'</label></th>
@@ -114,7 +114,7 @@ echo '<h2 class="config">'.L('Settings').'</h2>
 <option value="rss2"'.($strForm=='rss2' ? ' selected' : '').'>RSS 2.0</option>
 <option value="atom"'.($strForm=='atom' ? ' selected' : '').'>Atom</option>
 </select></td>
-<td ><span class="small">'.$L['rss']['H_Format'].'</span></td>
+<td ><small>'.$L['rss']['H_Format'].'</span></td>
 </tr>
 <tr>
 <th><label for="rsssize">'.$L['rss']['Size'].'</label></th>
@@ -125,7 +125,7 @@ echo '<h2 class="config">'.L('Settings').'</h2>
 <option value="4"'.($strSize=='4' ? ' selected' : '').'>4</option>
 <option value="5"'.($strSize=='5' ? ' selected' : '').'>5</option>
 </select></td>
-<td ><span class="small">'.$L['rss']['H_Size'].'</span></td>
+<td ><small>'.$L['rss']['H_Size'].'</span></td>
 </tr>
 </table>
 ';

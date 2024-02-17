@@ -136,7 +136,7 @@ echo '<th style="width:150px"><label for="color">'.L('Status_background').'</lab
 echo '<td>
 <input type="text" class="colortext" id="color" name="color" size="10" maxlength="24" value="'.(empty($_Statuses[$id]['color']) ? '#' : $_Statuses[$id]['color']).'" onchange="qtFormSafe.not();"/>
 <input type="color" id="colorpicker" value="'.(empty($_Statuses[$id]['color']) ? '#ffffff' : $_Statuses[$id]['color']).'" onchange="document.getElementById(`color`).value=this.value;"/>
-&nbsp;<span class="small">'.L('H_Status_background').'</span>
+&nbsp;<small>'.L('H_Status_background').'</span>
 </td>';
 echo '</tr>'.PHP_EOL.'</table>'.PHP_EOL;
 
@@ -154,7 +154,7 @@ echo '<tr>
   <input id="mailto1" type="checkbox" name="mailto[]" value="1"'.($bolAdmi ? ' checked' : '').'/> <label for="mailto1">'.L('Role_A').'</label><br></td>
   <td>'.L('Notify_also').':<br>
   <textarea id="others" name="others" cols="40" rows="2">'.$others.'</textarea><br>
-  <span class="small">'.L('H_Status_notify').'</span>
+  <small>'.L('H_Status_notify').'</span>
   </td>
   </tr>
   </table>

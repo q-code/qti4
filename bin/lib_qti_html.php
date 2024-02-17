@@ -391,14 +391,14 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
       break;
     case 'firstpostname':
       $arr[$k] = '<p class="ellipsis"><a id="t'.$row['id'].'-firstpostname" href="'.url('qti_user.php').'?id='.$row['firstpostuser'].'">'.$row['firstpostname'].'</a></p>';
-      $arr[$k] .= '<p class="ellipsis"><small>'.qtDate($row['firstpostdate'],'$','$',true,true,true,'t'.$row['id'].'-firstpostdate').'</small></p>';
+      $arr[$k] .= '<p class="ellipsis small">'.qtDate($row['firstpostdate'],'$','$',true,true,true,'t'.$row['id'].'-firstpostdate').'</p>';
       break;
     case 'lastpostdate':
       if ( empty($row['lastpostdate']) ) {
         $arr[$k] = '&nbsp;';
       } else {
         $arr[$k] = '<p>'.qtDate($row['lastpostdate'],'$','$',true,true,true,'t'.$row['id'].'-lastpostdate').' <a id="t'.$row['id'].'-lastpostico" class="lastitem" href="'.url('qti_item.php').'?t='.$row['id'].'#p'.$row['lastpostid'].'" title="'.L('Goto_message').'">'.qtSVG('caret-square-right').'</a></p>';
-        $arr[$k] .= '<p class="ellipsis"><small>'.L('by').' <a id="t'.$row['id'].'-lastpostname" href="'.url('qti_user.php').'?id='.$row['lastpostuser'].'" title="'.qtAttr($row['lastpostname'],25).'">'.qtTrunc($row['lastpostname'],15).'</a></small></p>';
+        $arr[$k] .= '<p class="ellipsis small">'.L('by').' <a id="t'.$row['id'].'-lastpostname" href="'.url('qti_user.php').'?id='.$row['lastpostuser'].'" title="'.qtAttr($row['lastpostname'],25).'">'.qtTrunc($row['lastpostname'],15).'</a></p>';
       }
       break;
     case 'status':

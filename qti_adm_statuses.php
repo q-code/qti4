@@ -101,7 +101,7 @@ echo '<h2 class="config">'.L('Display_options').'</h2>
 <td><select id="show_closed" name="show_closed">
 <option value="0"'.($_SESSION[QT]['show_closed']=='0' ? ' selected' : '').'>'.L('N').'</option>
 <option value="1"'.($_SESSION[QT]['show_closed']=='1' ? ' selected' : '').'>'.L('Y').'</option>
-</select> <span class="small">'.sprintf(L('H_Show_z'),SStatus::translate($id)).'</span></td>
+</select> <small>'.sprintf(L('H_Show_z'),SStatus::translate($id)).'</span></td>
 <td><button type="submit" name="ok" value="ok">'.L('Save').'</button></td>
 </tr>
 </table>

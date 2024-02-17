@@ -101,7 +101,7 @@ foreach($arrDomains as $idDom=>$strDomtitle)
     echo '<tr class="hover">';
     echo '<td class="c-icon">'.asImg( CSection::makeLogo(qtExplodeGet($oS->options,'logo',''),$oS->type,$oS->status),
       'title='.L('Ico_section_'.$oS->type.'_'.$oS->status), APP.'_adm_section.php?d='.$idDom.'&s='.$oS->id ).'</td>';
-    echo '<td class="c-section"><span class="bold">'.$oS->title.'</span><br><span class="small">id '.$intSecid;
+    echo '<td class="c-section"><span class="bold">'.$oS->title.'</span><br><small>id '.$intSecid;
     if ( $oDB->count(CSection::sqlCountItems($intSecid,'tags')) ) {
     echo ' &middot; <a href="'.APP.'_adm_tags.php?pan='.$pan.'&s='.$intSecid.'&a=used">'.L('Find_used_tags').'</a>';
     } else {

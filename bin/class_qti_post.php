@@ -313,7 +313,7 @@ public function renderInspectionResult(CSection $oS, CTopic $oT, bool $avatar=tr
   if ( $_SESSION[QT]['viewmode']=='C' && substr($str,-3)==='...' ) $str .= '<a id="viewmode" href="'.url('qti_item.php').'?t='.$this->topic.'&view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
   $msg .= $str.'</p>'.PHP_EOL;
   // attachements
-  if ( !empty($this->attach) ) $msg .= '<p><small>'.qtSVG('paperclip', 'title='.L('Attachment')).' <a href="'.QT_DIR_DOC.$this->attach.'" class="attachment" target="_blank">'.$this->getSrcAttach().'</a></small></p>';
+  if ( !empty($this->attach) ) $msg .= '<p class="small">'.qtSVG('paperclip', 'title='.L('Attachment')).' <a href="'.QT_DIR_DOC.$this->attach.'" class="attachment" target="_blank">'.$this->getSrcAttach().'</a></p>';
   // signature
   if ( $_SESSION[QT]['viewmode']!='C' && $this->type!='F' && !empty($this->usersign) )
   {

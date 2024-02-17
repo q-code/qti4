@@ -4,7 +4,7 @@
  * @var array $L
  * @var CDatabase $oDB
  */
-$oH->links['icon'] = '<link rel="shortcut icon" href="bin/css/qt.ico"/>';
+$oH->links['ico'] = '<link rel="shortcut icon" href="bin/css/qt.ico"/>';
 $oH->links['cssCore'] = '<link rel="stylesheet" type="text/css" href="bin/css/qt_core.css"/>'; // attention qt_core
 unset($oH->links['cssContrast']);
 $oH->links['css'] = '<link rel="stylesheet" type="text/css" href="bin/css/admin.css"/>';

@@ -20,28 +20,24 @@ if ( $oH->selfurl==='qti_item.php' || $oH->selfurl==='qti_calendars.php' ) {
   $scaleBar = 'false';
 }}
 
-$oH->scripts[] = 'var map, mapOptions, geocoder, infowindow;
+$oH->scripts[] = 'let map, mapOptions, geocoder, infowindow;
 var markers = [];
-function gmapInitialize(){
+async function gmapInitialize()
+{
+  const {Map} = await google.maps.importLibrary("maps");
   infowindow = new google.maps.InfoWindow({maxWidth: 220});
   geocoder = new google.maps.Geocoder();
   mapOptions = {
-    zoom: '.$_SESSION[QT]['m_gmap_gzoom'].',
     center: new google.maps.LatLng('.$_SESSION[QT]['m_gmap_gcenter'].'),
-    zoomControl:true,
-    mapTypeId: '.$mapTypeId.',
-    streetViewControl: '.$streetView.',
+    mapTypeId: '.gmapMarkerMapTypeId(substr($_SESSION[QT]['m_gmap_gbuttons'],0,1)).',
+    streetViewControl: '.(substr($_SESSION[QT]['m_gmap_gbuttons'],1,1)==='1' ? 'true' : 'false' ).',
     mapTypeControl: '.(substr($_SESSION[QT]['m_gmap_gbuttons'],2,1)==='1' ? 'true' : 'false' ).',
-    mapTypeControlOptions:
-    {
-    style:google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-    mapTypeIds:[google.maps.MapTypeId.ROADMAP,"OSM",google.maps.MapTypeId.SATELLITE,google.maps.MapTypeId.HYBRID,google.maps.MapTypeId.TERRAIN]
-    },
-    scaleControl: '.$scaleBar.',
-    fullscreenControl: '.$fullView.',
-    scrollwheel: '.(substr($_SESSION[QT]['m_gmap_gbuttons'],5,1)==='1' ? 'true' : 'false' ).'
+    zoom: '.$_SESSION[QT]['m_gmap_gzoom'].',
+    scaleControl:'.(substr($_SESSION[QT]['m_gmap_gbuttons'],3,1)==='1' ? 'true' : 'false' ).',
+    fullscreenControl:'.(substr($_SESSION[QT]['m_gmap_gbuttons'],4,1)==='1' ? 'true' : 'false' ).',
+    scrollwheel:'.(substr($_SESSION[QT]['m_gmap_gbuttons'],5,1)==='1' ? 'true' : 'false' ).'
     };
-  map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+  map = new Map(document.getElementById("map_canvas"), mapOptions);
   //Define OSM map type pointing at the OpenStreetMap tile server
     map.mapTypes.set("OSM", new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
