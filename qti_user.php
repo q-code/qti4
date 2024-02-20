@@ -264,17 +264,6 @@ echo '<tr>
 <th><input type="hidden" name="id" value="'.$id.'"/><input type="hidden" name="name" value="'.$row['name'].'"/></th>
 <td><button type="submit" name="ok" value="ok">'.L('Save').'</button>'.( !empty($error) ? ' <span class="error">'.$error.'</span>' : '' ).'</td>
 </tr>
-';
-
-if ( $bMap )
-{
-echo '<tr>
-<td colspan="2" id="gmapcontainer">'.$strPosition.'</td>
-</tr>
-';
-}
-
-echo '
 </table>
 </form>
 ';
@@ -282,13 +271,12 @@ echo '
 // ------
 } else {
 // ------
+
 $strParticip = '';
-if ( $items>0 )
-{
+if ( $items>0 ) {
 $strParticip .= '<a href="'.url('qti_items.php').'?q=user&v2='.$id.'&v='.urlencode($row['name']).'">'.L('Item',$items).'</a>, ';
 }
-if ( $countmessages>0 )
-{
+if ( $countmessages>0 ) {
   $strParticip .= '<a href="'.url('qti_items.php').'?q=userm&v2='.$id.'&v='.urlencode($row['name']).'">'.L('Message',$countmessages).'</a>';
   $strParticip .= ', '.strtolower($L['Last_message']).' '.qtDate($row['lastdate'],'$','$',true);
   $oDB->query( 'SELECT p.id,p.topic,p.section FROM TABPOST p WHERE p.userid='.$id.' ORDER BY p.issuedate DESC' );
@@ -319,16 +307,20 @@ if ( $bMap ) {
 echo '</table>
 ';
 
+if ( SUser::id()==$id || SUser::isStaff() ) {
+  echo '<p class="right small" style="margin:1rem 0">';
+  echo $strPriv.' '.L('Privacy_visible_'.$row['privacy']);
+  $intBan = empty($row['closed']) ? 0 : (int)$row['closed'];
+  $days = BAN_DAYS;
+  if ( $intBan && array_key_exists($intBan,$days) ) echo ' &middot; '.qtSVG('ban').' '.$row['name'].' '.strtolower(sprintf(L('Is_banned_since'),L('day',$days[$intBan])));
+  echo '</p>';
+}
+
 // ------
 }
 // ------
-if ( !$_SESSION[QT]['editing'] ) {
-if ( SUser::id()==$id || SUser::isStaff() ) {
-  echo '<p class="right small">'.$strPriv.' '.L('Privacy_visible_'.$row['privacy']).'</p>';
-  $intBan = empty($row['closed']) ? 0 : (int)$row['closed'];
-  $days = BAN_DAYS;
-  if ( $intBan && array_key_exists($intBan,$days) ) echo '<p class="right small">'.qtSVG('ban').' '.$row['name'].' '.strtolower(sprintf(L('Is_banned_since'),L('day',$days[$intBan]))).'</p>';
-}}
+
+if ( $bMap ) echo $strPosition;
 
 echo '</div>
 ';
