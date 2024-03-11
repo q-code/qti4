@@ -405,7 +405,7 @@ if ( SUser::isStaff() ) {
     echo '<input type="hidden" id="newtopictype" name="topictype" value="'.$oT->type.'">'.PHP_EOL;
   }
   echo L('Status').' <select id="newtopicstatus" name="topicstatus" size="1">'.qtTags(CTopic::getStatuses($oT->type,true), $oT->status).'</select> ';
-  echo '<span id="ac-wrapper-behalf" class="ac-wrapper">'.L('Send_on_behalf').'&nbsp;<input type="text" name="behalf" id="behalf" size="14" maxlength="24" value="'.$oP->username.'" autocomplete="off"/><input type="hidden" id="behalfid" name="behalfid" value="-1"></span></div>'; // end opitonsbar
+  echo '<span id="ac-wrapper-behalf">'.L('Send_on_behalf').'&nbsp;<input type="text" name="behalf" id="behalf" size="14" maxlength="24" value="'.$oP->username.'" autocomplete="off"/><input type="hidden" id="behalfid" name="behalfid" value="-1"></span></div>'; // end opitonsbar
   echo '</div>'.PHP_EOL; // end flex-sp
 }
 
@@ -510,7 +510,7 @@ if ( $oS->notify==1 && $oP->type=='P' && $oS->notifycc!=0 ) {
   // row
   echo '<tr>'.PHP_EOL;
   echo '<th>'.L('Notify_also').'</th>'.PHP_EOL;
-  echo '<td><input type="hidden" id="notifiedid" name="notifiedid" value="'.$intValue.'" tabindex="31"/><div id="ac-wrapper-notify" class="ac-wrapper"><input type="text" id="notify" name="notifiedname" size="20" maxlength="24" value="'.$strValue.'"/></div></td>'.PHP_EOL;
+  echo '<td><input type="hidden" id="notifiedid" name="notifiedid" value="'.$intValue.'" tabindex="31"/><div id="ac-wrapper-notify"><input type="text" id="notify" name="notifiedname" size="20" maxlength="24" value="'.$strValue.'"/></div></td>'.PHP_EOL;
   echo '</tr>'.PHP_EOL;
 }
 
@@ -558,7 +558,7 @@ if ( $_SESSION[QT]['tags']!=='0' && ($a==='nt' || ($a==='ed' && $oP->type==='P')
     echo '<input type="hidden" id="tag-saved" value="'.qtAttr($oT->descr).'"/>';
     echo '<input type="hidden" id="tag-new" name="tag-new" maxlength="255" value="'.qtAttr($oT->descr).'"/>';
     echo '<input type="hidden" id="tag-dir" value="'.QT_DIR_DOC.'"/><input type="hidden" id="tag-lang" value="'.QT_LANG.'"/>';
-    echo '<div id="ac-wrapper-tag-edit" class="ac-wrapper">';
+    echo '<div id="ac-wrapper-tag-edit">';
     echo '<input type="text" id="tag-edit" size="12" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" autocomplete="off" data-multi="1"/><button type="reset" class="tag-btn" title="'.L('Reset').'" onclick="document.getElementById(`tag-edit`).value=``;qtFocus(`tag-edit`)">'.qtSVG('backspace').'</button>&nbsp;<button type="button" name="tag-btn" class="tag-btn" value="addtag" title="'.L('Add').'" onclick="tagAdd()">'.qtSVG('plus').'</button><button type="button" name="tag-btn" class="tag-btn" value="deltag" title="'.L('Delete_tags').'" onclick="tagDel()">'.qtSVG('minus').'</button>';
     echo '</div>';
     echo '</div></div>'.PHP_EOL;
