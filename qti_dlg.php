@@ -71,7 +71,7 @@ function renderReply(int $id, string $parentType='T', string $parentStatus='1') 
   }
   return $str;
 }
-function ListTags(array $ids, bool $sort=true, bool $format=true, int $max=32) {
+function listTags(array $ids, bool $sort=true, bool $format=true, int $max=32) {
   $arr = [];
   global $oDB;
   $oDB->query( "SELECT tags FROM TABTOPIC WHERE id IN (".implode(',',$ids).")" );
@@ -172,7 +172,7 @@ case 'itemsTags':
   $frm[] = '</article>';
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Used_tags').':</p>';
-  $frm[] = '<p>'.implode(' ',ListTags($ids)).'</p>';
+  $frm[] = '<p>'.implode(' ',listTags($ids)).'</p>';
   $frm[] = '</article>';
   $frm[] = '<article>';
   $frm[] = '<p class="row-confirm">'.L('Change').' '.L('item',count($ids)).':</p>';

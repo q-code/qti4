@@ -25,6 +25,7 @@ const QSEPARATOR = ';'; // Values separator in search queries (used as jQuery au
 // By default QT = "qti{n}" where n is the last character of QDB_INSTALL value (in the configuration file config_db.php)
 // If you run 2 applications on the same server, each application requires a unique namespace:
 // check that QDB_INSTALL values are different in each config_db.php files (ex: qti1 and qti2)
+const PAGE_SIZES = [10,25,50,100]; // Items shown par page (user can select as preferences)
 const BAN_DAYS = [0,1,7,15,30,90,365]; // Index 0..6 correspond to ban duration between 0 and 365 days
 
 // ------

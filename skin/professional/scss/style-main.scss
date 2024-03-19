@@ -5,8 +5,8 @@
 
 /* PAGING and ROWCOMMANDS */
 p.paging{padding:0.5rem 0;text-align:right}
-.rowcommands{color:var(--bgadmin);text-decoration:none}
-a.rowcommands:hover{color:var(--bgadmin);text-decoration:underline}
+.rowcmd{color:var(--bgadmin);text-decoration:none}
+a.rowcmd:hover{color:var(--bgadmin);text-decoration:underline}
 
 /* SPECIFIC */
 .strongbox{padding:0.6rem;background-color:#666;color:#EEE;box-shadow:-2px 2px 5px #BBB}

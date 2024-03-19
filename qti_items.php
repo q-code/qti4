@@ -65,7 +65,7 @@ $rowCommands = ''; // commands when EditByRows
 // SUBMITTED preferences and staff action
 // ------
 if ( isset($_POST['pref'])) {
-  if ( in_array($_POST['pref'], array( 'n10', 'n20', 'n30', 'n50', 'n100'))) $_SESSION[QT]['items_per_page'] = substr($_POST['pref'], 1, 3);
+  if ( in_array((int)$_POST['pref'],PAGE_SIZES) ) $_SESSION[QT]['items_per_page'] = $_POST['pref'];
   if ( $_POST['pref']=='togglenewsontop') $_SESSION[QT]['news_on_top'] = ($_SESSION[QT]['news_on_top'] ? '0' : '1');
   if ( $_POST['pref']=='toggleclosed') $_SESSION[QT]['show_closed'] = ($_SESSION[QT]['show_closed'] ? '0' : '1');
 }
@@ -273,15 +273,15 @@ $t->cloneThTd();
 
 // Edit mode
 if ( $_SESSION['EditByRows']) {
-  $rowCommands = '&nbsp;<a class="rowcommands" href="javascript:void(0)" data-action="itemsType">'.L('Type').'/'.L('Status').'</a>';
-  $rowCommands .= ' &middot; <a class="rowcommands" href="javascript:void(0)" data-action="itemsTags">'.L('Tags').'</a>';
-  $rowCommands .= ' &middot; <a class="rowcommands" href="javascript:void(0)" data-action="itemsMove">'.L('Move').'</a>';
-  $rowCommands .= ' &middot; <a class="rowcommands" href="javascript:void(0)" data-action="itemsDelete">'.L('Delete').'</a>'.PHP_EOL;
+  $rowCommands = '&nbsp;<a class="rowcmd" href="javascript:void(0)" data-action="itemsType">'.L('Type').'/'.L('Status').'</a>';
+  $rowCommands .= ' &middot; <a class="rowcmd" href="javascript:void(0)" data-action="itemsTags">'.L('Tags').'</a>';
+  $rowCommands .= ' &middot; <a class="rowcmd" href="javascript:void(0)" data-action="itemsMove">'.L('Move').'</a>';
+  $rowCommands .= ' &middot; <a class="rowcmd" href="javascript:void(0)" data-action="itemsDelete">'.L('Delete').'</a>'.PHP_EOL;
 
   $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js"></script>';
   $oH->scripts[] = 'const cmds = document.getElementsByClassName("checkboxcmds");
-  for (const el of cmds){ el.addEventListener("click", (e)=>{ if ( e.target.tagName==="A" ) datasetcontrol_click("t1-cb[]", e.target.dataset.action); }); }
-  function datasetcontrol_click(checkboxname,action)
+  for (const el of cmds){ el.addEventListener("click", (e)=>{ if ( e.target.tagName==="A" ) clickRowCmd("t1-cb[]", e.target.dataset.action); }); }
+  function clickRowCmd(checkboxname,action)
   {
     const checkboxes = document.getElementsByName(checkboxname);
     let n = 0;

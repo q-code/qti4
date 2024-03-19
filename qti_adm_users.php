@@ -275,9 +275,9 @@ echo '<p class="right">'.L('Show').': '.$m->build('u'.$ipp, 'default|style=color
 $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js"></script>';
 $oH->scripts[] = 'const cmds = document.getElementsByClassName("checkboxcmds");
 for (const el of cmds){ el.addEventListener("click", (e)=>{
-  if ( e.target.tagName==="A" ) datasetcontrol_click("t1-cb[]", e.target.dataset.action);
+  if ( e.target.tagName==="A" ) clickRowCmd("t1-cb[]", e.target.dataset.action);
 }); }
-function datasetcontrol_click(checkboxname,action)
+function clickRowCmd(checkboxname,action)
 {
   const checkboxes = document.getElementsByName(checkboxname);
   let n = 0;
