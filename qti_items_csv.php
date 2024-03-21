@@ -21,7 +21,7 @@ if ( isset($_GET['dir']) ) $strDirec = strtolower(substr($_GET['dir'],0,4));
 
 $size = ( isset($_GET['size']) ? strip_tags($_GET['size']) : 'all');
 $intCount = (int)$_GET['n'];
-$intLimit = 0;
+$pageStart = 0;
 $intLen = (int)$_SESSION[QT]['items_per_page'];
 
 // Check arguments
@@ -84,12 +84,12 @@ $strDirec = strtolower($dir);
 $csv = '';
 
 // apply argument
-if ( $size=='all') { $intLimit=0; $intLen=$intCount; }
-if ( $size=='m1' ) { $intLimit=0; $intLen=999; }
-if ( $size=='m2' ) { $intLimit=1000; $intLen=1000; }
-if ( $size=='m5' ) { $intLimit=0; $intLen=4999; }
-if ( $size=='m10') { $intLimit=5000; $intLen=5000; }
-if ( substr($size,0,1)==='p' ) { $i = (int)substr($size,1); $intLimit = ($i-1)*$intLen; }
+if ( $size=='all') { $pageStart=0; $intLen=$intCount; }
+if ( $size=='m1' ) { $pageStart=0; $intLen=999; }
+if ( $size=='m2' ) { $pageStart=1000; $intLen=1000; }
+if ( $size=='m5' ) { $pageStart=0; $intLen=4999; }
+if ( $size=='m10') { $pageStart=5000; $intLen=5000; }
+if ( substr($size,0,1)==='p' ) { $i = (int)substr($size,1); $pageStart = ($i-1)*$intLen; }
 
 // -----
 // QUERY parts definition
@@ -135,7 +135,7 @@ $csv = toCsv($t->getTHnames()).PHP_EOL;
 
 // ========
 $sqlFullOrder = $strOrder==='title' ? 'p.title' : 't.'.$strOrder;
-$oDB->query( sqlLimit($sqlFields.$sqlFrom.$sqlWhere,($_SESSION[QT]['news_on_top'] ? 'typea ASC, ' : '').$sqlFullOrder.' '.strtoupper($strDirec),$intLimit,$_SESSION[QT]['items_per_page'],$intCount) );
+$oDB->query( sqlLimit($sqlFields.$sqlFrom.$sqlWhere,($_SESSION[QT]['news_on_top'] ? 'typea ASC, ' : '').$sqlFullOrder.' '.strtoupper($strDirec),$pageStart,$_SESSION[QT]['items_per_page'],$intCount) );
 // ========
 $intWhile=0;
 while($row=$oDB->getRow())

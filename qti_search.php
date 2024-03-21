@@ -24,11 +24,11 @@ if ( isset($_POST['ok']) && $_POST['ok']!==$certificate ) die('Unable to check c
 
 $q = '';  // query model
 $v = '';  // keyword(s), tag(s), userid or date1
-$v2 = ''; // username, timeframe or date2
+$w = ''; // username, timeframe or date2
 $to = false; // title only
 $s = -1;  // [int]
 $st = '*';
-qtArgs('q v v2 boo:to int:s st');
+qtArgs('q v w boo:to int:s st');
 if ( $st==='' || $st==='-1' ) $st='*';
 
 // ------
@@ -57,23 +57,23 @@ if ( isset($_POST['ok']) && !empty($q) )
       $arg = '&v='.urlencode($v);
       break;
     case 'adv':
-      if ( $st==='*' && empty($v) && empty($v2) ) $criteriaError = L('Date').' & '.L('Status').' & Tag '.L('invalid');
+      if ( $st==='*' && empty($v) && empty($w) ) $criteriaError = L('Date').' & '.L('Status').' & Tag '.L('invalid');
       if ( $v===';' ) $criteriaError = 'Tag '.L('invalid');
-      $arg = '&v2='.$v2.'&st='.$st.'&v='.urlencode($v);
+      $arg = '&w='.$w.'&st='.$st.'&v='.urlencode($v);
       break;
     case 'user':
     case 'userm':
     case 'actor':
-      if ( empty($v2) && !empty($v) ) $v2 = SUser::getUserId($oDB,$v); // return false if wrong name or empty post
-      if ( empty($v2) ) $criteriaError = L('Username').' '.L('unknown');
-      $arg = '&v='.urlencode($v).'&v2='.$v2;
+      if ( empty($w) && !empty($v) ) $w = SUser::getUserId($oDB,$v); // return false if wrong name or empty post
+      if ( empty($w) ) $criteriaError = L('Username').' '.L('unknown');
+      $arg = '&v='.urlencode($v).'&w='.$w;
       break;
     case 'btw':
       $v = qtDateClean($v,8); // Returns YYYYMMDD (no time) while browser should provide YYYY-MM-DD. Returns '' if format not supported. If $v='now', returns today
-      $v2 = qtDateClean($v2,8);
-      if ( empty($v) || empty($v2) || $v<'20000101' || $v2>'21000101' ) $criteriaError = L('Date').' '.L('invalid');
-      if ( $v>$v2 ) $criteriaError = L('Date').' '.L('invalid').' (date1 > date2)';
-      $arg = '&v='.$v.'&v2='.$v2;
+      $w = qtDateClean($w,8);
+      if ( empty($v) || empty($w) || $v<'20000101' || $w>'21000101' ) $criteriaError = L('Date').' '.L('invalid');
+      if ( $v>$w ) $criteriaError = L('Date').' '.L('invalid').' (date1 > date2)';
+      $arg = '&v='.$v.'&w='.$w;
       break;
     default: die('Unknown criteria '.$q);
   }
@@ -152,12 +152,12 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 '.qtSVG('search', 'class=filigrane').'
 <div>'.L('Status').'&nbsp;<select id="st" name="st" size="1">
 <option value="*"'.($st==='*' ? ' selected' : '').'>'.L('Any_status').'</option>
-'.qtTags($arrS,$st).'</select> '.L('Date').'&nbsp;<select id="ti" name="v2" size="1">
-<option value="*"'.($v2==='*' ? ' selected' : '').'>'.L('Any_time').'</option>
-<option value="w"'.($v2==='w' ? ' selected' : '').'>&nbsp; '.L('This_week').'</option>
-<option value="m"'.($v2==='m' ? ' selected' : '').'>&nbsp; '.L('This_month').'</option>
-<option value="y"'.($v2==='y' ? ' selected' : '').'>&nbsp; '.L('This_year').'</option>
-'.qtTags($L['dateMMM'],(int)$v2).'
+'.qtTags($arrS,$st).'</select> '.L('Date').'&nbsp;<select id="ti" name="w" size="1">
+<option value="*"'.($w==='*' ? ' selected' : '').'>'.L('Any_time').'</option>
+<option value="w"'.($w==='w' ? ' selected' : '').'>&nbsp; '.L('This_week').'</option>
+<option value="m"'.($w==='m' ? ' selected' : '').'>&nbsp; '.L('This_month').'</option>
+<option value="y"'.($w==='y' ? ' selected' : '').'>&nbsp; '.L('This_year').'</option>
+'.qtTags($L['dateMMM'],(int)$w).'
 </select><input type="hidden" id="y" name="y" value="'.date('Y').'"/>
 ';
 if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-tag-edit"><input type="text" id="tag-edit" name="v" size="30" value="'.($q==='adv' ? qtAttr($v) : '').'" data-multi="1"/></div>*
@@ -178,7 +178,7 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div>
 <select name="q" size="1">
 '.qtTags( ['user'=>L('Item').' '.L('author'),'userm'=>L('Item').'/'.L('reply').' '.L('author'),'actor'=>L('Item').' '.L('actor')], $q ).'
-</select> <div id="ac-wrapper-user"><input type="hidden" id="userid" type="text" name="v2" value="'.$v2.'"/><input required id="user" type="text" name="v" value="'.(empty($v) || substr($q,0,4)!=='user' ? '' : qtAttr($v,0,'&quot;')).'" size="32" maxlenght="64"/></div></div>
+</select> <div id="ac-wrapper-user"><input type="hidden" id="userid" type="text" name="w" value="'.$w.'"/><input required id="user" type="text" name="v" value="'.(empty($v) || substr($q,0,4)!=='user' ? '' : qtAttr($v,0,'&quot;')).'" size="32" maxlenght="64"/></div></div>
 <div style="flex-grow:1;text-align:right">
 <input type="hidden" id="user-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
@@ -188,14 +188,14 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 ';
 
 // SEARCH BETWEEN DATES
-// when btw is used, v and v2 are reset to no be visible in other forms
+// when btw is used, v and w are reset to no be visible in other forms
 $date1 = ''; if ( $q=='btw' && strlen($v)==8 ) { $date1 = substr($v,0,4).'-'.substr($v,4,2).'-'.substr($v,6,2); $v=''; }
-$date2 = ''; if ( $q=='btw' && strlen($v2)==8 ) { $date2 = substr($v2,0,4).'-'.substr($v2,4,2).'-'.substr($v2,6,2);  $v2=''; }
+$date2 = ''; if ( $q=='btw' && strlen($w)==8 ) { $date2 = substr($w,0,4).'-'.substr($w,4,2).'-'.substr($w,6,2);  $w=''; }
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>'.L('Between_date').' <input required type="date" id="date1" name="v" size="20" value="'.$date1.'" min="2000-01-01"/>
-'.L('and').' <input required type="date" id="date2" name="v2" size="20" value="'.$date2.'" max="2100-01-01"/> <a href="javascript:void(0)" onclick="setToday(); return false;""><small>'.L('dateSQL.today').'</small></a></div>
+'.L('and').' <input required type="date" id="date2" name="w" size="20" value="'.$date2.'" max="2100-01-01"/> <a href="javascript:void(0)" onclick="setToday(); return false;""><small>'.L('dateSQL.today').'</small></a></div>
 <div style="flex-grow:1;text-align:right">
 <input type="hidden" name="q" value="btw"/>
 <input type="hidden" id="btw-s" name="s" value="'.$s.'"/>

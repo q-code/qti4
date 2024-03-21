@@ -245,7 +245,7 @@ function renderUserMailSymbol($row)
 {
   // required $row['id|privacy|mail']
   if ( empty($row['mail']) || empty($row['id']) || !isset($row['privacy']) )
-  return '<span class="disabled" title="no e-mail"><svg class="svg-symbol"><use href="#symbol-envelope" xlink:href="#symbol-envelope"></use></svg></span>';
+  return '<span class="disabled" title="no e-mail"><svg class="svg-symbol"><use href="#symbol-envelope" xlink:href="#symbol-envelope"/></svg></span>';
   $str = '';
   if ( (int)$row['privacy']===2 ) $str = renderEmail($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
   if ( (int)$row['privacy']===1 && SUser::role()!=='V' ) $str = renderEmail($row['mail'],'symbol'.(QT_JAVA_MAIL ? 'java' : ''));
@@ -256,8 +256,8 @@ function renderUserMailSymbol($row)
 function renderUserWwwSymbol($row)
 {
   if ( empty($row['www']) || !isset($row['privacy']) )
-  return '<span class="disabled" title="no web site"><svg class="svg-symbol svg-125"><use href="#symbol-home" xlink:href="#symbol-home"></use></svg></span>';
-  return '<a href="'.$row['www'].'" title="web site"><svg class="svg-symbol svg-125"><use href="#symbol-home" xlink:href="#symbol-home"></use></svg></a>';
+  return '<span class="disabled" title="no web site"><svg class="svg-symbol svg-125"><use href="#symbol-home" xlink:href="#symbol-home"/></svg></span>';
+  return '<a href="'.$row['www'].'" title="web site"><svg class="svg-symbol svg-125"><use href="#symbol-home" xlink:href="#symbol-home"/></svg></a>';
 }
 
 function renderUserPrivSymbol(array $row=[], string $empty='')
@@ -266,8 +266,8 @@ function renderUserPrivSymbol(array $row=[], string $empty='')
   if ( empty($row['id']) || !isset($row['privacy']) ) return $empty;
   if ( SUser::isStaff() || SUser::id()===(int)$row['id'] ) {
     if ( (int)$row['privacy']===2 )
-    return '<span data-private="2" title="'.L('Privacy_visible_2').'"><svg class="svg-symbol svg-125"><use href="#symbol-door-open" xlink:href="#symbol-door-open"></use></svg></span>';
-    return '<span data-private="'.$row['privacy'].'" title="'.L('Privacy_visible_'.$row['privacy']).'"><svg class="svg-symbol"><use href="#symbol-key" xlink:href="#symbol-key"></use></svg></span>';
+    return '<span data-private="2" title="'.L('Privacy_visible_2').'"><svg class="svg-symbol svg-125"><use href="#symbol-door-open" xlink:href="#symbol-door-open"/></svg></span>';
+    return '<span data-private="'.$row['privacy'].'" title="'.L('Privacy_visible_'.$row['privacy']).'"><svg class="svg-symbol"><use href="#symbol-key" xlink:href="#symbol-key"/></svg></span>';
   }
   return $empty;
 }
@@ -369,9 +369,9 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
         $arr[$k] .= ' '.icoPrefix($strPrefixSerie,(int)$row['icon']);
       if ( !empty($arrTags) ) {
         if ( count($arrTags)>1 ) {
-          $arr[$k] .= ' <span class="tags" title="'.implode(', ',$arrTags).(empty($arrMoreTags) ? '' : '...').'"><svg class="svg-symbol svg-125"><use href="#symbol-tags" xlink:href="#symbol-tags"></use></svg></span>';
+          $arr[$k] .= ' <span class="tags" title="'.implode(', ',$arrTags).(empty($arrMoreTags) ? '' : '...').'"><svg class="svg-symbol svg-125"><use href="#symbol-tags" xlink:href="#symbol-tags"/></svg></span>';
         } else {
-          $arr[$k] .= ' <span class="tags" title="'.$arrTags[0].'" data-tagdesc="'.$arrTags[0].'"><svg class="svg-symbol"><use href="#symbol-tag" xlink:href="#symbol-tag"></use></svg></span>';
+          $arr[$k] .= ' <span class="tags" title="'.$arrTags[0].'" data-tagdesc="'.$arrTags[0].'"><svg class="svg-symbol"><use href="#symbol-tag" xlink:href="#symbol-tag"/></svg></span>';
         }
       }
       if ( !empty($row['textmsg']) && $_SESSION[QT]['item_firstline']>0 && $showFirstline )
@@ -380,7 +380,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
 			break;
     case 'replies':
       // youreply merged in replies
-      $arr[$k] = $row['replies']==='0' ? '<span id="t'.$row['id'].'-replies">0</span>' : '<span id="'.$strTableId.'re'.$row['id'].'"><svg class="svg-symbol symbol-ireplied"><use href="#symbol-ireplied" xlink:href="#symbol-ireplied"></use></svg></span><span id="t'.$row['id'].'-replies">'.qtK((int)$row['replies']).'</span>';
+      $arr[$k] = $row['replies']==='0' ? '<span id="t'.$row['id'].'-replies">0</span>' : '<span id="'.$strTableId.'re'.$row['id'].'"><svg class="svg-symbol symbol-ireplied"><use href="#symbol-ireplied" xlink:href="#symbol-ireplied"/></svg></span><span id="t'.$row['id'].'-replies">'.qtK((int)$row['replies']).'</span>';
       break;
     case 'views':
         $arr[$k] = $row['views']==='0' ? '0' : qtK((int)$row['views']);

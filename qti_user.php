@@ -274,10 +274,10 @@ echo '<tr>
 
 $strParticip = '';
 if ( $items>0 ) {
-$strParticip .= '<a href="'.url('qti_items.php').'?q=user&v2='.$id.'&v='.urlencode($row['name']).'">'.L('Item',$items).'</a>, ';
+$strParticip .= '<a href="'.url('qti_items.php').'?q=user&w='.$id.'&v='.urlencode($row['name']).'">'.L('Item',$items).'</a>, ';
 }
 if ( $countmessages>0 ) {
-  $strParticip .= '<a href="'.url('qti_items.php').'?q=userm&v2='.$id.'&v='.urlencode($row['name']).'">'.L('Message',$countmessages).'</a>';
+  $strParticip .= '<a href="'.url('qti_items.php').'?q=userm&w='.$id.'&v='.urlencode($row['name']).'">'.L('Message',$countmessages).'</a>';
   $strParticip .= ', '.strtolower($L['Last_message']).' '.qtDate($row['lastdate'],'$','$',true);
   $oDB->query( 'SELECT p.id,p.topic,p.section FROM TABPOST p WHERE p.userid='.$id.' ORDER BY p.issuedate DESC' );
   $row2 = $oDB->getRow();

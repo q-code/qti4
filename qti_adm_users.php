@@ -24,7 +24,7 @@ $oH->selfparent = L('Board_content');
 $oH->exiturl = 'qti_adm_users.php';
 $oH->exitname = '&laquo; '.L('Users');
 $pageGroup = 'all';
-$intLimit = 0;
+$pageStart = 0;
 $intPage  = 1;
 $strOrder = 'name';
 $strDirec = 'asc';
@@ -46,7 +46,7 @@ if ( isset($_GET['ipp']) && in_array($_GET['ipp'],['25','50','100']) ) {
   $ipp = $_GET['ipp'];
   if ( PHP_VERSION_ID<70300 ) { setcookie(QT.'_admusersipp', $ipp, time()+3600*24*100, '/'); } else { setcookie(QT.'_admusersipp', $ipp, ['expires'=>time()+3600*24*100,'path'=>'/','samesite'=>'Strict']); }
 }
-$intLimit = ($intPage-1)*25;
+$pageStart = ($intPage-1)*25;
 
 // Defines FORM $formAddUser and handles POST
 include APP.'_inc_adduser.php';
@@ -214,7 +214,7 @@ echo '<tbody>'.PHP_EOL;
 
 //-- LIMIT QUERY --
 $strState = 'id,name,closed,role,numpost,firstdate,lastdate,ip FROM TABUSER WHERE id>'.($strCateg=='all' ? '0' : '1').$sqlWhere;
-$oDB->query( sqlLimit($strState,$strOrder.' '.strtoupper($strDirec).($strOrder==='name' ? '' : $strOrder2),$intLimit,$ipp) );
+$oDB->query( sqlLimit($strState,$strOrder.' '.strtoupper($strDirec).($strOrder==='name' ? '' : $strOrder2),$pageStart,$ipp) );
 // ------
 $arrRow=array(); // rendered row. To remove duplicate in seach result
 $intRow=0; // count row displayed

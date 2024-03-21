@@ -21,8 +21,8 @@ $q = ''; // Search type (not required, use 's' if missing)
 $s = -1; // [int]
 $st = '*'; // Status [string] {'*'|status-key}, caution: can be '0'
 $v = ''; // Searched [string] text (converted to array of strings)
-$v2 = ''; // timeframe [string] or userid
-qtArgs('q int:s st v v2');
+$w = ''; // timeframe [string] or userid
+qtArgs('q int:s st v w');
 if ( empty($q) ) $q = 's';
 if ( $q==='s' && $s<0 ) die(__FILE__.' Missing argument s');
 $v = qtCleanArray($v); // array of (unique) values trimmed (not empty)
@@ -52,8 +52,8 @@ $strOrder = 'lastpostdate';
 $strDirec = 'desc';
 $strLastcol = $oS->getMF('options','last'); if  ($strLastcol=='N' || strtolower($strLastcol)==='none' ) $strLastcol='';
 $intPage = 1;
-$intLimit = 0;
-if ( isset($_GET['page']) ) { $intPage = (int)$_GET['page']; $intLimit = ($intPage-1)*$_SESSION[QT]['items_per_page']; }
+$pageStart = 0;
+if ( isset($_GET['page']) ) { $intPage = (int)$_GET['page']; $pageStart = ($intPage-1)*$_SESSION[QT]['items_per_page']; }
 if ( isset($_GET['order']) ) $strOrder = $_GET['order'];
 if ( isset($_GET['dir']) ) $strDirec = strtolower(substr($_GET['dir'], 0, 4));
 if ( !isset($_SESSION['EditByRows']) || !SUser::isStaff() ) $_SESSION['EditByRows'] = 0;
@@ -169,15 +169,15 @@ switch($q)
   case 'news':
   case 'insp': $pageTitle .= L('Search_results_'.$q); break;
   case 'adv':
-    if ( empty($v2) ) $v2 = '*';
+    if ( empty($w) ) $w = '*';
     $arrVlbl = qtQuote($v,"&'");
     $pageTitle .= sprintf( L(empty($arrVlbl) ? 'Search_results' : 'Search_results_tags'), strtolower(implode(' '.L('or').' ',$arrVlbl)) );
-    if ( $v2!=='*' ) {
-      switch($v2){
+    if ( $w!=='*' ) {
+      switch($w){
         case 'y': $pageTitle .= ' '.L('this_year'); break;
         case 'm': $pageTitle .= ' '.L('this_month'); break;
         case 'w': $pageTitle .= ' '.L('this_week'); break;
-        default: $pageTitle .= ', '.L('dateMMM.'.$v2);
+        default: $pageTitle .= ', '.L('dateMMM.'.$w);
       }
     }
     break;
@@ -224,7 +224,7 @@ if ( $intCount==0 ) {
   if ( $intCount ) echo '<p class="center">'.qtSVG('exclamation-triangle').' '.L('Closed_item',$intCount).'. '.L('Closed_hidden_by_pref').' (<a href="javascript:void(0)" onclick="let d=document.getElementById(`pref`); if ( d) {d.value=`toggleclosed`;doSubmit(`formPref`);}">'.L('show').' '.L('closed_items').'</a>).</p>';
   // alternate query
   $arg = 'q='.$q;
-  if ( $q==='user' || $q==='kw' || $q==='adv' ) $arg .= '&v='.implode(';',$v).'&v2='.urlencode($v2);
+  if ( $q==='user' || $q==='kw' || $q==='adv' ) $arg .= '&v='.implode(';',$v).'&w='.urlencode($w);
   echo '<p class="center"><a href="'.url('qti_items.php').'?'.$arg.'">'.L('Try_without_options').'</a></p>';
   include 'qti_inc_ft.php';
   exit;
@@ -321,7 +321,7 @@ echo '<tbody>'.PHP_EOL;
 // ========
 $sqlOrder = $strOrder=='title' ? 'p.title' : 't.'.$strOrder;
 if ( $sqlOrder==='t.icon' ) $sqlOrder='t.status';
-$oDB->query(sqlLimit($sqlFields.$sqlFrom.$sqlWhere.$sqlHideClosed, (empty($sqlOntop) ? '' : 'typea ASC,').$sqlOrder.' '.strtoupper($strDirec), $intLimit, $_SESSION[QT]['items_per_page'], $intCount), $sqlValues);
+$oDB->query(sqlLimit($sqlFields.$sqlFrom.$sqlWhere.$sqlHideClosed, (empty($sqlOntop) ? '' : 'typea ASC,').$sqlOrder.' '.strtoupper($strDirec), $pageStart, $_SESSION[QT]['items_per_page'], $intCount), $sqlValues);
 // ========
 
 $intWhile=0;

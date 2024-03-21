@@ -4,12 +4,12 @@ echo '<div class="myboard">'.PHP_EOL;
 echo '<div class="myboardheader"><p class="title">'.L('My_last_item').'</p>'.PHP_EOL;
 
 if ( $intMyTopics>0 ) {
-  echo '<a class="button" href="'.url('qti_items.php').'?q=user&v2='.SUser::id().'&v='.urlencode(SUser::name()).'">'.L('All_my_items').'&nbsp;('.$intMyTopics.')</a>';
+  echo '<a class="button" href="'.url('qti_items.php').'?q=user&w='.SUser::id().'&v='.urlencode(SUser::name()).'">'.L('All_my_items').'&nbsp;('.$intMyTopics.')</a>';
 } else {
   echo '<span>'.L('None').'</span>';
 }
 if ( SUser::isStaff() && $intMyAssign>0 ) {
-  echo '<a class="button" href="'.url('qti_items.php').'?q=actor&v2='.SUser::id().'&v='.urlencode(SUser::name()).'">'.L('Handled_by').' '.L('me').'&nbsp;('.$intMyAssign.')</a>';
+  echo '<a class="button" href="'.url('qti_items.php').'?q=actor&w='.SUser::id().'&v='.urlencode(SUser::name()).'">'.L('Handled_by').' '.L('me').'&nbsp;('.$intMyAssign.')</a>';
 }
 echo '</div>'.PHP_EOL;
 

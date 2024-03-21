@@ -120,7 +120,7 @@ if ( QT_SIMPLESEARCH && $oH->selfurl!==APP.'_search.php' ) {
     echo asImg( QT_SKIN.'img/topic_t_0.gif', 'alt=T|class=img|title='.L('Recent_items'), url(APP.'_items.php').'?q=last' );
     echo asImg( QT_SKIN.'img/topic_a_0.gif', 'alt=T|class=img|title='.L('All_news'), url(APP.'_items.php').'?q=news' );
     echo asImg( QT_SKIN.'img/topic_i_0.gif', 'alt=T|class=img|title='.L('Inspections'), url(APP.'_items.php').'?q=insp' );
-    if ( SUser::role()!=='V' ) echo '<a href="'.url(APP.'_items.php').'?q=user&v2='.SUser::id().'&v='.urlencode(SUser::name()).'" title="'.L('All_my_items').'">'.qtSVG('user').'</a>';
+    if ( SUser::role()!=='V' ) echo '<a href="'.url(APP.'_items.php').'?q=user&w='.SUser::id().'&v='.urlencode(SUser::name()).'" title="'.L('All_my_items').'">'.qtSVG('user').'</a>';
     echo '<form method="post" action="'.url(APP.'_search.php').'" style="display:inline">';
     echo '<button id="searchSubmit" type="submit" style="display:none" name="ok" value="'.makeFormCertificate('65699386509abf064aec83e5124c1f30').'">ok</button>';
     echo '<input type="hidden" name="q" value="qkw">';

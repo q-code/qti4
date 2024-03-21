@@ -116,7 +116,7 @@ else
 {
   echo '<div id="aside__legend__list">';
   echo '<p>'.asImg( QT_SKIN.'img/topic_a_0.gif', 'alt=N|class=i-item' ).' '.L('Ico_item_a').'</p>';
-  if ( QT_LIST_ME && $oH->selfurl!=='qti_item.php' ) echo '<p><svg class="svg-symbol symbol-ireplied"><use href="#symbol-ireplied" xlink:href="#symbol-ireplied"></use></svg>'.' '.L('You_reply').'</p>';
+  if ( QT_LIST_ME && $oH->selfurl!=='qti_item.php' ) echo '<p><svg class="svg-symbol symbol-ireplied"><use href="#symbol-ireplied" xlink:href="#symbol-ireplied"/></svg>'.' '.L('You_reply').'</p>';
   echo '<p>'.asImg( QT_SKIN.'img/topic_i_0.gif', 'alt=I|class=i-item' ).' '.L('Ico_item_i').'</p>';
   foreach(CTopic::getStatuses() as $k=>$arrValue)
     echo '<p>'.asImg( QT_SKIN.'img/'.$arrValue['icon'], 'alt=T|class=i-item' ).' '.$arrValue['name'].'</p>';

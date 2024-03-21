@@ -19,10 +19,10 @@ if ( isset($_GET['view'])) $_SESSION[QT]['viewmode'] = substr($_GET['view'],0,1)
 $pageGroup = 'all';
 $pageOrder = 'name';
 $pageDirec = 'asc';
-$intLimit = 0; // starting limit for subset of rows {0|page*ipp}
+$pageStart = 0; // starting limit for subset of rows {0|page*ipp}
 $intPage = 1; // page number (start at 1)
 if ( isset($_GET['group']) ) $pageGroup = substr($_GET['group'],0,7); // protection against injection (widest is "A|B|C|D")
-if ( isset($_GET['page']) )  { $intPage = (int)$_GET['page']; $intLimit = ($intPage-1)*$_SESSION[QT]['items_per_page']; }
+if ( isset($_GET['page']) )  { $intPage = (int)$_GET['page']; $pageStart = ($intPage-1)*$_SESSION[QT]['items_per_page']; }
 if ( isset($_GET['order']) ) $pageOrder = strip_tags(substr($_GET['order'],0,15)); // protection against injection
 if ( isset($_GET['dir']) ) $pageDirec = strtolower(substr($_GET['dir'],0,4));
 $oH->selfname = L('Memberlist');
@@ -156,7 +156,7 @@ echo $t->getTHrow();
 echo $t->thead->end();
 echo $t->tbody->start();
 
-$oDB->query( sqlLimit('* FROM TABUSER WHERE id>0'.$sqlWhere, $pageOrder.' '.strtoupper($pageDirec), $intLimit,$_SESSION[QT]['items_per_page'],$intCount) );
+$oDB->query( sqlLimit('* FROM TABUSER WHERE id>0'.$sqlWhere, $pageOrder.' '.strtoupper($pageDirec), $pageStart,$_SESSION[QT]['items_per_page'],$intCount) );
 
 $intWhile=0;
 while($row=$oDB->getRow())
