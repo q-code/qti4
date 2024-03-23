@@ -63,7 +63,7 @@ function getSqlTimeframe($dbtype,$tf='*',$prefix=' AND ',$field='t.firstpostdate
  * @param boolean $trimV trim the search-text ($args['fv'])
  * @return array or die if some arguments are missing or invalid
  */
-function validateQueryArgs(array $arg, bool $trimV=true)
+function validateQueryArgs(array $args, bool $trimV=true)
 {
   // check
   if ( !isset($args['fq']) ) $args['fq']='s'; // if missing q, assume q=s
@@ -111,7 +111,7 @@ function validateQueryArgs(array $arg, bool $trimV=true)
     default: die(__FUNCTION__.' Invalid query argument q');
   }
   // check injection
-  if ( isset($args['s']) && $args['s']==='*' ) $args['s']='-1';
+  if ( isset($args['s']) && $args['s']==='' ) $args['s']='-1';
   if ( isset($args['s']) && !is_numeric($args['s']) ) die(__FUNCTION__.' Invalid argument s');
   if ( isset($args['fw']) && ( strpos($args['fw'],'"')!==false || strpos($args['fw'],"'")!==false ) ) die(__FUNCTION__.' Invalid date');
   if ( isset($args['fst']) && ( strpos($args['fst'],'"')!==false || strpos($args['fst'],"'")!==false ) ) die(__FUNCTION__.' Invalid status');
@@ -138,8 +138,8 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
   $to = empty($args['to']) ? '0' : '1';
   $fv  = isset($args['fv']) ? $args['fv'] : '';
   $fw = isset($args['fw']) ? $args['fw'] : '';
-  $tf = isset($args['tf']) ? $args['tf'] : '*';
-  $fst = isset($args['fst']) ? $args['fst'] : '*';
+  $tf = isset($args['tf']) ? $args['tf'] : '';
+  $fst = isset($args['fst']) ? $args['fst'] : '';
   $arrV = strlen(trim($fv))===0 ? [] : array_unique(array_filter(array_map('trim',explode(';',mb_strtolower(str_replace("\r\n"," ",$fv))))));
 
   // Prepare sql parts
@@ -157,7 +157,7 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
       $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR t.type='A')";
     }
     // status
-  if ( $fst!=='*' ) { $sqlWhere .= ' AND t.status=:status'; $sqlValues[':status'] = $fst; }
+  if ( $fst!=='' ) { $sqlWhere .= ' AND t.status=:status'; $sqlValues[':status'] = $fst; }
 
   switch($args['fq']) {
 
@@ -249,7 +249,7 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
     case 'userm':
     case 'actor':
 
-      if ( $args['fq']!=='userm') $sqlWhere .= " AND p.type='P'";
+      $sqlWhere .= $args['fq']==='user' || $args['fq']==='actor' ? " AND p.type='P'" : '';
       $sqlWhere .= " AND p.userid=$fw";
       $sqlCount  = "SELECT count(*) as countid $sqlFrom $sqlWhere"; // count all messages
       $sqlCountAlt = "SELECT count(*) as countid FROM TABTOPIC WHERE firstpostuser=$fw"; // count topic only

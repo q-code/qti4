@@ -88,7 +88,7 @@ $sqlWhere = ' WHERE t.section'.($fq==='s' ? '='.$s : '>=0');
   if ( $fq==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR (t.type='A' AND t.status='A'))";
 $sqlValues = []; // list of values for the prepared-statements
 $sqlCount = 'SELECT count(*) as countid FROM TABTOPIC t'.$sqlWhere;
-$sqlCountAlt='';
+$sqlCountAlt = '';
 if ( $fq!=='s' ) {
   include 'bin/lib_qti_query.php'; // warning: this changes $sqlFrom to include any post (also replies)
   $sqlWarning = sqlQueryParts($sqlFrom,$sqlWhere,$sqlValues,$sqlCount,$sqlCountAlt,$oH->selfuri); //selfuri is not urldecoded
@@ -155,11 +155,11 @@ switch($fq)
     break;
   case 'user':
     $pageTitle .= sprintf(L('Search_results_user'), implode(' '.L('or').' ',$fv));
-    $navCommandsRefine = '<a class="button" href="'.url('qti_items.php').'?fq=userm&'.qtUri('q').'"><small>'.L('Search').': '.L('item+').' '.L('and').' '.L('reply+').'</small></a>';
+    $navCommandsRefine = '<a class="button" href="'.url('qti_items.php').'?fq=userm&'.qtUri('fq').'"><small>'.L('Search').': '.L('item+').' '.L('and').' '.L('reply+').'</small></a>';
     break;
   case 'userm':
     $pageTitle .= sprintf(L('Search_results_user_m'), implode(' '.L('or').' ',$fv));
-    $navCommandsRefine = '<a class="button" href="'.url('qti_items.php').'?fq=user&'.qtUri('q').'"><small>'.L('Search').': '.L('item+').' '.L('only').'</small></a>';
+    $navCommandsRefine = '<a class="button" href="'.url('qti_items.php').'?fq=user&'.qtUri('fq').'"><small>'.L('Search').': '.L('item+').' '.L('only').'</small></a>';
       break;
   case 'actor': $pageTitle .= sprintf(L('Search_results_actor'), implode(' '.L('or').' ',$fv)); break;
   case 'last':
@@ -219,7 +219,7 @@ if ( $intCount==0 ) {
   if ( $oS->type==='2' && !SUser::isStaff() ) echo '<p class="center">'.L('Only_your_items').'</p>';
   if ( $intCount ) echo '<p class="center">'.qtSVG('exclamation-triangle').' '.L('Closed_item',$intCount).'. '.L('Closed_hidden_by_pref').' (<a href="javascript:void(0)" onclick="let d=document.getElementById(`pref`); if ( d) {d.value=`toggleclosed`;doSubmit(`formPref`);}">'.L('show').' '.L('closed_items').'</a>).</p>';
   // alternate query
-  $arg = 'q='.$fq;
+  $arg = 's=-1&fq='.$fq;
   if ( $fq==='user' || $fq==='kw' || $fq==='adv' ) $arg .= '&fv='.implode(';',$fv).'&fw='.urlencode($fw);
   echo '<p class="center"><a href="'.url('qti_items.php').'?'.$arg.'">'.L('Try_without_options').'</a></p>';
   include 'qti_inc_ft.php';
