@@ -22,68 +22,72 @@ if ( isset($_POST['ok']) && $_POST['ok']===makeFormCertificate('65699386509abf06
 // Check certificate
 if ( isset($_POST['ok']) && $_POST['ok']!==$certificate ) die('Unable to check certificate');
 
-$q = '';  // query model
-$v = '';  // keyword(s), tag(s), userid or date1
-$w = ''; // username, timeframe or date2
+$s = -1; // [int]
+$fq = ''; // query model
+$fv = ''; // keyword(s), tag(s), userid or date1
+$fw = ''; // username, timeframe or date2
+$fst = ''; // status
 $to = false; // title only
-$s = -1;  // [int]
-$st = '*';
-qtArgs('q v w boo:to int:s st');
-if ( $st==='' || $st==='-1' ) $st='*';
+qtArgs('int:s fq fv fw fst boo:to');
 
 // ------
 // SUBMITTED
 // ------
-if ( isset($_POST['ok']) && !empty($q) )
-{
-  $arg=''; // criterias (other than filters)
-  switch($q)
-  {
+if ( isset($_POST['ok']) && !empty($fq) ) try {
+
+  $arg['s'] = $s<0 ? '' : $s;
+  $arg['fq'] = $fq;
+  switch($fq) {
     case 'ref':
-      if ( empty($v) ) $criteriaError = L('Ref').' '.L('invalid');
+      if ( empty($fv) ) throw new Exception( L('Ref').' '.L('invalid') );
       // support direct open when #id is used as ref
-      if ( $v[0]==="#" )
-      {
-        $v = substr($v,1);
-        if ( is_numeric($v) ) $oH->redirect('qti_item.php?t='.$v);
+      if ( $fv[0]==="#" ) {
+        $fv = substr($fv,1);
+        if ( is_numeric($fv) ) $oH->redirect('qti_item.php?t='.$fv);
       }
-      $arg = '&v='.urlencode($v);
+      $arg['fv'] = urlencode($fv);
       break;
     case 'kw':
-      if ( empty($v) ) $criteriaError = L('Keywords').' '.L('invalid');
-      $arg = '&v='.urlencode($v).'&to='.$to;
+      if ( empty($fv) ) throw new Exception( L('Keywords').' '.L('invalid') );
+      $arg['fv'] = urlencode($fv);
+      $arg['to'] = $to;
       break;
     case 'qkw':
-      $arg = '&v='.urlencode($v);
+      $arg['fv'] = urlencode($fv);
       break;
     case 'adv':
-      if ( $st==='*' && empty($v) && empty($w) ) $criteriaError = L('Date').' & '.L('Status').' & Tag '.L('invalid');
-      if ( $v===';' ) $criteriaError = 'Tag '.L('invalid');
-      $arg = '&w='.$w.'&st='.$st.'&v='.urlencode($v);
+      if ( $fst==='' && empty($fv) && empty($fw) ) throw new Exception( L('Date').' & '.L('Status').' & Tag '.L('invalid') );
+      if ( $fv===';' ) throw new Exception( 'Tag '.L('invalid') );
+      $arg['fv'] = urlencode($fv);
+      $arg['fw'] = $fw;
+      $arg['fst'] = $fst;
       break;
     case 'user':
     case 'userm':
     case 'actor':
-      if ( empty($w) && !empty($v) ) $w = SUser::getUserId($oDB,$v); // return false if wrong name or empty post
-      if ( empty($w) ) $criteriaError = L('Username').' '.L('unknown');
-      $arg = '&v='.urlencode($v).'&w='.$w;
+      if ( empty($fw) && !empty($fv) ) $fw = SUser::getUserId($oDB,$fv); // return false if wrong name or empty post
+      if ( empty($fw) ) throw new Exception( L('Username').' '.L('unknown') );
+      $arg['fv'] = urlencode($fv);
+      $arg['fw'] = $fw;
       break;
     case 'btw':
-      $v = qtDateClean($v,8); // Returns YYYYMMDD (no time) while browser should provide YYYY-MM-DD. Returns '' if format not supported. If $v='now', returns today
-      $w = qtDateClean($w,8);
-      if ( empty($v) || empty($w) || $v<'20000101' || $w>'21000101' ) $criteriaError = L('Date').' '.L('invalid');
-      if ( $v>$w ) $criteriaError = L('Date').' '.L('invalid').' (date1 > date2)';
-      $arg = '&v='.$v.'&w='.$w;
+      $fv = qtDateClean($fv,8); // Returns YYYYMMDD (no time) while browser should provide YYYY-MM-DD. Returns '' if format not supported. If $fv='now', returns today
+      $fw = qtDateClean($fw,8);
+      if ( empty($fv) || empty($fw) || $fv<'20000101' || $fw>'21000101' ) throw new Exception( L('Date').' '.L('invalid') );
+      if ( $fv>$fw ) throw new Exception( L('Date').' '.L('invalid').' (date1 > date2)' );
+      $arg['fv'] = urlencode($fv);
+      $arg['fw'] = $fw;
       break;
-    default: die('Unknown criteria '.$q);
+    default: die( 'Unknown criteria '.$fq );
   }
   // redirect
-  if ( empty($criteriaError) ) {
-    $oH->redirect('qti_items.php?q='.$q.'&s='.$s.'&st='.$st.$arg);
-    exit;
-  } else {
-    $_SESSION[QT.'splash'] = 'E|'.L('Search_criteria').' '.L('invalid');
-  }
+  $oH->redirect( APP.'_items.php?'.qtImplode($arg) );
+
+} catch (Exception $e) {
+
+  $oH->error = $e->getMessage();
+  $_SESSION[QT.'splash'] = 'E|'.$oH->error;
+
 }
 
 // ------
@@ -111,10 +115,10 @@ if ( !empty($criteriaError) ) echo '<p class="error">'.$criteriaError.'</p>';
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <section class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
-<div>'.L('Keywords').' <div id="ac-wrapper-kw"><input required type="text" id="kw" name="v" size="40" maxlength="64" value="'.($q=='kw' ? qtAttr($v,0,'&quot;') : '').'" data-multi="1"/></div>*</div>
+<div>'.L('Keywords').' <div id="ac-wrapper-kw"><input required type="text" id="kw" name="fv" size="40" maxlength="64" value="'.($fq=='kw' ? qtAttr($fv,0,'&quot;') : '').'" data-multi="1"/></div>*</div>
 <div><span class="cblabel"><input type="checkbox" id="to" name="to"'.($to ? ' checked' : '').' value="1"/> <label for="to">'.L('In_title_only').'</label></span></div>
 <div style="flex-grow:1;text-align:right">
-<input type="hidden" name="q" value="kw"/>
+<input type="hidden" name="fq" value="kw"/>
 <input type="hidden" id="kw-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
 </div>
@@ -134,9 +138,9 @@ if ( $refExists )
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
-<div>'.L('Ref').' <div id="ac-wrapper-ref"><input required type="text" id="ref" name="v" size="5" minlength="1" maxlength="10" value="'.($q=='ref' ? qtAttr($v,0,'&quot;') : '').'"/>&nbsp;'.L('H_Reference').'</div></div>
+<div>'.L('Ref').' <div id="ac-wrapper-ref"><input required type="text" id="ref" name="fv" size="5" minlength="1" maxlength="10" value="'.($fq=='ref' ? qtAttr($fv,0,'&quot;') : '').'"/>&nbsp;'.L('H_Reference').'</div></div>
 <div style="flex-grow:1;text-align:right">
-<input type="hidden" name="q" value="ref"/>
+<input type="hidden" name="fq" value="ref"/>
 <input type="hidden" id="ref-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
 </div>
@@ -150,21 +154,21 @@ $arrS = SMem::get('_Statuses');
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
-<div>'.L('Status').'&nbsp;<select id="st" name="st" size="1">
-<option value="*"'.($st==='*' ? ' selected' : '').'>'.L('Any_status').'</option>
-'.qtTags($arrS,$st).'</select> '.L('Date').'&nbsp;<select id="ti" name="w" size="1">
-<option value="*"'.($w==='*' ? ' selected' : '').'>'.L('Any_time').'</option>
-<option value="w"'.($w==='w' ? ' selected' : '').'>&nbsp; '.L('This_week').'</option>
-<option value="m"'.($w==='m' ? ' selected' : '').'>&nbsp; '.L('This_month').'</option>
-<option value="y"'.($w==='y' ? ' selected' : '').'>&nbsp; '.L('This_year').'</option>
-'.qtTags($L['dateMMM'],(int)$w).'
+<div>'.L('Status').'&nbsp;<select name="fst" size="1">
+<option value=""'.($fst==='' ? ' selected' : '').'>'.L('Any_status').'</option>
+'.qtTags($arrS,$fst).'</select> '.L('Date').'&nbsp;<select id="ti" name="fw" size="1">
+<option value=""'.($fw==='' ? ' selected' : '').'>'.L('Any_time').'</option>
+<option value="w"'.($fw==='w' ? ' selected' : '').'>&nbsp; '.L('This_week').'</option>
+<option value="m"'.($fw==='m' ? ' selected' : '').'>&nbsp; '.L('This_month').'</option>
+<option value="y"'.($fw==='y' ? ' selected' : '').'>&nbsp; '.L('This_year').'</option>
+'.qtTags($L['dateMMM'],(int)$fw).'
 </select><input type="hidden" id="y" name="y" value="'.date('Y').'"/>
 ';
-if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-tag-edit"><input type="text" id="tag-edit" name="v" size="30" value="'.($q==='adv' ? qtAttr($v) : '').'" data-multi="1"/></div>*
+if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-tag-edit"><input type="text" id="tag-edit" name="fv" size="30" value="'.($fq==='adv' ? qtAttr($fv) : '').'" data-multi="1"/></div>*
 </div>
 <div style="flex-grow:1;text-align:right">
-<input type="hidden" name="q" value="adv"/>
-<input type="hidden" id="tag-s" name="s" value="'.$s.'"/>
+<input type="hidden" name="fq" value="adv"/>
+<input type="hidden" id="adv-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
 </div>
 </div>
@@ -176,9 +180,9 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>
-<select name="q" size="1">
-'.qtTags( ['user'=>L('Item').' '.L('author'),'userm'=>L('Item').'/'.L('reply').' '.L('author'),'actor'=>L('Item').' '.L('actor')], $q ).'
-</select> <div id="ac-wrapper-user"><input type="hidden" id="userid" type="text" name="w" value="'.$w.'"/><input required id="user" type="text" name="v" value="'.(empty($v) || substr($q,0,4)!=='user' ? '' : qtAttr($v,0,'&quot;')).'" size="32" maxlenght="64"/></div></div>
+<select name="fq" size="1">
+'.qtTags( ['user'=>L('Item').' '.L('author'),'userm'=>L('Item').'/'.L('reply').' '.L('author'),'actor'=>L('Item').' '.L('actor')], $fq ).'
+</select> <div id="ac-wrapper-user"><input type="hidden" id="userid" type="text" name="fw" value="'.$fw.'"/><input required id="user" type="text" name="fv" value="'.(empty($fv) || substr($fq,0,4)!=='user' ? '' : qtAttr($fv,0,'&quot;')).'" size="32" maxlenght="64"/></div></div>
 <div style="flex-grow:1;text-align:right">
 <input type="hidden" id="user-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
@@ -189,15 +193,15 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 
 // SEARCH BETWEEN DATES
 // when btw is used, v and w are reset to no be visible in other forms
-$date1 = ''; if ( $q=='btw' && strlen($v)==8 ) { $date1 = substr($v,0,4).'-'.substr($v,4,2).'-'.substr($v,6,2); $v=''; }
-$date2 = ''; if ( $q=='btw' && strlen($w)==8 ) { $date2 = substr($w,0,4).'-'.substr($w,4,2).'-'.substr($w,6,2);  $w=''; }
+$date1 = ''; if ( $fq=='btw' && strlen($fv)==8 ) { $date1 = substr($fv,0,4).'-'.substr($fv,4,2).'-'.substr($fv,6,2); $fv = ''; }
+$date2 = ''; if ( $fq=='btw' && strlen($fw)==8 ) { $date2 = substr($fw,0,4).'-'.substr($fw,4,2).'-'.substr($fw,6,2);  $fw = ''; }
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
-<div>'.L('Between_date').' <input required type="date" id="date1" name="v" size="20" value="'.$date1.'" min="2000-01-01"/>
-'.L('and').' <input required type="date" id="date2" name="w" size="20" value="'.$date2.'" max="2100-01-01"/> <a href="javascript:void(0)" onclick="setToday(); return false;""><small>'.L('dateSQL.today').'</small></a></div>
+<div>'.L('Between_date').' <input required type="date" id="date1" name="fv" size="20" value="'.$date1.'" min="2000-01-01"/>
+'.L('and').' <input required type="date" id="date2" name="fw" size="20" value="'.$date2.'" max="2100-01-01"/> <a href="javascript:void(0)" onclick="setToday(); return false;""><small>'.L('dateSQL.today').'</small></a></div>
 <div style="flex-grow:1;text-align:right">
-<input type="hidden" name="q" value="btw"/>
+<input type="hidden" name="fq" value="btw"/>
 <input type="hidden" id="btw-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
 </div>

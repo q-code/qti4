@@ -231,7 +231,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
   // prepare title //!!! wished date style
   $strTitle = $this->type=='D' ? '<span title="'.$this->text.'">'.L('Message_deleted').'</span>' : $this->title;
   if ( $this->type==='P' && !empty($oS->wisheddate) && !empty($oT->wisheddate) ) {
-    $strLink = '<a'.(SUser::canAccess('show_calendar') ? ' href="'.url('qti_calendars.php').'?s='.$oS->id.'&v=wisheddate&y='.substr($oT->wisheddate,0,4).'&m='.substr($oT->wisheddate,4,2).'"' : '').' title="'.L('Calendar').': '.qtDate($oT->wisheddate,'Y-m-d','',true).'">%s</a>';
+    $strLink = '<a'.(SUser::canAccess('show_calendar') ? ' href="'.url('qti_calendars.php').'?s='.$oS->id.'&fv=wisheddate&y='.substr($oT->wisheddate,0,4).'&m='.substr($oT->wisheddate,4,2).'"' : '').' title="'.L('Calendar').': '.qtDate($oT->wisheddate,'Y-m-d','',true).'">%s</a>';
     $strTitle .= '<span class="wisheddate">&#8201;&middot;&#8201;'.L('Wisheddate').': '.sprintf($strLink,qtDate($oT->wisheddate,'d M','',true)).'</span>';
   }
   // message attachment and signature

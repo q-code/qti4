@@ -88,9 +88,9 @@ function getSqlTimeframe($dbtype,$tf='*',$prefix=' AND ',$field='t.firstpostdate
 
 // SERVICE ARGUMENTS
 
-if ( empty($_GET['v']) ) { echo json_encode(array(array('rItem'=>'','rInfo'=>'configuration error'))); return; }
-$v = CDatabase::sqlEncode(strtoupper($_GET['v'])); // searched element (uppercase to be case insensitive)
-$q = isset($_GET['q']) ? $_GET['q'] : 's'; // search type {s|qkw|tag|username|userexists}
+if ( empty($_GET['fv']) ) { echo json_encode(array(array('rItem'=>'','rInfo'=>'configuration error'))); return; }
+$fv = CDatabase::sqlEncode(strtoupper($_GET['fv'])); // searched element (uppercase to be case insensitive)
+$fq = isset($_GET['fq']) ? $_GET['fq'] : 's'; // search type {s|qkw|tag|username|userexists}
 
 // errors
 $L = []; include '../language/'.(isset($_GET['lang']) ? $_GET['lang'] : 'en').'/app_error.php';
@@ -99,17 +99,17 @@ $e1 = empty($L['E_try_other_lettres'])   ? 'Try other lettres'   : $L['E_try_oth
 $e2 = empty($L['E_try_without_options']) ? 'Try without options' : $L['E_try_without_options'];
 $e4 = empty($L['E_failed'])              ? 'Action failed'       : $L['E_failed'];
 
-if ( substr($v,0,1)==='*' ) { echo $e4,'|',$e1.PHP_EOL; return; }
+if ( substr($fv,0,1)==='*' ) { echo $e4,'|',$e1.PHP_EOL; return; }
 // options
 $s = isset($_GET['s']) ? $_GET['s'] : '*'; // section {*|id}
 $t = isset($_GET['t']) ? $_GET['t'] : '*'; // item type {*|A|T|...} or user type {*|A|M|U}
-$st = isset($_GET['st']) ? $_GET['st'] : '*'; // status {*|0|1}, 1=closed
+$fst = isset($_GET['fst']) ? $_GET['fst'] : '*'; // status {*|0|1}, 1=closed
 $y = isset($_GET['y']) ? $_GET['y'] : '*'; // year
 $tf = isset($_GET['tf']) ? $_GET['tf'] : '*'; // timeframe
 // defaults (1 char to avail injection)
 if ( strlen($s)>1 || $s==='' || $s==='-1' ) $s='*';
 if ( strlen($t)>1 || empty($t) ) $t='*';
-if ( strlen($st)>1 || empty($st) || $st==='-1' ) $st='*';
+if ( strlen($fst)>1 || empty($fst) || $fst==='-1' ) $fst='*';
 $to = empty($_GET['to']) || $_GET['to']==='false' ? 0 : 1; // 1=in title only
 if ( empty($y) || !qtCtype_digit($y) ) $y='*'; // if not a year, use '*' (note: case tag-y uses current year)
 
@@ -121,10 +121,10 @@ $arr = []; // results
 $where = 't.id>=0';
 if ( $s!=='*' ) $where .= " AND t.section=$s";
 if ( $t!=='*' ) $where .= " AND t.type='$t'";
-if ( $st!=='*' ) $where .= " AND t.status='$st'"; // '1'=closed
+if ( $fst!=='*' ) $where .= " AND t.status='$fst'"; // '1'=closed
 
 // PROCESSES
-switch($q)
+switch($fq)
 {
   case 'behalf':
   case 'user':
@@ -134,7 +134,7 @@ switch($q)
     if ( $t=='A' ) $where = "role='A'";
     if ( $t=='M' ) $where = "(role='A' OR role='M')";
     $e2=$e1; //on no result forces 'try other lettres'
-    $oDB->query( "SELECT id,name,role FROM TABUSER WHERE $where AND UPPER(name) LIKE ?", ['%'.$v.'%'] );
+    $oDB->query( "SELECT id,name,role FROM TABUSER WHERE $where AND UPPER(name) LIKE ?", ['%'.$fv.'%'] );
     while($row=$oDB->getRow())
     {
       $id = (int)$row['id'];
@@ -145,7 +145,7 @@ switch($q)
   case 'ref':
   case 'qkw':
     $bRef=false;
-    if ( qtCtype_digit($v) )
+    if ( qtCtype_digit($fv) )
     {
       $where .= ' AND s.numfield<>"N" AND p.type="P" AND t.numid=:v';
       $bRef=true;
@@ -161,7 +161,7 @@ switch($q)
     }
     $oDB->query(
         "SELECT t.id,t.numid,t.type,p.title,p.textmsg,s.numfield,p.type as posttype FROM TABTOPIC t INNER JOIN TABPOST p ON p.topic=t.id INNER JOIN TABSECTION s ON s.id=t.section WHERE $where",
-        [':v'=>$bRef ? (int)$v : '%'.$v.'%']
+        [':v'=>$bRef ? (int)$fv : '%'.$fv.'%']
         );
     while($row=$oDB->getRow())
     {
@@ -183,8 +183,8 @@ switch($q)
       }
       else
       {
-        if ( stripos($row['title'],$v) !== false ) $row['textmsg'] = $row['title']; // when title contains the term, use title instead of textmsg
-        $n = stripos($row['textmsg'],$v);
+        if ( stripos($row['title'],$fv) !== false ) $row['textmsg'] = $row['title']; // when title contains the term, use title instead of textmsg
+        $n = stripos($row['textmsg'],$fv);
         if ( $n<0) continue;
         if ( $n>10) { $n-=10; } else { $n=0; }
         $strArg = substr($row['textmsg'],$n,25);
@@ -208,13 +208,13 @@ switch($q)
   case 'tag':
     $where .= getSqlTimeframe($oDB->type, $tf);
     // search in used tags
-    $oDB->query( "SELECT t.tags,count(t.id) as countid FROM TABTOPIC t WHERE $where AND UPPER(t.tags) LIKE ?", ['%'.$v.'%'] );
+    $oDB->query( "SELECT t.tags,count(t.id) as countid FROM TABTOPIC t WHERE $where AND UPPER(t.tags) LIKE ?", ['%'.$fv.'%'] );
     while($row=$oDB->getRow())
     {
       $arrTags=explode(';',$row['tags']);
       foreach($arrTags as $str)
       {
-        if ( stripos($str, $v)!==false )
+        if ( stripos($str, $fv)!==false )
         {
           if ( isset($arrDistinct[$str]) )
           {
@@ -237,7 +237,7 @@ switch($q)
       $arrTags = readTagsFile($_GET['src'].'_'.$s.'.csv');
       foreach($arrTags as $str=>$strDesc)
       {
-        if ( stripos($str, $_GET['v'])!==false ) $arrDistinct[$str] = substr($strDesc,0,64);
+        if ( stripos($str, $_GET['fv'])!==false ) $arrDistinct[$str] = substr($strDesc,0,64);
         if ( count($arrDistinct)>10 ) break;
       }
       // search matching in common tags
@@ -246,7 +246,7 @@ switch($q)
         $arrTags = readTagsFile($_GET['src'].'.csv');
         foreach($arrTags as $str=>$strDesc)
         {
-          if ( stripos($str, $_GET['v'])!==false ) $arrDistinct[$str] = substr($strDesc,0,64);
+          if ( stripos($str, $_GET['fv'])!==false ) $arrDistinct[$str] = substr($strDesc,0,64);
           if ( count($arrDistinct)>10 ) break;
         }
       }
@@ -264,7 +264,7 @@ switch($q)
     if ( $s!=='*' ) {
       $arrTags = readTagsFile('../'.$_GET['dir'].'tags_'.$_GET['lang'].'_'.$s.'.csv');
       foreach($arrTags as $str=>$strDesc) {
-        if ( stripos($str, $_GET['v'])!==false ) $arrDistinct[$str] = substr($strDesc,0,64);
+        if ( stripos($str, $_GET['fv'])!==false ) $arrDistinct[$str] = substr($strDesc,0,64);
         if ( count($arrDistinct)>10 ) break;
       }
     }
@@ -272,7 +272,7 @@ switch($q)
     if ( count($arrDistinct)<10 ) {
       $arrTags = readTagsFile('../'.$_GET['dir'].'tags_'.$_GET['lang'].'.csv');
       foreach($arrTags as $str=>$strDesc) {
-        if ( stripos($str, $_GET['v'])!==false ) $arrDistinct[$str] = substr($strDesc,0,64);
+        if ( stripos($str, $_GET['fv'])!==false ) $arrDistinct[$str] = substr($strDesc,0,64);
         if ( count($arrDistinct)>10 ) break;
       }
     }
@@ -281,13 +281,13 @@ switch($q)
       $where .= getSqlTimeframe($oDB->type, $tf);
       $arrDistinctKey = array_map('mb_strtolower', array_keys($arrDistinct));
       // search in used tags
-      $oDB->query( "SELECT t.tags,count(t.id) as countid FROM TABTOPIC t WHERE $where AND UPPER(t.tags) LIKE ?", ['%'.$v.'%'] );
+      $oDB->query( "SELECT t.tags,count(t.id) as countid FROM TABTOPIC t WHERE $where AND UPPER(t.tags) LIKE ?", ['%'.$fv.'%'] );
       while($row=$oDB->getRow())
       {
         $arrTags=explode(';',$row['tags']);
         foreach($arrTags as $str)
         {
-          if ( stripos($str, $v)!==false && !in_array(mb_strtolower($str), $arrDistinctKey) ) $arrDistinct[$str] = '('.$row['countid'].')';
+          if ( stripos($str, $fv)!==false && !in_array(mb_strtolower($str), $arrDistinctKey) ) $arrDistinct[$str] = '('.$row['countid'].')';
           if ( count($arrDistinct)>8 ) break;
         }
       }
@@ -300,7 +300,7 @@ switch($q)
     $where = '';
     if ( $t=='A' ) $where = "role='A' AND";
     if ( $t=='M' ) $where = "(role='A' OR role='M') AND";
-    echo $oDB->count( TABUSER." WHERE $where name=?", [CDatabase::sqlEncode($_GET['v'])] )!==0 ? 'true' : 'false'; // case sensitive: use $_GET['v'] instead of $v
+    echo $oDB->count( TABUSER." WHERE $where name=?", [CDatabase::sqlEncode($_GET['fv'])] )!==0 ? 'true' : 'false'; // case sensitive: use $_GET['fv'] instead of $fv
     return;
     break;
 
@@ -313,7 +313,7 @@ switch($q)
     }
     $oDB->query(
         "SELECT t.id,t.type,p.title,p.textmsg,p.type as posttype FROM TABTOPIC t INNER JOIN TABPOST p ON p.topic=t.id WHERE $where",
-        [':v'=>'%'.$v.'%']
+        [':v'=>'%'.$fv.'%']
         );
     while($row=$oDB->getRow())
     {
@@ -324,8 +324,8 @@ switch($q)
       if ( $row['posttype']==='R' ) $image='reply';
       if ( $row['type']==='I' ) $image='check';
       if ( $row['type']==='A' ) $image='thumb-tack fa-rotate-270';
-      if ( stripos($row['title'],$v) !== false ) $row['textmsg'] = $row['title']; // when title contains the term, use title instead of textmsg
-      $n = stripos($row['textmsg'],$v);
+      if ( stripos($row['title'],$fv) !== false ) $row['textmsg'] = $row['title']; // when title contains the term, use title instead of textmsg
+      $n = stripos($row['textmsg'],$fv);
       if ( $n<0 ) continue;
       if ( $n>10 ) { $n-=10; } else { $n=0; }
       // substring of result
@@ -350,7 +350,7 @@ switch($q)
     }
     $oDB->query(
         "SELECT t.id,t.type,p.title,p.textmsg,p.type as posttype FROM TABTOPIC t INNER JOIN TABPOST p ON p.topic=t.id WHERE $where",
-        [':v'=>'%'.$v.'%']
+        [':v'=>'%'.$fv.'%']
         );
     while($row=$oDB->getRow())
     {
@@ -361,8 +361,8 @@ switch($q)
       if ( $row['posttype']==='R' ) $image='reply';
       if ( $row['type']==='I' ) $image='check';
       if ( $row['type']==='A' ) $image='thumb-tack fa-rotate-270';
-      if ( stripos($row['title'],$v) !== false ) $row['textmsg'] = $row['title']; // when title contains the term, use title instead of textmsg
-      $n = stripos($row['textmsg'],$v);
+      if ( stripos($row['title'],$fv) !== false ) $row['textmsg'] = $row['title']; // when title contains the term, use title instead of textmsg
+      $n = stripos($row['textmsg'],$fv);
       if ( $n<0 ) continue;
       if ( $n>10 ) { $n-=10; } else { $n=0; }
       $strArg = substr($row['textmsg'],$n,25);
@@ -385,7 +385,7 @@ switch($q)
 
 if ( count($arr)==0 )
 {
-  echo json_encode( array(array('rItem'=>'', 'rInfo'=>$e0.', '.($s.$t.$st==='***' ? $e1 : $e2))) );
+  echo json_encode( array(array('rItem'=>'', 'rInfo'=>$e0.', '.($s.$t.$fst==='***' ? $e1 : $e2))) );
 }
 else
 {

@@ -60,16 +60,16 @@ function getSqlTimeframe($dbtype,$tf='*',$prefix=' AND ',$field='t.firstpostdate
 /**
  * Parse url arguments, urldecode and check contents
  * @param string $query urlencoded arguments string
- * @param boolean $trimV trim the search-text ($args['v'])
+ * @param boolean $trimV trim the search-text ($args['fv'])
  * @return array or die if some arguments are missing or invalid
  */
 function validateQueryArgs(array $arg, bool $trimV=true)
 {
   // check
-  if ( !isset($args['q']) ) $args['q']='s'; // if missing q, assume q=s
-  if ( !empty($args['v']) && strpos($args['v'],'"')!==false ) $args['v'] = str_replace('"','',$args['v']);
-  if ( !empty($args['w'])  && strpos($args['w'],'"')!==false ) $args['w'] = str_replace('"','',$args['w']);
-  switch($args['q'])
+  if ( !isset($args['fq']) ) $args['fq']='s'; // if missing q, assume q=s
+  if ( !empty($args['fv']) && strpos($args['fv'],'"')!==false ) $args['fv'] = str_replace('"','',$args['fv']);
+  if ( !empty($args['fw'])  && strpos($args['fw'],'"')!==false ) $args['fw'] = str_replace('"','',$args['fw']);
+  switch($args['fq'])
   {
     case 's':
       if ( !isset($args['s']) || !is_numeric($args['s']) || $args['s']<0 ) $args['s'] = -1;
@@ -78,8 +78,8 @@ function validateQueryArgs(array $arg, bool $trimV=true)
     case 'ref':
     case 'kw':
     case 'qkw':
-      if ( empty($args['v']) || strlen($args['v'])>64 ) die(__FUNCTION__.'Invalid argument v');
-      if ( $trimV ) $args['v'] = trim($args['v']);
+      if ( empty($args['fv']) || strlen($args['fv'])>64 ) die(__FUNCTION__.'Invalid argument v');
+      if ( $trimV ) $args['fv'] = trim($args['fv']);
       break;
     case 'news': break;
     case 'insp': break;
@@ -87,34 +87,34 @@ function validateQueryArgs(array $arg, bool $trimV=true)
     case 'userm':
     case 'actor':
       // search using userid [w] (search [w] from [v] if missing)
-      if ( empty($args['w']) && !empty($args['v']) ) { global $oDB; $args['w'] = SUser::getUserId($oDB,$args['v']); } // return false if not found)
-      if ( empty($args['w']) || !is_numeric($args['w']) || $args['w']<0 ) die(__FUNCTION__.' Invalid argument w');
+      if ( empty($args['fw']) && !empty($args['fv']) ) { global $oDB; $args['fw'] = SUser::getUserId($oDB,$args['fv']); } // return false if not found)
+      if ( empty($args['fw']) || !is_numeric($args['fw']) || $args['fw']<0 ) die(__FUNCTION__.' Invalid argument w');
       break;
     case 'btw':
-      if ( empty($args['v']) || empty($args['w']) || $args['v']<'19000101' || $args['w']>'21000101' ) die(__FUNCTION__.' Invalid argument dates');
-      $args['v'] = qtDateClean($args['v'],8); // Returns YYYYMMDD (no time) while browser should provide YYYY-MM-DD. Returns '' if format not supported. If $v='now', returns today
-      $args['w'] = qtDateClean($args['w'],8);
-      if ( $args['v']>$args['w'] ) die(__FUNCTION__.' Invalid date (date1 > date2)');
+      if ( empty($args['fv']) || empty($args['fw']) || $args['fv']<'19000101' || $args['fw']>'21000101' ) die(__FUNCTION__.' Invalid argument dates');
+      $args['fv'] = qtDateClean($args['fv'],8); // Returns YYYYMMDD (no time) while browser should provide YYYY-MM-DD. Returns '' if format not supported. If $v='now', returns today
+      $args['fw'] = qtDateClean($args['fw'],8);
+      if ( $args['fv']>$args['fw'] ) die(__FUNCTION__.' Invalid date (date1 > date2)');
       break;
     case 'adv':
-      if ( !isset($args['st']) ) $args['st']='*'; // if missing st, assume status is all
-      if ( !isset($args['w']) ) $args['w']='*'; // if missing w, assume time is all
-      if ( empty($args['v']) && $args['w']==='*' && $args['st']==='*' ) die(__FUNCTION__.' Invalid argument date or tag');
-      if ( strlen($args['v'])>128 ) die(__FUNCTION__.' Invalid argument tag');
-      if ( strlen($args['w'])>2 ) die(__FUNCTION__.' Invalid argument date');
-      if ( strlen($args['st'])>1 ) die(__FUNCTION__.' Invalid argument status');
-      if ( $trimV ) $args['v'] = trim($args['v']);
+      if ( !isset($args['fst']) ) $args['fst']='*'; // if missing st, assume status is all
+      if ( !isset($args['fw']) ) $args['fw']='*'; // if missing w, assume time is all
+      if ( empty($args['fv']) && $args['fw']==='*' && $args['fst']==='*' ) die(__FUNCTION__.' Invalid argument date or tag');
+      if ( strlen($args['fv'])>128 ) die(__FUNCTION__.' Invalid argument tag');
+      if ( strlen($args['fw'])>2 ) die(__FUNCTION__.' Invalid argument date');
+      if ( strlen($args['fst'])>1 ) die(__FUNCTION__.' Invalid argument status');
+      if ( $trimV ) $args['fv'] = trim($args['fv']);
       break;
     case 'last':
-      if ( isset($args['v']) ) die(__FUNCTION__.' Invalid argument v'); // only filter arguments, no text argument
+      if ( isset($args['fv']) ) die(__FUNCTION__.' Invalid argument v'); // only filter arguments, no text argument
       break;
     default: die(__FUNCTION__.' Invalid query argument q');
   }
   // check injection
   if ( isset($args['s']) && $args['s']==='*' ) $args['s']='-1';
   if ( isset($args['s']) && !is_numeric($args['s']) ) die(__FUNCTION__.' Invalid argument s');
-  if ( isset($args['w']) && ( strpos($args['w'],'"')!==false || strpos($args['w'],"'")!==false ) ) die(__FUNCTION__.' Invalid date');
-  if ( isset($args['st']) && ( strpos($args['st'],'"')!==false || strpos($args['st'],"'")!==false ) ) die(__FUNCTION__.' Invalid status');
+  if ( isset($args['fw']) && ( strpos($args['fw'],'"')!==false || strpos($args['fw'],"'")!==false ) ) die(__FUNCTION__.' Invalid date');
+  if ( isset($args['fst']) && ( strpos($args['fst'],'"')!==false || strpos($args['fst'],"'")!==false ) ) die(__FUNCTION__.' Invalid status');
 
   return $args;
 }
@@ -136,11 +136,11 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
   // Assgin query arguments or set to default
   $s = isset($args['s']) && is_numeric($args['s']) ? (int)$args['s'] : -1;
   $to = empty($args['to']) ? '0' : '1';
-  $v  = isset($args['v']) ? $args['v'] : '';
-  $w = isset($args['w']) ? $args['w'] : '';
+  $fv  = isset($args['fv']) ? $args['fv'] : '';
+  $fw = isset($args['fw']) ? $args['fw'] : '';
   $tf = isset($args['tf']) ? $args['tf'] : '*';
-  $st = isset($args['st']) ? $args['st'] : '*';
-  $arrV = strlen(trim($v))===0 ? [] : array_unique(array_filter(array_map('trim',explode(';',mb_strtolower(str_replace("\r\n"," ",$v))))));
+  $fst = isset($args['fst']) ? $args['fst'] : '*';
+  $arrV = strlen(trim($fv))===0 ? [] : array_unique(array_filter(array_map('trim',explode(';',mb_strtolower(str_replace("\r\n"," ",$fv))))));
 
   // Prepare sql parts
   $sqlFrom = ' FROM TABTOPIC t INNER JOIN TABPOST p ON t.id=p.topic';
@@ -157,10 +157,11 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
       $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR t.type='A')";
     }
     // status
-  if ( $st!=='*' ) { $sqlWhere .= ' AND t.status=:status'; $sqlValues[':status'] = $st; }
+  if ( $fst!=='*' ) { $sqlWhere .= ' AND t.status=:status'; $sqlValues[':status'] = $fst; }
 
-  switch($args['q']) {
+  switch($args['fq']) {
 
+    case 's': break;
     case 'qkw':
 
       // support multiple qkw (arrV)
@@ -248,17 +249,17 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
     case 'userm':
     case 'actor':
 
-      if ( $args['q']!=='userm') $sqlWhere .= " AND p.type='P'";
-      $sqlWhere .= " AND p.userid=$w";
+      if ( $args['fq']!=='userm') $sqlWhere .= " AND p.type='P'";
+      $sqlWhere .= " AND p.userid=$fw";
       $sqlCount  = "SELECT count(*) as countid $sqlFrom $sqlWhere"; // count all messages
-      $sqlCountAlt = "SELECT count(*) as countid FROM TABTOPIC WHERE firstpostuser=$w"; // count topic only
+      $sqlCountAlt = "SELECT count(*) as countid FROM TABTOPIC WHERE firstpostuser=$fw"; // count topic only
       break;
 
     case 'btw':
 
       global $oDB;
-      $sqlValues[':postdate_a'] = $v;
-      $sqlValues[':postdate_b'] = $w;
+      $sqlValues[':postdate_a'] = $fv;
+      $sqlValues[':postdate_b'] = $fw;
       $sqlWhere .= sqlDateCondition(':postdate_a','t.firstpostdate',8,'>=','').' AND '.sqlDateCondition(':postdate_b','t.firstpostdate',8,'<=','');
       $sqlWhere  .= " AND p.type='P' AND ";
       switch($oDB->type)

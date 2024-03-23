@@ -28,11 +28,11 @@ include translate('lg_adm.php');
 if ( SUser::role()!=='A' ) die('Access denied');
 
 // INITIALISE
-
 $pan='en';
-$v = '';
+$dest = '';
+qtArgs('pan dest');
+if ( empty($dest) ) $oH->error = 'Missing file name';
 $intSize = 100;
-qtArgs('pan v'); if ( empty($v) ) $error = 'Missing file name';
 
 $oH->selfurl = 'qti_adm_tags_upload.php';
 $oH->selfname = L('Add').' CSV '.L('file');
@@ -70,13 +70,13 @@ echo '<td>'.PHP_EOL;
 
 CHtml::msgBox($oH->selfname);
 
-echo '<form method="post" action="',$oH->selfurl,'" enctype="multipart/form-data" onsubmit="return ValidateForm(this);">'.PHP_EOL;
+echo '<form method="post" action="'.$oH->self().'" enctype="multipart/form-data">'.PHP_EOL;
 echo '<p style="text-align:right">'.PHP_EOL;
-echo $L['File'],': <input type="hidden" name="max_file_size" value="',($intSize*1024),'"/>'.PHP_EOL;
+echo L('File').': <input type="hidden" name="max_file_size" value="'.($intSize*1024).'"/>'.PHP_EOL;
 echo '<input required type="file" id="title" name="title" size="32"/><br><br><br><br>'.PHP_EOL;
-echo $L['Destination'],':  upload/<input type="text" id="v" name="v" size="25" maxlength="25" value="',$v,'" onkeyup="validateWarning(this);"/><br><br>'.PHP_EOL;
-echo '<span id="warning" class="warning">',(file_exists('upload/'.$v) ? $L['Overwrite_file'].' ['.$v.']' : ''),'</span> ';
-echo '<input type="hidden" name="pan" value="',$pan,'"/>'.PHP_EOL;
+echo L('Destination').': upload/<input type="text" id="dest" name="dest" size="20" maxlength="20" value="'.$dest.'" onkeyup="validateWarning(this.value);"/><br><br>'.PHP_EOL;
+echo '<span id="write-info" class="warning">'.(file_exists('upload/'.$dest) ? L('Overwrite_file').' ['.$dest.']' : '').'</span> ';
+echo '<input type="hidden" name="pan" value="'.$pan.'"/>'.PHP_EOL;
 echo '<a class="button" href="'.$oH->exiturl.'?pan='.$pan.'">'.L('Cancel').'</a> <button type="submit" name="ok" value="ok">'.L('Ok').'</button></p>'.PHP_EOL;
 echo '</form>'.PHP_EOL;
 

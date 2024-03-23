@@ -56,9 +56,9 @@ function ArraySwap($arr,$n=1)
 // INITIALISE
 // ------
 $s = -1;
-$v = 'firstpostdate';
-qtArgs('int:s! v');
-if ( !in_array($v,array('firstpostdate','lastpostdate','wisheddate')) ) die('Wrong calendar field');
+$fv = 'firstpostdate';
+qtArgs('int:s! fv');
+if ( !in_array($fv,array('firstpostdate','lastpostdate','wisheddate')) ) die('Wrong calendar field');
 
 $intYear = intval(date('Y')); if ( isset($_GET['y']) ) $intYear = intval($_GET['y']);
 $intYearP  = $intYear;
@@ -100,7 +100,7 @@ if ( !$_SESSION[QT]['cal_showinsp'] ) $strOptions .= "type<>'I' AND ";
 
 $oS = new CSection($s);
 
-$oH->selfuri = 'qti_calendars.php?s='.$s.'&v='.$v.'&y='.$intYear.'&m='.$intMonth;
+$oH->selfuri = 'qti_calendars.php?s='.$s.'&fv='.$fv.'&y='.$intYear.'&m='.$intMonth;
 $oH->selfname = L('section').' '.qtQuote($oS->title,"&'");
 
 $arrS = SMem::get('_Statuses');
@@ -140,7 +140,7 @@ $arrEventsN = [];
 $intEvents = 0;
 $intEventsN = 0;
 
-$oDB->query( "SELECT id,section,numid,type,status,$v as eventday,y,x FROM TABTOPIC WHERE $strOptions (" . sqlDateCondition((string)($intYear*100+$intMonth),$v,6) . " OR " . sqlDateCondition((string)($intYearN*100+$intMonthN),$v,6) . ")" );
+$oDB->query( "SELECT id,section,numid,type,status,$fv as eventday,y,x FROM TABTOPIC WHERE $strOptions (" . sqlDateCondition((string)($intYear*100+$intMonth),$fv,6) . " OR " . sqlDateCondition((string)($intYearN*100+$intMonthN),$fv,6) . ")" );
 
 $i=0;
 while($row=$oDB->getRow())
@@ -170,7 +170,7 @@ echo '<div class="right">
 <div id="optionsbar" title="'.L('My_preferences').'">
 <form method="get" action="'.url($oH->selfurl).'" id="modaction">
 '.L('Options').'&nbsp;<input type="hidden" name="s" value="'.$s.'"/>
-<input type="hidden" name="v" value="'.$v.'"/>
+<input type="hidden" name="fv" value="'.$fv.'"/>
 <input type="hidden" name="y" value="'.$intYear.'"/>
 <input type="hidden" name="m" value="'.$intMonth.'"/>
 <select name="Maction" onchange="document.getElementById(`modaction`).submit();">

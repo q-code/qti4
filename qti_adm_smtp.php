@@ -21,7 +21,7 @@ $oH->selfparent = L('Board_info');
 if ( isset($_GET['h']) ) $_SESSION[QT]['smtp_host'] = $_GET['h'];
 if ( isset($_GET['p']) ) $_SESSION[QT]['smtp_port'] = $_GET['p'];
 if ( isset($_GET['u']) ) $_SESSION[QT]['smtp_username'] = $_GET['u'];
-if ( isset($_GET['w']) ) $_SESSION[QT]['smtp_password'] = $_GET['w'];
+if ( isset($_GET['fw']) ) $_SESSION[QT]['smtp_password'] = $_GET['fw'];
 
 // ------
 // SUBMITTED for send test

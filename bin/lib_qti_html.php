@@ -99,10 +99,10 @@ function htmlLettres(string $baseFile, string $current='ALL', string $strAll='Al
   case 3: $arr = explode('.','A|B|C.D|E|F.G|H|I.J|K|L.M|N|O.P|Q|R.S|T|U.V|W.X|Y|Z.~'); break;
   case 4: $arr = explode('.','A|B|C|D.E|F|G|H.I|J|K|L.M|N|O|P.Q|R|S|T.U|V|W.X|Y|Z.~'); break;
   }
-  $str = '<a '.($current==='ALL' ? ' class="active"' : '').' href="'.($current==='ALL' ? 'javascript:void(0)' : $baseFile.$and.'group=all').'">'.$strAll.'</a>';
+  $str = '<a '.($current==='ALL' ? ' class="active"' : '').' href="'.($current==='ALL' ? 'javascript:void(0)' : $baseFile.$and.'fg=all').'">'.$strAll.'</a>';
   foreach($arr as $g) {
     $title = $strTitle.($g==='~' ? L('other_char') : str_replace('|',' '.L('or').' ',$g));
-    $str .= '<a'.($current===$g ? ' class="active"' : '').' href="'.($current===$g ? 'javascript:void(0)' : $baseFile.$and.'group='.$g).'"'.(empty($title) ? '' : ' title="'.qtAttr($title).'"').'>'.str_replace('|','',$g).'</a>';
+    $str .= '<a'.($current===$g ? ' class="active"' : '').' href="'.($current===$g ? 'javascript:void(0)' : $baseFile.$and.'fg='.$g).'"'.(empty($title) ? '' : ' title="'.qtAttr($title).'"').'>'.str_replace('|','',$g).'</a>';
   }
   $strGroups  = '<div class="'.$strClass.'">';
   $strGroups .= L('Show').' '.$str;
@@ -117,7 +117,7 @@ function htmlLettres(string $baseFile, string $current='ALL', string $strAll='Al
   return $strGroups;
 }
 
-function htmlCsvLink($strUrl,$intCount=20,$intPage=1)
+function htmlCsvLink($strUrl,$intCount=20,$pn=1)
 {
   if ( empty($strUrl) ) return '';
   if ( $intCount<=$_SESSION[QT]['items_per_page'] )
@@ -126,7 +126,7 @@ function htmlCsvLink($strUrl,$intCount=20,$intPage=1)
   }
   else
   {
-  $strCsv = '<a class="csv" href="'.$strUrl.'&page='.$intPage.'&size=p'.$intPage.'&n='.$intCount.'" title="'.L('H_Csv').'">'.L('Csv').' <span class="csvpages">('.strtolower(L('Page')).')</span></a>';
+  $strCsv = '<a class="csv" href="'.$strUrl.'&pn='.$pn.'&size=p'.$pn.'&n='.$intCount.'" title="'.L('H_Csv').'">'.L('Csv').' <span class="csvpages">('.strtolower(L('Page')).')</span></a>';
   if ( $intCount<=1000 )                   $strCsv .= ' &middot; <a class="csv" href="'.$strUrl.'&size=all&n='.$intCount.'" title="'.L('H_Csv').'">'.L('Csv').' <span class="csvpages">('.strtolower(L('All')).')</span></a>';
   if ( $intCount>1000 && $intCount<=2000 ) $strCsv .= ' &middot; <a class="csv" href="'.$strUrl.'&size=m1&n='.$intCount.'" title="'.L('H_Csv').'">'.L('Csv').' <span class="csvpages">(1-1000)</span></a> &middot; <a href="'.$strUrl.'&size=m2&n='.$intCount.'" class="csv" title="'.L('H_Csv').'">'.L('Csv').' <span class="csvpages">(1000-'.$intCount.')</span></a>';
   if ( $intCount>2000 && $intCount<=5000 ) $strCsv .= ' &middot; <a class="csv" href="'.$strUrl.'&size=m5&n='.$intCount.'" title="'.L('H_Csv').'">'.L('Csv').' <span class="csvpages">(1-5000)</span></a>';

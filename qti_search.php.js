@@ -13,7 +13,7 @@ optionsEl.addEventListener("change", (e)=>{
 function iconSpin() {
   const icon = document.getElementById("opt-icon");
   icon.classList.remove("spinning");
-  if ( document.getElementById("opt-s").value!=="*" ) icon.classList.add("spinning");
+  if ( document.getElementById("opt-s").value!=="-1" ) icon.classList.add("spinning");
 }
 function broadcastOption(option,value) {
   ["ref-","id-","kw-","btw-","user-","userm-","adv-"].forEach( id => {
@@ -30,12 +30,13 @@ function setToday() {
   if (d.getElementById("date1")) d.getElementById("date1").value = dt.toJSON().substring(0,10);
   if (d.getElementById("date2")) d.getElementById("date2").value = dt.toJSON().substring(0,10);
 }
-function addHrefArg(d, args) {
+function addHrefData(d, args) {
   for(const arg of args) {
-    if ( d.dataset[arg]==="*" || d.dataset[arg]==="" || d.dataset[arg]===undefined ) continue;
+    if ( d.dataset[arg]==="" || d.dataset[arg]===undefined ) continue;
     d.href += "&"+arg+"="+d.dataset[arg];
   }
 }
+
 // Specific autocomplete-click
 acOnClicks["ref"] = function(focusInput,btn) {
   if ( focusInput.id=="ref" && focusInput.value.substring(0,1)=="#") window.location="qti_item.php?t="+focusInput.value.substring(1);

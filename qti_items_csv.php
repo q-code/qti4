@@ -14,14 +14,14 @@ if ( !SUser::canView('V2') ) exitPage(11,'user-lock.svg'); //...
 // ------
 // INITIALISE
 // ------
-$strOrder = 'lastpostdate';
+$strOrder = 'lastpostdate';//!!!
 $strDirec = 'desc';
 if ( isset($_GET['order']) ) $strOrder = $_GET['order'];
 if ( isset($_GET['dir']) ) $strDirec = strtolower(substr($_GET['dir'],0,4));
 
 $size = ( isset($_GET['size']) ? strip_tags($_GET['size']) : 'all');
 $intCount = (int)$_GET['n'];
-$pageStart = 0;
+$sqlStart = 0;
 $intLen = (int)$_SESSION[QT]['items_per_page'];
 
 // Check arguments
@@ -45,15 +45,15 @@ if ( $intCount>1000 && substr($size,0,1)==='p' ) die('Invalid argument');
 
 // Uri arguments
 
-$q = 's';   // in case of search, query type
+$fq = 's';   // in case of search, query type
 $s = '*';  // section filter can be '*' or [int]
 $fs = '*';  // section filter ($fs will become $s if provided)
 $ft = '*';  // type (of filter). Can be urlencoded
-$fst = '*';  // status can be '*' or [int]
-$v = '';  // term/tag searched
+$fst = '';  // status can be '*' or [int]
+$fv = '';  // term/tag searched
 
 // User's preferences (stored as coockies)
-
+//!!!
 $u_fst='*';
 $u_dir='asc';
 if ( isset($_COOKIE[QT.'_u_fst']) ) $u_fst=$_COOKIE[QT.'_u_fst'];
@@ -64,18 +64,18 @@ $dir=$u_dir;// id order ('asc'|'desc')
 
 // Read Uri arguments
 
-qtArgs('q s fs ft fst v');
+qtArgs('fq s fs ft fst v');
 if ( $fs==='' ) $fs='*';
 if ( $s==='' || $s<0 ) $s='*';
 if ( $fst==='' ) $fst='*';
 if ( $fs!=='*' ) $s=(int)$fs; // $fs becomes $s in this page
 if ( $s!=='*' ) $s=(int)$s;
 if ( $fst!=='*' ) $fst=(int)$fst;
-if ( !empty($q) ) $fst='*'; // status user preference is not applied in case of search results
+if ( !empty($fq) ) $fst='*'; // status user preference is not applied in case of search results
 
 // Section (can be an empty section in case of search result)
 $oS = new CSection($s==='*' ? null : $s);
-if ( $q=='last' || $q=='user' ) { $strOrder='issuedate'; $dir='desc'; }
+if ( $fq=='last' || $fq=='user' ) { $strOrder='issuedate'; $dir='desc'; }
 if ( isset($_GET['order']) ) $strOrder = $_GET['order'];
 if ( isset($_GET['dir']) ) $strDirec = $_GET['dir'];
 if ( !isset($_SESSION[QT]['lastcolumn']) || $_SESSION[QT]['lastcolumn']=='none' ) $_SESSION[QT]['lastcolumn'] = 'default';
@@ -84,12 +84,12 @@ $strDirec = strtolower($dir);
 $csv = '';
 
 // apply argument
-if ( $size=='all') { $pageStart=0; $intLen=$intCount; }
-if ( $size=='m1' ) { $pageStart=0; $intLen=999; }
-if ( $size=='m2' ) { $pageStart=1000; $intLen=1000; }
-if ( $size=='m5' ) { $pageStart=0; $intLen=4999; }
-if ( $size=='m10') { $pageStart=5000; $intLen=5000; }
-if ( substr($size,0,1)==='p' ) { $i = (int)substr($size,1); $pageStart = ($i-1)*$intLen; }
+if ( $size=='all') { $sqlStart=0; $intLen=$intCount; }
+if ( $size=='m1' ) { $sqlStart=0; $intLen=999; }
+if ( $size=='m2' ) { $sqlStart=1000; $intLen=1000; }
+if ( $size=='m5' ) { $sqlStart=0; $intLen=4999; }
+if ( $size=='m10') { $sqlStart=5000; $intLen=5000; }
+if ( substr($size,0,1)==='p' ) { $i = (int)substr($size,1); $sqlStart = ($i-1)*$intLen; }
 
 // -----
 // QUERY parts definition
@@ -98,17 +98,17 @@ if ( substr($size,0,1)==='p' ) { $i = (int)substr($size,1); $pageStart = ($i-1)*
 $sqlFields = ($_SESSION[QT]['news_on_top'] ? "CASE WHEN t.type='A' AND t.status='A' THEN 'A' ELSE 'Z' END as typea," : '');
 $sqlFields .= 't.*,p.title,p.icon,p.id as postid,p.type as posttype,p.textmsg,p.issuedate,p.username';
 $sqlFrom = ' FROM TABTOPIC t INNER JOIN TABPOST p ON t.firstpostid=p.id';
-$sqlWhere = ' WHERE t.forum'.($q==='s' ? '='.$s : '>=0');
+$sqlWhere = ' WHERE t.forum'.($fq==='s' ? '='.$s : '>=0');
   // In private section, show topics created by user himself
-  if ( $q==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR (t.type='A' AND t.status='A'))";
+  if ( $fq==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR (t.type='A' AND t.status='A'))";
 $sqlValues = []; // list of values for the prepared-statements
 $sqlCount = 'SELECT count(*) as countid FROM TABTOPIC t'.$sqlWhere;
 $sqlCountAlt='';
-if ( $q!=='s' ) {
+if ( $fq!=='s' ) {
   include'bin/lib_qti_query.php';
   $error = sqlQueryParts($sqlFrom,$sqlWhere,$sqlValues,$sqlCount,$sqlCountAlt,$oH->selfuri); //selfuri is not urldecoded
   if ( !empty($error) ) die($error);
-  if ( $q==='adv' && !empty($v) ) $strLastcol = 'tags'; // forces display column tags
+  if ( $fq==='adv' && !empty($v) ) $strLastcol = 'tags'; // forces display column tags
 }
 
 // Option to hide closed items
@@ -124,7 +124,7 @@ $t = new TabTable();
 $t->arrTh['type'] = new TabHead(L('Type'));
 $t->arrTh['numid'] = new TabHead(L('Ref'));
 $t->arrTh['title'] = new TabHead(L('Item'));
-if ( !empty($q) && $s<0 ) $t->arrTh['sectiontitle'] = new TabHead(L('Section'));
+if ( !empty($fq) && $s<0 ) $t->arrTh['sectiontitle'] = new TabHead(L('Section'));
 $t->arrTh['firstpostname'] = new TabHead(L('Author'));
 $t->arrTh['firstpostdate'] = new TabHead(L('First_message'));
 $t->arrTh['lastpostdate'] = new TabHead(L('Last_message'));
@@ -135,7 +135,7 @@ $csv = toCsv($t->getTHnames()).PHP_EOL;
 
 // ========
 $sqlFullOrder = $strOrder==='title' ? 'p.title' : 't.'.$strOrder;
-$oDB->query( sqlLimit($sqlFields.$sqlFrom.$sqlWhere,($_SESSION[QT]['news_on_top'] ? 'typea ASC, ' : '').$sqlFullOrder.' '.strtoupper($strDirec),$pageStart,$_SESSION[QT]['items_per_page'],$intCount) );
+$oDB->query( sqlLimit($sqlFields.$sqlFrom.$sqlWhere,($_SESSION[QT]['news_on_top'] ? 'typea ASC, ' : '').$sqlFullOrder.' '.strtoupper($strDirec),$sqlStart,$_SESSION[QT]['items_per_page'],$intCount) );
 // ========
 $intWhile=0;
 while($row=$oDB->getRow())

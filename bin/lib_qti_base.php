@@ -304,18 +304,18 @@ function validateFileExt($file, $extensions='')
   return '';
 }
 
-function makePager(string $uri, int $count, int $intPagesize=50, int $currentpage=1, string $sep='', string $currentclass='current')
+function makePager(string $uri, int $count, int $pnsize=50, int $currentpage=1, string $sep='', string $currentclass='current')
 {
   // $sep (space) is inserted before each page-number
   if ( $currentpage<1 ) $currentpage=1;
-  if ( $intPagesize<5 ) $intPagesize=50;
-  if ( $count<2 || $count<=$intPagesize ) return ''; //...
+  if ( $pnsize<5 ) $pnsize=50;
+  if ( $count<2 || $count<=$pnsize ) return ''; //...
   $arg = qtImplode(qtExplodeUri($uri,'page')); // extract query part and drop the 'page'-part (arguments remain urlencoded)
   $uri = parse_url($uri, PHP_URL_PATH); // redifine $uri as the path-part only
   $strPages='';
   $firstpage='';
   $lastpage='';
-  $top = ceil($count/$intPagesize);
+  $top = ceil($count/$pnsize);
   $arrPages = array(1,2,3,4,5);
   if ( $currentpage>4 ) $arrPages = $currentpage==$top ? array($top-4,$top-3,$top-2,$top-1,$top) : array($currentpage-2,$currentpage-1,$currentpage,$currentpage+1,$currentpage+2);
   // pages
@@ -325,14 +325,14 @@ function makePager(string $uri, int $count, int $intPagesize=50, int $currentpag
     {
       $first = $page==1 ? ' first' : '';
       $last = $page==$top ? ' last' : '';
-      $strPages .= $sep.($currentpage===$page ? '<a class="page '.$currentclass.$first.$last.'" href="javascript:void(0)" tabindex="-1">'.$page.'</a>' : '<a class="page'.$first.$last.'" href="'.$uri.'?'.$arg.'&page='.$page.'">'.$page.'</a>');
+      $strPages .= $sep.($currentpage===$page ? '<a class="page '.$currentclass.$first.$last.'" href="javascript:void(0)" tabindex="-1">'.$page.'</a>' : '<a class="page'.$first.$last.'" href="'.$uri.'?'.$arg.'&pn='.$page.'">'.$page.'</a>');
     }
   }
   // extreme
-  if ( $count>($intPagesize*5) )
+  if ( $count>($pnsize*5) )
   {
-    if ( $arrPages[0]>1 ) $firstpage = $sep.'<a class="page first" href="'.$uri.'?'.$arg.'&page=1" title="'.L('First').'">&laquo;</a>';
-    if ( $arrPages[4]<$top ) $lastpage = $sep.'<a class="page last" href="'.$uri.'?'.$arg.'&page='.$top.'" title="'.L('Last').': '.$top.'">&raquo;</a>';
+    if ( $arrPages[0]>1 ) $firstpage = $sep.'<a class="page first" href="'.$uri.'?'.$arg.'" title="'.L('First').'">&laquo;</a>';
+    if ( $arrPages[4]<$top ) $lastpage = $sep.'<a class="page last" href="'.$uri.'?'.$arg.'&pn='.$top.'" title="'.L('Last').': '.$top.'">&raquo;</a>';
   }
   return $firstpage.$strPages.$lastpage;
 }
