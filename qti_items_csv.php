@@ -45,7 +45,7 @@ if ( $intCount>1000 && substr($size,0,1)==='p' ) die('Invalid argument');
 
 // Uri arguments
 
-$fq = 's';   // in case of search, query type
+$q = '';   // in case of search, query type
 $s = '*';  // section filter can be '*' or [int]
 $fs = '*';  // section filter ($fs will become $s if provided)
 $ft = '*';  // type (of filter). Can be urlencoded
@@ -64,18 +64,18 @@ $dir=$u_dir;// id order ('asc'|'desc')
 
 // Read Uri arguments
 
-qtArgs('fq s fs ft fst v');
+qtArgs('q s fs ft fst v');
 if ( $fs==='' ) $fs='*';
 if ( $s==='' || $s<0 ) $s='*';
 if ( $fst==='' ) $fst='*';
 if ( $fs!=='*' ) $s=(int)$fs; // $fs becomes $s in this page
 if ( $s!=='*' ) $s=(int)$s;
 if ( $fst!=='*' ) $fst=(int)$fst;
-if ( !empty($fq) ) $fst='*'; // status user preference is not applied in case of search results
+if ( !empty($q) ) $fst='*'; // status user preference is not applied in case of search results
 
 // Section (can be an empty section in case of search result)
 $oS = new CSection($s==='*' ? null : $s);
-if ( $fq=='last' || $fq=='user' ) { $strOrder='issuedate'; $dir='desc'; }
+if ( $q=='last' || $q=='user' ) { $strOrder='issuedate'; $dir='desc'; }
 if ( isset($_GET['order']) ) $strOrder = $_GET['order'];
 if ( isset($_GET['dir']) ) $strDirec = $_GET['dir'];
 if ( !isset($_SESSION[QT]['lastcolumn']) || $_SESSION[QT]['lastcolumn']=='none' ) $_SESSION[QT]['lastcolumn'] = 'default';
@@ -98,17 +98,17 @@ if ( substr($size,0,1)==='p' ) { $i = (int)substr($size,1); $sqlStart = ($i-1)*$
 $sqlFields = ($_SESSION[QT]['news_on_top'] ? "CASE WHEN t.type='A' AND t.status='A' THEN 'A' ELSE 'Z' END as typea," : '');
 $sqlFields .= 't.*,p.title,p.icon,p.id as postid,p.type as posttype,p.textmsg,p.issuedate,p.username';
 $sqlFrom = ' FROM TABTOPIC t INNER JOIN TABPOST p ON t.firstpostid=p.id';
-$sqlWhere = ' WHERE t.forum'.($fq==='s' ? '='.$s : '>=0');
+$sqlWhere = ' WHERE t.forum'.($q==='' ? '='.$s : '>=0');
   // In private section, show topics created by user himself
-  if ( $fq==='s' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR (t.type='A' AND t.status='A'))";
+  if ( $q==='' && $oS->type==='2' && !SUser::isStaff()) $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR (t.type='A' AND t.status='A'))";
 $sqlValues = []; // list of values for the prepared-statements
 $sqlCount = 'SELECT count(*) as countid FROM TABTOPIC t'.$sqlWhere;
 $sqlCountAlt='';
-if ( $fq!=='s' ) {
+if ( $q!=='' ) {
   include'bin/lib_qti_query.php';
   $error = sqlQueryParts($sqlFrom,$sqlWhere,$sqlValues,$sqlCount,$sqlCountAlt,$oH->selfuri); //selfuri is not urldecoded
   if ( !empty($error) ) die($error);
-  if ( $fq==='adv' && !empty($v) ) $strLastcol = 'tags'; // forces display column tags
+  if ( $q==='adv' && !empty($v) ) $strLastcol = 'tags'; // forces display column tags
 }
 
 // Option to hide closed items
@@ -124,7 +124,7 @@ $t = new TabTable();
 $t->arrTh['type'] = new TabHead(L('Type'));
 $t->arrTh['numid'] = new TabHead(L('Ref'));
 $t->arrTh['title'] = new TabHead(L('Item'));
-if ( !empty($fq) && $s<0 ) $t->arrTh['sectiontitle'] = new TabHead(L('Section'));
+if ( !empty($q) && $s<0 ) $t->arrTh['sectiontitle'] = new TabHead(L('Section'));
 $t->arrTh['firstpostname'] = new TabHead(L('Author'));
 $t->arrTh['firstpostdate'] = new TabHead(L('First_message'));
 $t->arrTh['lastpostdate'] = new TabHead(L('Last_message'));

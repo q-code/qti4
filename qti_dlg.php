@@ -214,7 +214,7 @@ case 'itemsMove':
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Destination').' <select name="destination" size="1" required>
   <option value="-1" disabled selected hidden></option>
-  '.sectionsAsOption(-1,[],[$fq]).'
+  '.sectionsAsOption(-1,[],[$q]).'
   </select></p>';
   $frm[] = '</article>';
   $frm[] = '<article>';
@@ -330,7 +330,7 @@ function unConfirm() {
   document.getElementById("submsit-sum").innerHTML = "...";
 }
 function updateCounts(q) {
-  fetch( `bin/srv_count.php?fq=${fq}&ids='.$strIds.'` )
+  fetch( `bin/srv_count.php?q=${q}&ids='.$strIds.'` )
   .then( response => response.json() )
   .then( data => { submitSum(data); } )
   .catch( err => console.log(err) );

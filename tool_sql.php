@@ -13,7 +13,7 @@ $oH->selfname = 'SQL statement';
 
 $oDB->startStats();
 $q = ''; // query
-qtArgs('fq',false,true,true,false); // do not strip tags because <> can be used in the sql
+qtArgs('q',false,true,true,false); // do not strip tags because <> can be used in the sql
 
 // Certificates
 $certificate = makeFormCertificate('5ca766092492acd750e3061b032bd0d8'); // search publickey certificate
@@ -37,7 +37,7 @@ echo '
 TABSETTING TABDOMAIN TABSECTION TABTOPIC TABPOST TABUSER TABLANG TABSTATUS</p>
 
 <form id="form_q" method="post" action="tool_sql.php">
-<textarea id="q" name="fq" cols="100">'.$q.'</textarea>
+<textarea id="q" name="q" cols="100">'.$q.'</textarea>
 <p><button type="submit" name="ok" value="'.$certificate.'">query</button></p>
 ';
 

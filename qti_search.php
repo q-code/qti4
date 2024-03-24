@@ -23,21 +23,21 @@ if ( isset($_POST['ok']) && $_POST['ok']===makeFormCertificate('65699386509abf06
 if ( isset($_POST['ok']) && $_POST['ok']!==$certificate ) die('Unable to check certificate');
 
 $s = -1; // [int]
-$fq = ''; // query model
+$q = ''; // query model
 $fv = ''; // keyword(s), tag(s), userid or date1
 $fw = ''; // username, timeframe or date2
 $fst = ''; // status
 $to = false; // title only
-qtArgs('int:s fq fv fw fst boo:to');
+qtArgs('int:s q fv fw fst boo:to');
 
 // ------
 // SUBMITTED
 // ------
-if ( isset($_POST['ok']) && !empty($fq) ) try {
+if ( isset($_POST['ok']) && !empty($q) ) try {
 
   $arg['s'] = $s<0 ? '' : $s;
-  $arg['fq'] = $fq;
-  switch($fq) {
+  $arg['q'] = $q;
+  switch($q) {
     case 'ref':
       if ( empty($fv) ) throw new Exception( L('Ref').' '.L('invalid') );
       // support direct open when #id is used as ref
@@ -78,7 +78,7 @@ if ( isset($_POST['ok']) && !empty($fq) ) try {
       $arg['fv'] = urlencode($fv);
       $arg['fw'] = $fw;
       break;
-    default: die( 'Unknown criteria '.$fq );
+    default: die( 'Unknown criteria '.$q );
   }
   // redirect
   $oH->redirect( APP.'_items.php?'.qtImplode($arg) );
@@ -115,10 +115,10 @@ if ( !empty($criteriaError) ) echo '<p class="error">'.$criteriaError.'</p>';
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <section class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
-<div>'.L('Keywords').' <div id="ac-wrapper-kw"><input required type="text" id="kw" name="fv" size="40" maxlength="64" value="'.($fq=='kw' ? qtAttr($fv,0,'&quot;') : '').'" data-multi="1"/></div>*</div>
+<div>'.L('Keywords').' <div id="ac-wrapper-kw"><input required type="text" id="kw" name="fv" size="40" maxlength="64" value="'.($q=='kw' ? qtAttr($fv,0,'&quot;') : '').'" data-multi="1"/></div>*</div>
 <div><span class="cblabel"><input type="checkbox" id="to" name="to"'.($to ? ' checked' : '').' value="1"/> <label for="to">'.L('In_title_only').'</label></span></div>
 <div style="flex-grow:1;text-align:right">
-<input type="hidden" name="fq" value="kw"/>
+<input type="hidden" name="q" value="kw"/>
 <input type="hidden" id="kw-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
 </div>
@@ -138,9 +138,9 @@ if ( $refExists )
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
-<div>'.L('Ref').' <div id="ac-wrapper-ref"><input required type="text" id="ref" name="fv" size="5" minlength="1" maxlength="10" value="'.($fq=='ref' ? qtAttr($fv,0,'&quot;') : '').'"/>&nbsp;'.L('H_Reference').'</div></div>
+<div>'.L('Ref').' <div id="ac-wrapper-ref"><input required type="text" id="ref" name="fv" size="5" minlength="1" maxlength="10" value="'.($q=='ref' ? qtAttr($fv,0,'&quot;') : '').'"/>&nbsp;'.L('H_Reference').'</div></div>
 <div style="flex-grow:1;text-align:right">
-<input type="hidden" name="fq" value="ref"/>
+<input type="hidden" name="q" value="ref"/>
 <input type="hidden" id="ref-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
 </div>
@@ -164,10 +164,10 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 '.qtTags($L['dateMMM'],(int)$fw).'
 </select><input type="hidden" id="y" name="y" value="'.date('Y').'"/>
 ';
-if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-tag-edit"><input type="text" id="tag-edit" name="fv" size="30" value="'.($fq==='adv' ? qtAttr($fv) : '').'" data-multi="1"/></div>*
+if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-tag-edit"><input type="text" id="tag-edit" name="fv" size="30" value="'.($q==='adv' ? qtAttr($fv) : '').'" data-multi="1"/></div>*
 </div>
 <div style="flex-grow:1;text-align:right">
-<input type="hidden" name="fq" value="adv"/>
+<input type="hidden" name="q" value="adv"/>
 <input type="hidden" id="adv-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
 </div>
@@ -180,9 +180,9 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>
-<select name="fq" size="1">
-'.qtTags( ['user'=>L('Item').' '.L('author'),'userm'=>L('Item').'/'.L('reply').' '.L('author'),'actor'=>L('Item').' '.L('actor')], $fq ).'
-</select> <div id="ac-wrapper-user"><input type="hidden" id="userid" type="text" name="fw" value="'.$fw.'"/><input required id="user" type="text" name="fv" value="'.(empty($fv) || substr($fq,0,4)!=='user' ? '' : qtAttr($fv,0,'&quot;')).'" size="32" maxlenght="64"/></div></div>
+<select name="q" size="1">
+'.qtTags( ['user'=>L('Item').' '.L('author'),'userm'=>L('Item').'/'.L('reply').' '.L('author'),'actor'=>L('Item').' '.L('actor')], $q ).'
+</select> <div id="ac-wrapper-user"><input type="hidden" id="userid" type="text" name="fw" value="'.$fw.'"/><input required id="user" type="text" name="fv" value="'.(empty($fv) || substr($q,0,4)!=='user' ? '' : qtAttr($fv,0,'&quot;')).'" size="32" maxlenght="64"/></div></div>
 <div style="flex-grow:1;text-align:right">
 <input type="hidden" id="user-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
@@ -193,15 +193,15 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 
 // SEARCH BETWEEN DATES
 // when btw is used, v and w are reset to no be visible in other forms
-$date1 = ''; if ( $fq=='btw' && strlen($fv)==8 ) { $date1 = substr($fv,0,4).'-'.substr($fv,4,2).'-'.substr($fv,6,2); $fv = ''; }
-$date2 = ''; if ( $fq=='btw' && strlen($fw)==8 ) { $date2 = substr($fw,0,4).'-'.substr($fw,4,2).'-'.substr($fw,6,2);  $fw = ''; }
+$date1 = ''; if ( $q=='btw' && strlen($fv)==8 ) { $date1 = substr($fv,0,4).'-'.substr($fv,4,2).'-'.substr($fv,6,2); $fv = ''; }
+$date2 = ''; if ( $q=='btw' && strlen($fw)==8 ) { $date2 = substr($fw,0,4).'-'.substr($fw,4,2).'-'.substr($fw,6,2);  $fw = ''; }
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>'.L('Between_date').' <input required type="date" id="date1" name="fv" size="20" value="'.$date1.'" min="2000-01-01"/>
 '.L('and').' <input required type="date" id="date2" name="fw" size="20" value="'.$date2.'" max="2100-01-01"/> <a href="javascript:void(0)" onclick="setToday(); return false;""><small>'.L('dateSQL.today').'</small></a></div>
 <div style="flex-grow:1;text-align:right">
-<input type="hidden" name="fq" value="btw"/>
+<input type="hidden" name="q" value="btw"/>
 <input type="hidden" id="btw-s" name="s" value="'.$s.'"/>
 <button type="submit" name="ok" value="'.$certificate.'">'.L('Search').'</button>
 </div>
