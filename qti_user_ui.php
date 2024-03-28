@@ -21,5 +21,5 @@ if ( $canEdit ) {
   echo '&nbsp;<a class="button" href="'.url($oH->selfurl).'?id='.$id.'&edit='.($_SESSION[QT]['editing'] ? 0 : 1).'">'.qtSVG('pen','class=btn-prefix').L($_SESSION[QT]['editing'] ? 'Edit_stop' : 'Edit_start').'</a>';
 }
 if ( !isset($oH->scripts['e0']) ) {
-  $oH->scripts['e0'] = 'let e0 = '.(empty(L('E_editing')) ? 'Data not yet saved. Quit without saving?' : '"'.L('E_editing').'"').';';
+  $oH->scripts['e0'] = 'let e0 = '.(empty(L('Quit_without_saving')) ? 'Data not yet saved. Quit without saving?' : '"'.L('Quit_without_saving').'"').';';
 }

@@ -9,7 +9,7 @@ session_start();
 require 'bin/init.php';
 
 $oH->selfurl = 'qti_user.php';
-if ( SUser::role()==='V' ) exitPage(11,'user-lock.svg'); //...
+if ( SUser::role()==='V' ) $oH->voidPage('user-lock.svg',11,true); //...
 
 $id = -1;
 qtArgs('int:id!');
@@ -202,13 +202,14 @@ echo '</div>
 if ( $_SESSION[QT]['editing'] ) {
 // -- EDIT PROFILE --
 
+if ( !isset($oH->scripts['e0']) ) $oH->scripts['e0'] = 'var e0 = "'.L('Quit_without_saving').'";';
 echo '<form method="post" action="'.url('qti_user.php').'?id='.$id.'">
 <table class="t-profile">
 <tr><th>'.L('Username').'</th><td clss="c-name">'.$row['name'].'</td></tr>
 <tr><th>'.L('Role').'</th><td>'.L('Role_'.$row['role']).'</td></tr>
-<tr><th>'.L('Location').'</th><td><input type="text" name="location" size="35" maxlength="24" value="'.$row['location'].'"/></td></tr>
-<tr><th>'.L('Email').'</th><td><input type="email" name="mail" size="35" maxlength="64" value="'.$row['mail'].'" multiple/></td></tr>
-<tr><th>'.L('Website').'</th><td><input type="text" name="www" pattern="^(http://|https://).*" size="35" maxlength="64" value="'.( !empty($row['www']) ? $row['www'] : 'http://' ).'" title="'.$L['H_Website'].'"/></td></tr>
+<tr><th>'.L('Location').'</th><td><input type="text" name="location" size="35" maxlength="24" value="'.$row['location'].'" onchange="qtFormSafe.not()"/></td></tr>
+<tr><th>'.L('Email').'</th><td><input type="email" name="mail" size="35" maxlength="64" value="'.$row['mail'].'" onchange="qtFormSafe.not()" multiple/></td></tr>
+<tr><th>'.L('Website').'</th><td><input type="text" name="www" pattern="^(http://|https://).*" size="35" maxlength="64" value="'.( !empty($row['www']) ? $row['www'] : 'http://' ).'" title="'.$L['H_Website'].'" onchange="qtFormSafe.not()"/></td></tr>
 <tr><th>'.L('Birthday').'</th>
 ';
 $strBrith_y = '';
@@ -220,17 +221,17 @@ if ( !empty($row['birthday']) )
   $strBrith_m = intval(substr(strval($row['birthday']),4,2));
   $strBrith_d = intval(substr(strval($row['birthday']),6,2));
 }
-echo '<td><select name="birth_d" size="1">'.PHP_EOL;
+echo '<td><select name="birth_d" size="1" onchange="qtFormSafe.not()">'.PHP_EOL;
 echo qtTags([0=>'',1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],$strBrith_d);
 echo '</select>'.PHP_EOL;
-echo '<select name="birth_m" size="1">'.PHP_EOL;
+echo '<select name="birth_m" size="1" onchange="qtFormSafe.not()">'.PHP_EOL;
 echo '<option value="0"></option>'.qtTags($L['dateMMM'],$strBrith_m);
 echo '</select>'.PHP_EOL;
-echo '<input type="text" id="birth_y" name="birth_y" pattern="(19|20)[0-9]{2}" size="4" maxlength="4" value="'.$strBrith_y.'"/>';
+echo '<input type="text" id="birth_y" name="birth_y" pattern="(19|20)[0-9]{2}" size="4" maxlength="4" value="'.$strBrith_y.'" onchange="qtFormSafe.not()"/>';
 echo '</td></tr>'.PHP_EOL;
 echo '<tr>
 <th>'.L('Privacy').'</th>
-<td>'.L('Email').'/'.L('Location').($bMap ? '/'.L('Gmap.position') : '').' <select size="1" name="privacy">
+<td>'.L('Email').'/'.L('Location').($bMap ? '/'.L('Gmap.position') : '').' <select size="1" name="privacy" onchange="qtFormSafe.not()">
 <option value="2"'.($row['privacy']===2 ? ' selected' : '').'>'.L('Privacy_visible_2').'</option>
 <option value="1"'.($row['privacy']===1 ? ' selected' : '').'>'.L('Privacy_visible_1').'</option>
 <option value="0"'.($row['privacy']===0 ? ' selected' : '').'>'.L('Privacy_visible_0').'</option>

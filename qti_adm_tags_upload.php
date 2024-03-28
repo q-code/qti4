@@ -54,7 +54,7 @@ if ( isset($_POST['ok']) )
   {
     copy($_FILES['title']['tmp_name'],'upload/'.$v);
     unlink($_FILES['title']['tmp_name']);
-    $oH->pageMessage('', L('S_update'));
+    $oH->voidPage('', L('S_update'));
   }
 }
 

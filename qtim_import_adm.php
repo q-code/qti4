@@ -165,7 +165,7 @@ if ( isset($_POST['ok']) ) try {
   $voidSec->updEachItemReplies();
 
   // End message (pause)
-  $oH->pageMessage('', '<p>'.L('Item',$arrCounts['topic']).'<br>'.L('Reply',$arrCounts['reply']).'</p><br>'.$L['Import_S_import'].'<p><a href="'.$oH->exiturl.'">'.$oH->exitname.'</a></p>', 'admin');
+  $oH->voidPage('', '<p>'.L('Item',$arrCounts['topic']).'<br>'.L('Reply',$arrCounts['reply']).'</p><br>'.$L['Import_S_import'].'<p><a href="'.$oH->exiturl.'">'.$oH->exitname.'</a></p>', 'admin');
 
 } catch (Exception $e) {
 

@@ -72,7 +72,7 @@ try {
   // check maximum post per day (not for moderators)
   if ( !SUser::isStaff() && !postsTodayAcceptable((int)$_SESSION[QT]['posts_per_day']) ) {
     $oH->exiturl = 'qti_items.php?s='.$s;
-    $oH->pageMessage('', L('E_too_much')); //...
+    $oH->voidPage('', L('E_too_much')); //...
   }
 
   // Module antispam

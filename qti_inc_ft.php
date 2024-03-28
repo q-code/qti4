@@ -1,12 +1,10 @@
 <?php // v4.0 build:20240210
 
 /**
- * @var string $strDetailLegend
  * @var CHtml $oH
  * @var array $L
- * @var CDatabase $oDB
- * @var CSection $oS
- * @var int $s
+ * @var CDatabase $oDB (always if isset)
+ * @var CSection $oS (always if isset)
  */
 
 // END MAIN CONTENT
@@ -68,17 +66,17 @@ echo '<div id="aside__info" class="article" style="display:none">'.PHP_EOL;
   echo '<p>';
   if ( isset($oS) && is_a($oS,'CSection') && $oS->id>=0 )
   {
-    $strStatusText = SLang::translate('sec', 's'.$s, $oS->title).': ';
-    $intTopics = empty($stats[$s]['items']) ? 0 : $stats[$s]['items'];
-    $intReplies = empty($stats[$s]['replies']) ? 0 : $stats[$s]['replies'];
+    $strStatusText = SLang::translate('sec', 's'.$oS->id, $oS->title).': ';
+    $intTopics = empty($stats[$oS->id]['items']) ? 0 : $stats[$oS->id]['items'];
+    $intReplies = empty($stats[$oS->id]['replies']) ? 0 : $stats[$oS->id]['replies'];
     echo $strStatusText.'<br>';
     echo '&nbsp; '.L('item',$intTopics).', '.L('reply',$intReplies).'<br>';
     if ( !$_SESSION[QT]['show_closed'] ) {
-      $intTopicsZ = empty($stats[$s]['itemsZ']) ? 0 : $stats[$s]['itemsZ'];
-      $intRepliesZ = empty($stats[$s]['repliesZ']) ? 0 : $stats[$s]['repliesZ'];
+      $intTopicsZ = empty($stats[$oS->id]['itemsZ']) ? 0 : $stats[$oS->id]['itemsZ'];
+      $intRepliesZ = empty($stats[$oS->id]['repliesZ']) ? 0 : $stats[$oS->id]['repliesZ'];
       echo '&nbsp; '.L('closed_item',$intTopicsZ).'<br>';
     }
-    $strStatusText .= L('item',$intTopics).(empty($intTopicsZ) ? '' : ' ('.L('closed_item',$intTopicsZ).')').', '.L('reply',$stats[$s]['replies']);
+    $strStatusText .= L('item',$intTopics).(empty($intTopicsZ) ? '' : ' ('.L('closed_item',$intTopicsZ).')').', '.L('reply',$stats[$oS->id]['replies']);
   }
   echo '</p>';
   // application info
@@ -142,9 +140,7 @@ qtApplyStoredState("aside");';
 }}}
 
 // END PAGE SITE
-echo '
-</div>
-';
+echo CHtml::page('/');
 
 // ------
 // FOOTER

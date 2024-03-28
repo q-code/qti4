@@ -10,7 +10,7 @@ session_start();
 require 'bin/init.php';
 
 $oH->selfurl = 'qti_users.php';
-if ( !SUser::canAccess('show_memberlist') ) exitPage(11,'user-lock.svg'); //...
+if ( !SUser::canAccess('show_memberlist') ) $oH->voidPage('user-lock.svg',11,true); //...
 
 // CHANGE USER INTERFACE
 if ( isset($_GET['view'])) $_SESSION[QT]['viewmode'] = substr($_GET['view'],0,1);

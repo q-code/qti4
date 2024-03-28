@@ -458,7 +458,7 @@ default: die('Unknown command '.$a);
 
 // DISPLAY PAGE
 $adm = substr($a,0,3)==='adm' ? '_adm' : '';
-const HIDE_MENU_TOC=true;
+const HIDE_MENU_TOC = true;
 const HIDE_MENU_LANG=true;
 include APP.$adm.'_inc_hd.php';
 

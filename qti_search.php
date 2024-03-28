@@ -7,7 +7,7 @@ session_start();
  * @var CDatabase $oDB
  */
 require 'bin/init.php';
-if ( !SUser::canAccess('search') ) exitPage(11,'user-lock.svg'); //...
+if ( !SUser::canAccess('search') ) $oH->voidPage('user-lock.svg',11,true); //...
 
 // INITIALISE
 

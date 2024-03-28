@@ -7,7 +7,7 @@ session_start();
  */
 require 'bin/init.php';
 $oH->selfurl = 'qti_item.php';
-if ( !SUser::canView('V3') ) exitPage(11,'user-lock.svg'); //...
+if ( !SUser::canView('V3') ) $oH->voidPage('user-lock.svg',11,true); //...
 
 // ------
 // PRE-INITIALISE
@@ -44,21 +44,21 @@ if ( $oS->type==='1' && (SUser::role()==='V' || SUser::role()==='U') )
   // exit
   $oH->selfname = L('Section');
   $oH->exitname = SLang::translate();
-  $oH->pageMessage('', L('R_staff'));
+  $oH->voidPage('', L('R_staff'));
 }
 if ( $oS->type==='2' && SUser::role()==='V' && $oT->type!=='A' )
 {
   // exit
   $oH->selfname = L('Section');
   $oH->exitname = SLang::translate();
-  $oH->pageMessage('');
+  $oH->voidPage('');
 }
 if ( $oS->type==='2' && SUser::role()==='U' && $oT->firstpostuser != SUser::id() && $oT->type!=='A' )
 {
   // exit
   $oH->selfname = L('Section');
   $oH->exitname = SLang::translate();
-  $oH->pageMessage('', L('E_item_private').'<br>'.L('R_member'));
+  $oH->voidPage('', L('E_item_private').'<br>'.L('R_member'));
 }
 // access granted
 $oT->viewsIncrement(SUser::id()); // increment views (only when access is granted)

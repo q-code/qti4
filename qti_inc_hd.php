@@ -4,8 +4,7 @@
  * @var bool $hideMenuLang
  * @var bool $bMyBoard
  * @var CHtml $oH
- * @var CSection $oS
- * @var CTopic $oT
+ * @var CSection $oS (always if isset)
  * @var string $q
  * @var int $s
  */
@@ -92,7 +91,7 @@ $oH->title = (empty($oH->selfname) ? '' : $oH->selfname.' - ').$oH->title;
 $oH->head();
 $oH->body();
 
-CHtml::getPage('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''));
+echo CHtml::page('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''));
 
 // ------
 // HEADER shows BANNER LANG-MENU NAV
@@ -156,7 +155,7 @@ echo '
 <p id="crumbtrail"><a href="'.url('qti_index.php').'"'.($oH->selfurl=='qti_index.php' ? ' onclick="return false;"' : ''),'>',SLang::translate().'</a>';
 if ( isset($oS) && $oS->id>=0 ) { // $oS->id=-1 in case of 'void'-section
   if ( QT_SHOW_DOMAIN ) echo QT_CRUMBTRAIL.CDomain::translate($oS->pid);
-  echo QT_CRUMBTRAIL.'<a href="'.url('qti_items.php').'?s='.$s.'">'.CSection::translate($s).'</a>';
+  echo QT_CRUMBTRAIL.'<a href="'.url('qti_items.php').'?s='.$oS->id.'">'.CSection::translate($oS->id).'</a>';
   if ( $oS->type==='2' && !SUser::isStaff() ) echo QT_CRUMBTRAIL.'<small>'.L('all_my_items').'</small>';
 }
 if ( $oH->selfurl==='qti_user.php') echo QT_CRUMBTRAIL.L('Profile');

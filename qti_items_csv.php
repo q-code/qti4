@@ -9,7 +9,7 @@ require 'bin/init.php';
  * @var string $ft
  */
 $oH->selfurl = 'qti_items_csv.php';
-if ( !SUser::canView('V2') ) exitPage(11,'user-lock.svg'); //...
+if ( !SUser::canView('V2') ) $oH->voidPage('user-lock.svg',11,true); //...
 
 // ------
 // INITIALISE

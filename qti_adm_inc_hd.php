@@ -1,14 +1,15 @@
 <?php
 /**
  * @var CHtml $oH
+ * @var CDatabase $oDB (always if isset)
  * @var array $L
- * @var CDatabase $oDB
  */
 $oH->links['ico'] = '<link rel="shortcut icon" href="bin/css/qt.ico"/>';
 $oH->links['cssCore'] = '<link rel="stylesheet" type="text/css" href="bin/css/qt_core.css"/>'; // attention qt_core
 unset($oH->links['cssContrast']);
 $oH->links['css'] = '<link rel="stylesheet" type="text/css" href="bin/css/admin.css"/>';
-$oH->scripts[] = 'var e0 = '.(isset($L['E_editing']) ? '"'.L('E_editing').'"' : 'Data not yet saved. Quit without saving?').';';
+if ( !isset($oH->scripts['e0']) )
+$oH->scripts['e0'] = 'var e0 = "'.L('Quit_without_saving').'";';
 $oH->links['cssCustom'] = null;
 
 $oH->head();
@@ -80,7 +81,7 @@ if ( !defined('HIDE_MENU_TOC') || !HIDE_MENU_TOC )
   // group modules
   $navMenu->menu = [];
   $navMenu->add(L('Board_modules'). '|tag=p|class=group');
-  if ( !isset($_SESSION[QT]['mModules']) ) $_SESSION[QT]['mModules'] = $oDB->getSettings('param LIKE "module%"'); // store list of modules in memory if not yet done
+  if ( !isset($_SESSION[QT]['mModules']) && isset($oDB) ) $_SESSION[QT]['mModules'] = $oDB->getSettings('param LIKE "module%"'); // store list of modules in memory if not yet done
   foreach($_SESSION[QT]['mModules'] as $k=>$module)
   {
     $k = str_replace('module_','',$k);
@@ -92,7 +93,7 @@ if ( !defined('HIDE_MENU_TOC') || !HIDE_MENU_TOC )
   echo '</div>'.PHP_EOL;
 }
 
-CHtml::getPage();
+echo CHtml::page();
 
 // Title (and error)
 echo '<h1 class="title"'.(isset($oH->selfparent) ? ' data-parent="'.$oH->selfparent.'"' : '').'>'.$oH->selfname.'</h1>';
