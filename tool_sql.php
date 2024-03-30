@@ -36,7 +36,7 @@ echo '
 <p class="small">As tablename can have prefix in your database, use following alias to query the correct table:<br>
 TABSETTING TABDOMAIN TABSECTION TABTOPIC TABPOST TABUSER TABLANG TABSTATUS</p>
 
-<form  id="form_q" method="post" action="tool_sql.php">
+<form id="form_q" method="post" action="tool_sql.php">
 <textarea id="q" name="q" cols="100">'.$q.'</textarea>
 <p><button type="submit" name="ok" value="'.$certificate.'">query</button></p>
 ';

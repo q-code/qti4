@@ -130,7 +130,7 @@ for ($i=$intStartyear;$i<=$intEndyear;$i++) $arrY[$i]=$i;
 echo '<div class="flex-sp top">
 <h1>'.L('Options').'</h1>
 <div class="search-box options">
-<form  method="get" action="'.url($oH->selfurl).'">
+<form method="get" action="'.url($oH->selfurl).'">
 <table>
 <tr>
 <td>'.L('Year').'</td>

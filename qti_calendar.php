@@ -149,7 +149,7 @@ if ( date('l',$dFirstDay)!=='Monday' )
 // DISPLAY MAIN CALENDAR MENU
 echo '<div id="ct-title" class="flex-sp">';
 echo '<h1>',$oH->selfname,': ',$L['dateMMM'][date('n',$dCurrentDate)].' '.date('Y',$dCurrentDate),'</h1>';
-echo '<form  method="get" action="',url($oH->selfurl),'" id="cal_month">';
+echo '<form method="get" action="',url($oH->selfurl),'" id="cal_month">';
 echo '<input type="hidden" name="y" id="y" value="',$intYear,'"/> '.PHP_EOL;
 echo L('Month'),' <select name="m" onchange="document.getElementById(`cal_month`).submit();">';
 for ($i=1;$i<13;$i++) echo '<option',($i==date('n') ? ' class="bold"' : ''),' value="',$i,'"',($i==$intMonth ? ' selected' : ''),'>',$L['dateMMM'][$i],'</option>'.PHP_EOL;

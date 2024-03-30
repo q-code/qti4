@@ -32,14 +32,14 @@ echo '
 if ( !defined('HIDE_MENU_LANG') || !HIDE_MENU_LANG )
 {
   $langMenu = new CMenu();
-  $langMenu->add('text='.qtSVG('caret-square-left').'|id=lang-exit|href='.APP.'_index.php|title='.L('Exit').'|onclick=return qtFormSafe.exit(e0);');
+  $langMenu->add('text='.qtSVG('caret-square-left').'|id=lang-exit|href='.APP.'_index.php|title='.L('Exit').'');
   // lang
   if ( $_SESSION[QT]['userlang'] ) {
     if ( is_array(LANGUAGES) && count(LANGUAGES)>1 ) {
       foreach (LANGUAGES as $iso=>$lang) {
         $lang = explode(' ',$lang);
         $lang = empty($lang[1]) ? strtoupper($iso) : $lang[1]; // uppercase iso code if no description
-        $langMenu->add('lang-'.$iso, strtoupper($iso).'|href='.$oH->selfurl.'?'.qtURI('lang').'&lang='.$iso.'||title='.$lang.'|onclick=return qtFormSafe.exit(e0);');
+        $langMenu->add('lang-'.$iso, strtoupper($iso).'|href='.$oH->selfurl.'?'.qtURI('lang').'&lang='.$iso.'||title='.$lang.'');
       }
     } else {
       $langMenu->add('!missing file:config/config_lang.php');
@@ -57,25 +57,25 @@ if ( !defined('HIDE_MENU_TOC') || !HIDE_MENU_TOC )
   $navMenu = new CMenu(null,'');
   echo '<div id="toc">'.PHP_EOL;
   $navMenu->add(L('Info').          '|tag=p|class=group');
-  $navMenu->add(L('Board_status').  '|href=qti_adm_index.php|class=item|onclick=return qtFormSafe.exit(e0);');
-  $navMenu->add(L('Board_general'). '|href=qti_adm_site.php|class=item|onclick=return qtFormSafe.exit(e0);');
+  $navMenu->add(L('Board_status').  '|href=qti_adm_index.php|class=item');
+  $navMenu->add(L('Board_general'). '|href=qti_adm_site.php|class=item');
   echo '<div class="group">'.$navMenu->build($oH->selfurl).'</div>';
   // group settings
   $navMenu->menu = [];
   $navMenu->add(L('Settings').      '|tag=p|class=group');
-  $navMenu->add(L('Board_region').  '|href=qti_adm_region.php|class=item|onclick=return qtFormSafe.exit(e0);|activewith=qti_adm_time.php');
-  $navMenu->add(L('Board_layout').  '|href=qti_adm_skin.php|class=item|onclick=return qtFormSafe.exit(e0);');
-  $navMenu->add(L('Board_security').'|href=qti_adm_secu.php|class=item|onclick=return qtFormSafe.exit(e0);');
-  $navMenu->add('SSE|href=qti_adm_sse.php|class=item|onclick=return qtFormSafe.exit(e0);');
+  $navMenu->add(L('Board_region').  '|href=qti_adm_region.php|class=item|activewith=qti_adm_time.php');
+  $navMenu->add(L('Board_layout').  '|href=qti_adm_skin.php|class=item');
+  $navMenu->add(L('Board_security').'|href=qti_adm_secu.php|class=item');
+  $navMenu->add('SSE|href=qti_adm_sse.php|class=item');
   echo '<div class="group">'.$navMenu->build($oH->selfurl).'</div>';
   // group Content
   $navMenu->menu = [];
   $navMenu->add(L('Board_content'). '|tag=p|class=group');
-  $navMenu->add(L('Section+').      '|href=qti_adm_sections.php|class=item|onclick=return qtFormSafe.exit(e0);|activewith=qti_adm_section.php qti_adm_domain.php');
-  $navMenu->add(L('Item+').         '|href=qti_adm_items.php|class=item|onclick=return qtFormSafe.exit(e0);');
-  $navMenu->add(L('Statuses').      '|href=qti_adm_statuses.php|class=item|onclick=return qtFormSafe.exit(e0);|activewith=qti_adm_status.php');
-  $navMenu->add(L('Tags').          '|href=qti_adm_tags.php|class=item|onclick=return qtFormSafe.exit(e0);');
-  $navMenu->add(L('Users').         '|href=qti_adm_users.php|class=item|onclick=return qtFormSafe.exit(e0);|activewith=qti_adm_users_exp.php qti_adm_users_imp.php');
+  $navMenu->add(L('Section+').      '|href=qti_adm_sections.php|class=item|activewith=qti_adm_section.php qti_adm_domain.php');
+  $navMenu->add(L('Item+').         '|href=qti_adm_items.php|class=item');
+  $navMenu->add(L('Statuses').      '|href=qti_adm_statuses.php|class=item|activewith=qti_adm_status.php');
+  $navMenu->add(L('Tags').          '|href=qti_adm_tags.php|class=item');
+  $navMenu->add(L('Users').         '|href=qti_adm_users.php|class=item|activewith=qti_adm_users_exp.php qti_adm_users_imp.php');
   echo '<div class="group">'.$navMenu->build($oH->selfurl).'</div>';
   // group modules
   $navMenu->menu = [];
@@ -84,10 +84,10 @@ if ( !defined('HIDE_MENU_TOC') || !HIDE_MENU_TOC )
   foreach($_SESSION[QT]['mModules'] as $k=>$module)
   {
     $k = str_replace('module_','',$k);
-    $navMenu->add($module.'|href=qtim_'.$k.'_adm.php|class=item|onclick=return qtFormSafe.exit(e0);');
+    $navMenu->add($module.'|href=qtim_'.$k.'_adm.php|class=item');
   }
-  echo '<div class="group">'.$navMenu->build($oH->selfurl).'<p class="item"><a href="qti_adm_module.php?a=add" onclick="return qtFormSafe.exit(e0);">['.L('Add').']</a> &middot; <a href="qti_adm_module.php?a=rem" onclick="return qtFormSafe.exit(e0);">['.L('Remove').']</a></p></div>';
-  echo '<a style="display:block;margin:8px 0" class="button center" href="'.APP.'_index.php" onclick="return qtFormSafe.exit(e0);">'.L('Exit').'</a>';
+  echo '<div class="group">'.$navMenu->build($oH->selfurl).'<p class="item"><a href="qti_adm_module.php?a=add">['.L('Add').']</a> &middot; <a href="qti_adm_module.php?a=rem">['.L('Remove').']</a></p></div>';
+  echo '<a style="display:block;margin:8px 0" class="button center" href="'.APP.'_index.php">'.L('Exit').'</a>';
   echo qtSVG('user-a', 'class=filigrane');
   echo '</div>'.PHP_EOL;
 }

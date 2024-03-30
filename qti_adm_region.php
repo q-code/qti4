@@ -81,7 +81,7 @@ echo '
 ';
 echo '<tr>
 <th><label for="language">'.L('Dflt_language').'</label></th>
-<td><select id="language" name="language">'.qtTags( $arrFiles, $_SESSION[QT]['language'] ).'</select><span class="small indent">'.(file_exists('language/readme.txt') ? '<a href="tool_txt.php?ro=1&exit=qti_adm_region.php&file=language/readme.txt&title=How to add languages" onclick="return qtFormSafe.exit(e0);">How to add languages...</a>' :'').'</span></td>
+<td><select id="language" name="language">'.qtTags( $arrFiles, $_SESSION[QT]['language'] ).'</select><span class="small indent">'.(file_exists('language/readme.txt') ? '<a href="tool_txt.php?ro=1&exit=qti_adm_region.php&file=language/readme.txt&title=How to add languages">How to add languages...</a>' :'').'</span></td>
 </tr>
 ';
 echo '<tr>
@@ -96,7 +96,7 @@ echo '<h2 class="config">'.L('Date_time').'</h2>
 if ( PHP_VERSION_ID>=50200 ) {
 echo '<tr>
 <th>Server time</th>
-<td><span>'.date('H:i').' (gmt '.gmdate('H:i').')</span><span class="small indent"><a href="'.APP.'_adm_time.php" onclick="return qtFormSafe.exit(e0);">'.L('Change_time').'...</a></span></td>
+<td><span>'.date('H:i').' (gmt '.gmdate('H:i').')</span><span class="small indent"><a href="'.APP.'_adm_time.php">'.L('Change_time').'...</a></span></td>
 </tr>
 ';
 }

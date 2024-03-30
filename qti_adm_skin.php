@@ -86,7 +86,7 @@ echo '<form class="formsafe" method="post" action="'.$oH->self().'">
 <table class="t-conf">
 <tr title="'.L('H_Board_skin').'">
 <th>'.L('Board_skin').'</th>
-<td class="flex-sp"><select name="skin" onchange="qtFormSafe.not();toggleCustomCss(this.value,`'.$currentCss.'`);">'.qtTags($arrFiles,$currentCss).'</select><small id="custom-css">'.(empty($customCss) ? '' : '('.L('and').' custom.css <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$customCss.'" title="'.L('Edit').'" onclick="return qtFormSafe.exit(e0);">'.qtSVG('pen-square').'</a>)').'</small></td>
+<td class="flex-sp"><select name="skin" onchange="toggleCustomCss(this.value,`'.$currentCss.'`);">'.qtTags($arrFiles,$currentCss).'</select><small id="custom-css">'.(empty($customCss) ? '' : '('.L('and').' custom.css <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$customCss.'" title="'.L('Edit').'">'.qtSVG('pen-square').'</a>)').'</small></td>
 </tr>
 <tr title="'.L('H_Show_banner').'">
 <th>'.L('Show_banner').'</th>
@@ -96,7 +96,7 @@ echo '<form class="formsafe" method="post" action="'.$oH->self().'">
 <th>'.L('Show_welcome').'</th>
 <td class="flex-sp"><select name="show_welcome">';
 echo qtTags([2=>L('Y'),0=>L('N'),1=>L('While_unlogged')], $_SESSION[QT]['show_welcome'] );
-echo '</select><small id="welcome-txt">'.(empty($welcomeTxt) ? '' : ' ('.L('edit').' '.L('file').' <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$welcomeTxt.'" title="'.L('Edit').'" onclick="return qtFormSafe.exit(e0);">'.qtSVG('pen-square').'</a>)').'</small></td>
+echo '</select><small id="welcome-txt">'.(empty($welcomeTxt) ? '' : ' ('.L('edit').' '.L('file').' <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$welcomeTxt.'" title="'.L('Edit').'">'.qtSVG('pen-square').'</a>)').'</small></td>
 </tr>
 </table>
 ';
@@ -135,7 +135,7 @@ echo '<h2 class="config">'.L('Your_website').'</h2>
 echo '<tr title="'.L('H_Home_website_name').'">
 <th>'.L('Add_home').'</th>
 <td>
-<select name="home_menu" onchange="toggleHome(this.value); qtFormSafe.not();">'.qtTags([L('N'),L('Y')],(int)$_SESSION[QT]['home_menu']).'</select>
+<select name="home_menu" onchange="toggleHome(this.value);">'.qtTags([L('N'),L('Y')],(int)$_SESSION[QT]['home_menu']).'</select>
 &nbsp;<input type="text" id="home_name" name="home_name" size="20" maxlength="64" value="'.qtAttr($_SESSION[QT]['home_name'],64),'"',($_SESSION[QT]['home_menu']=='0' ? ' disabled' : '').'/></td>
 </tr>
 <tr title="'.L('H_Website').'">

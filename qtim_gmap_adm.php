@@ -154,7 +154,7 @@ echo '<tr>
 <p class="markerpicker small">'.L('Gmap.Click_to_change').'<br>
 ';
 foreach ($arrFiles as $file=>$name){
-  echo '<input type="radio" id="symbol_'.$file.'" data-src="qtim_gmap/'.$file.'.png" name="m_gmap_gsymbol" value="'.$file.'"'.($current===$file ? 'checked' : '').' onchange="previewMarker(this.dataset.src);qtFormSafe.not();" style="display:none"/><label for="symbol_'.$file.'"><img class="marker" title="'.$name.'" src="qtim_gmap/'.$file.'.png" alt="i" aria-checked="'.($current===$file ? 'true' : 'false').'"/></label>'.PHP_EOL;
+  echo '<input type="radio" id="symbol_'.$file.'" data-src="qtim_gmap/'.$file.'.png" name="m_gmap_gsymbol" value="'.$file.'"'.($current===$file ? 'checked' : '').' onchange="previewMarker(this.dataset.src);" style="display:none"/><label for="symbol_'.$file.'"><img class="marker" title="'.$name.'" src="qtim_gmap/'.$file.'.png" alt="i" aria-checked="'.($current===$file ? 'true' : 'false').'"/></label>'.PHP_EOL;
 }
 echo '</p></td>
 </tr>

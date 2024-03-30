@@ -168,7 +168,7 @@ if ( SUser::isStaff() )
 {
 echo '<div class="right">
 <div id="optionsbar" title="'.L('My_preferences').'">
-<form  method="get" action="'.url($oH->selfurl).'" id="modaction">
+<form method="get" action="'.url($oH->selfurl).'" id="modaction">
 '.L('Options').'&nbsp;<input type="hidden" name="s" value="'.$s.'"/>
 <input type="hidden" name="fv" value="'.$fv.'"/>
 <input type="hidden" name="y" value="'.$intYear.'"/>
@@ -201,7 +201,7 @@ if ( !isset($arrYears[intval(date('Y'))]) ) $arrYears[intval(date('Y'))]=intval(
 
 echo '<div id="ct-title" class="flex-sp">';
 echo '<h1>'.$L['dateMMM'][date('n',$dCurrentDate)].' '.date('Y',$dCurrentDate).', '.$oH->selfname.'</h1>';
-echo '<form  method="get" action="'.url($oH->selfurl).'" id="cal_month">';
+echo '<form method="get" action="'.url($oH->selfurl).'" id="cal_month">';
 echo '<input type="hidden" name="s" value="'.$s.'"/> ';
 echo '<input type="hidden" name="y" value="'.$intYear.'"/> ';
 echo L('Month').' <select name="m" onchange="document.getElementById(`cal_month`).submit();">';

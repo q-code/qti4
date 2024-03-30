@@ -108,7 +108,7 @@ echo '</td>
 ';
 echo '<tr>
 <th>'.L('External_server').'</th>
-<td><select id="useServer" name="useServer" onchange="qtToggle(`sse_server`,`inline`);qtFormSafe.not();">'.qtTags([L('N'),L('Y')], empty($sse_server) ? 0 : 1).'</select>
+<td><select id="useServer" name="useServer" onchange="qtToggle(`sse_server`,`inline`);">'.qtTags([L('N'),L('Y')], empty($sse_server) ? 0 : 1).'</select>
  <input id="sse_server" type="text" name="sse_server" size="50" style="display:'.(empty($sse_server) ? 'none' : 'inline').'" placeholder="Path to ext directory, ex: https://srv01.domain.com/app/qti/" />
 </td>
 </tr>

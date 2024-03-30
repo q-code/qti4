@@ -199,7 +199,7 @@ echo '<input type="hidden" name="oldid" value="'.$id.'"/>
 <input type="hidden" name="oldname" value="'.$_Statuses[$id]['name'].'"/>
 <p class="submit"><button type="submit" name="ok" value="ok">'.L('Save').'</button></p>
 </form>
-<p class="submit"><a href="'.$oH->exiturl.'" onclick="return qtFormSafe.exit(e0);">'.$oH->exitname.'</a></p>
+<p class="submit"><a href="'.$oH->exiturl.'">'.$oH->exitname.'</a></p>
 ';
 
 // HTML END

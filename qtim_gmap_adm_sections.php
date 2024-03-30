@@ -223,7 +223,7 @@ if ( $i>=9 ) { echo '</tr><tr>'; $i=0; }
 }
 echo '</tr>
 </table>
-<p class="submit">'.qtSVG('chevron-left').'<a href="'.$oH->exiturl.'" onclick="return qtFormSafe.exit(e0);">'.$oH->exitname.'</a></p>
+<p class="submit">'.qtSVG('chevron-left').'<a href="'.$oH->exiturl.'">'.$oH->exitname.'</a></p>
 ';
 
 // HTML END
