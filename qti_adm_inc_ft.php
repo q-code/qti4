@@ -5,7 +5,7 @@
  */
 
 // END PAGE SITE
-echo CHtml::page('/');
+echo CHtml::pageDIV('/');
 
 if ( isset($oDB->stats) ) {
   if ( empty($oDB->stats['end']) ) $oDB->stats['end'] = gettimeofday(true);
@@ -13,12 +13,12 @@ if ( isset($oDB->stats) ) {
 }
 
 
-echo '
-</div>
-';
+echo CHtml::pageDIV('/', 'pg-layout');
+echo CHtml::pageDIV('/', 'pg-admin');
 
-// Automatic add script {file.php.js} if existing
-if ( file_exists($oH->selfurl.'.js') ) $oH->scripts[] = '<script type="text/javascript" src="'.$oH->selfurl.'.js"></script>';
+// Automatic add script {file.php.js} if existing and formsafe
+if ( file_exists($oH->selfurl.'.js') )
+$oH->scripts[] = '<script type="text/javascript" src="'.$oH->selfurl.'.js"></script>';
 
 $oH->end();
 

@@ -91,7 +91,7 @@ $oH->title = (empty($oH->selfname) ? '' : $oH->selfname.' - ').$oH->title;
 $oH->head();
 $oH->body();
 
-echo CHtml::page('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''));
+echo CHtml::pageDIV('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''));
 
 // ------
 // HEADER shows BANNER LANG-MENU NAV
@@ -120,7 +120,7 @@ if ( QT_SIMPLESEARCH && $oH->selfurl!==APP.'_search.php' ) {
     echo asImg( QT_SKIN.'img/topic_a_0.gif', 'alt=T|class=img|title='.L('All_news'), url(APP.'_items.php').'?q=news' );
     echo asImg( QT_SKIN.'img/topic_i_0.gif', 'alt=T|class=img|title='.L('Inspections'), url(APP.'_items.php').'?q=insp' );
     if ( SUser::role()!=='V' ) echo '<a href="'.url(APP.'_items.php').'?q=user&fw='.SUser::id().'&fv='.urlencode(SUser::name()).'" title="'.L('All_my_items').'">'.qtSVG('user').'</a>';
-    echo '<form method="post" action="'.url(APP.'_search.php').'" style="display:inline">';
+    echo '<form  method="post" action="'.url(APP.'_search.php').'" style="display:inline">';
     echo '<button id="searchSubmit" type="submit" style="display:none" name="ok" value="'.makeFormCertificate('65699386509abf064aec83e5124c1f30').'">ok</button>';
     echo '<input type="hidden" name="q" value="qkw">';
     echo '<div id="ac-wrapper-qkw"><input required id="qkw" name="fv" type="text" size="25" placeholder="'.L('Number_or_keyword').'" autocomplete="off" /></div> <a class="btn-search" href="javascript:void(0)" title="'.L('Search').' '.L('in_all_sections').'" onclick="document.getElementById(`searchSubmit`).click();">'.qtSVG('search').'</a>';

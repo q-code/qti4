@@ -75,7 +75,7 @@ include APP.'_adm_inc_hd.php';
 
 // FORM
 echo '
-<form method="post" action="'.$oH->self().'">
+<form class="formsafe" method="post" action="'.$oH->self().'">
 <h2 class="config">SSE</h2>
 <table class="t-conf">
 ';
@@ -83,7 +83,7 @@ echo '<tr>
 <th>'.L('Requery_status').'</th>
 <td>
 <span style="display:inline-block;width:16px;background-color:'.(empty($sse_connect) ? 'red' : 'green').';border-radius:3px">&nbsp;</span> <span>'.L((empty($sse_connect) ? 'Off' : 'On').'_line').'</span>
-<span class="indent"><input required id="sse_connect" type="text" name="sse_connect" size="2" maxlength="2" value="'.$sse_connect.'" pattern="[0-9]{1,2}" onchange="qtFormSafe.not();"/> '.L('seconds').'</span>
+<span class="indent"><input required id="sse_connect" type="text" name="sse_connect" size="2" maxlength="2" value="'.$sse_connect.'" pattern="[0-9]{1,2}"/> '.L('seconds').'</span>
 </td>
 </tr>
 ';
@@ -96,7 +96,7 @@ echo '</td>
 ';
 echo '<tr>
 <th>'.L('Recent_messages').'</th>
-<td><select id="sse_maxrows" name="sse_maxrows" onchange="qtFormSafe.not();">'.qtTags([1=>1,2,3,4,5],(int)$sse_maxrows).'</select></td>
+<td><select id="sse_maxrows" name="sse_maxrows">'.qtTags([1=>1,2,3,4,5],(int)$sse_maxrows).'</select></td>
 </tr>
 ';
 echo '<tr>
@@ -109,7 +109,7 @@ echo '</td>
 echo '<tr>
 <th>'.L('External_server').'</th>
 <td><select id="useServer" name="useServer" onchange="qtToggle(`sse_server`,`inline`);qtFormSafe.not();">'.qtTags([L('N'),L('Y')], empty($sse_server) ? 0 : 1).'</select>
- <input id="sse_server" type="text" name="sse_server" onchange="qtFormSafe.not();" size="50" style="display:'.(empty($sse_server) ? 'none' : 'inline').'" placeholder="Path to ext directory, ex: https://srv01.domain.com/app/qti/" />
+ <input id="sse_server" type="text" name="sse_server" size="50" style="display:'.(empty($sse_server) ? 'none' : 'inline').'" placeholder="Path to ext directory, ex: https://srv01.domain.com/app/qti/" />
 </td>
 </tr>
 ';
@@ -127,7 +127,7 @@ echo '<h2 class="config">'.L('Security').'</h2>
 ';
 echo '<tr>
 <th>'.L('Origin').'</th>
-<td><input type="text" id="sse_origin" name="sse_origin" size="50" maxlength="500" value="'.qtAttr($sse_origin).'" onchange="qtFormSafe.not();" title="Protocol domain (and port if not default). Ex: https://www.mycompany.com"/></td>
+<td><input type="text" id="sse_origin" name="sse_origin" size="50" maxlength="500" value="'.qtAttr($sse_origin).'" title="Protocol domain (and port if not default). Ex: https://www.mycompany.com"/></td>
 </tr>
 ';
 echo '<tr>

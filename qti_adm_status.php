@@ -111,7 +111,7 @@ echo '<table>
 </tr>
 </table>
 <br>'.PHP_EOL;
-echo '<form method="POST" action="'.$oH->selfuri.'">'.PHP_EOL;
+echo '<form class="formsafe" method="POST" action="'.$oH->selfuri.'">'.PHP_EOL;
 echo '<h2 class="config">'.L('Definition').'</h2>'.PHP_EOL;
 echo '<table class="t-conf">'.PHP_EOL;
 echo '<tr>';
@@ -134,7 +134,7 @@ echo '</tr>'.PHP_EOL;
 echo '<tr>';
 echo '<th style="width:150px"><label for="color">'.L('Status_background').'</label></th>';
 echo '<td>
-<input type="text" class="colortext" id="color" name="color" size="10" maxlength="24" value="'.(empty($_Statuses[$id]['color']) ? '#' : $_Statuses[$id]['color']).'" onchange="qtFormSafe.not();"/>
+<input type="text" class="colortext" id="color" name="color" size="10" maxlength="24" value="'.(empty($_Statuses[$id]['color']) ? '#' : $_Statuses[$id]['color']).'"/>
 <input type="color" id="colorpicker" value="'.(empty($_Statuses[$id]['color']) ? '#ffffff' : $_Statuses[$id]['color']).'" onchange="document.getElementById(`color`).value=this.value;"/>
 &nbsp;<small>'.L('H_Status_background').'</span>
 </td>';
@@ -178,7 +178,7 @@ echo '<table class="t-conf">
 foreach(LANGUAGES as $iso=>$values)
 {
   $arr = explode(' ',$values,2); if ( empty($arr[1]) ) $arr[1]=$arr[0];
-  echo '<p class="iso" title="'.L('Status').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" id="T'.$iso.'" name="T'.$iso.'" size="20" maxlength="64" placeholder="'.ucfirst(str_replace('_',' ',$_Statuses[$id]['name'])).'" value="'.(isset($arrTrans[$iso]) ? $arrTrans[$iso] : '').'" onchange="qtFormSafe.not();"/></p>'.PHP_EOL;
+  echo '<p class="iso" title="'.L('Status').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" id="T'.$iso.'" name="T'.$iso.'" size="20" maxlength="64" placeholder="'.ucfirst(str_replace('_',' ',$_Statuses[$id]['name'])).'" value="'.(isset($arrTrans[$iso]) ? $arrTrans[$iso] : '').'"/></p>'.PHP_EOL;
 }
 echo '</div></td>
 </tr>
@@ -189,7 +189,7 @@ echo '</div></td>
 foreach(LANGUAGES as $iso=>$values)
 {
   $arr = explode(' ',$values,2); if ( empty($arr[1]) ) $arr[1]=$arr[0];
-  echo '<p class="iso" title="'.L('Description').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" id="D'.$iso.'" name="D'.$iso.'" size="50" maxlength="255"  value="'.(isset($arrDescTrans[$iso]) ? $arrDescTrans[$iso] : '').'" onchange="qtFormSafe.not();"/></p>'.PHP_EOL;
+  echo '<p class="iso" title="'.L('Description').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" id="D'.$iso.'" name="D'.$iso.'" size="50" maxlength="255"  value="'.(isset($arrDescTrans[$iso]) ? $arrDescTrans[$iso] : '').'"/></p>'.PHP_EOL;
 }
 echo '</div></td>
 </tr>

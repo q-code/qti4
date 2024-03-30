@@ -154,16 +154,16 @@ $wisheddate      = $oS->wisheddate>2 ? 2 : $oS->wisheddate;   // 0=no, 1=optiona
 $wisheddate_dflt = $oS->wisheddate>2 ? $oS->wisheddate-2 : 0; // 3 4 5 = today, day+1, day+2
 if ( $oS->notify===0 ) $oS->notifycc==="0";
 
-echo '<form method="post" action="'.$oH->self().'?s='.$s.'&pan='.$pan.'">
+echo '<form class="formsafe" method="post" action="'.$oH->self().'?s='.$s.'&pan='.$pan.'">
 <h2 class="subconfig">'.L('Definition').'</h2>
 <table class="t-conf">
 <tr>
 <th style="width:150px; text-align:right"><span class="texthead"><label for="title">'.L('Title').'</label></span></th>
-<td><input required type="text" id="title" name="title" size="35" maxlength="64" value="'.qtAttr($oS->title,64).'" style="background-color:#dbf4ff;" onchange="qtFormSafe.not();"/></td>
+<td><input required type="text" id="title" name="title" size="35" maxlength="64" value="'.qtAttr($oS->title,64).'" style="background-color:#dbf4ff;"/></td>
 </tr>
 <tr>
 <th style="width:150px; text-align:right"><span class="texthead">'.L('Domain').'</span></th>
-<td><select name="domain" onchange="qtFormSafe.not();">
+<td><select name="domain">
 <option value="'.$oS->pid.'"'.' selected'.'>'.$arrDomains[$oS->pid].'</option>'.qtTags($arrDest).'</select></td>
 </tr>
 </table>
@@ -173,16 +173,16 @@ echo '<h2 class="subconfig">'.L('Properties').'</h2>
 <tr>
 <th style="text-align: right; width:150px"><span class="texthead"><label for="type">'.L('Type').'</label></span></th>
 <td>
-<select id="type" name="type" onchange="qtFormSafe.not();">
+<select id="type" name="type">
 <option value="1"'.($oS->type==='1' ? ' selected' : '').'>'.L('Section_type.1').'</option>
 <option value="0"'.($oS->type==='0' ? ' selected' : '').'>'.L('Section_type.0').'</option>
 <option value="2"'.($oS->type==='2' ? ' selected' : '').'>'.L('Section_type.2').'</option>
 </select>
- '.L('Status').' <select id="status" name="status" onchange="qtFormSafe.not();">
+ '.L('Status').' <select id="status" name="status">
 <option value="0"'.($oS->status==='0' ? ' selected' : '').'>'.L('Section_status.0').'</option>
 <option value="1"'.($oS->status==='1' ? ' selected' : '').'>'.L('Section_status.1').'</option>
 </select>
- '.L('Notification').' <select id="notify" name="notify" onchange="qtFormSafe.not();">
+ '.L('Notification').' <select id="notify" name="notify">
 <option value="1"'.($oS->notify===1 ? ' selected' : '').'>'.L('Y').'</option>
 <option value="0"'.($oS->notify===0 ? ' selected' : '').'>'.L('N').'</option>
 </select>
@@ -193,15 +193,15 @@ echo '<h2 class="subconfig">'.L('Properties').'</h2>
 <td>';
 if ( count($arrStaff)>15 )
 {
-echo '<input type="hidden" id="usr-t" value="M"/><input type="hidden" name="ownernameold" value="'.$oS->ownername.'" onchange="qtFormSafe.not();"/>
+echo '<input type="hidden" id="usr-t" value="M"/><input type="hidden" name="ownernameold" value="'.$oS->ownername.'"/>
 <div id="ac-wrapper-user">
-<input name="ownername" id="user" maxlength="24" value="'.$oS->ownername.'" onchange="qtFormSafe.not();" style="width:285px"/>
+<input name="ownername" id="user" maxlength="24" value="'.$oS->ownername.'" style="width:285px"/>
 </div>';
 }
 else
 {
-echo '<input type="hidden" name="owneridold" value="'.$oS->ownerid.'" onchange="qtFormSafe.not();"/>
-<select id="ownerid" class="stamprole" name="ownerid" onchange="qtFormSafe.not();" style="width:285px">'.qtTags($arrStaff, $oS->ownerid).'</select>';
+echo '<input type="hidden" name="owneridold" value="'.$oS->ownerid.'"/>
+<select id="ownerid" class="stamprole" name="ownerid" style="width:285px">'.qtTags($arrStaff, $oS->ownerid).'</select>';
 }
 echo '</td>
 </tr>
@@ -211,16 +211,16 @@ echo '<h2 class="subconfig">'.L('Specific_fields').'</h2>
 <table class="t-conf">
 <tr>
 <th style="text-align: right; width:150px"><span class="texthead"><label for="numfield">'.L('Show_item_id').'</label></span></th>
-<td><input type="text" id="numfield" size="10" maxlength="24" name="numfield" value="'.($oS->numfield==='N' ? '' : qtAttr($oS->numfield)).'" onchange="qtFormSafe.not();"/>&nbsp;<small>'.L('H_Show_item_id').'</span></td>
+<td><input type="text" id="numfield" size="10" maxlength="24" name="numfield" value="'.($oS->numfield==='N' ? '' : qtAttr($oS->numfield)).'"/>&nbsp;<small>'.L('H_Show_item_id').'</span></td>
 </tr>
 <tr>
 <th style="text-align: right; width:150px"><span class="texthead"><label for="titlefield">'.L('Show_item_title').'</label></span></th>
-<td><select id="titlefield" name="titlefield" onchange="qtFormSafe.not();">'.qtTags(L('Item_title.*'),$oS->titlefield).'</select>&nbsp;<small>'.L('H_Show_item_title').'</span></td>
+<td><select id="titlefield" name="titlefield">'.qtTags(L('Item_title.*'),$oS->titlefield).'</select>&nbsp;<small>'.L('H_Show_item_title').'</span></td>
 </tr>
 <tr title="'.L('H_Item_prefix').'">
 <th style="text-align: right; width:150px"><span class="texthead"><label for="prefix">'.L('Item_prefix').'</label></span></th>
 <td>
-<select id="prefix" name="prefix" onchange="qtFormSafe.not();">
+<select id="prefix" name="prefix">
 <option value="0"'.($oS->prefix==='0' ? ' selected' : '').'>'.L('None').'</option>
 '.qtTags(L('PrefixSerie.*'),$oS->prefix).'
 </select>&nbsp;<a class="small" href="qti_adm_prefixicon.php" target="_blank">'.L('Item_prefix_demo').'</a>
@@ -228,11 +228,11 @@ echo '<h2 class="subconfig">'.L('Specific_fields').'</h2>
 </tr>
 <tr>
 <th style="text-align: right; width:150px"><span class="texthead"><label for="numfield">'.L('Show_item_wisheddate').'</label></span></th>
-<td><select id="wisheddate" name="wisheddate" onchange="qtFormSafe.not();">'.qtTags(L('Item_wisheddate.*'),$wisheddate).'</select> default <select id="wisheddate_dflt" name="wisheddate_dflt" onchange="qtFormSafe.not();"'.($oS->wisheddate!=2 ? ' disabled' : '').'>'.qtTags(array(0=>L('None'),L('dateSQL.Today'),L('Day').' +1',L('Day').' +2'),$wisheddate_dflt).'</select></td>
+<td><select id="wisheddate" name="wisheddate">'.qtTags(L('Item_wisheddate.*'),$wisheddate).'</select> default <select id="wisheddate_dflt" name="wisheddate_dflt"'.($oS->wisheddate!=2 ? ' disabled' : '').'>'.qtTags(array(0=>L('None'),L('dateSQL.Today'),L('Day').' +1',L('Day').' +2'),$wisheddate_dflt).'</select></td>
 </tr>
 <tr title="'.L('H_Show_item_notify').'">
 <th style="text-align: right; width:150px"><span class="texthead"><label for="alternate">'.L('Show_item_notify').'</label></span></th>
-<td><select id="alternate" name="alternate" onchange="qtFormSafe.not();"'.($oS->notify===0 ? ' disabled': '').'>'.qtTags(L('Item_notify.*'),$oS->notifycc).'</select></td>
+<td><select id="alternate" name="alternate"'.($oS->notify===0 ? ' disabled': '').'>'.qtTags(L('Item_notify.*'),$oS->notifycc).'</select></td>
 </tr>
 </table>
 ';
@@ -270,7 +270,7 @@ if ( !empty($strFile) ) {
   $addOption = '<option value="'.$strFile.'"'.(empty($oS->getMF('options','logo')) ? '' : 'selected').'>'.L('Specific_image').'</option>';
 }
 
-echo '<form method="post" action="'.$oH->self().'">
+echo '<form class="formsafe" method="post" action="'.$oH->self().'">
 <table class="t-conf">
 <tr>
 <th><span class="texthead">Logo</span></th>
@@ -287,7 +287,7 @@ $strOrder = $oS->getMF('options','order','lastpostdate');
 echo '<tr>
 <th><span class="texthead">'.L('Default_items_order').'</span></th>
 <td>
-<select name="dfltorder" onchange="qtFormSafe.not();">'.qtTags($arr,$strOrder).'</select>
+<select name="dfltorder">'.qtTags($arr,$strOrder).'</select>
 </td>
 </tr>
 ';
@@ -301,7 +301,7 @@ $arr['none'] = L('None');
 $dflt_lastcol = $oS->getMF('options','last'); if  (strtolower($dflt_lastcol)==='n' || empty($dflt_lastcol) ) $dflt_lastcol = 'none';
 echo '<tr>
 <th><span class="texthead">'.L('Infofield').'</span></th>
-<td><select name="lastcolumn" onchange="qtFormSafe.not();">'.qtTags($arr,$dflt_lastcol).'
+<td><select name="lastcolumn">'.qtTags($arr,$dflt_lastcol).'
 </select></td>
 </tr>
 </table>
@@ -312,7 +312,7 @@ echo '<tr>
 $strArg = $_SESSION[QT]['item_firstline']==='2' ? $oS->getMF('options','if','1') : $_SESSION[QT]['item_firstline']; //global setting overwrite section setting
 echo '<tr title="'.L('H_Item_firstline').'">
 <th><span class="texthead">'.L('Item_firstline').'</span></th>
-<td><select name="if" onchange="qtFormSafe.not();"'.($_SESSION[QT]['item_firstline']!=='2' ? ' disabled' : '').'>
+<td><select name="if"'.($_SESSION[QT]['item_firstline']!=='2' ? ' disabled' : '').'>
 <option value="1"'.($strArg==='1' ? ' selected' : '').'>'.L('Y').'</option>
 <option value="0"'.($strArg==='0' ? ' selected' : '').'>'.L('N').'</option>
 </select>'.($_SESSION[QT]['item_firstline']!=='2' ? ' <span class="small disabled">'.L('Is_locked_by_the_layout_skin').'</span>' : '').'</td>
@@ -322,7 +322,7 @@ echo '<tr title="'.L('H_Item_firstline').'">
 $strArg = $_SESSION[QT]['news_on_top']==='2' ? $oS->getMF('options','nt','0') : $_SESSION[QT]['news_on_top']; //global setting overwrite section setting
 echo '<tr title="'.L('H_Show_news_on_top').'">
 <th><span class="texthead"><label for="nt">'.L('Show_news_on_top').'</label></span></th>
-<td><select id="nt" name="nt" onchange="qtFormSafe.not();"'.($_SESSION[QT]['news_on_top']!=='2' ? ' disabled' : '').'>
+<td><select id="nt" name="nt"'.($_SESSION[QT]['news_on_top']!=='2' ? ' disabled' : '').'>
 <option value="1"'.($strArg==='1' ? ' selected' : '').'>'.L('Y').'</option>
 <option value="0"'.($strArg==='0' ? ' selected' : '').'>'.L('N').'</option>
 </select>'.($_SESSION[QT]['news_on_top']!=='2' ? ' <span class="small disabled">'.L('Is_locked_by_the_layout_skin').'</span>' : '').'</td>
@@ -332,7 +332,7 @@ echo '<tr title="'.L('H_Show_news_on_top').'">
 $strArg = $_SESSION[QT]['show_quick_reply']==='2' ? $oS->getMF('options','qr','1') : $_SESSION[QT]['show_quick_reply']; //global setting overwrite section setting
 echo '<tr title="'.L('H_Show_quick_reply').'">
 <th><span class="texthead"><label for="qr">'.L('Show_quick_reply').'</label></span></th>
-<td><select id="qr" name="qr" onchange="qtFormSafe.not();"'.($_SESSION[QT]['show_quick_reply']!=='2' ? ' disabled' : '').'>
+<td><select id="qr" name="qr"'.($_SESSION[QT]['show_quick_reply']!=='2' ? ' disabled' : '').'>
 <option value="1"'.($strArg==='1' ? ' selected' : '').'>'.L('Y').'</option>
 <option value="0"'.($strArg==='0' ? ' selected' : '').'>'.L('N').'</option>
 </select>'.($_SESSION[QT]['show_quick_reply']!=='2' ? ' <span class="small disabled">'.L('Is_locked_by_the_layout_skin').'</span>' : '').'</td>
@@ -358,7 +358,7 @@ $arrDescTrans = SLang::get('secdesc','*','s'.$oS->id);
 
 echo '<p class="small">'.L('E_no_translation').'<strong style="color:#1364B7">'.$oS->title.'</strong></p>
 ';
-echo '<form method="post" action="'.$oH->self().'">
+echo '<form class="formsafe" method="post" action="'.$oH->self().'">
 <table class="t-conf input100">
 <tr>
 <th>'.L('Title').'</th>
@@ -370,7 +370,7 @@ foreach(LANGUAGES as $k=>$values)
 {
   $arr = explode(' ',$values,2); if ( empty($arr[1]) ) $arr[1]=$arr[0];
   $str = empty($arrTrans[$k]) ? '' : $arrTrans[$k];
-  echo '<p class="iso" title="'.L('Name_of_index').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" name="tr-'.$k.'" maxlength="64" value="'.$str.'" placeholder="'.$oS->title.'" onchange="qtFormSafe.not();"/>'.(strpos($str,'&amp;') ?  ' <small>'.$arrTrans[$k].'</small>' : '').'</p>'.PHP_EOL;
+  echo '<p class="iso" title="'.L('Name_of_index').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" name="tr-'.$k.'" maxlength="64" value="'.$str.'" placeholder="'.$oS->title.'"/>'.(strpos($str,'&amp;') ?  ' <small>'.$arrTrans[$k].'</small>' : '').'</p>'.PHP_EOL;
 }
 echo '</div></td>
 </tr>
@@ -382,7 +382,7 @@ foreach(LANGUAGES as $k=>$values)
 {
   $arr = explode(' ',$values,2); if ( empty($arr[1]) ) $arr[1]=$arr[0];
   $str = empty($arrDescTrans[$k]) ? '' : $arrDescTrans[$k];
-  echo '<p class="iso" title="'.L('Description').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" name="desc-'.$k.'" maxlength="254" onchange="qtFormSafe.not();" value="'.$str.'"/></p>'.PHP_EOL;
+  echo '<p class="iso" title="'.L('Description').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" name="desc-'.$k.'" maxlength="254" value="'.$str.'"/></p>'.PHP_EOL;
 }
 echo '</div></td>
 </tr>

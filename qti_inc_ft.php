@@ -140,7 +140,7 @@ qtApplyStoredState("aside");';
 }}}
 
 // END PAGE SITE
-echo CHtml::page('/');
+echo CHtml::pageDIV('/');
 
 // ------
 // FOOTER
@@ -173,6 +173,7 @@ if ( isset($oDB->stats) ) {
 
 
 // Automatic add script {file.php.js} if existing
-if ( file_exists($oH->selfurl.'.js') ) $oH->scripts[] = '<script type="text/javascript" src="'.$oH->selfurl.'.js"></script>';
+if ( file_exists($oH->selfurl.'.js') )
+$oH->scripts[] = '<script type="text/javascript" src="'.$oH->selfurl.'.js"></script>';
 
 $oH->end();

@@ -8,14 +8,13 @@ $oH->links['ico'] = '<link rel="shortcut icon" href="bin/css/qt.ico"/>';
 $oH->links['cssCore'] = '<link rel="stylesheet" type="text/css" href="bin/css/qt_core.css"/>'; // attention qt_core
 unset($oH->links['cssContrast']);
 $oH->links['css'] = '<link rel="stylesheet" type="text/css" href="bin/css/admin.css"/>';
-if ( !isset($oH->scripts['e0']) )
-$oH->scripts['e0'] = 'var e0 = "'.L('Quit_without_saving').'";';
+$oH->scripts['formsafe'] = '<script type="text/javascript" src="bin/js/qt_formsafe.js" data-safemsg="'.L('Quit_without_saving').'"></script>';
 $oH->links['cssCustom'] = null;
 
 $oH->head();
 $oH->body();
 
-echo '<div class="pg-admin">'.PHP_EOL;
+echo CHtml::pageDIV('class=pg-admin', 'pg-admin');
 
 if ( file_exists(translate($oH->selfurl.'.txt'))  )
 {
@@ -93,7 +92,7 @@ if ( !defined('HIDE_MENU_TOC') || !HIDE_MENU_TOC )
   echo '</div>'.PHP_EOL;
 }
 
-echo CHtml::page();
+echo CHtml::pageDIV();
 
 // Title (and error)
 echo '<h1 class="title"'.(isset($oH->selfparent) ? ' data-parent="'.$oH->selfparent.'"' : '').'>'.$oH->selfname.'</h1>';

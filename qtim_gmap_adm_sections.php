@@ -120,7 +120,7 @@ $oH->scripts[] = 'function mapsection(section){
 
 include APP.'_adm_inc_hd.php';
 
-echo '<form method="post" action="'.$oH->self().'">
+echo '<form class="formsafe" method="post" action="'.$oH->self().'">
 <h2 class="config">'.L('Section+').'</h2>
 <div class="pan">
 <p>'.L('Gmap.Allowed').'</p>

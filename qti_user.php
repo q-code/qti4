@@ -12,11 +12,9 @@ $oH->selfurl = 'qti_user.php';
 if ( SUser::role()==='V' ) $oH->voidPage('user-lock.svg',11,true); //...
 
 $id = -1;
-qtArgs('int:id!');
+$edit = false;
+qtArgs('int:id! boo:edit');
 if ( $id<0 ) die('Wrong id');
-
-if ( isset($_GET['edit']) ) $_SESSION[QT]['editing']=($_GET['edit']=='1' ? true : false);
-if ( isset($_POST['edit']) ) $_SESSION[QT]['editing']=($_POST['edit']=='1' ? true : false);
 
 // ------
 // FUNCTION
@@ -38,11 +36,10 @@ include 'bin/class/class.phpmailer.php';
 include translate('lg_reg.php');
 
 $canEdit = false;
-if ( SUser::id()==$id ) $canEdit=true;
-if ( SUser::isStaff() ) $canEdit=true;
-if ( $id==0 ) $canEdit=false;
-if ( !isset($_SESSION[QT]['editing']) || !$canEdit) $_SESSION[QT]['editing']=false;
-
+if ( SUser::id()==$id ) $canEdit = true;
+if ( SUser::isStaff() ) $canEdit = true;
+if ( $id==0 ) $canEdit = false;
+if ( !$canEdit ) $edit = false;
 $oH->selfname = L('Profile');
 
 // MAP MODULE
@@ -123,12 +120,12 @@ $countmessages = $oDB->count( TABPOST.' WHERE userid='.$id );
 // QUERY USER
 $oDB->query( 'SELECT * FROM TABUSER WHERE id='.$id);
 $row = $oDB->getRow();
-$row['privacy']= (int)$row['privacy']; // int
+$row['privacy'] = (int)$row['privacy']; // int
 // check privacy
 if ( !SUser::canSeePrivate($row['privacy'],$id) ) { $row['y']=null; $row['x']=null; }
 // staff cannot edit other staff nor admin
-if ( $row['role']=='M' && SUser::role()==='M' && !QT_STAFFEDITSTAFF && SUser::id()!=$id ) { $canEdit=false; $_SESSION[QT]['editing']=false; }
-if ( $row['role']=='A' && SUser::role()==='M' && !QT_STAFFEDITADMIN ) { $canEdit=false; $_SESSION[QT]['editing']=false; }
+if ( $row['role']==='M' && SUser::role()==='M' && !QT_STAFFEDITSTAFF && SUser::id()!==$id ) { $canEdit = false; $edit = false; }
+if ( $row['role']==='A' && SUser::role()==='M' && !QT_STAFFEDITADMIN ) { $canEdit = false; $edit = false; }
 
 // map settings
 if ( $bMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) )
@@ -199,11 +196,10 @@ echo '</div>
 ';
 
 // -- EDIT PROFILE --
-if ( $_SESSION[QT]['editing'] ) {
-// -- EDIT PROFILE --
+if ( $edit ) {
+  // -- EDIT PROFILE --
 
-if ( !isset($oH->scripts['e0']) ) $oH->scripts['e0'] = 'var e0 = "'.L('Quit_without_saving').'";';
-echo '<form method="post" action="'.url('qti_user.php').'?id='.$id.'">
+echo '<form  method="post" action="'.url('qti_user.php').'?id='.$id.'">
 <table class="t-profile">
 <tr><th>'.L('Username').'</th><td clss="c-name">'.$row['name'].'</td></tr>
 <tr><th>'.L('Role').'</th><td>'.L('Role_'.$row['role']).'</td></tr>
@@ -215,8 +211,7 @@ echo '<form method="post" action="'.url('qti_user.php').'?id='.$id.'">
 $strBrith_y = '';
 $strBrith_m = '';
 $strBrith_d = '';
-if ( !empty($row['birthday']) )
-{
+if ( !empty($row['birthday']) ) {
   $strBrith_y = intval(substr(strval($row['birthday']),0,4));
   $strBrith_m = intval(substr(strval($row['birthday']),4,2));
   $strBrith_d = intval(substr(strval($row['birthday']),6,2));
@@ -239,11 +234,9 @@ echo '<tr>
 </tr>
 ';
 
-if ( $bMap )
-{
+if ( $bMap ) {
   $strPosition  = '<p class="small commands" style="margin:2px 0 4px 2px;text-align:right">'.L('Gmap.cancreate');
-  if ( !empty($row['x']) && !empty($row['y']) )
-  {
+  if ( !empty($row['x']) && !empty($row['y']) ) {
     $_SESSION[QT]['m_gmap_gcenter'] = $strYX;
     $strPosition  = '<p class="small commands" style="margin:2px 0 4px 2px;text-align:right">'.L('Gmap.canmove');
   }
@@ -254,7 +247,6 @@ if ( $bMap )
   $strPosition .= '<p class="small commands" style="margin:4px 0 2px 2px;text-align:right">'.L('Gmap.addrlatlng').' ';
   $strPosition .= '<input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('Gmap.H_addrlatlng').'" onkeypress="enterkeyPressed=qtKeyEnter(event); if ( enterkeyPressed) showLocation(this.value,null);"/>';
   $strPosition .= '<span id="btn-geocode" onclick="showLocation(document.getElementById(`find`).value,null);" title="'.L('Search').'">'.qtSVG('search').'</span></p>';
-
   echo '<tr>'.PHP_EOL;
   echo '<th>'.$L['Coord'].'</th>';
   echo '<td><input type="text" id="yx" name="coord" pattern="^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$" size="32" value="'.$strYX.'" title="y,x in decimal degree (without trailing spaces)"/> <small>'.$L['Coord_latlon'].'</span></td>';
@@ -262,8 +254,13 @@ if ( $bMap )
 }
 
 echo '<tr>
-<th><input type="hidden" name="id" value="'.$id.'"/><input type="hidden" name="name" value="'.$row['name'].'"/></th>
-<td><button type="submit" name="ok" value="ok">'.L('Save').'</button>'.( !empty($error) ? ' <span class="error">'.$error.'</span>' : '' ).'</td>
+<th></th>
+<td>
+<input type="hidden" name="edit" value="'.($edit ? 1 : 0).'"/>
+<input type="hidden" name="id" value="'.$id.'"/>
+<input type="hidden" name="name" value="'.$row['name'].'"/>
+<button type="submit" name="ok" value="ok">'.L('Save').'</button>'.( !empty($error) ? ' <span class="error">'.$error.'</span>' : '' ).'
+</td>
 </tr>
 </table>
 </form>
@@ -338,13 +335,10 @@ if ( $bMap )
   * @var array $gmap_events
   * @var array $gmap_functions
   */
-  $gmap_shadow = false;
   $gmap_symbol = false;
-  if ( !empty($_SESSION[QT]['m_gmap_gsymbol']) )
-  {
+  if ( !empty($_SESSION[QT]['m_gmap_gsymbol']) ) {
     $arr = explode(' ',$_SESSION[QT]['m_gmap_gsymbol']);
-    $gmap_symbol=$arr[0];
-    if ( isset($arr[1]) ) $gmap_shadow=$arr[1];
+    $gmap_symbol = $arr[0];
   }
 
   // check new map center
@@ -374,14 +368,10 @@ if ( $bMap )
   $gmap_functions = [];
   if ( isset($arrExtData[$id]) && !empty($oMapPoint->y) && !empty($oMapPoint->x) )
   {
-    $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x,true,$gmap_symbol,$row['name'],'',$gmap_shadow);
+    $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x, $edit, $gmap_symbol, $row['name']);
     $gmap_events[] = '
-	google.maps.event.addListener(markers[0], "position_changed", function() {
-		if ( document.getElementById("yx")) {document.getElementById("yx").value = gmapRound(marker.getPosition().lat(),10) + "," + gmapRound(marker.getPosition().lng(),10);}
-	});
-	google.maps.event.addListener(markers[0], "dragend", function() {
-		map.panTo(marker.getPosition());
-	});';
+    markers[0].addListener("drag", ()=>{ document.getElementById("yx").value = gmapRound(markers[0].position.lat,10) + "," + gmapRound(markers[0].position.lng,10); });
+    google.maps.event.addListener(markers[0], "dragend", function() { map.panTo(markers[0].position);	});';
   }
   $gmap_functions[] = '
   function showLocation(address,title)
@@ -395,7 +385,7 @@ if ( $bMap )
         {
           markers[0].setPosition(results[0].geometry.location);
         } else {
-          markers[0] = new google.maps.Marker({map: map, position: results[0].geometry.location, draggable: true, animation: google.maps.Animation.DROP, title: title});
+          markers[0] = new google.maps.marker.AdvancedMarkerElement({map: map, position: results[0].geometry.location, draggable: true, title: title});
         }
         gmapYXfield("yx",markers[0]);
       } else {

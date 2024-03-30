@@ -458,7 +458,7 @@ default: die('Unknown command '.$a);
 
 // DISPLAY PAGE
 const HIDE_MENU_TOC = true;
-const HIDE_MENU_LANG=true;
+const HIDE_MENU_LANG = true;
 include APP.'_adm_inc_hd.php';
 
 if ( !empty($frm_hd) ) echo $frm_hd.PHP_EOL;
@@ -469,4 +469,5 @@ CHtml::msgBox('/');
 
 if ( !empty($frm_ft) ) echo $frm_ft.PHP_EOL;
 
+unset($oH->scripts['formsafe']);
 include APP.'_adm_inc_ft.php';

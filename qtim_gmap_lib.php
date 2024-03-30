@@ -228,29 +228,16 @@ function gmapEmptycoord($a)
   }
   die('gmapEmptycoord: invalid argument #1');
 }
-function gmapMarker($centerLatLng='',$draggable=false,$gsymbol=false,$title='',$info='')
+function gmapMarker($centerLatLng='', bool $draggable=false, $gsymbol=false, $title='', $info='')
 {
   if ( $centerLatLng==='' || $centerLatLng==='0,0' ) return 'marker = null;';
-  if ( $centerLatLng=='map' )
-  {
-    $centerLatLng = 'map.getCenter()';
-  }
-  else
-  {
-    $centerLatLng = 'new google.maps.LatLng('.$centerLatLng.')';
-  }
-  if ( $draggable=='1' || $draggable==='true' || $draggable===true )
-  {
-    $draggable='draggable:true, animation:google.maps.Animation.DROP,';
-  }
-  else
-  {
-    $draggable='draggable:false,';
-  }
-  return '	marker = new google.maps.Marker({
+
+  $centerLatLng = $centerLatLng==='map' ? 'map.getCenter()' : 'new google.maps.LatLng('.$centerLatLng.')';
+  return '	marker = new google.maps.marker.AdvancedMarkerElement({
 		position: '.$centerLatLng.',
 		map: map,
-		' . $draggable . gmapMarkerIcon($gsymbol) . '
+    gmpDraggable: '.($draggable ? 'true' : 'false').',
+		' . gmapMarkerIcon($gsymbol) . '
 		title: "'.$title.'"
 		});
 		markers.push(marker); '.PHP_EOL.(empty($info) ? '' : '	gmapInfo(marker,`'.$info.'`);');
@@ -259,6 +246,8 @@ function gmapMarkerIcon($gsymbol=false)
 {
   // returns the google.maps.Marker.icon argument
   if ( empty($gsymbol) ) return ''; // no icon source means that the default symbol is used
+  return ''; //!!! must be changed due to AdvancedMarkerElement
+
   $str = '';
   // icons are 32x32 pixels and the anchor depends on the name: (10,32) for puhspin, (16,32) for point, center form others
   $arr = explode('_',$gsymbol);

@@ -5,7 +5,7 @@
 * @var boolean $canEdit
 */
 if ( SUser::role()==='A' ) {
-  echo '<form id="modaction" method="get" action="'.url(APP.'_register.php').'"><div id="optionsbar">
+  echo '<form  id="modaction" method="get" action="'.url(APP.'_register.php').'"><div id="optionsbar">
 '.qtSVG('user-a', 'title='.L('Role_A')).'
 <select name="a" onchange="if ( this.value!=``) document.getElementById(`modaction`).submit();">
 <option value="" disabled selected hidden>'.L('Role_A').' '.L('commands').'</option>
@@ -17,9 +17,6 @@ if ( SUser::role()==='A' ) {
 <input type="hidden" name="id" value="'.$id.'"/>
 </div></form>';
 }
-if ( $canEdit ) {
-  echo '&nbsp;<a class="button" href="'.url($oH->selfurl).'?id='.$id.'&edit='.($_SESSION[QT]['editing'] ? 0 : 1).'">'.qtSVG('pen','class=btn-prefix').L($_SESSION[QT]['editing'] ? 'Edit_stop' : 'Edit_start').'</a>';
-}
-if ( !isset($oH->scripts['e0']) ) {
-  $oH->scripts['e0'] = 'let e0 = '.(empty(L('Quit_without_saving')) ? 'Data not yet saved. Quit without saving?' : '"'.L('Quit_without_saving').'"').';';
-}
+
+if ( $canEdit )
+echo '<a class="button" href="'.url($oH->selfurl).'?id='.$id.'&edit='.($edit ? 0 : 1).'" onclick="return qtFormSafe.exit(e0);">'.qtSVG('pen','class=btn-prefix').L($edit ? 'Edit_stop' : 'Edit_start').'</a>';

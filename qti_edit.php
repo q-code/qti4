@@ -392,7 +392,7 @@ if ( $oT->type==='I' && ($a=='re' || $a=='qu') ) {
 
 // FORM START
 
-echo '<form id="form-edit" method="post" action="'.url($oH->selfurl).'" enctype="multipart/form-data">
+echo '<form  id="form-edit" method="post" action="'.url($oH->selfurl).'" enctype="multipart/form-data">
 <div class="flex-sp">
 <h2>'.$oH->selfname.'</h2>
 ';
@@ -730,12 +730,8 @@ if ( $bMap ) {
   }
 
   $gmap_events[] = '
-	google.maps.event.addListener(markers[0], "position_changed", function() {
-		if ( document.getElementById("yx")) {document.getElementById("yx").value = gmapRound(marker.getPosition().lat(),10) + "," + gmapRound(marker.getPosition().lng(),10);}
-	});
-	google.maps.event.addListener(markers[0], "dragend", function() {
-		map.panTo(marker.getPosition());
-	});';
+  markers[0].addListener("drag", ()=>{ document.getElementById("yx").value = gmapRound(markers[0].position.lat,10) + "," + gmapRound(markers[0].position.lng,10); });
+	google.maps.event.addListener(markers[0], "dragend", function() { map.panTo(markers[0].position);	});';
   $gmap_functions[] = '
   function showLocation(address,title)
   {
@@ -748,7 +744,7 @@ if ( $bMap ) {
         {
           markers[0].setPosition(results[0].geometry.location);
         } else {
-          markers[0] = new google.maps.Marker({map: map, position: results[0].geometry.location, draggable: true, animation: google.maps.Animation.DROP, title: title});
+          markers[0] = new google.maps.marker.AdvancedMarkerElement({map: map, position: results[0].geometry.location, draggable: true, title: title});
         }
         gmapYXfield("yx",markers[0]);
       } else {

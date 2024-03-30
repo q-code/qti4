@@ -107,7 +107,7 @@ function htmlLettres(string $baseFile, string $current='ALL', string $strAll='Al
   $strGroups  = '<div class="'.$strClass.'">';
   $strGroups .= L('Show').' '.$str;
   if ( $bFilterForm ) {
-  $strGroups .= ' <form method="get" action="'.$baseFile.'">';
+  $strGroups .= ' <form  method="get" action="'.$baseFile.'">';
   $strGroups .= '<input required type="text" value="'.($current==='ALL' || in_array($current,$arr) ? '' : qtAttr($current)).'" name="group" size="3" maxlength="10" title="'.qtAttr($strTitle).'"/>';
   $strGroups .= '<button type="submit" value="submit">'.qtSVG('search').'</button>';
   $strGroups .= qtTags(array_map('urldecode',qtExplodeUri($baseFile,'page|group')), '', 'tag=hidden');

@@ -257,13 +257,11 @@ if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
    * @var array $gmap_events
    * @var array $gmap_functions
    */
-  $gmap_shadow = false;
   $gmap_symbol = false;
   if ( !empty($_SESSION[QT]['m_gmap_gsymbol']) )
   {
     $arr = explode(' ',$_SESSION[QT]['m_gmap_gsymbol']);
     $gmap_symbol=$arr[0];
-    if ( isset($arr[1]) ) $gmap_shadow=$arr[1];
   }
 
   // check new map center
@@ -291,9 +289,8 @@ if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )
     {
       $user_symbol = $gmap_symbol; // required to reset symbol on each user
-      $user_shadow = $gmap_shadow;
       if ( !empty($oMapPoint->icon) ) $user_symbol = $oMapPoint->icon;
-      $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x,false,$user_symbol,$oMapPoint->title,$oMapPoint->info,$user_shadow);
+      $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x, false, $user_symbol, $oMapPoint->title,$oMapPoint->info);
     }
   }
   $gmap_functions[] = '
@@ -301,21 +298,19 @@ if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
   {
     if ( markers.length<2 ) return;
     var bounds = new google.maps.LatLngBounds();
-    for (var i=markers.length-1; i>=0; i--) bounds.extend(markers[i].getPosition());
+    for (var i=markers.length-1; i>=0; i--) bounds.extend(markers[i].position);
     map.fitBounds(bounds);
   }
   function showLocation(address)
   {
     if ( infowindow ) infowindow.close();
     geocoder.geocode( { "address": address}, function(results, status) {
-      if ( status == google.maps.GeocoderStatus.OK)
-      {
+      if ( status==google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
-        if ( marker )
-        {
+        if ( marker ) {
           marker.setPosition(results[0].geometry.location);
         } else {
-          marker = new google.maps.Marker({map: map, position: results[0].geometry.location, draggable: true, animation: google.maps.Animation.DROP, title: "Move to define the default map center"});
+          marker = new google.maps.marker.AdvancedMarkerElement({map: map, position: results[0].geometry.location, draggable: true, title: "Move to define the default map center"});
         }
       } else {
         alert("Geocode was not successful for the following reason: " + status);
