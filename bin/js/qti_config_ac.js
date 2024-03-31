@@ -1,34 +1,30 @@
 function acUrlConfig(method,value) {
-  let url = 'bin/srv_query.php?q='+method;
-  let dir;
-  let lang;
-  let s;
-  switch(method)
-  {
-    case 'ref':
-      s = document.getElementById('user-s') ? document.getElementById('user-s').value : '*';
-      url += `&s=${s}&v=${value}`;
-      break;
+  let s = '';
+  let fst = '';
+  let dir = '';
+  let lang = '';
+  switch(method) {
     case 'qkw':
-    case 'notify':
-      url += `&v=${value}`;
+    case 'notify': break;
+    case 'ref':
+      if ( document.getElementById('ref-s') ) s = '&s='+document.getElementById('ref-s').value;
+      if ( document.getElementById('ref-fst') ) fst = '&fst='+document.getElementById('ref-fst').value;
       break;
     case 'kw':
-      s = document.getElementById('kw-s').value; if ( s==='-1' || s==='' ) s = '*';
-      url += `&s=${s}&v=${value}`;
+      if ( document.getElementById('kw-s') ) s = '&s='+document.getElementById('kw-s').value;
+      if ( document.getElementById('kw-fst') ) fst = '&fst='+document.getElementById('kw-fst').value;
       break;
     case 'tag-edit':
-      dir = document.getElementById('tag-dir') ? document.getElementById('tag-dir').value : 'upload/';
-      lang = document.getElementById('tag-lang') ? document.getElementById('tag-lang').value : 'en';
-      url += `&v=${value}&lang=${lang}&dir=${dir}`;
+      if ( document.getElementById('tag-dir') ) dir = '&dir='+document.getElementById('tag-dir').value;
+      if ( document.getElementById('tag-lang') ) lang = '&lang='+document.getElementById('tag-lang').value;
       break;
     case 'behalf':
     case 'user':
     case 'userm':
-      s = document.getElementById('user-s') ? document.getElementById('user-s').value : '*';
-      url += `&s=${s}&v=${value}`;
+      if ( document.getElementById('user-s') ) s = '&s='+document.getElementById('user-s').value;
+      url += s;
       break;
     default: console.log('unknown input method '+method); return;
   }
-  return url;
+  return 'bin/srv_query.php?q=' + method + '&fv=' + value + s + fst + lang + dir;
 }

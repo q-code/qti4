@@ -128,13 +128,11 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 
 // SEARCH BY REF
 $refExists=false;
-foreach($_Sections as $mSec)
-{
+foreach($_Sections as $mSec) {
   if ( $mSec['type']=='1' && !SUser::isStaff() ) continue;
   if ( $mSec['numfield']!=='N' ) { $refExists=true; break; }
 }
-if ( $refExists )
-{
+if ( $refExists ) {
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
@@ -214,4 +212,5 @@ echo '* <small>'.sprintf(L('Multiple_input'),QSEPARATOR).'</small>';
 // HTML END
 $oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>
 <script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+
 include 'qti_inc_ft.php';

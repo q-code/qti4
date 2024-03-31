@@ -199,7 +199,8 @@ echo '</div>
 if ( $edit ) {
   // -- EDIT PROFILE --
 
-echo '<form method="post" action="'.url('qti_user.php').'?id='.$id.'">
+$oH->scripts['formsafe'] = '<script type="text/javascript" src="bin/js/qt_formsafe.js" data-safemsg="'.L('Quit_without_saving').'"></script>';
+echo '<form class="formsafe" method="post" action="'.url('qti_user.php').'?id='.$id.'">
 <table class="t-profile">
 <tr><th>'.L('Username').'</th><td clss="c-name">'.$row['name'].'</td></tr>
 <tr><th>'.L('Role').'</th><td>'.L('Role_'.$row['role']).'</td></tr>
@@ -416,8 +417,5 @@ if ( $bMap )
   ';
   include 'qtim_gmap_load.php';
 }
-
-if ( $edit )
-$oH->scripts['formsafe'] = '<script type="text/javascript" src="bin/js/qt_formsafe.js" data-safemsg="'.L('Quit_without_saving').'"></script>';
 
 include 'qti_inc_ft.php';
