@@ -26,9 +26,9 @@ $s = -1; // [int]
 $q = ''; // query model
 $fv = ''; // keyword(s), tag(s), userid or date1
 $fw = ''; // username, timeframe or date2
-$fst = ''; // status
+$fs = ''; // status
 $to = false; // title only
-qtArgs('int:s q fv fw fst boo:to');
+qtArgs('int:s q fv fw fs boo:to');
 
 // ------
 // SUBMITTED
@@ -56,11 +56,11 @@ if ( isset($_POST['ok']) && !empty($q) ) try {
       $arg['fv'] = urlencode($fv);
       break;
     case 'adv':
-      if ( $fst==='' && empty($fv) && empty($fw) ) throw new Exception( L('Date').' & '.L('Status').' & Tag '.L('invalid') );
+      if ( $fs==='' && empty($fv) && empty($fw) ) throw new Exception( L('Date').' & '.L('Status').' & Tag '.L('invalid') );
       if ( $fv===';' ) throw new Exception( 'Tag '.L('invalid') );
       $arg['fv'] = urlencode($fv);
       $arg['fw'] = $fw;
-      $arg['fst'] = $fst;
+      $arg['fs'] = $fs;
       break;
     case 'user':
     case 'userm':
@@ -152,9 +152,9 @@ $arrS = SMem::get('_Statuses');
 echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
-<div>'.L('Status').'&nbsp;<select name="fst" size="1">
-<option value=""'.($fst==='' ? ' selected' : '').'>'.L('Any_status').'</option>
-'.qtTags($arrS,$fst).'</select> '.L('Date').'&nbsp;<select id="ti" name="fw" size="1">
+<div>'.L('Status').'&nbsp;<select name="fs" size="1">
+<option value=""'.($fs==='' ? ' selected' : '').'>'.L('Any_status').'</option>
+'.qtTags($arrS,$fs).'</select> '.L('Date').'&nbsp;<select id="ti" name="fw" size="1">
 <option value=""'.($fw==='' ? ' selected' : '').'>'.L('Any_time').'</option>
 <option value="w"'.($fw==='w' ? ' selected' : '').'>&nbsp; '.L('This_week').'</option>
 <option value="m"'.($fw==='m' ? ' selected' : '').'>&nbsp; '.L('This_month').'</option>

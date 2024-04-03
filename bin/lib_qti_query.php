@@ -3,17 +3,17 @@
 /**
  * Returns a sql date condition selecting a timeframe
  * @param string $dbtype database type
- * @param string $tf timeframe {y|m|w|1..12|YYYY|YYYYMM|*}
+ * @param string $ti timeframe {y|m|w|1..12|YYYY|YYYYMM|*}
  * @param string $prefix AND
  * @param string $field
  * @return string
  */
-function getSqlTimeframe($dbtype,$tf='*',$prefix=' AND ',$field='t.firstpostdate') {
-  if ( empty($tf) || $tf==='*' ) return ''; // no timeframe
-  if ( !is_string($dbtype) || !is_string($tf) || !is_string($prefix) || !is_string($prefix) || empty($field) ) die(__FUNCTION__.' requires string arguments');
-  // $tf can be {y|m|w|1..12|YYYY|YYYYMM} i.e. this year, this month, last week, previous month#, a specific year YYYY, a specific yearmonth YYYYMM
+function getSqlTimeframe($dbtype,$ti='',$prefix=' AND ',$field='t.firstpostdate') {
+  if ( empty($ti) ) return ''; // no timeframe
+  if ( !is_string($dbtype) || !is_string($ti) || !is_string($prefix) || !is_string($prefix) || empty($field) ) die(__FUNCTION__.' requires string arguments');
+  // $ti can be {y|m|w|1..12|YYYY|YYYYMM} i.e. this year, this month, last week, previous month#, a specific year YYYY, a specific yearmonth YYYYMM
   $operator = '=';
-  switch($tf)
+  switch($ti)
   {
     case 'y':	// this year
       $strDate = date('Y');
@@ -25,21 +25,21 @@ function getSqlTimeframe($dbtype,$tf='*',$prefix=' AND ',$field='t.firstpostdate
       $operator = '>';
       $strDate = (string)date('Ymd', strtotime("-8 day", strtotime(date('Ymd'))));
       break;
-    default: // $tf is the month number or a specific datemonth
-      if ( !qtCtype_digit($tf) ) die(__FUNCTION__.' invalid tf argument');
-      switch(strlen($tf))
+    default: // $ti is the month number or a specific datemonth
+      if ( !qtCtype_digit($ti) ) die(__FUNCTION__.' invalid tf argument');
+      switch(strlen($ti))
       {
         case 1:
         case 2:
-          $intMonth = (int)$tf;
+          $intMonth = (int)$ti;
           $intYear = (int)date('Y'); if ( $intMonth>date('n') ) --$intYear; // check if month from previous year
           $strDate = (string)($intYear*100+$intMonth);
           break;
         case 4:
-          $strDate = $tf;
+          $strDate = $ti;
           break;
         case 6:
-          $strDate = $tf;
+          $strDate = $ti;
           break;
         default: die(__FUNCTION__.' invalid tf argument');
       }
@@ -99,13 +99,13 @@ function validateQueryArgs(array $args, bool $trimV=true) {
       if ( $args['fv']>$args['fw'] ) die(__FUNCTION__.' Invalid date (date1 > date2)');
       break;
     case 'adv':
-      if ( !isset($args['fst']) ) $args['fst'] = '';
+      if ( !isset($args['fs']) ) $args['fs'] = '';
       if ( !isset($args['fv']) ) $args['fv'] = '';
       if ( !isset($args['fw']) ) $args['fw'] = '';
-      if ( $args['fv'].$args['fw'].$args['fst']==='' ) die(__FUNCTION__.' Invalid argument date or tag');
+      if ( $args['fv'].$args['fw'].$args['fs']==='' ) die(__FUNCTION__.' Invalid argument date or tag');
       if ( strlen($args['fv'])>128 ) die(__FUNCTION__.' Invalid argument tag');
       if ( strlen($args['fw'])>2 ) die(__FUNCTION__.' Invalid argument date');
-      if ( strlen($args['fst'])>1 ) die(__FUNCTION__.' Invalid argument status');
+      if ( strlen($args['fs'])>1 ) die(__FUNCTION__.' Invalid argument status');
       if ( $trimV ) $args['fv'] = trim($args['fv']);
       break;
     case 'last':
@@ -117,7 +117,7 @@ function validateQueryArgs(array $args, bool $trimV=true) {
   if ( isset($args['s']) && $args['s']==='' ) $args['s']='-1';
   if ( isset($args['s']) && !is_numeric($args['s']) ) die(__FUNCTION__.' Invalid argument s');
   if ( isset($args['fw']) && ( strpos($args['fw'],'"')!==false || strpos($args['fw'],"'")!==false ) ) die(__FUNCTION__.' Invalid date');
-  if ( isset($args['fst']) && ( strpos($args['fst'],'"')!==false || strpos($args['fst'],"'")!==false ) ) die(__FUNCTION__.' Invalid status');
+  if ( isset($args['fs']) && ( strpos($args['fs'],'"')!==false || strpos($args['fs'],"'")!==false ) ) die(__FUNCTION__.' Invalid status');
 
   return $args;
 }
@@ -140,8 +140,8 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
   $to = empty($args['to']) ? '0' : '1';
   $fv  = isset($args['fv']) ? $args['fv'] : '';
   $fw = isset($args['fw']) ? $args['fw'] : '';
-  $tf = isset($args['tf']) ? $args['tf'] : '';
-  $fst = isset($args['fst']) ? $args['fst'] : '';
+  $ti = isset($args['ti']) ? $args['ti'] : '';
+  $fs = isset($args['fs']) ? $args['fs'] : '';
   $arrV = strlen(trim($fv))===0 ? [] : array_unique(array_filter(array_map('trim',explode(';',mb_strtolower(str_replace("\r\n"," ",$fv))))));
 
   // Prepare sql parts
@@ -159,7 +159,7 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
       $sqlWhere .= " AND (t.firstpostuser=".SUser::id()." OR t.type='A')";
     }
     // status
-  if ( $fst!=='' ) { $sqlWhere .= ' AND t.status=:status'; $sqlValues[':status'] = $fst; }
+  if ( $fs!=='' ) { $sqlWhere .= ' AND t.status=:status'; $sqlValues[':status'] = $fs; }
 
   switch($args['q']) {
 
@@ -280,7 +280,7 @@ function sqlQueryParts(&$sqlFrom,&$sqlWhere,&$sqlValues,&$sqlCount,&$sqlCountAlt
 
       global $oDB;
       // Timeframe
-      $sqlWhere .= getSqlTimeframe($oDB->type,$tf);
+      $sqlWhere .= getSqlTimeframe($oDB->type,$ti);
 
       // Only Topics
       $sqlWhere .= " AND p.type='P'";

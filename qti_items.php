@@ -20,11 +20,11 @@ if ( !SUser::canView('V2') ) $oH->voidPage('user-lock.svg',11,true); //...
 // init args
 $s = -1; // [int]
 $q = ''; // Search type (not required, use 's' if missing)
-$fst = ''; // Status [string] {''|status-key}, caution: can be '0'
+$fs = ''; // Status [string] {''|status-key}, caution: can be '0'
 $fv = ''; // Searched [string] text (converted to array of strings)
 $fw = ''; // timeframe [string] or userid
 $pn = 1; $po = 'lastpostdate'; $pd = 'desc'; // page number,order,direction
-qtArgs('int:s q fst fv fw int:pn po pd');
+qtArgs('int:s q fs fv fw int:pn po pd');
 
 // check args
 if ( empty($q) ) $q = '';
@@ -95,7 +95,7 @@ if ( $q!=='' ) {
   if ( $q==='adv' && !empty($fv) ) $strLastcol = 'tags'; // forces display column tags
 }
 
-$forceShowClosed = $_SESSION[QT]['show_closed']==='0' && $fst==='Z';
+$forceShowClosed = $_SESSION[QT]['show_closed']==='0' && $fs==='Z';
 $sqlHideClosed = $_SESSION[QT]['show_closed']==='0' && !$forceShowClosed ? " AND t.status<>'Z'" : ''; // User preference, hide closed items (not for advanced query having status specified)
 
 // Count topics & visible for current user ONLY
@@ -187,7 +187,7 @@ switch($q)
 $pageSubtitle = '';
 if ( $q!=='' ) {
   if ( $s>=0 ) $pageSubtitle = L('only_in_section').' &lsquo;'.CSection::translate($s).'&rsquo;';
-  if ( $fst!=='' ) $pageSubtitle .= (empty($pageSubtitle) ? '' : ', ').L('status').' '.CTopic::getStatus($fst); // statusnames for type 'T'
+  if ( $fs!=='' ) $pageSubtitle .= (empty($pageSubtitle) ? '' : ', ').L('status').' '.CTopic::getStatus($fs); // statusnames for type 'T'
 }
 // full title
 if ( !empty($pageTitle) ) $pageTitle = '<p class="pg-title">'.$pageTitle.'</p>'.(empty($pageSubtitle) ? '' : '<p class="pg-title pg-subtitle">'.$pageSubtitle.'</p>');
@@ -414,7 +414,7 @@ if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)>0 ) {
   echo '<div class="tag-box"><p>'.qtSVG('tags').' '.L('Show_only_tag').'</p>';
   foreach($arrTags as $strTag) echo '<a class="tag" href="'.url('qti_items.php').'?q=adv&s='.$s.'&fv='.urlencode($strTag).'" title="...">'.$strTag.'</a>';
   echo qtSVG('search','','',true).'</div>';
-  $oH->scripts['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" id="tagdesc" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
+  $oH->scripts['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
 }
 
 // Post-compute user's replied items (for topics having replies). Result is added using js.

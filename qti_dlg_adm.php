@@ -174,7 +174,7 @@ function unConfirm() {
   document.getElementById("submit-sum").innerHTML = "...";
 }
 function updateCounts(q) {
-  fetch( `bin/srv_count.php?q=${q}&s='.$s.'&d=${inDay.value}&t=${inType.value}&fst=0` )
+  fetch( `bin/srv_count.php?q=${q}&s='.$s.'&d=${inDay.value}&ft=${inType.value}&fs=0` )
   .then( response => response.json() )
   .then( data => { submitSum(data); } )
   .catch( err => console.log(err) );
@@ -196,17 +196,17 @@ case 'delsecitems':
     if ( !isset($_POST['deleteT']) )
     {
       // count matching replies
-      $found = $oDB->count( CSection::sqlCountItems($s,'replies','','',$_POST['tf']) );
+      $found = $oDB->count( CSection::sqlCountItems($s,'replies','','',$_POST['ti']) );
     }
     else
     {
       // count matching topics with criteria
-      $found = $oDB->count( CSection::sqlCountItems($s,'items',$_POST['status'],$_POST['type'],$_POST['tf']) );
+      $found = $oDB->count( CSection::sqlCountItems($s,'items',$_POST['status'],$_POST['type'],$_POST['ti']) );
     }
 
     if ( $found ) {
       $onlyReplies = false; if ( !isset($_POST['deleteT']) && isset($_POST['deleteR']) ) $onlyReplies = true;
-      CSection::deleteItems( $s, $_POST['status'], $_POST['type'], $_POST['tf'], '' ,$onlyReplies );
+      CSection::deleteItems( $s, $_POST['status'], $_POST['type'], $_POST['ti'], '' ,$onlyReplies );
       // exit
       $_SESSION[QT.'splash'] = L('S_delete');
       $oH->redirect('exit');
@@ -308,7 +308,7 @@ function unConfirm() {
   document.getElementById("submit-sum").innerHTML = "...";
 }
 function updateCounts(q) {
-  fetch( `bin/srv_count.php?q=${q}&s='.$s.'&fst=${inStatus.value}&t=${inType.value}&tf=${inTF.value}` )
+  fetch( `bin/srv_count.php?q=${q}&s='.$s.'&fs=${inStatus.value}&ft=${inType.value}&ti=${inTF.value}` )
   .then( response => response.json() )
   .then( data => { submitSum(data); } )
   .catch( err => console.log(err) );
@@ -325,9 +325,9 @@ case 'moveitems':
   // SUBMITTED
   if ( isset($_POST['ok']) && isset($_POST['dest']) && $_POST['dest']!=='' ) {
 
-    $found = $oDB->count( CSection::sqlCountItems($s,'items',$_POST['status'],$_POST['type'],$_POST['tf']) );
+    $found = $oDB->count( CSection::sqlCountItems($s,'items',$_POST['status'],$_POST['type'],$_POST['ti']) );
     if ( $found ) {
-      CSection::moveAllItems( $s, (int)$_POST['dest'],(int)$_POST['renum'], isset($_POST['dropprefix']), $_POST['status'], $_POST['type'], $_POST['tf'] );
+      CSection::moveAllItems( $s, (int)$_POST['dest'],(int)$_POST['renum'], isset($_POST['dropprefix']), $_POST['status'], $_POST['type'], $_POST['ti'] );
       // exit
       $_SESSION[QT.'splash'] = L('S_update');
       $oH->redirect('exit');
@@ -401,7 +401,7 @@ function unConfirm() {
   document.getElementById("submit-sum").innerHTML = "...";
 }
 function updateCounts(q) {
-  fetch( `bin/srv_count.php?q=${q}&s='.$s.'&fst=${inStatus.value}&t=${inType.value}&tf=${inTF.value}` )
+  fetch( `bin/srv_count.php?q=${q}&s='.$s.'&fs=${inStatus.value}&ft=${inType.value}&ti=${inTF.value}` )
   .then( response => response.json() )
   .then( data => { submitSum(data); } )
   .catch( err => console.log(err) );

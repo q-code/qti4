@@ -49,29 +49,29 @@ $q = '';   // in case of search, query type
 $s = '*';  // section filter can be '*' or [int]
 $fs = '*';  // section filter ($fs will become $s if provided)
 $ft = '*';  // type (of filter). Can be urlencoded
-$fst = '';  // status can be '*' or [int]
+$fs = '';  // status can be '*' or [int]
 $fv = '';  // term/tag searched
 
 // User's preferences (stored as coockies)
 //!!!
-$u_fst='*';
+$u_fs='*';
 $u_dir='asc';
-if ( isset($_COOKIE[QT.'_u_fst']) ) $u_fst=$_COOKIE[QT.'_u_fst'];
+if ( isset($_COOKIE[QT.'_u_fs']) ) $u_fs=$_COOKIE[QT.'_u_fs'];
 if ( isset($_COOKIE[QT.'_u_dir']) ) $u_dir=$_COOKIE[QT.'_u_dir'];
 
-$fst=$u_fst;// filter by status
+$fs=$u_fs;// filter by status
 $dir=$u_dir;// id order ('asc'|'desc')
 
 // Read Uri arguments
 
-qtArgs('q s fs ft fst v');
+qtArgs('q s fs ft fs v');
 if ( $fs==='' ) $fs='*';
 if ( $s==='' || $s<0 ) $s='*';
-if ( $fst==='' ) $fst='*';
+if ( $fs==='' ) $fs='*';
 if ( $fs!=='*' ) $s=(int)$fs; // $fs becomes $s in this page
 if ( $s!=='*' ) $s=(int)$s;
-if ( $fst!=='*' ) $fst=(int)$fst;
-if ( !empty($q) ) $fst='*'; // status user preference is not applied in case of search results
+if ( $fs!=='*' ) $fs=(int)$fs;
+if ( !empty($q) ) $fs='*'; // status user preference is not applied in case of search results
 
 // Section (can be an empty section in case of search result)
 $oS = new CSection($s==='*' ? null : $s);
