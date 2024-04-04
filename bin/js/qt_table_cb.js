@@ -22,9 +22,6 @@ function qtCheckboxAllUpdate(e) {
   if ( !cbTop ) return;
   cbTop.checked = document.querySelectorAll(`[name="${e.target.name}"]`).length===document.querySelectorAll(`[name="${e.target.name}"]:checked`).length;
 }
-function qtCheckboxClick(id) {
-	if ( document.getElementById(id) ) document.getElementById(id).click();
-}
 function qtCheckboxIds(ids, prefixId='t1-cb-', state=true) {
   // Check/uncheck the checkboxes from a list of ids
   ids.forEach( id => {
