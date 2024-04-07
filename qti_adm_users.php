@@ -177,14 +177,21 @@ if ( $intCount<$intUsers ) $strPaging = '<small>'.L('user',$intCount).' ('.L('fr
 // ------
 // Memberlist
 // ------
-$rowCommands = L('selection').': <a class="datasetcontrol" href="javascript:void(0)" data-action="usersrole">'.L('role').'</a> &middot; <a class="datasetcontrol" href="javascript:void(0)" data-action="usersdel">'.L('delete').'</a> &middot; <a class="datasetcontrol" href="javascript:void(0)" data-action="usersban">'.strtolower(L('Ban')).'</a> &middot; <a class="datasetcontrol" href="javascript:void(0)" data-action="userspic">'.L('picture').'</a>';
-echo PHP_EOL.'<form class="formsafe" id="form-users" method="post" action="'.APP.'_adm_register.php"><input type="hidden" id="form-users-action" name="a" />'.PHP_EOL;
+$m = new CMenu([
+L('role').'|class=rowcmd|data-action=usersrole',
+L('delete').'|class=rowcmd|data-action=usersdel',
+strtolower(L('Ban')).'|class=rowcmd|data-action=usersban',
+L('picture').'|class=rowcmd|data-action=userspic'
+], ' &middot; ');
+$rowCommands = L('selection').': '.$m->build();
+
+echo PHP_EOL.'<form id="form-items" method="post" action="'.APP.'_adm_register.php"><input type="hidden" id="form-items-action" name="a" />'.PHP_EOL;
 echo '<div id="tabletop" class="table-ui top">';
-echo '<div id="t1-edits-top" class="left checkboxcmds">'.qtSVG('corner-up-right','class=arrow-icon').$rowCommands.'</div>';
+echo '<div id="t1-edits-top" class="left rowcmds" data-table="t1">'.qtSVG('corner-up-right','class=arrow-icon').$rowCommands.'</div>';
 echo '<div class="right">'.$strPaging.'</div></div>'.PHP_EOL;
 
 // Table definition
-$t = new TabTable('id=t1|class=t-item|data-cbe', $intCount);
+$t = new TabTable('id=t1|class=t-item table-cb', $intCount);
 $t->activecol = $strOrder;
 $t->activelink = '<a href="'.$oH->selfurl.'?cat='.$strCateg.'&fg='.$fg.'&po='.$strOrder.'&pd='.($strDirec=='asc' ? 'desc' : 'asc').'">%s</a>&nbsp;'.qtSVG('caret-'.($strDirec==='asc' ? 'up' : 'down'));
 // TH
@@ -219,14 +226,12 @@ $oDB->query( sqlLimit($strState,$strOrder.' '.strtoupper($strDirec).($strOrder==
 $arrRow=array(); // rendered row. To remove duplicate in seach result
 $intRow=0; // count row displayed
 $days = BAN_DAYS;
-while($row=$oDB->getRow())
-{
-  if ( in_array((int)$row['id'], $arrRow) ) continue; // this remove duplicate users in case of search result
+while($row=$oDB->getRow()) {
 
+  if ( in_array((int)$row['id'], $arrRow) ) continue; // this remove duplicate users in case of search result
   $arrRow[] = (int)$row['id'];
   if ( empty($row['name']) ) $row['name']='('.L('unknown').')';
   $bChecked = $row['id']==$intChecked;
-
   $intLock = (int)$row['closed']; if ( !array_key_exists($intLock,BAN_DAYS) ) $intLock=0;
   $strLock = $intLock ? '<span class="ban" title="'.L('Banned').' '.L('day',$days[$intLock]).'">'.$days[$intLock].'<span>' : L('n');
 
@@ -236,12 +241,9 @@ while($row=$oDB->getRow())
   $t->arrTd['pic']->content = '<div class="magnifier center">'.SUser::getPicture((int)$row['id'], 'data-magnify=0|onclick=this.dataset.magnify=this.dataset.magnify==1?0:1;', '').'</div>';
   $t->arrTd['role']->content = L('Role_'.strtoupper($row['role']));
   $t->arrTd['numpost']->content = qtK((int)$row['numpost']);
-  if ( $strCateg=='FM' || $strCateg=='SC' )
-  {
+  if ( $strCateg=='FM' || $strCateg=='SC' ) {
   $t->arrTd['firstdate']->content = empty($row['firstdate']) ? '' : qtDate($row['firstdate'],'$','',true);
-  }
-  else
-  {
+  } else {
   $t->arrTd['lastdate']->content = (empty($row['lastdate']) ? '' : qtDate($row['lastdate'],'$','',true)) . (empty($row['ip']) ? '' : '<br><small>('.$row['ip'].')</small>');
   }
   $t->arrTd['closed']->content = $strLock;
@@ -257,7 +259,7 @@ while($row=$oDB->getRow())
 echo '</tbody>'.PHP_EOL;
 echo '</table>'.PHP_EOL;
 echo '<div id="tablebot" class="table-ui bot">';
-echo $rowCommands ? '<div id="t1-edits-bot" class="left checkboxcmds">'.qtSVG('corner-down-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
+echo $rowCommands ? '<div id="t1-edits-bot" class="left rowcmds" data-table="t1">'.qtSVG('corner-down-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
 echo '<div class="right">'.$strPaging.'</div></div>'.PHP_EOL;
 echo '</form>'.PHP_EOL;
 
@@ -272,26 +274,7 @@ echo '<p class="right">'.L('Show').': '.$m->build('u'.$ipp, 'default|style=color
 
 // HTML END
 
-$oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js"></script>';
-$oH->scripts[] = 'const cmds = document.getElementsByClassName("checkboxcmds");
-for (const el of cmds){ el.addEventListener("click", (e)=>{
-  if ( e.target.tagName==="A" ) clickRowCmd("t1-cb[]", e.target.dataset.action);
-}); }
-function clickRowCmd(checkboxname,action)
-{
-  const checkboxes = document.getElementsByName(checkboxname);
-  let n = 0;
-  for (let i=0; i<checkboxes.length; ++i) if ( checkboxes[i].checked ) ++n;
-  if ( n>0 ) {
-    document.getElementById("form-users-action").value=action;
-    document.getElementById("form-users").submit();
-  } else {
-    alert("'.L('Nothing_selected').'");
-  }
-  return false;
-}';
-
-// hide table-ui-bottom-controls if less than 5 table rows
+$oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js" data-noselect="'.L('Nothing_selected').'"></script>';
 $oH->scripts[] = 'qtHideAfterTable("t1-edits-bot","t1",true);';
 
 include 'qti_adm_inc_ft.php';
