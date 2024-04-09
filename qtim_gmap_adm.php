@@ -38,7 +38,7 @@ $oH->exiturl = $oH->selfurl;
 $oH->exitname = $oH->selfname;
 
 // read values
-foreach(array('m_gmap_gkey','m_gmap_gcenter','m_gmap_gzoom','m_gmap_gfind','m_gmap_gbuttons') as $strValue)
+foreach(array('m_gmap_gkey','m_gmap_gcenter','m_gmap_gzoom','m_gmap_gfind','m_gmap_options') as $strValue)
 {
   if ( !isset($_SESSION[QT][$strValue]) )
   {
@@ -74,16 +74,16 @@ if ( isset($_POST['ok']) )
     if ( isset($_POST['m_gmap_gzoom']) )   $_SESSION[QT]['m_gmap_gzoom'] = trim($_POST['m_gmap_gzoom']);
     if ( isset($_POST['m_gmap_gfind']) )   $_SESSION[QT]['m_gmap_gfind'] = qtAttr($_POST['m_gmap_gfind']);
     if ( isset($_POST['m_gmap_gsymbol']) ) $_SESSION[QT]['m_gmap_gsymbol'] = trim($_POST['m_gmap_gsymbol']); if ( empty($_SESSION[QT]['m_gmap_gsymbol']) || $_SESSION[QT]['m_gmap_gsymbol']=='default' ) $_SESSION[QT]['m_gmap_gsymbol']='0'; // "iconname" (without extension) or '0' default symbol
-    // m_gmap_gbuttons = maptype.streetview.background.scale.fullscreen.mousewheel.geocode
-    if ( isset($_POST['maptype']) )        $_SESSION[QT]['m_gmap_gbuttons'][0] = substr($_POST['maptype'],0,1);
-    if ( isset($_POST['streetview']) )     $_SESSION[QT]['m_gmap_gbuttons'][1] = '1';
-    if ( isset($_POST['map']) )            $_SESSION[QT]['m_gmap_gbuttons'][2] = '1';
-    if ( isset($_POST['scale']) )          $_SESSION[QT]['m_gmap_gbuttons'][3] = '1';
-    if ( isset($_POST['fullscreen']) )     $_SESSION[QT]['m_gmap_gbuttons'][4] = '1';
-    if ( isset($_POST['mousewheel']) )     $_SESSION[QT]['m_gmap_gbuttons'][5] = '1';
-    if ( isset($_POST['geocode']) )        $_SESSION[QT]['m_gmap_gbuttons'][6] = '1';
+    // m_gmap_options = maptype.streetview.background.scale.fullscreen.mousewheel.geocode
+    if ( isset($_POST['maptype']) )        $_SESSION[QT]['m_gmap_options'][0] = substr($_POST['maptype'],0,1);
+    if ( isset($_POST['streetview']) )     $_SESSION[QT]['m_gmap_options'][1] = '1';
+    if ( isset($_POST['map']) )            $_SESSION[QT]['m_gmap_options'][2] = '1';
+    if ( isset($_POST['scale']) )          $_SESSION[QT]['m_gmap_options'][3] = '1';
+    if ( isset($_POST['fullscreen']) )     $_SESSION[QT]['m_gmap_options'][4] = '1';
+    if ( isset($_POST['mousewheel']) )     $_SESSION[QT]['m_gmap_options'][5] = '1';
+    if ( isset($_POST['geocode']) )        $_SESSION[QT]['m_gmap_options'][6] = '1';
     // store configuration
-    $oDB->updSetting( ['m_gmap_gcenter','m_gmap_gzoom','m_gmap_gbuttons','m_gmap_gfind','m_gmap_gsymbol'] );
+    $oDB->updSetting( ['m_gmap_gcenter','m_gmap_gzoom','m_gmap_options','m_gmap_gfind','m_gmap_gsymbol'] );
   }
 
   // exit
@@ -137,15 +137,15 @@ $current = empty($_SESSION[QT]['m_gmap_gsymbol']) ? 'default' : $_SESSION[QT]['m
 echo '<tr>
 <th style="width:150px">'.L('Gmap.API_ctrl').'</th>
 <td>
-<input type="checkbox" id="map" name="map"'.(substr($_SESSION[QT]['m_gmap_gbuttons'],2,1)==='1' ? 'checked' : '').'/> <label for="map">'.L('Gmap.Ctrl.Background').'</label>
-&nbsp; <input type="checkbox" id="scale" name="scale"'.(substr($_SESSION[QT]['m_gmap_gbuttons'],3,1)==='1' ? 'checked' : '').'/> <label for="scale">'.L('Gmap.Ctrl.Scale').'</label>
-&nbsp; <input type="checkbox" id="fullscreen" name="fullscreen"'.(substr($_SESSION[QT]['m_gmap_gbuttons'],4,1)==='1' ? 'checked' : '').'/> <label for="fullscreen">'.L('Gmap.Ctrl.Fullscreen').'</label>
-&nbsp; <input type="checkbox" id="mousewheel" name="mousewheel"'.(substr($_SESSION[QT]['m_gmap_gbuttons'],5,1)==='1' ? 'checked' : '').'/> <label for="mousewheel">'.L('Gmap.Ctrl.Mousewheel').'</label>
+<input type="checkbox" id="map" name="map"'.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'bg')==='1' ? 'checked' : '').'/> <label for="map">'.L('Gmap.Ctrl.Background').'</label>
+&nbsp; <input type="checkbox" id="scale" name="scale"'.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'sc')==='1' ? 'checked' : '').'/> <label for="scale">'.L('Gmap.Ctrl.Scale').'</label>
+&nbsp; <input type="checkbox" id="fullscreen" name="fullscreen"'.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'fs')==='1' ? 'checked' : '').'/> <label for="fullscreen">'.L('Gmap.Ctrl.Fullscreen').'</label>
+&nbsp; <input type="checkbox" id="mousewheel" name="mousewheel"'.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'mw')==='1' ? 'checked' : '').'/> <label for="mousewheel">'.L('Gmap.Ctrl.Mousewheel').'</label>
 </td>
 </tr>
 <th style="width:150px">'.L('Gmap.API_services').'</th>
-<td><input type="checkbox" id="streetview" name="streetview"'.(substr($_SESSION[QT]['m_gmap_gbuttons'],1,1)==='1' ? 'checked' : '').'/> <label for="streetview">'.L('Gmap.Ctrl.Streetview').'</label>
-&nbsp; <input type="checkbox" id="geocode" name="geocode"'.(substr($_SESSION[QT]['m_gmap_gbuttons'],6,1)==='1' ? 'checked' : '').'/> <label for="geocode">'.L('Gmap.Ctrl.Geocode').'</label></td>
+<td><input type="checkbox" id="streetview" name="streetview"'.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'sv')==='1' ? 'checked' : '').'/> <label for="streetview">'.L('Gmap.Ctrl.Streetview').'</label>
+&nbsp; <input type="checkbox" id="geocode" name="geocode"'.(!empty(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'gc')) ? 'checked' : '').'/> <label for="geocode">'.L('Gmap.Ctrl.Geocode').'</label></td>
 </tr>
 <tr>
 <th style="width:150px">'.L('Gmap.Default_symbol').'</th>
@@ -185,14 +185,14 @@ echo '<h2 class="config">'.L('Gmap.Mapping_config').'</h2>
 </tr>
 <tr>
 <th style="width:150px;">'.L('Gmap.Background').'</th>
-<td><select id="maptype" name="maptype" size="1">'.qtTags(L('Gmap.Back.*'),substr($_SESSION[QT]['m_gmap_gbuttons'],0,1)).'</select></td>
+<td><select id="maptype" name="maptype" size="1">'.qtTags(L('Gmap.Back.*'),qtExplodeGet($_SESSION[QT]['m_gmap_options'],'mt')).'</select></td>
 <td><small>'.L('Gmap.H_Background').'</span></td>
 </tr>
 <tr>
 <th style="width:150px;"><label for="m_gmap_gfind">'.L('Gmap.Address_sample').'</label></th>
 <td>
-<input'.(substr($_SESSION[QT]['m_gmap_gbuttons'],6,1)==='1' ? '' : 'disabled').' type="text" id="m_gmap_gfind" name="m_gmap_gfind" size="20" maxlength="100" value="'.$_SESSION[QT]['m_gmap_gfind'].'"/></td>
-<td><small>'.(substr($_SESSION[QT]['m_gmap_gbuttons'],6,1)==='1' ? L('Gmap.H_Address_sample') : L('Gmap.Ctrl.Geocode').' (off)').'</span></td>
+<input'.(!empty(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'gc')) ? '' : 'disabled').' type="text" id="m_gmap_gfind" name="m_gmap_gfind" size="20" maxlength="100" value="'.$_SESSION[QT]['m_gmap_gfind'].'"/></td>
+<td><small>'.(!empty(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'gc')) ? L('Gmap.H_Address_sample') : L('Gmap.Ctrl.Geocode').' (off)').'</span></td>
 </tr>
 ';
 

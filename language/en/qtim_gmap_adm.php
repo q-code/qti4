@@ -26,10 +26,10 @@ $L['Gmap']['H_Address_sample']='Default address in the Search (this helps user o
 $L['Gmap']['Symbol_by_role']='Symbol by role';
 $L['Gmap']['Click_to_change']='(click to change the default symbol)';
 
-$L['Gmap']['Back']['M']='Map';
+$L['Gmap']['Back']['R']='Map';
 $L['Gmap']['Back']['S']='Satellite';
 $L['Gmap']['Back']['H']='Satellite & labels';
-$L['Gmap']['Back']['P']='Terrain';
+$L['Gmap']['Back']['T']='Terrain';
 $L['Gmap']['Back']['O']='Street (OpenStreetMap)';
 $L['Gmap']['Ctrl']['Streetview']='Streetview';
 $L['Gmap']['Ctrl']['Background']='Backgrounds';

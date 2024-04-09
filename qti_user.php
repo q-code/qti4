@@ -91,8 +91,7 @@ if ( isset($_POST['ok']) ) try {
   $oDB->exec( "UPDATE TABUSER SET birthday=?,location=?,mail=?,www=?,privacy=?,children=?,parentmail=? WHERE id=".$id,
     [$strBirth,$strLoca,$strMail,$strWww,$_POST['privacy'],$strChild,$strParentmail]
     );
-  if ( isset($_POST['coord']) )
-  {
+  if ( isset($_POST['coord']) ) {
     $coord = strip_tags(trim($_POST['coord']));
     $coord = str_replace(' ','',$coord); // remove spaces between coordinates y,x
     SUser::setCoord($oDB,$id,$coord); // coord can be empty (coordinates are removed)
@@ -128,8 +127,7 @@ if ( $row['role']==='M' && SUser::role()==='M' && !QT_STAFFEDITSTAFF && SUser::i
 if ( $row['role']==='A' && SUser::role()==='M' && !QT_STAFFEDITADMIN ) { $canEdit = false; $edit = false; }
 
 // map settings
-if ( $bMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) )
-{
+if ( $bMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) ) {
   $y = (float)$row['y']; $x = (float)$row['x'];
   $strPname = $row['name'];
   $oMapPoint = new CMapPoint($y,$x,$strPname);
@@ -142,8 +140,7 @@ $strMail = '';  if ( !empty($row['mail']) && SUser::canSeePrivate($row['privacy'
 $strLocation = ''; if ( !empty($row['location']) && SUser::canSeePrivate($row['privacy'],$id) ) $strLocation = $row['location'];
 $strCoord = ''; // coordinates with visual units
 $strYX = ''; // coordinates in map unit [y,x]
-if ( $bMap && !empty($row['x']) && !empty($row['y']) && SUser::canSeePrivate($row['privacy'],$id) )
-{
+if ( $bMap && !empty($row['x']) && !empty($row['y']) && SUser::canSeePrivate($row['privacy'],$id) ) {
   $strYX = round((float)$row['y'],8).','.round((float)$row['x'],8);
   $strCoord = QTdd2dms((float)$row['y']).', '.QTdd2dms((float)$row['x']).' '.$L['Coord_latlon'].' <span class="small disabled">DD '.$strYX.'</span>';
 }
@@ -168,28 +165,22 @@ echo '<div id="user-menu">
 ';
 echo SUser::getPicture($id, 'id=userimg').PHP_EOL;
 
-if ( $canEdit )
-{
+if ( $canEdit ) {
+
   if ( !empty(qtExplodeGet($_SESSION[QT]['formatpicture'],'mime')) )
-  {
   echo '<p><a href="'.url('qti_user_img.php').'?id='.$id.'">'.L('Change_picture').'</a></p>';
-  }
   echo '<p><a href="'.url('qti_register.php').'?a=sign&id='.$id.'">'.L('Change_signature').'</a></p>';
   echo '<p><a href="'.url('qti_register.php').'?a=pwd&id='.$id.'">'.L('Change_password').'</a></p>';
   echo '<p><a href="'.url('qti_register.php').'?a=qa&id='.$id.'">'.L('Secret_question').'</a></p>';
-  if ( SUser::role()==='A' || (SUser::id()==$id && QT_CHANGE_USERNAME) ) {
+  if ( SUser::role()==='A' || (SUser::id()==$id && QT_CHANGE_USERNAME) )
   if ( $id>0 ) echo '<p><a href="'.url('qti_register.php').'?a=name&id='.$id.'">'.L('Change_name').'</p></a>';
-  }
   if ( $id>1 && (SUser::id()===$id || SUser::role()==='A') )
-  {
   echo '<p><a href="'.url('qti_register.php').'?a=out&id='.$id.'">'.L('Unregister').'</a></p>';
-  }
 }
 if ( SUser::canAccess('show_calendar') )
-{
 echo '<p><a href="'.url('qti_calendar.php').(empty($row['birthday']) ? '' : '?m='.substr($row['birthday'],4,2)).'">'.L('Birthdays_calendar').'</a></p>';
-}
-if ( !empty($row['closed']) ) echo '<hr/>'.show_ban(SUser::role(),$row['closed'],$row['name']);
+if ( !empty($row['closed']) )
+echo '<hr/>'.show_ban(SUser::role(),$row['closed'],$row['name']);
 
 echo '</div>
 <div id="user-main">
@@ -197,7 +188,7 @@ echo '</div>
 
 // -- EDIT PROFILE --
 if ( $edit ) {
-  // -- EDIT PROFILE --
+// -- EDIT PROFILE --
 
 $oH->scripts['formsafe'] = '<script type="text/javascript" src="bin/js/qt_formsafe.js" data-safemsg="'.L('Quit_without_saving').'"></script>';
 echo '<form class="formsafe" method="post" action="'.url('qti_user.php').'?id='.$id.'">
@@ -249,8 +240,8 @@ if ( $bMap ) {
   $strPosition .= '<input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('Gmap.H_addrlatlng').'" onkeypress="enterkeyPressed=qtKeyEnter(event); if ( enterkeyPressed) showLocation(this.value,null);"/>';
   $strPosition .= '<span id="btn-geocode" onclick="showLocation(document.getElementById(`find`).value,null);" title="'.L('Search').'">'.qtSVG('search').'</span></p>';
   echo '<tr>'.PHP_EOL;
-  echo '<th>'.$L['Coord'].'</th>';
-  echo '<td><input type="text" id="yx" name="coord" pattern="^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$" size="32" value="'.$strYX.'" title="y,x in decimal degree (without trailing spaces)"/> <small>'.$L['Coord_latlon'].'</span></td>';
+  echo '<th>'.L('Coord').'</th>';
+  echo '<td><input type="text" id="yx" name="coord" pattern="^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$" size="32" value="'.$strYX.'" title="y,x in decimal degree (without trailing spaces)"/> <small>'.L('Coord_latlon').'</span></td>';
   echo '</tr>'.PHP_EOL;
 }
 
@@ -272,9 +263,8 @@ echo '<tr>
 // ------
 
 $strParticip = '';
-if ( $items>0 ) {
+if ( $items>0 )
 $strParticip .= '<a href="'.url('qti_items.php').'?q=user&fw='.$id.'&fv='.urlencode($row['name']).'">'.L('Item',$items).'</a>, ';
-}
 if ( $countmessages>0 ) {
   $strParticip .= '<a href="'.url('qti_items.php').'?q=userm&fw='.$id.'&fv='.urlencode($row['name']).'">'.L('Message',$countmessages).'</a>';
   $strParticip .= ', '.strtolower($L['Last_message']).' '.qtDate($row['lastdate'],'$','$',true);

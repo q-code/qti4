@@ -32,9 +32,8 @@ include 'qtim_gmap_lib.php';
 // INITIALISE
 
 $oH->selfurl = 'qtim_gmap_adm_sections.php';
-$oH->selfname = 'Map';
+$oH->selfname = 'Gmap';
 $oH->selfparent = L('Module');
-$oH->selfversion = L('Gmap.Version').' 4.0';
 $oH->exiturl = 'qtim_gmap_adm.php';
 $oH->exitname = $oH->selfname;
 
@@ -44,8 +43,7 @@ $arrSections = CSection::getSections('A'); // sql
 
 $intHandle = opendir('qtim_gmap');
 $arrFiles = [];
-while ( false!==($strFile = readdir($intHandle)) )
-{
+while ( false!==($strFile = readdir($intHandle)) ) {
   if ( $strFile!='.' && $strFile!='..' ) {
   if ( substr($strFile,-4,4)==='.png' ) {
   if ( !strpos($strFile,'shadow') ) {
@@ -82,14 +80,12 @@ if ( isset($_POST['ok']) && !empty($_SESSION[QT]['m_gmap_gkey']) )
   $content .= '`;';
 
   if ( !is_writable($strFilename)) $error="Impossible to write into the file [$strFilename].";
-  if ( empty($error) )
-  {
-  if ( !$handle = fopen($strFilename, 'w')) $error="Impossible to open the file [$strFilename].";
+  if ( empty($error) ) {
+    if ( !$handle = fopen($strFilename, 'w')) $error="Impossible to open the file [$strFilename].";
   }
-  if ( empty($error) )
-  {
-  if ( fwrite($handle, $content)===FALSE ) $error="Impossible to write into the file [$strFilename].";
-  fclose($handle);
+  if ( empty($error) ) {
+    if ( fwrite($handle, $content)===FALSE ) $error="Impossible to write into the file [$strFilename].";
+    fclose($handle);
   }
 
   // exit
@@ -127,14 +123,14 @@ echo '<form class="formsafe" method="post" action="'.$oH->self().'">
 <table class="subtable">
 <tr>
 <th style="width:25px;text-align:center">&nbsp;</th>
-<th>'.$L['Sections'].'</th>
+<th>'.L('Section+').'</th>
 <th>'.L('Gmap.symbols').'</th>
 <th>'.L('Gmap.Main_list').'</th>
 </tr>
 ';
 
-foreach(array_keys($arrSections) as $id)
-{
+foreach(array_keys($arrSections) as $id) {
+
 if ( !isset($arrConfig[$id]['enabled']) ) $arrConfig[$id]['enabled']=0;
 if ( !isset($arrConfig[$id]['list']) ) $arrConfig[$id]['list']=0;
 echo '<tr class="hover">
@@ -144,7 +140,7 @@ echo '<tr class="hover">
 <select class="small" id="mark_'.$id.'" name="mark_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
 <option value="0">'.L('Gmap.Default').'</option>
 <option value="-" disabled="disabled">&nbsp;</option>
-'.qtTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
+'.qtTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : '')).'
 </select>
 </td>
 <td>
@@ -156,7 +152,7 @@ echo '<tr class="hover">
 ';
 }
 
-$id='S';
+$id = 'S';
 if ( !isset($arrConfig[$id]['enabled']) ) $arrConfig[$id]['enabled']=0;
 if ( !isset($arrConfig[$id]['list']) ) $arrConfig[$id]['list']=0;
 echo '<tr class="hover">
@@ -178,7 +174,7 @@ echo '<tr class="hover">
 </tr>
 ';
 
-$id='U';
+$id = 'U';
 if ( !isset($arrConfig[$id]['enabled']) ) $arrConfig[$id]['enabled']=0;
 if ( !isset($arrConfig[$id]['list']) ) $arrConfig[$id]['list']=0;
 echo '<tr class="hover">
@@ -200,30 +196,21 @@ echo '<tr class="hover">
 </table>
 ';
 
-echo '<p class="submit"><button type="submit" name="ok" value="save">'.L('Save').'</button></p>
+echo '<p class="submit">
+<button type="button" name="cancel" value="cancel" onclick="window.location=`'.$oH->exit().'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="save">'.L('Save').'</button>
+</p>
 </div>
 </form>
 ';
 
 // show table symbols
-
 echo '<br>
 <h2 class="config">'.L('Gmap.symbols').'</h2>
-<table class="t-conf">
-<tr>
-<td class="center"><img alt="i" class="marker" src="bin/css/gmap_marker.png"/><br><small>Default</span></td>
+<div class="flex-sp t-conf" style="padding:1rem">
 ';
-$i=0;
 foreach ($arrFiles as $strFile=>$strName)
-{
-echo '<td class="center"><img alt="i" class="marker" src="qtim_gmap/'.$strFile.'.png"/><br><small>'.$strName.'</span></td>
-';
-++$i;
-if ( $i>=9 ) { echo '</tr><tr>'; $i=0; }
-}
-echo '</tr>
-</table>
-<p class="submit">'.qtSVG('chevron-left').'<a href="'.$oH->exiturl.'">'.$oH->exitname.'</a></p>
+echo '<p class="center"><img alt="i" class="marker" src="qtim_gmap/'.$strFile.'.png"/><br><small>'.$strName.'</small></p>';
+echo '</div>
 ';
 
 // HTML END

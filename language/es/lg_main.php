@@ -93,6 +93,7 @@ $L['Contact']='Contacta';
 $L['Containing']='Contenido';
 $L['Continue']='Seguir';
 $L['Coord']='Datos';
+$L['Coord_latlon']='(lat,lon)';
 $L['Created']='Creado';
 $L['Csv']='Export'; $L['H_Csv']='Abrase en hoja de balance';
 $L['Date']='Fecha';

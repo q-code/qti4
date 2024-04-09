@@ -95,6 +95,7 @@ $L['Contact']='Contact';
 $L['Containing']='Bevat';
 $L['Continue']='Voortduren';
 $L['Coord']='Co&ouml;rdinaten';
+$L['Coord_latlon']='(lat,lon)';
 $L['Created']='Gemaakt';
 $L['Csv']='Export'; $L['H_Csv']='Tonen in spreadsheet';
 $L['Date']='Datum';

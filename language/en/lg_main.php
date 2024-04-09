@@ -94,6 +94,7 @@ $L['Contact']='Contact';
 $L['Containing']='Containing';
 $L['Continue']='Continue';
 $L['Coord']='Coordinates';
+$L['Coord_latlon']='(lat,lon)';
 $L['Created']='Created';
 $L['Csv']='Export'; $L['H_Csv']='Download to spreadsheet';
 $L['Date']='Date';

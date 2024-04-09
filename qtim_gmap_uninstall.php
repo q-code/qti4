@@ -32,7 +32,7 @@ $oH->selfname = 'Uninstall module: '.MODULE;
 
 // UNINSTALL
 
-$oDB->exec( 'DELETE FROM TABSETTING WHERE param="module_gmap" OR param="m_gmap_gkey" OR param="m_gmap_gcenter" OR param="m_gmap_gzoom" OR param="m_gmap_gbuttons" OR param="m_gmap_gfind" OR param="m_gmap_gsymbol"');
+$oDB->exec( 'DELETE FROM TABSETTING WHERE param="module_gmap" OR param="m_gmap_gkey" OR param="m_gmap_gcenter" OR param="m_gmap_gzoom" OR param="m_gmap_options" OR param="m_gmap_gfind" OR param="m_gmap_gsymbol"');
 unset($_SESSION[QT]['module_gmap']);
 SMem::set('settingsage',time());
 

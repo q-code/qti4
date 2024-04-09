@@ -46,19 +46,19 @@ if ( !empty($error) ) $bStep1 = false;
 // STEP Z
 if ( empty($error) )
 {
-  $oDB->exec( 'DELETE FROM TABSETTING WHERE param="module_gmap" OR param="m_gmap_gkey" OR param="m_gmap_gcenter" OR param="m_gmap_gzoom" OR param="m_gmap_gbuttons" OR param="m_gmap_gsymbol"');
+  $oDB->exec( 'DELETE FROM TABSETTING WHERE param="module_gmap" OR param="m_gmap_gkey" OR param="m_gmap_gcenter" OR param="m_gmap_gzoom" OR param="m_gmap_options" OR param="m_gmap_gsymbol"');
   $oDB->exec( 'INSERT INTO TABSETTING (param,setting) VALUES ("module_gmap","Gmap")');
   $oDB->exec( 'INSERT INTO TABSETTING (param,setting) VALUES ("m_gmap_gkey","")');
   $oDB->exec( 'INSERT INTO TABSETTING (param,setting) VALUES ("m_gmap_gcenter","50.8468142558,4.35238838196")');
   $oDB->exec( 'INSERT INTO TABSETTING (param,setting) VALUES ("m_gmap_gzoom","10")');
-  $oDB->exec( 'INSERT INTO TABSETTING (param,setting) VALUES ("m_gmap_gbuttons","P10100")');
+  $oDB->exec( 'INSERT INTO TABSETTING (param,setting) VALUES ("m_gmap_options","P10100")');
   $oDB->exec( 'INSERT INTO TABSETTING (param,setting) VALUES ("m_gmap_gfind","Brussels, Belgium")');
   $oDB->exec( 'INSERT INTO TABSETTING (param,setting) VALUES ("m_gmap_gsymbol","0")');
   $_SESSION[QT]['module_gmap'] = 'Gmap';
   $_SESSION[QT]['m_gmap_gkey'] = '';
   $_SESSION[QT]['m_gmap_gcenter'] = '50.8468142558,4.35238838196';
   $_SESSION[QT]['m_gmap_gzoom'] = '10';
-  $_SESSION[QT]['m_gmap_gbuttons'] = 'P10100';
+  $_SESSION[QT]['m_gmap_options'] = 'P10100';
   $_SESSION[QT]['m_gmap_gfind'] = 'Brussels, Belgium';
   $_SESSION[QT]['m_gmap_gsymbol'] = '0'; // Default symbol
   SMem::set('settingsage',time());

@@ -89,29 +89,28 @@ $arrEventsN = [];
 $intEvents = 0;
 $intEventsN = 0;
 
-switch($oDB->type)
-{
-// Select 2 months
-case 'pdo.mysql':
-case 'mysql':
-case 'pdo.sqlsrv':
-case 'sqlsrv': $oDB->query( "SELECT id,name,role,$fv FROM TABUSER WHERE SUBSTRING($v,5,2)=? OR SUBSTRING($v,5,2)=?", [$strMonth,$strMonthN] ); break;
-case 'pdo.pg':
-case 'pg': $oDB->query( "SELECT id,name,role,$fv FROM TABUSER WHERE SUBSTRING($fv FROM 5 FOR 2)=? OR SUBSTRING($fv FROM 5 FOR 2)=?", [$strMonth,$strMonthN] ); break;
-case 'pdo.sqlite':
-case 'sqlite': $oDB->query( "SELECT id,name,role,$fv FROM TABUSER WHERE SUBSTR($v,5,2)=? OR SUBSTR($v,5,2)=?", [$strMonth,$strMonthN] ); break;
-case 'pdo.oci':
-case 'oci':$oDB->query( "SELECT id,name,role,$fv FROM TABUSER WHERE SUBSTR($v,5,2)=? OR SUBSTR($v,5,2)=?", [$strMonth,$strMonthN] ); break;
-default: die('Unknown db type '.$oDB->type);
+switch($oDB->type) {
+  // Select 2 months
+  case 'pdo.mysql':
+  case 'mysql':
+  case 'pdo.sqlsrv':
+  case 'sqlsrv': $oDB->query( "SELECT id,name,role,$fv FROM TABUSER WHERE SUBSTRING($fv,5,2)=? OR SUBSTRING($fv,5,2)=?", [$strMonth,$strMonthN] ); break;
+  case 'pdo.pg':
+  case 'pg': $oDB->query( "SELECT id,name,role,$fv FROM TABUSER WHERE SUBSTRING($fv FROM 5 FOR 2)=? OR SUBSTRING($fv FROM 5 FOR 2)=?", [$strMonth,$strMonthN] ); break;
+  case 'pdo.sqlite':
+  case 'sqlite': $oDB->query( "SELECT id,name,role,$fv FROM TABUSER WHERE SUBSTR($fv,5,2)=? OR SUBSTR($fv,5,2)=?", [$strMonth,$strMonthN] ); break;
+  case 'pdo.oci':
+  case 'oci':$oDB->query( "SELECT id,name,role,$fv FROM TABUSER WHERE SUBSTR($fv,5,2)=? OR SUBSTR($fv,5,2)=?", [$strMonth,$strMonthN] ); break;
+  default: die('Unknown db type '.$oDB->type);
 }
 $i=0;
 while($row=$oDB->getRow())
 {
   $i++;
-  if ( strlen($row[$v])==8 )
+  if ( strlen($row[$fv])==8 )
   {
-    $strM = substr($row[$v],4,2);
-    $strD = substr($row[$v],6,2);
+    $strM = substr($row[$fv],4,2);
+    $strD = substr($row[$fv],6,2);
     if ( $strM==$strMonth )  { $arrEvents[(int)$strD][]=$row; $intEvents++; }
     if ( $strM==$strMonthN ) { $arrEventsN[(int)$strD]=1; $intEventsN++; }
   }
