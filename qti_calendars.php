@@ -380,7 +380,7 @@ echo '<div class="cal_info center secondary article">'.PHP_EOL;
   {
     if ( count($arrExtData)>0 )
     {
-      $oCanvas = new cCanvas();
+      $oCanvas = new CCanvas();
       $oCanvas->Header( $arrExtData );
       $oCanvas->Footer( sprintf(L('Gmap.items'),count($arrExtData),L('item',$intEvents)) );
       echo $oCanvas->Render( false, 'gmapCalendar' );

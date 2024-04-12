@@ -433,7 +433,7 @@ if ( $useMap ) {
     echo '<p class="gmap nomap">'.L('Gmap.No_coordinates').'</p>';
     $useMap=false;
   } else {
-    $oCanvas = new cCanvas();
+    $oCanvas = new CCanvas();
     $oCanvas->Header( $arrExtData );
     $oCanvas->Footer( sprintf(L('Gmap.items'),L('item',count($arrExtData)),L('item',$intCount)) );
     echo $oCanvas->Render(true);

@@ -42,16 +42,16 @@ $arrSections = CSection::getSections('A'); // sql
 // Read png in directory
 
 $intHandle = opendir('qtim_gmap');
-$arrFiles = [];
+$files = [];
 while ( false!==($strFile = readdir($intHandle)) ) {
   if ( $strFile!='.' && $strFile!='..' ) {
   if ( substr($strFile,-4,4)==='.png' ) {
   if ( !strpos($strFile,'shadow') ) {
-    $arrFiles[substr($strFile,0,-4)]=ucfirst(substr(str_replace('_',' ',$strFile),0,-4));
+    $files[substr($strFile,0,-4)]=ucfirst(substr(str_replace('_',' ',$strFile),0,-4));
   }}}
 }
 closedir($intHandle);
-asort($arrFiles);
+asort($files);
 
 // ------
 // SUBMITTED for changes
@@ -140,7 +140,7 @@ echo '<tr class="hover">
 <select class="small" id="mark_'.$id.'" name="mark_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
 <option value="0">'.L('Gmap.Default').'</option>
 <option value="-" disabled="disabled">&nbsp;</option>
-'.qtTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : '')).'
+'.qtTags($files,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : '')).'
 </select>
 </td>
 <td>
@@ -163,7 +163,7 @@ echo '<tr class="hover">
 <option value="S">'.L('Gmap.From_section').'</option>
 <option value="0">'.L('Gmap.Default').'</option>
 <option value="-" disabled="disabled">&nbsp;</option>
-'.qtTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
+'.qtTags($files,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
 </select>
 </td>
 <td style="border-top:solid 1px #c3d9ff">
@@ -184,7 +184,7 @@ echo '<tr class="hover">
 <select class="small" id="mark_'.$id.'" name="mark_'.$id.'" size="1" style="'.($arrConfig[$id]['enabled']==0 ? 'visibility:hidden' : '').'">
 <option value="0">'.L('Gmap.Default').'</option>
 <option value="-" disabled="disabled">&nbsp;</option>
-'.qtTags($arrFiles,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
+'.qtTags($files,(isset($arrConfig[$id]['icon']) ? $arrConfig[$id]['icon'] : null)).'
 </select>
 </td>
 <td>
@@ -208,7 +208,7 @@ echo '<br>
 <h2 class="config">'.L('Gmap.symbols').'</h2>
 <div class="flex-sp t-conf" style="padding:1rem">
 ';
-foreach ($arrFiles as $strFile=>$strName)
+foreach ($files as $strFile=>$strName)
 echo '<p class="center"><img alt="i" class="marker" src="qtim_gmap/'.$strFile.'.png"/><br><small>'.$strName.'</small></p>';
 echo '</div>
 ';

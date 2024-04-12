@@ -8,36 +8,33 @@
  * ------
  * Class CMapPoint
  * gmapCan gmapHasKey gmapApi gmapEmpty gmapEmptycoord
- * gmapMarker gmapMarkerMapTypeId gmapMarkerIcon
+ * gmapMarker gmapMarkerMapTypeId gmapMarkerPin
  * QTgetx QTgety QTgetz QTstr2yx QTdd2dms
  * ============ */
 
-class CMapPoint
-{
-  public $y = 4.352;
-  public $x = 50.847;
-  public $title = ''; // marker tips
-  public $info = '';  // html to display on click
-  public $icon = false;
-  function __construct($y,$x,$title='',$info='')
-  {
-    if ( isset($y) && isset($x) )
-    {
-      $this->y = $y;
-      $this->x = $x;
-    }
-    else
-    {
-      if ( isset($_SESSION[QT]['m_gmap_gcenter']) )
-      {
-        $this->y = floatval(QTgety($_SESSION[QT]['m_gmap_gcenter']));
-        $this->x = floatval(QTgetx($_SESSION[QT]['m_gmap_gcenter']));
-      }
-    }
-    if ( !empty($title) ) $this->title = $title;
-    if ( !empty($info) ) $this->info = $info;
-  }
-}
+ class CMapPoint
+ {
+   public $y = 4.352;
+   public $x = 50.847;
+   public $title = '';  // marker tips
+   public $info = '';   // html to display on click
+   public $symbol = ''; // default marker
+   function __construct($y, $x, string $title='', string $info='', string $symbol='')
+   {
+     if ( isset($y) && isset($x) ) {
+       $this->y = (float)$y;
+       $this->x = (float)$x;
+     } else {
+       if ( isset($_SESSION[QT]['m_gmap_gcenter']) ) {
+         $this->y = (float)QTgety($_SESSION[QT]['m_gmap_gcenter']);
+         $this->x = (float)QTgetx($_SESSION[QT]['m_gmap_gcenter']);
+       }
+     }
+     $this->title = empty($title) ? '' : $title;
+     $this->info = empty($info) ? '' : $info;
+     $this->info = empty($symbol) || $symbol==='default' ? '' : $symbol;
+   }
+ }
 
 function getMapSectionsSettings($jMapSections='')
 {
@@ -73,38 +70,30 @@ function getMapSectionSettings($section,$generateDefault=false,$jMapSections='')
 }
 
 // ------
-class cCanvas
+class CCanvas
 {
-	private $canvas=''; // default is <div id="map_canvas"></div>
-  private $header='';
-  private $footer='';
+	private $canvas = ''; // default is <div id="map_canvas"></div>
+  private $header = '';
+  private $footer = '';
   private static function idclass($id='',$class='') { return (empty($id) ? '' : ' id="'.$id.'"').(empty($class) ? '' : ' class="'.$class.'"'); }
 
-  public function __construct($id='map_canvas',$class='')  { $this->canvas = '<div'.cCanvas::idclass($id,$class).'></div>'.PHP_EOL; }
+  public function __construct($id='map_canvas',$class='')  { $this->canvas = '<div'.CCanvas::idclass($id,$class).'></div>'.PHP_EOL; }
 
-  public function Render($handler=false,$id='',$class='gmap')
+  public function Render($handler=false, $id='', $class='gmap')
 	{
-	  if ( isset($_SESSION[QT]['m_gmap_hidelist']) && $_SESSION[QT]['m_gmap_hidelist'] )
-    {
-    $this->canvas=''; // in case of no display canvas is '', header/footer/handler can be displayed
-    $class.=' hidden';
+	  if ( isset($_SESSION[QT]['m_gmap_hidelist']) && $_SESSION[QT]['m_gmap_hidelist'] ) {
+      $this->canvas=''; // in case of no display canvas is '', header/footer/handler can be displayed
+      $class.=' hidden';
     }
-
-    $str = '<div'.cCanvas::idclass($id,$class).'>'.PHP_EOL;
+    $str = '<div'.CCanvas::idclass($id,$class).'>'.PHP_EOL;
 		$str .= $this->header.PHP_EOL.$this->canvas.PHP_EOL.$this->footer.PHP_EOL;
 		$str .= '</div>'.PHP_EOL;
-
 		// Show/Hide control
-
-		if ( $handler )
-		{
+		if ( $handler ) {
       global $oH;
-			if ( $_SESSION[QT]['m_gmap_hidelist'] )
-			{
+			if ( $_SESSION[QT]['m_gmap_hidelist'] ) {
       $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('hidemap').'&showmap">'.qtSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
-			}
-			else
-			{
+			} else {
       $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('showmap').'&hidemap">'.qtSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
 			}
 		}
@@ -115,27 +104,21 @@ class cCanvas
   public function Header($arrExtData=array(),$arrEditCommands=array(),$id='',$class='header')
 	{
 	  // In case of $arrExtData (no EditCommands)
-
-	  if ( is_array($arrExtData) && count($arrExtData)>1 )
-	  {
-          $this->header .= '<p'.cCanvas::idclass($id,$class).' style="margin:0 0 4px 0"><a class="gmap" href="javascript:void(0)" onclick="zoomToFullExtend(); return false;">'.L('Gmap.zoomtoall').'</a> | '.L('Show').' <select class="gmap" id="zoomto" name="zoomto" size="1" onchange="gmapPan(this.value);">';
-		      $this->header .= '<option value="'.$_SESSION[QT]['m_gmap_gcenter'].'"> </option>';
-		      $i=0;
-		      foreach($arrExtData as $oMapPoint)
-		      {
-		      if ( is_a($oMapPoint,'CMapPoint') ) $this->header .= '<option value="'.$oMapPoint->y.','.$oMapPoint->x.'">'.$oMapPoint->title.'</option>';
-		      ++$i; if ( $i>20 ) break;
-		      }
-		      $this->header .= '</select></p>';
+	  if ( is_array($arrExtData) && count($arrExtData)>1 ) {
+      $this->header .= '<p'.CCanvas::idclass($id,$class).' style="margin:0 0 4px 0"><a class="gmap" href="javascript:void(0)" onclick="zoomToFullExtend(); return false;">'.L('Gmap.zoomtoall').'</a> | '.L('Show').' <select class="gmap" id="zoomto" name="zoomto" size="1" onchange="gmapPan(this.value);">';
+      $this->header .= '<option value="'.$_SESSION[QT]['m_gmap_gcenter'].'"> </option>';
+      $i=0;
+      foreach($arrExtData as $oMapPoint) {
+        if ( is_a($oMapPoint,'CMapPoint') ) $this->header .= '<option value="'.$oMapPoint->y.','.$oMapPoint->x.'">'.$oMapPoint->title.'</option>';
+        ++$i; if ( $i>20 ) break;
+      }
+      $this->header .= '</select></p>';
 	  }
 
     // Commands
-
-	  if ( is_array($arrEditCommands) && count($arrEditCommands)>0 )
-	  {
+	  if ( is_array($arrEditCommands) && count($arrEditCommands)>0 ) {
 			$this->header .= '<p'.(empty($id) ? '' : ' id="'.$id.'"').(empty($class) ? '' : ' class="'.$class.'"').'>';
-			foreach($arrEditCommands as $str)
-			{
+			foreach($arrEditCommands as $str) {
 				// default command codes
 				if ( $str==='add' ) $str=' | <a href="javascript:void(0)" onclick="createMarker(); return false;" title="'.L('map_H_pntadd').'">'.L('Gmap.pntadd').'</a>';
 				if ( $str==='del' ) $str=' | <a href="javascript:void(0)" onclick="deleteMarker(); return false;">'.L('Gmap.pntdelete').'</a>';
@@ -150,10 +133,10 @@ class cCanvas
   public function Footer($str='find', $id='', $class='footer')
 	{
      if ( $str==='find' ) {
-       $str = L('Gmap.addrlatlng').' <input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('map_H_addrlatlng').'" onkeypress="qtKeypress(event,`btn-geocode`);"/><span id="btn-geocode" title="'.L('Search').'" onclick="showLocation(document.getElementById(`find`).value,null);">'.qtSVG('search').'</span>';
+       $str = L('Gmap.addrlatlng').' <input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('map_H_addrlatlng').'" onkeypress="if ((event.key!==undefined && event.key==`Enter`) || (event.keyCode!==undefined && event.keyCode==13)) showLocation(this.value,null);"/><span id="btn-geocode" title="'.L('Search').'" onclick="showLocation(document.getElementById(`find`).value,null);">'.qtSVG('search').'</span>';
      }
      if ( !empty($str) ) {
-       $this->footer .= '<p'.cCanvas::idclass($id,$class).'>'.$str.'</p>';
+       $this->footer .= '<p'.CCanvas::idclass($id,$class).'>'.$str.'</p>';
      }
 	}
 
@@ -199,9 +182,9 @@ function gmapApi(string $key='',string $addLibrary='')
   if ( empty($key) ) return '';
   return '(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({ key: "'.$key.'", v: "weekly"});'.PHP_EOL.$addLibrary.PHP_EOL.'gmapInitialize();';
 }
-function gmapOption(string $key='mt')
+function gmapOption(string $key='mt', string $alt='')
 {
-   return qtExplodeGet($_SESSION[QT]['m_gmap_options'], $key);
+  return qtExplodeGet($_SESSION[QT]['m_gmap_options'], $key, $alt);
 }
 function gmapEmpty($i)
 {
@@ -241,10 +224,18 @@ function gmapMarker($centerLatLng='', bool $draggable=false, $gsymbol=false, $ti
 		position: '.$centerLatLng.',
 		map: map,
     gmpDraggable: '.($draggable ? 'true' : 'false').',
-		' . gmapMarkerIcon($gsymbol) . '
+		' . gmapMarkerPin($gsymbol) . '
 		title: "'.$title.'"
 		});
 		markers.push(marker); '.PHP_EOL.(empty($info) ? '' : '	gmapInfo(marker,`'.$info.'`);');
+}
+function gmapMarkerPin($gsymbol=false)
+{
+  // returns the google.maps.Marker.icon argument
+  if ( empty($gsymbol) ) return ''; // no icon source means that the default symbol is used
+  // icons are 32x32 pixels and the anchor depends on the name: (10,32) for puhspin, (16,32) for point, center form others
+  //var_dump($gsymbol); //!!!
+  return '';
 }
 function gmapMarkerIcon($gsymbol=false)
 {

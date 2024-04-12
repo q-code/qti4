@@ -237,7 +237,7 @@ if ( $bMap ) {
   $strPosition .= '</p>'.PHP_EOL;
   $strPosition .= '<div id="map_canvas"></div>'.PHP_EOL;
   $strPosition .= '<p class="small commands" style="margin:4px 0 2px 2px;text-align:right">'.L('Gmap.addrlatlng').' ';
-  $strPosition .= '<input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('Gmap.H_addrlatlng').'" onkeypress="enterkeyPressed=qtKeyEnter(event); if ( enterkeyPressed) showLocation(this.value,null);"/>';
+  $strPosition .= '<input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('Gmap.H_addrlatlng').'" onkeypress="if ((event.key!==undefined && event.key==`Enter`) || (event.keyCode!==undefined && event.keyCode==13)) showLocation(this.value,null);"/>';
   $strPosition .= '<span id="btn-geocode" onclick="showLocation(document.getElementById(`find`).value,null);" title="'.L('Search').'">'.qtSVG('search').'</span></p>';
   echo '<tr>'.PHP_EOL;
   echo '<th>'.L('Coord').'</th>';

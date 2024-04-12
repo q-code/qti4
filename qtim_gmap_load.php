@@ -9,10 +9,10 @@ if ( !isset($gmap_markers) ) $gmap_markers = [];
 if ( !isset($gmap_events) ) $gmap_events = [];
 if ( !isset($gmap_functions) ) $gmap_functions = [];
 
-$mapTypeId = gmapMarkerMapTypeId(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'mt'));
-$streetView = qtExplodeGet($_SESSION[QT]['m_gmap_options'],'sv')==='1' ? 'true' : 'false';
-$fullView = qtExplodeGet($_SESSION[QT]['m_gmap_options'],'fs')==='1' ? 'true' : 'false';
-$scaleBar = qtExplodeGet($_SESSION[QT]['m_gmap_options'],'sc')==='1' ? 'true' : 'false';
+$mapTypeId = gmapMarkerMapTypeId(gmapOption('mt'));
+$streetView = gmapOption('sv')==='1' ? 'true' : 'false';
+$fullView = gmapOption('fs')==='1' ? 'true' : 'false';
+$scaleBar = gmapOption('sc')==='1' ? 'true' : 'false';
 
 if ( !empty($oH->selfurl) && isset($_SESSION[QT]['viewmode']) && $_SESSION[QT]['viewmode']==='c' ) {
 if ( $oH->selfurl==='qti_item.php' || $oH->selfurl==='qti_calendars.php' ) {
@@ -31,13 +31,13 @@ async function gmapInitialize()
   mapOptions = {
     mapId: "'.strtoupper(APP.'_MAP').'",
     center: new google.maps.LatLng('.$_SESSION[QT]['m_gmap_gcenter'].'),
-    mapTypeId: '.gmapMarkerMapTypeId(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'mt')).',
-    streetViewControl: '.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'sv')==='1' ? 'true' : 'false' ).',
-    mapTypeControl: '.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'bg')==='1' ? 'true' : 'false' ).',
+    mapTypeId: '.gmapMarkerMapTypeId(gmapOption('mt')).',
+    streetViewControl: '.(gmapOption('sv')==='1' ? 'true' : 'false' ).',
+    mapTypeControl: '.(gmapOption('bg')==='1' ? 'true' : 'false' ).',
     zoom: '.$_SESSION[QT]['m_gmap_gzoom'].',
-    scaleControl:'.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'sc')==='1' ? 'true' : 'false' ).',
-    fullscreenControl:'.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'fs')==='1' ? 'true' : 'false' ).',
-    scrollwheel:'.(qtExplodeGet($_SESSION[QT]['m_gmap_options'],'mw')==='1' ? 'true' : 'false' ).'
+    scaleControl:'.(gmapOption('sc')==='1' ? 'true' : 'false' ).',
+    fullscreenControl:'.(gmapOption('fs')==='1' ? 'true' : 'false' ).',
+    scrollwheel:'.(gmapOption('mw')==='1' ? 'true' : 'false' ).'
     };
   map = new Map(document.getElementById("map_canvas"), mapOptions);
   //Define OSM map type pointing at the OpenStreetMap tile server

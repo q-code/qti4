@@ -567,7 +567,7 @@ if ( $_SESSION[QT]['tags']!=='0' && ($a==='nt' || ($a==='ed' && $oP->type==='P')
 
 // map row
 if ( $oP->type==='P' && $bMap ) {
-  $oCanvas = new cCanvas();
+  $oCanvas = new CCanvas();
   $strArgs = L('Gmap.cancreate');
   if ( isset($row) && !gmapEmptycoord($row) ) {
     $_SESSION[QT]['m_gmap_gcenter'] = $row['y'].','.$row['x'];

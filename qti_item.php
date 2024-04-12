@@ -142,7 +142,7 @@ if ( $bMap )
 {
   if ( !gmapEmptycoord($oT) )
   {
-    $oCanvas = new cCanvas();
+    $oCanvas = new CCanvas();
     if ( $_SESSION[QT]['viewmode']!=='c' && ($oT->firstpostuser==SUser::id() || SUser::isStaff()) ) $oCanvas->Footer(L('Gmap.editmove'));
     if ( isset($strPcoord) ) $oCanvas->Footer($strPcoord);
     $strLocation = $oCanvas->Render(false,'','gmap item'.($_SESSION[QT]['viewmode']==='c' ? ' compact' : ''));
