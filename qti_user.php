@@ -131,7 +131,7 @@ if ( $bMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) ) {
   $y = (float)$row['y']; $x = (float)$row['x'];
   $strPname = $row['name'];
   $oMapPoint = new CMapPoint($y,$x,$strPname);
-  if ( !empty($arrSymbolByRole[$row['role']]) ) $oMapPoint->icon = $arrSymbolByRole[$row['role']];
+  if ( !empty($arrSymbolByRole[$row['role']]) ) $oMapPoint->marker = $arrSymbolByRole[$row['role']];
   $arrExtData[$id] = $oMapPoint;
 }
 
@@ -341,7 +341,7 @@ if ( $bMap )
   {
     // symbol by role
     $oMapPoint = $arrExtData[$id];
-    if ( !empty($oMapPoint->icon) ) $gmap_symbol = $oMapPoint->icon;
+    if ( !empty($oMapPoint->marker) ) $gmap_symbol = $oMapPoint->marker;
 
     // center on user
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )
@@ -362,21 +362,21 @@ if ( $bMap )
     $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x, $edit, $gmap_symbol, $row['name']);
     $gmap_events[] = '
     markers[0].addListener("drag", ()=>{ document.getElementById("yx").value = gmapRound(markers[0].position.lat,10) + "," + gmapRound(markers[0].position.lng,10); });
-    google.maps.event.addListener(markers[0], "dragend", function() { map.panTo(markers[0].position);	});';
+    google.maps.event.addListener(markers[0], "dragend", function() { gmap.panTo(markers[0].position);	});';
   }
   $gmap_functions[] = '
   function showLocation(address,title)
   {
-    if ( infowindow ) infowindow.close();
-    geocoder.geocode( { "address": address}, function(results, status) {
+    if ( gmapInfoBox ) gmapInfoBox.close();
+    gmapCoder.geocode( { "address": address}, function(results, status) {
       if ( status == google.maps.GeocoderStatus.OK)
       {
-        map.setCenter(results[0].geometry.location);
+        gmap.setCenter(results[0].geometry.location);
         if ( markers[0] )
         {
           markers[0].setPosition(results[0].geometry.location);
         } else {
-          markers[0] = new google.maps.marker.AdvancedMarkerElement({map: map, position: results[0].geometry.location, draggable: true, title: title});
+          markers[0] = new google.maps.marker.AdvancedMarkerElement({map: gmap, position: results[0].geometry.location, draggable: true, title: title});
         }
         gmapYXfield("yx",markers[0]);
       } else {
@@ -387,16 +387,16 @@ if ( $bMap )
   function createMarker()
   {
     if ( !map ) return;
-    if ( infowindow) infowindow.close();
+    if ( gmapInfoBox) gmapInfoBox.close();
     deleteMarker();
     '.gmapMarker('map',true,$gmap_symbol).'
     gmapYXfield("yx",markers[0]);
     google.maps.event.addListener(markers[0], "position_changed", function() { gmapYXfield("yx",markers[0]); });
-    google.maps.event.addListener(markers[0], "dragend", function() { map.panTo(markers[0].getPosition()); });
+    google.maps.event.addListener(markers[0], "dragend", function() { gmap.panTo(markers[0].getPosition()); });
   }
   function deleteMarker()
   {
-    if ( infowindow) infowindow.close();
+    if ( gmapInfoBox) gmapInfoBox.close();
     for(var i=markers.length-1;i>=0;i--)
     {
       markers[i].setMap(null);

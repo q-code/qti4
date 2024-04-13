@@ -60,7 +60,7 @@ if ( empty($error) )
   $_SESSION[QT]['m_gmap_gzoom'] = '10';
   $_SESSION[QT]['m_gmap_options'] = 'P10100';
   $_SESSION[QT]['m_gmap_gfind'] = 'Brussels, Belgium';
-  $_SESSION[QT]['m_gmap_gsymbol'] = '0'; // Default symbol
+  $_SESSION[QT]['m_gmap_gsymbol'] = ''; // Default symbol
   SMem::set('settingsage',time());
 }
 

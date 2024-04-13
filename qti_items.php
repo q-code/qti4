@@ -481,7 +481,7 @@ if ( $useMap && !$_SESSION[QT]['m_gmap_hidelist'] )
   foreach($arrExtData as $oMapPoint) {
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) ) {
       $user_symbol = $gmap_symbol; // required to reset symbol on each user
-      if ( !empty($oMapPoint->icon) ) $user_symbol = $oMapPoint->icon;
+      if ( !empty($oMapPoint->marker) ) $user_symbol = $oMapPoint->marker;
       $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x,false,$user_symbol,$oMapPoint->title,$oMapPoint->info);
     }
   }
@@ -489,18 +489,18 @@ if ( $useMap && !$_SESSION[QT]['m_gmap_hidelist'] )
     if ( markers.length<2 ) return;
     var bounds = new google.maps.LatLngBounds();
     for (var i=markers.length-1; i>=0; i--) bounds.extend(markers[i].position);
-    map.fitBounds(bounds);
+    gmap.fitBounds(bounds);
   }
   function showLocation(address)
   {
-    if ( infowindow ) infowindow.close();
-    geocoder.geocode( { "address": address}, function(results, status) {
+    if ( gmapInfoBox ) gmapInfoBox.close();
+    gmapCoder.geocode( { "address": address}, function(results, status) {
       if ( status==google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
+        gmap.setCenter(results[0].geometry.location);
         if ( marker ) {
           marker.setPosition(results[0].geometry.location);
         } else {
-          marker = new google.maps.marker.AdvancedMarkerElement({map: map, position: results[0].geometry.location, draggable: true, title: "Move to define the default map center"});
+          marker = new google.maps.marker.AdvancedMarkerElement({map: gmap, position: results[0].geometry.location, draggable: true, title: "Move to define the default map center"});
         }
       } else {
         alert("Geocode was not successful for the following reason: " + status);

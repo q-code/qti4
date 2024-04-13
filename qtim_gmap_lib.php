@@ -12,29 +12,29 @@
  * QTgetx QTgety QTgetz QTstr2yx QTdd2dms
  * ============ */
 
- class CMapPoint
- {
-   public $y = 4.352;
-   public $x = 50.847;
-   public $title = '';  // marker tips
-   public $info = '';   // html to display on click
-   public $symbol = ''; // default marker
-   function __construct($y, $x, string $title='', string $info='', string $symbol='')
-   {
-     if ( isset($y) && isset($x) ) {
-       $this->y = (float)$y;
-       $this->x = (float)$x;
-     } else {
-       if ( isset($_SESSION[QT]['m_gmap_gcenter']) ) {
-         $this->y = (float)QTgety($_SESSION[QT]['m_gmap_gcenter']);
-         $this->x = (float)QTgetx($_SESSION[QT]['m_gmap_gcenter']);
-       }
-     }
-     $this->title = empty($title) ? '' : $title;
-     $this->info = empty($info) ? '' : $info;
-     $this->info = empty($symbol) || $symbol==='default' ? '' : $symbol;
-   }
- }
+class CMapPoint
+{
+  public $y = 4.352;
+  public $x = 50.847;
+  public $title = '';  // marker tips
+  public $info = '';   // html to display on click
+  public $marker = ''; // default marker
+  function __construct($y, $x, string $title='', string $info='', string $marker='')
+  {
+    if ( isset($y) && isset($x) ) {
+      $this->y = (float)$y;
+      $this->x = (float)$x;
+    } else {
+      if ( isset($_SESSION[QT]['m_gmap_gcenter']) ) {
+        $this->y = (float)QTgety($_SESSION[QT]['m_gmap_gcenter']);
+        $this->x = (float)QTgetx($_SESSION[QT]['m_gmap_gcenter']);
+      }
+    }
+    $this->title = empty($title) ? '' : $title;
+    $this->info = empty($info) ? '' : $info;
+    $this->marker = empty($marker) || $marker==='default' ? '' : $marker;
+  }
+}
 
 function getMapSectionsSettings($jMapSections='')
 {
@@ -147,14 +147,13 @@ class CCanvas
 // $strSection is 'U' users, 'S' search results, or [int] section id
 // $strRole can be '' to skip section list check
 
-function gmapCan($section=null,$strRole='')
+function gmapCan($section=null,string $role='')
 {
   if ( !gmapHasKey() ) return false;
 
   // Check
 
   if ( !isset($section) ) die('gmapCan: arg #1 must be a section ref');
-  if ( !is_string($strRole) ) die('gmapCan: arg #2 must be an string');
   if ( $section===-1 ) return false;
 
   // Evaluate
@@ -162,13 +161,13 @@ function gmapCan($section=null,$strRole='')
   $oSettings = getMapSectionSettings($section);
   if ( $oSettings===false || !property_exists($oSettings,'enabled') ) return false;
   if ( $oSettings->enabled!=1 ) return false;
-  if ( !empty($strRole) )
+  if ( !empty($role) )
   {
     if ( !property_exists($oSettings,'list') ) return false;
     if ( $oSettings->list==0 ) return false;
     if ( $oSettings->list==='M' ) $oSettings->list=2; // compatibility with version 2.x
-    if ( $oSettings->list==2 && $strRole==='V' ) return false;
-    if ( $oSettings->list==2 && $strRole==='U' ) return false;
+    if ( $oSettings->list==2 && $role==='V' ) return false;
+    if ( $oSettings->list==2 && $role==='U' ) return false;
   }
   return true;
 }
@@ -215,50 +214,24 @@ function gmapEmptycoord($a)
   }
   die('gmapEmptycoord: invalid argument #1');
 }
-function gmapMarker($centerLatLng='', bool $draggable=false, $gsymbol=false, $title='', $info='')
+function gmapMarker(string $centerLatLng='', bool $draggable=false, string $marker='', string $title='', string $info='')
 {
   if ( $centerLatLng==='' || $centerLatLng==='0,0' ) return 'marker = null;';
-
-  $centerLatLng = $centerLatLng==='map' ? 'map.getCenter()' : 'new google.maps.LatLng('.$centerLatLng.')';
-  return '	marker = new google.maps.marker.AdvancedMarkerElement({
-		position: '.$centerLatLng.',
-		map: map,
-    gmpDraggable: '.($draggable ? 'true' : 'false').',
-		' . gmapMarkerPin($gsymbol) . '
-		title: "'.$title.'"
-		});
-		markers.push(marker); '.PHP_EOL.(empty($info) ? '' : '	gmapInfo(marker,`'.$info.'`);');
+  return gmapMarkerPin($marker).PHP_EOL.'marker = new google.maps.marker.AdvancedMarkerElement({
+  position: '.($centerLatLng==='map' ? 'gmap.getCenter()' : 'new google.maps.LatLng('.$centerLatLng.')').',
+  map: gmap,
+  gmpDraggable: '.($draggable ? 'true' : 'false').',
+  content: gmapPin,
+  title: "'.$title.'"
+  });'.PHP_EOL.'markers.push(marker);'.PHP_EOL.(empty($info) ? '' : 'gmapInfo(marker,`'.$info.'`);');
 }
-function gmapMarkerPin($gsymbol=false)
+function gmapMarkerPin(string $marker='')
 {
-  // returns the google.maps.Marker.icon argument
-  if ( empty($gsymbol) ) return ''; // no icon source means that the default symbol is used
-  // icons are 32x32 pixels and the anchor depends on the name: (10,32) for puhspin, (16,32) for point, center form others
-  //var_dump($gsymbol); //!!!
-  return '';
-}
-function gmapMarkerIcon($gsymbol=false)
-{
-  // returns the google.maps.Marker.icon argument
-  if ( empty($gsymbol) ) return ''; // no icon source means that the default symbol is used
-  return ''; //!!! must be changed due to AdvancedMarkerElement
-
-  $str = '';
-  // icons are 32x32 pixels and the anchor depends on the name: (10,32) for puhspin, (16,32) for point, center form others
-  $arr = explode('_',$gsymbol);
-  switch($arr[0])
-  {
-    case 'pushpin':
-      $str = 'icon: new google.maps.MarkerImage("qtim_gmap/'.$gsymbol.'.png",new google.maps.Size(32,32),new google.maps.Point(0,0),new google.maps.Point(10,32)),';
-      break;
-    case 'point':
-      $str = 'icon: new google.maps.MarkerImage("qtim_gmap/'.$gsymbol.'.png",new google.maps.Size(32,32),new google.maps.Point(0,0),new google.maps.Point(16,32)),';
-      break;
-    default:
-      $str = 'icon: new google.maps.MarkerImage("qtim_gmap/'.$gsymbol.'.png",new google.maps.Size(32,32),new google.maps.Point(0,0),new google.maps.Point(16,16)),';
-      break;
-  }
-  return $str;
+  if ( empty($marker) || $marker==='0.png' ) return 'gmapPin = null;';
+  if ( file_exists(APP.'m_gmap/'.$marker) ) return 'gmapPin = document.createElement("img"); gmapPin.src = "'.APP.'m_gmap/'.$marker.'";';
+  // svg in a glyph
+  // if ( file_exists(APP.'m_gmap/'.$marker.'.svg') ) return 'gmapPin = document.createElement("img"); gmapPin.src = "'.APP.'m_gmap/'.$marker.'.svg"; gmapPin = new PinElement({glyph:gmapPin}); gmapPin = gmapPin.element;';
+  return 'gmapPin = null;';
 }
 function gmapMarkerMapTypeId($gbuttons)
 {

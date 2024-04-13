@@ -360,7 +360,7 @@ if ( $bMap ) {
   {
     // symbol by role
     $oMapPoint = $arrExtData[$oT->id];
-    if ( !empty($oMapPoint->icon) ) $gmap_symbol = $oMapPoint->icon;
+    if ( !empty($oMapPoint->marker) ) $gmap_symbol = $oMapPoint->marker;
 
     // center on first item
     if ( !empty($oMapPoint->y) && !empty($oMapPoint->x) )
@@ -382,7 +382,7 @@ if ( $bMap ) {
     {
       $strSymbol = $gmap_symbol; // required to reset symbol on each user
       $strShadow = $gmap_shadow;
-      if ( !empty($oMapPoint->icon) ) $strSymbol  = $oMapPoint->icon;
+      if ( !empty($oMapPoint->marker) ) $strSymbol  = $oMapPoint->marker;
       $gmap_markers[] = gmapMarker($oMapPoint->y.','.$oMapPoint->x, false, $strSymbol, $oMapPoint->title, $oMapPoint->info, $strShadow );
     }
   }
