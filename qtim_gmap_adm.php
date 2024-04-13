@@ -170,7 +170,7 @@ echo '<h2 class="config">'.L('Gmap.Mapping_config').'</h2>
 <table class="t-conf">
 <tr>
 <th style="width:150px;">'.L('Gmap.Center').'</th>
-<td style="width:310px;"><input type="text" id="m_gmap_gcenter" name="m_gmap_gcenter" size="26" maxlength="100" value="'.$_SESSION[QT]['m_gmap_gcenter'].'"/><small> '.L('Gmap.Latlng').'</span></td>
+<td style="width:310px;"><input type="text" id="yx" name="m_gmap_gcenter" size="26" maxlength="100" value="'.$_SESSION[QT]['m_gmap_gcenter'].'"/><small> '.L('Gmap.Latlng').'</span></td>
 <td><small>'.L('Gmap.H_Center').'</span></td>
 </tr>
 <tr>
