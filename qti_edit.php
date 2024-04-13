@@ -742,7 +742,7 @@ if ( $bMap ) {
         gmap.setCenter(results[0].geometry.location);
         if ( markers[0] )
         {
-          markers[0].setPosition(results[0].geometry.location);
+          markers[0].position = results[0].geometry.location;
         } else {
           markers[0] = new google.maps.marker.AdvancedMarkerElement({map: gmap, position: results[0].geometry.location, draggable: true, title: title});
         }
