@@ -35,7 +35,6 @@ class CMapPoint
     $this->marker = empty($marker) || $marker==='default' ? '' : $marker;
   }
 }
-
 function getMapSectionsSettings(string $alt_json='{}')
 {
   // Returns an array of settings with keys {[int]sectionid|'U'|'S'} and options keys {enabled,list,icon}
@@ -45,7 +44,6 @@ function getMapSectionsSettings(string $alt_json='{}')
   if ( json_last_error()!==JSON_ERROR_NONE) { echo '<p class="error">Unable to read map configurations from '.APP.'m_gmap/config_gmap.json</p>'; return []; }
   return $arr;
 }
-
 function getMapSectionSettings($section, bool $generateDefault=false, string $json='')
 {
   // Returns one setting [array] from the $json settings
@@ -129,37 +127,21 @@ class CCanvas
 	}
 
 }
-
-// ------
-// gmapCan
-// $strSection is 'U' users, 'S' search results, or [int] section id
-// $strRole can be '' to skip section list check
-
-function gmapCan($section=null,string $role='')
+function gmapCan($id=null, string $role='')
 {
-  if ( !gmapHasKey() ) return false;
-
-  // Check
-
-  if ( !isset($section) ) die('gmapCan: arg #1 must be a section ref');
-  if ( $section===-1 ) return false;
-
+  if ( !gmapHasKey() || $id===-1 ) return false;
+  if ( !isset($id) ) die('gmapCan: arg #1 must be a section ref');
   // Evaluate
-
-  $oSettings = getMapSectionSettings($section);
-  if ( $oSettings===false || !property_exists($oSettings,'enabled') ) return false;
-  if ( $oSettings->enabled!=1 ) return false;
-  if ( !empty($role) )
-  {
-    if ( !property_exists($oSettings,'list') ) return false;
-    if ( $oSettings->list==0 ) return false;
-    if ( $oSettings->list==='M' ) $oSettings->list=2; // compatibility with version 2.x
-    if ( $oSettings->list==2 && $role==='V' ) return false;
-    if ( $oSettings->list==2 && $role==='U' ) return false;
+  $gmapSectionSettings = getMapSectionSettings($id); // id [int]|'U'|'S'
+  if ( empty($gmapSectionSettings['enabled']) ) return false;
+  if ( !empty($role) ) {
+    if ( empty($gmapSectionSettings['list']) ) return false;
+    if ( $gmapSectionSettings['list']==='M' ) $gmapSectionSettings['list'] = 2; // compatibility with version 2.x
+    if ( $gmapSectionSettings['list']===2 && $role==='V' ) return false;
+    if ( $gmapSectionSettings['list']===2 && $role==='U' ) return false;
   }
   return true;
 }
-
 function gmapHasKey()
 {
   return !empty($_SESSION[QT]['m_gmap_gkey']);

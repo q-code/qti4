@@ -126,14 +126,14 @@ if ( $strPaging!='') $strPaging = L('Page').$strPaging;
 
 // MAP
 $useMap = false;
-if ( qtModule('gmap')) {
+if ( qtModule('gmap') ) {
   include translate(APP.'m_gmap.php');
   include 'qtim_gmap_lib.php';
-  if ( gmapCan(empty($q) ? $oS->id : 'S')) $useMap = true;
-  if ( $useMap) $oH->links[] = '<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
-  if ( isset($_GET['hidemap'])) $_SESSION[QT]['m_gmap_hidelist'] = true;
-  if ( isset($_GET['showmap'])) $_SESSION[QT]['m_gmap_hidelist'] = false;
-  if ( !isset($_SESSION[QT]['m_gmap_hidelist'])) $_SESSION[QT]['m_gmap_hidelist'] = false;
+  $useMap = gmapCan($q==='' ? $oS->id : 'S', SUser::role());
+  if ( $useMap ) $oH->links[] = '<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
+  if ( isset($_GET['hidemap']) ) $_SESSION[QT]['m_gmap_hidelist'] = true;
+  if ( isset($_GET['showmap']) ) $_SESSION[QT]['m_gmap_hidelist'] = false;
+  if ( !isset($_SESSION[QT]['m_gmap_hidelist']) ) $_SESSION[QT]['m_gmap_hidelist'] = false;
 }
 
 // Page title description
