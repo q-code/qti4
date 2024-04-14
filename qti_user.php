@@ -44,13 +44,13 @@ $oH->selfname = L('Profile');
 
 // MAP MODULE
 
-$bMap=false;
+$useMap=false;
 if ( qtModule('gmap') )
 {
   include translate(APP.'m_gmap.php');
   include 'qtim_gmap_lib.php';
-  if ( gmapCan('U') ) $bMap=true;
-  if ( $bMap )
+  if ( gmapCan('U') ) $useMap=true;
+  if ( $useMap )
   {
   $oH->links[]='<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
   if ( !isset($_SESSION[QT]['m_gmap_symbols']) ) $_SESSION[QT]['m_gmap_symbols']='0';
@@ -127,7 +127,7 @@ if ( $row['role']==='M' && SUser::role()==='M' && !QT_STAFFEDITSTAFF && SUser::i
 if ( $row['role']==='A' && SUser::role()==='M' && !QT_STAFFEDITADMIN ) { $canEdit = false; $edit = false; }
 
 // map settings
-if ( $bMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) ) {
+if ( $useMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) ) {
   $y = (float)$row['y']; $x = (float)$row['x'];
   $strPname = $row['name'];
   $oMapPoint = new CMapPoint($y,$x,$strPname);
@@ -140,7 +140,7 @@ $strMail = '';  if ( !empty($row['mail']) && SUser::canSeePrivate($row['privacy'
 $strLocation = ''; if ( !empty($row['location']) && SUser::canSeePrivate($row['privacy'],$id) ) $strLocation = $row['location'];
 $strCoord = ''; // coordinates with visual units
 $strYX = ''; // coordinates in map unit [y,x]
-if ( $bMap && !empty($row['x']) && !empty($row['y']) && SUser::canSeePrivate($row['privacy'],$id) ) {
+if ( $useMap && !empty($row['x']) && !empty($row['y']) && SUser::canSeePrivate($row['privacy'],$id) ) {
   $strYX = round((float)$row['y'],8).','.round((float)$row['x'],8);
   $strCoord = QTdd2dms((float)$row['y']).', '.QTdd2dms((float)$row['x']).' '.$L['Coord_latlon'].' <span class="small disabled">DD '.$strYX.'</span>';
 }
@@ -218,7 +218,7 @@ echo '<input type="text" id="birth_y" name="birth_y" pattern="(19|20)[0-9]{2}" s
 echo '</td></tr>'.PHP_EOL;
 echo '<tr>
 <th>'.L('Privacy').'</th>
-<td>'.L('Email').'/'.L('Location').($bMap ? '/'.L('Gmap.position') : '').' <select size="1" name="privacy">
+<td>'.L('Email').'/'.L('Location').($useMap ? '/'.L('Gmap.position') : '').' <select size="1" name="privacy">
 <option value="2"'.($row['privacy']===2 ? ' selected' : '').'>'.L('Privacy_visible_2').'</option>
 <option value="1"'.($row['privacy']===1 ? ' selected' : '').'>'.L('Privacy_visible_1').'</option>
 <option value="0"'.($row['privacy']===0 ? ' selected' : '').'>'.L('Privacy_visible_0').'</option>
@@ -226,7 +226,7 @@ echo '<tr>
 </tr>
 ';
 
-if ( $bMap ) {
+if ( $useMap ) {
   $strPosition  = '<p class="small commands" style="margin:2px 0 4px 2px;text-align:right">'.L('Gmap.cancreate');
   if ( !empty($row['x']) && !empty($row['y']) ) {
     $_SESSION[QT]['m_gmap_gcenter'] = $strYX;
@@ -285,8 +285,8 @@ echo '
 <tr><th>'.L('Messages').'</th><td>'.$strParticip.'</td></tr>
 ';
 
-if ( is_null($row['x']) || is_null($row['y']) ) $bMap = false;
-if ( $bMap ) {
+if ( is_null($row['x']) || is_null($row['y']) ) $useMap = false;
+if ( $useMap ) {
   $strPlink = '<a href="http://maps.google.com?q='.$row['y'].','.$row['x'].'" class="small" title="'.L('Gmap.In_google').'" target="_blank">[G]</a>';
   $strPosition = '<div id="map_canvas" style="width:100%; height:350px;"></div>';
   echo '<tr><th>'.L('Coord').'</th><td class="fix-sp"><span>'.$strCoord.' '.$strPlink.'</span><span>'.$strPriv.'</span></td></tr>'.PHP_EOL;
@@ -309,7 +309,7 @@ if ( SUser::id()==$id || SUser::isStaff() ) {
 }
 // ------
 
-if ( $bMap ) echo $strPosition;
+if ( $useMap ) echo $strPosition;
 
 echo '</div>
 ';
@@ -319,7 +319,7 @@ echo '</div>
 // ------
 // MAP MODULE
 
-if ( $bMap )
+if ( $useMap )
 {
   /**
   * @var array $gmap_markers

@@ -28,13 +28,13 @@ if ( isset($_GET['dir']) ) $pd = strtolower(substr($_GET['dir'],0,4));
 $oH->selfname = L('Memberlist');
 
 // MAP MODULE
-$bMap=false;
+$useMap=false;
 if ( qtModule('gmap') )
 {
   include translate(APP.'m_gmap.php');
   include 'qtim_gmap_lib.php';
-  if ( gmapCan('U') ) $bMap=true;
-  if ( $bMap ) $oH->links[]='<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
+  if ( gmapCan('U') ) $useMap=true;
+  if ( $useMap ) $oH->links[]='<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
   if ( isset($_GET['hidemap']) ) $_SESSION[QT]['m_gmap_hidelist']=true;
   if ( isset($_GET['showmap']) ) $_SESSION[QT]['m_gmap_hidelist']=false;
   if ( !isset($_SESSION[QT]['m_gmap_hidelist']) ) $_SESSION[QT]['m_gmap_hidelist']=false;
@@ -179,7 +179,7 @@ while($row=$oDB->getRow())
 	echo $t->getTDrow('class=t-user hover');
 
 	// map settings
-	if ( $bMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) )
+	if ( $useMap && !gmapEmpty($row['x']) && !gmapEmpty($row['y']) )
 	{
 		$y = (float)$row['y']; $x = (float)$row['x'];
 		$strPname = $row['name'];
@@ -212,12 +212,12 @@ if ( SUser::role()!=='U' ) echo '<p class="disabled right small">Only staff memb
 
 // MAP MODULE, Show map
 
-if ( $bMap )
+if ( $useMap )
 {
   echo '<!-- Map module -->'.PHP_EOL;
   if ( count($arrExtData)===0 ) {
     echo '<div class="gmap_disabled">'.L('Gmap.E_noposition').'</div>';
-    $bMap=false;
+    $useMap=false;
   } else {
     //select zoomto (maximum 20 items in the list)
     $str = '';
@@ -250,7 +250,7 @@ if ( $bMap )
 // ------
 // MAP MODULE
 
-if ( $bMap && !$_SESSION[QT]['m_gmap_hidelist'] )
+if ( $useMap && !$_SESSION[QT]['m_gmap_hidelist'] )
 {
   /**
    * @var array $gmap_markers

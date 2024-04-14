@@ -86,11 +86,11 @@ if ( isset($_POST['tag-ok']) && isset($_POST['tag-new']) )
  * @var string $strCheck
  * @var string $strCoord
  * @var string $strPcoord
- * @var boolean $bMapGoogle
+ * @var boolean $useMapGoogle
  */
-if ( qtModule('gmap') ) { $strCheck=$s; include 'qtim_gmap_ini.php'; } else { $bMap=false; }
+if ( qtModule('gmap') ) { $strCheck=$s; include 'qtim_gmap_ini.php'; } else { $useMap=false; }
 
-if ( $bMap ) {
+if ( $useMap ) {
 if ( !empty($oT->y) && !empty($oT->x) ) {
 
   $y = floatval($oT->y);
@@ -105,8 +105,8 @@ if ( !empty($oT->y) && !empty($oT->x) ) {
   if ( is_object($oSettings) ) foreach(array('icon','shadow','printicon','printshadow') as $prop) if ( property_exists($oSettings,$prop) ) $oMapPoint->$prop = $oSettings->$prop;
 
   $arrExtData = array($oMapPoint);
-  $strCoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><span title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'">'.qtSVG('map-marker').'</span></a>';
-  $strPcoord = '<a href="javascript:void(0)"'.($bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('map_Center').'">'.qtSVG('map-marker').'</a> Lat,Lon: '.QTdd2dms($y).','.QTdd2dms($x).( $_SESSION[QT]['viewmode']==='c' ? '' : ' DD: '.round($oT->y,8).','.round($oT->x,8) );
+  $strCoord = '<a href="javascript:void(0)"'.($useMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('Coord').': '.round($y,8).','.round($x,8).'"><span title="'.L('latlon').' '.QTdd2dms($y).','.QTdd2dms($x).'">'.qtSVG('map-marker').'</span></a>';
+  $strPcoord = '<a href="javascript:void(0)"'.($useMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] ? ' onclick="gmapPan(`'.$y.','.$x.'`); return false;"' : '').' title="'.L('map_Center').'">'.qtSVG('map-marker').'</a> Lat,Lon: '.QTdd2dms($y).','.QTdd2dms($x).( $_SESSION[QT]['viewmode']==='c' ? '' : ' DD: '.round($oT->y,8).','.round($oT->x,8) );
 
 }}
 
@@ -138,7 +138,7 @@ if ( QT_SHOW_PARENT_DESCR )
 }
 
 // map module
-if ( $bMap )
+if ( $useMap )
 {
   if ( !gmapEmptycoord($oT) )
   {
@@ -335,7 +335,7 @@ d.addEventListener("click", (e) => {
 
 // MAP MODULE
 
-if ( $bMap ) {
+if ( $useMap ) {
 
   /**
    * @var array $gmap_markers

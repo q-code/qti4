@@ -125,11 +125,11 @@ if ( qtModule('gmap') )
    */
   $strCheck=$s;
   include 'qtim_gmap_ini.php';
-  if ( empty($jMapSections) && file_exists(APP.'m_gmap/config_gmap.php') ) include APP.'m_gmap/config_gmap.php';
+  if ( empty($jMapSections) && file_exists(APP.'m_gmap/config_gmap.json') ) include APP.'m_gmap/config_gmap.json';
 }
 else
 {
-  $bMap=false;
+  $useMap=false;
 }
 
 // ------
@@ -254,7 +254,7 @@ for ($intWeek=0;$intWeek<6;++$intWeek)
       ++$intTopics;
       $oT = new CTopic($arrValues);
 
-      if ( $bMap && !empty($oT->y) && !empty($oT->x) ) {
+      if ( $useMap && !empty($oT->y) && !empty($oT->x) ) {
 
         $strPname = $intShiftDay.' '.$L['dateMMM'][date('n',$dMonth)].' - ';
         if ( $s==$oT->pid ) { $strPname .= ($oS->numfield=='N' ? '' : sprintf($oS->numfield,$oT->numid)); } else { $strPname .= sprintf('%03s',$oT->numid); }
@@ -282,11 +282,11 @@ for ($intWeek=0;$intWeek<6;++$intWeek)
       else
       {
         $strArgs = ' onmouseover="show_gmap(``);"';
-        if ( $bMap ) {
+        if ( $useMap ) {
           /**
-           * @var boolean $bMapGoogle
+           * @var boolean $useMapGoogle
            */
-        if ( $bMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] && !empty($oT->y) && !empty($oT->x) ) {
+        if ( $useMapGoogle && !$_SESSION[QT]['m_gmap_hidelist'] && !empty($oT->y) && !empty($oT->x) ) {
         $strArgs = ' onmouseover="show_gmap(`'.$oT->y.','.$oT->x.'`);"';
         }}
         echo '<a class="ajaxmouseover'.($oT->pid==$s ? '' : ' othersection').'" id="t'.$oT->id.'"'.$strArgs.' href="'.url('qti_item.php').'?t='.$oT->id.'">'.$strTicon.'</a> ';
@@ -376,7 +376,7 @@ echo '</div>'.PHP_EOL;
 echo '<div class="cal_info center secondary article">'.PHP_EOL;
 
   // DISPLAY MAP
-  if ( $bMap )
+  if ( $useMap )
   {
     if ( count($arrExtData)>0 )
     {
@@ -450,7 +450,7 @@ elements.forEach( el => el.addEventListener("mouseover", (e) => {
 
 // MAP MODULE
 
-if ( $bMap )
+if ( $useMap )
 {
   /**
    * @var array $gmap_markers

@@ -16,26 +16,24 @@ include translate('qtim_gmap.php');
 include translate('qtim_gmap_adm.php');
 include 'qtim_gmap_lib.php';
 
-function IsMapSection($id=0){
-  $o = getMapSectionSettings($id);
-  if ( empty($o) ) return false;
-  if ( property_exists($o,'enabled') && $o->enabled>0 ) return true;
-  return false;
+function isMapSection($id=0, array $gmapSectionsSettings=[]) {
+  // id is [int]|'S'|'U'
+  return array_key_exists($id, $gmapSectionsSettings) && !empty($gmapSectionsSettings[$id]['enabled']);
 }
-function CountMapSections(){
-  $i=0;
-  foreach(array_keys(SMem::get('_Sections')) as $id) if ( IsMapSection($id) ) ++$i;
+function countMapSections(array $sectionsId, array $gmapSectionsSettings=[]) {
+  $i = 0;
+  foreach($sectionsId as $id) if ( isMapSection($id, $gmapSectionsSettings) ) ++$i;
   return $i;
 }
 
 // INITIALISE
-
 $oH->selfurl = 'qtim_gmap_adm.php';
 $oH->selfname = 'Gmap';
 $oH->selfparent = L('Module');
 $oH->selfversion = L('Gmap.Version').' 4.0';
 $oH->exiturl = $oH->selfurl;
 $oH->exitname = $oH->selfname;
+$useMap = true;
 
 // check register initialized
 foreach(['m_gmap_gkey','m_gmap_gcenter','m_gmap_gzoom','m_gmap_gfind','m_gmap_gsymbol','m_gmap_sections'] as $key) {
@@ -53,7 +51,8 @@ $files = [];
 foreach(glob(APP.'m_gmap/*.*g') as $file) {
   $file = substr($file,10);
   if ( strpos($file,'_shadow') ) continue;
-  $files[$file] = ucfirst(str_replace('_',' ',substr($file,0,-4)));
+  $name = ucfirst(str_replace('_',' ',substr($file,0,-4)));
+  $files[$file] = empty($name) ? 'Default' : $name;
 }
 
 // ------
@@ -63,12 +62,14 @@ if ( isset($_POST['ok']) ) try {
 
   // save gkey
   if ( isset($_POST['m_gmap_gkey']) ) {
-    $_SESSION[QT]['m_gmap_gkey'] = trim($_POST['m_gmap_gkey']); if ( strlen($_SESSION[QT]['m_gmap_gkey'])<8 ) $_SESSION[QT]['m_gmap_gkey'] = '';
+    $_SESSION[QT]['m_gmap_gkey'] = trim($_POST['m_gmap_gkey']);
+    if ( strlen($_SESSION[QT]['m_gmap_gkey'])<8 ) $_SESSION[QT]['m_gmap_gkey'] = '';
     // store configuration
     $oDB->updSetting('m_gmap_gkey');
+    if ( empty($_SESSION[QT]['m_gmap_gkey'] ) ) $useMap = false;
   }
   // save others if gkey
-  if ( !empty($_SESSION[QT]['m_gmap_gkey']) ) {
+  if ( $useMap ) {
     if ( isset($_POST['m_gmap_gcenter']) ) $_SESSION[QT]['m_gmap_gcenter'] = trim($_POST['m_gmap_gcenter']);
     if ( isset($_POST['m_gmap_gzoom']) )   $_SESSION[QT]['m_gmap_gzoom'] = trim($_POST['m_gmap_gzoom']);
     if ( isset($_POST['m_gmap_gfind']) )   $_SESSION[QT]['m_gmap_gfind'] = qtAttr($_POST['m_gmap_gfind']);
@@ -76,7 +77,6 @@ if ( isset($_POST['ok']) ) try {
     if ( empty($_SESSION[QT]['m_gmap_gsymbol']) || $_SESSION[QT]['m_gmap_gsymbol']==='0.png' ) $_SESSION[QT]['m_gmap_gsymbol'] = ''; // filename (without .png) or '' default symbol
     if ( isset($_POST['m_gmap_section']) ) $_SESSION[QT]['m_gmap_section'] = substr(trim($_POST['sections']),0,1);
     if ( isset($_POST['options']) ) $_SESSION[QT]['m_gmap_options'] = qtImplode($_POST['options'],';');
-
     // store configuration
     $oDB->updSetting( ['m_gmap_gcenter','m_gmap_gzoom','m_gmap_options','m_gmap_gfind','m_gmap_gsymbol','m_gmap_sections'] );
   }
@@ -124,10 +124,13 @@ echo '
 ';
 
 //------
-if ( !empty($_SESSION[QT]['m_gmap_gkey']) ) {
+if ( $useMap ) {
 //------
 
 $currentSymbol = empty($_SESSION[QT]['m_gmap_gsymbol']) ? '0.png' : $_SESSION[QT]['m_gmap_gsymbol']; // current symbol
+$gmapSectionsSettings = getMapSectionsSettings(); // [array]
+$sectionsId = array_keys(SMem::get('_Sections')); // [array_int]
+
 echo '<tr>
 <th style="width:150px">'.L('Gmap.API_ctrl').'</th>
 <td>
@@ -157,9 +160,9 @@ echo '</p></td>
 <tr>
 <th style="width:120px;">'.L('Section+').'</td>
 <td colspan="2"><strong>
-'.CountMapSections().'</strong>/'.count(SMem::get('_Sections')).
-(IsMapSection('U') ? ' '.L('and').' '.L('Users') : '').
-(IsMapSection('S') ? ' '.L('and').' '.L('Search_result') : '').
+'.countMapSections($sectionsId, $gmapSectionsSettings).'</strong>/'.count($sectionsId).
+(isMapSection('U',$gmapSectionsSettings) ? ', '.L('Memberlist') : '').
+(isMapSection('S',$gmapSectionsSettings) ? ', '.L('Search_result') : '').
 ' &middot; <a href="'.url('qtim_gmap_adm_sections.php').'">'.L('Gmap.define_sections').'...</a>
 </td>
 </tr>
@@ -186,9 +189,8 @@ echo '<h2 class="config">'.L('Gmap.Mapping_config').'</h2>
 </tr>
 <tr>
 <th style="width:150px;">'.L('Gmap.Address_sample').'</th>
-<td>
-<input'.(!empty(gmapOption('gc')) ? '' : 'disabled').' type="text" id="m_gmap_gfind" name="m_gmap_gfind" size="20" maxlength="100" value="'.$_SESSION[QT]['m_gmap_gfind'].'"/></td>
-<td><small>'.(!empty(gmapOption('gc')) ? L('Gmap.H_Address_sample') : L('Gmap.Ctrl.Geocode').' (off)').'</span></td>
+<td><input'.(empty(gmapOption('gc')) ? 'disabled' : '').' type="text" id="m_gmap_gfind" name="m_gmap_gfind" size="20" maxlength="100" value="'.$_SESSION[QT]['m_gmap_gfind'].'"/></td>
+<td><small>'.(empty(gmapOption('gc')) ? L('Gmap.Ctrl.Geocode').' (off)' : L('Gmap.H_Address_sample')).'</small></td>
 </tr>
 ';
 
@@ -201,56 +203,48 @@ echo '</table>
 </form>
 ';
 
-if ( !empty($_SESSION[QT]['m_gmap_gkey']) )
-{
-  $oCanvas = new CCanvas();
-  $oCanvas->Header(L('Gmap.canmove').' | <a class="gmap" href="javascript:void(0)" onclick="undoChanges(); return false;"/>'.L('Gmap.undo').'</a>' );
-  $oCanvas->Footer('find','','footer right');
-  echo $oCanvas->Render();
-}
-else
-{
-  echo '<p class="disabled">'.L('Gmap.E_disabled').'</p>';
+if ( $useMap ) {
+  echo '<div class="gmap">'.PHP_EOL;
+  echo '<p class="small commands" style="margin:2px 0 4px 2px;text-align:right">'.L('Gmap.canmove').' | <a class="small" href="javascript:void(0)" onclick="undoChanges(); return false;">'.L('Gmap.undo').'</a></p>'.PHP_EOL;
+  echo '<div id="map_canvas"></div>'.PHP_EOL;
+  if ( !empty(gmapOption('gc')) ) {
+    echo '<p class="small commands" style="margin:4px 0 2px 2px;text-align:right">'.L('Gmap.addrlatlng');
+    echo ' <input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('Map.H_addrlatlng').'" onkeypress="if ((event.key!==undefined && event.key==`Enter`) || (event.keyCode!==undefined && event.keyCode==13)) showLocation(this.value,null);"/>';
+    echo '<span id="btn-geocode" class="clickable" onclick="showLocation(document.getElementById(`find`).value,null);" title="'.L('Search').'">'.qtSVG('search').'</span></p>'.PHP_EOL;
+  }
+  echo '</div>'.PHP_EOL;
+} else {
+  echo '<p class="minor">'.L('Gmap.E_disabled').'</p>';
 }
 
 // HTML END
 
-if ( !empty($_SESSION[QT]['m_gmap_gkey']) )
-{
-  $gmap_shadow = false;
+if ( $useMap ) {
   $gmap_symbol = false;
-  if ( !empty($_SESSION[QT]['m_gmap_gsymbol']) )
-  {
+  if ( !empty($_SESSION[QT]['m_gmap_gsymbol']) ) {
     $arr = explode(' ',$_SESSION[QT]['m_gmap_gsymbol']);
     $gmap_symbol=$arr[0];
-    if ( isset($arr[1]) ) $gmap_shadow=$arr[1];
   }
-
   $gmap_markers = [];
   $gmap_events = [];
   $gmap_functions = [];
-
-  $gmap_markers[] = gmapMarker($_SESSION[QT]['m_gmap_gcenter'],true,$gmap_symbol,L('Gmap.Default_center'),'',$gmap_shadow);
+  $gmap_markers[] = gmapMarker($_SESSION[QT]['m_gmap_gcenter'],true,$gmap_symbol,L('Gmap.Default_center'));
   $gmap_events[] = '
   markers[0].addListener("drag", ()=>{ document.getElementById("yx").value = gmapRound(markers[0].position.lat,10) + "," + gmapRound(markers[0].position.lng,10); });
 	google.maps.event.addListener(markers[0], "dragend", function() { gmap.panTo(markers[0].position); });';
   $gmap_functions[] = '
-  function undoChanges()
-  {
+  function undoChanges() {
   	if ( gmapInfoBox) gmapInfoBox.close();
   	if ( markers[0]) markers[0].position = gmapOptions.center;
   	if ( gmapOptions) gmap.panTo(gmapOptions.center);
   	return null;
   }
-  function showLocation(address,title)
-  {
+  function showLocation(address,title) {
     if ( gmapInfoBox ) gmapInfoBox.close();
     gmapCoder.geocode( { "address": address}, function(results, status) {
-      if ( status == google.maps.GeocoderStatus.OK)
-      {
+      if ( status == google.maps.GeocoderStatus.OK) {
         gmap.setCenter(results[0].geometry.location);
-        if ( markers[0] )
-        {
+        if ( markers[0] ) {
           markers[0].position = results[0].geometry.location;
         } else {
           markers[0] = new google.maps.marker.AdvancedMarkerElement({map: gmap, position: results[0].geometry.location, draggable: true, title: title});
@@ -262,7 +256,7 @@ if ( !empty($_SESSION[QT]['m_gmap_gkey']) )
     });
   }
   ';
-  include 'qtim_gmap_load.php';
+  include APP.'m_gmap_load.php';
 }
 
 include APP.'_adm_inc_ft.php';

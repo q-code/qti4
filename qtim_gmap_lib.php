@@ -36,37 +36,25 @@ class CMapPoint
   }
 }
 
-function getMapSectionsSettings($jMapSections='')
+function getMapSectionsSettings(string $alt_json='{}')
 {
-  // Returns an array of settings where the key is the section-id [int, 'U' or 'S'] and the value is the settings [object] (json decoded).
-  // $json should be a string of all settings (in a json format).
-  // When $json is empty, the function uses the session variable $_SESSION[QT]['m_gmap'].
-  // When $reloadOnEmpty is true, the function reloads the settings from the config file when $json and the session variable are empty.
-  // Returns an empty array() in case of wrong json content (i.e. no valid section identifier), or when the settings are empty.
-  // TIPS - To force a reload from the config file, just use unset($_SESSION[QT]['m_gmap']) then getMapSectionsSettings()
-
-  if ( !is_string($jMapSections) ) die('getMapSectionsSettings: invalid argument #1');
-  if ( empty($jMapSections) && file_exists(APP.'m_gmap/config_gmap.php') ) include APP.'m_gmap/config_gmap.php';
-
-  $o = json_decode($jMapSections);
-  if ( json_last_error()!==JSON_ERROR_NONE) { echo '<p class="error">Unable to read map configurations from '.APP.'m_gmap/config_gmap.php</p>'; return false; }
-  return $o;
+  // Returns an array of settings with keys {[int]sectionid|'U'|'S'} and options keys {enabled,list,icon}
+  // Returns [] in case of empty json or format error
+  $json = file_exists(APP.'m_gmap/config_gmap.json') ? file_get_contents(APP.'m_gmap/config_gmap.json') :  $alt_json;
+  $arr = json_decode($json, true);
+  if ( json_last_error()!==JSON_ERROR_NONE) { echo '<p class="error">Unable to read map configurations from '.APP.'m_gmap/config_gmap.json</p>'; return []; }
+  return $arr;
 }
 
-function getMapSectionSettings($section,$generateDefault=false,$jMapSections='')
+function getMapSectionSettings($section, bool $generateDefault=false, string $json='')
 {
-  // Returns one setting [object] from the $json settings [string]
-  // Returns false when there is no settings (or wrong format)
-  // Returns false when $section is not defined in the settigns OR a default setting when $generatDefault is true
-
-  if ( !is_string($jMapSections) ) die('getMapSectionSettings: invalid argument #1');
-  if ( !is_int($section) && $section!=='U' && $section!=='S' ) die('getMapSectionSettings: invalid argument #2');
-
-  $o = getMapSectionsSettings($jMapSections);
-  if ( empty($o) ) return false;
-  if ( property_exists($o,$section) ) return $o->$section;
-  if ( $generateDefault ) return (object)['section'=>$section,'enabled'=>0,'list'=>1];
-  return false;
+  // Returns one setting [array] from the $json settings
+  if ( !is_int($section) && $section!=='U' && $section!=='S' ) die('getMapSectionSettings: invalid argument #1');
+  $arr = getMapSectionsSettings($json);
+  if ( !empty($arr[$section]) ) return $arr[$section];
+  // Error or missing
+  if ( $generateDefault ) return ['section'=>$section,'enabled'=>0,'list'=>1];
+  return [];
 }
 
 // ------

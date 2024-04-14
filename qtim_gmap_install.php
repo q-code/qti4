@@ -39,7 +39,7 @@ $strFile = 'qtim_gmap_uninstall.php';
 if ( !file_exists($strFile) ) $error='Missing file: '.$strFile.'<br />This module cannot be used.';
 $strFile = 'qtim_gmap_adm.php';
 if ( !file_exists($strFile) ) $error='Missing file: '.$strFile.'<br />This module cannot be used.';
-$strFile = 'qtim_gmap/config_gmap.php';
+$strFile = 'qtim_gmap/config_gmap.json';
 if ( !file_exists($strFile) ) $error='Missing file: '.$strFile.'<br />This module cannot be used.';
 if ( !empty($error) ) $bStep1 = false;
 

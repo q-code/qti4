@@ -280,7 +280,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
   if ( isset($row['type']) ) $row['type'] = strtoupper($row['type']);
   if ( isset($arrFLD['numid']) && !isset($row['numid']) ) $row['numid'] = '';
   // handle options
-  $bMap = isset($arrOptions['bmap']) ? $arrOptions['bmap'] : false;
+  $useMap = isset($arrOptions['bmap']) ? $arrOptions['bmap'] : false;
   $showFirstline = isset($arrOptions['firstline']) ? $arrOptions['firstline'] : false;
   if ( isset($arrFLD['numid']) ) {
     $formatRef = isset($arrOptions['numfield']) ? $arrOptions['numfield'] : ''; // '' means build format using row-section and memory
@@ -338,7 +338,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
     if ( $row['privacy']==2 ) $row['u.privacy'] = '<i class="fa fa-unlock" title="'.L('Privacy_2').'"></i>';
     }
   }
-  if ( $bMap && isset($row['y']) && isset($row['x']) ) {
+  if ( $useMap && isset($row['y']) && isset($row['x']) ) {
     $row['coord']='';
     $row['latlon']='';
     $y = floatval($row['y']);
@@ -348,7 +348,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
       $row['latlon'] = QTdd2dms($y).'<br>'.QTdd2dms($x);
     }
   }
-  if ( $bMap && empty($row['coord']) ) $row['coord'] = '<i class="fa fa-map-marker disabled" title="No coordinates"></i>';
+  if ( $useMap && empty($row['coord']) ) $row['coord'] = '<i class="fa fa-map-marker disabled" title="No coordinates"></i>';
 
   // FORMAT
 

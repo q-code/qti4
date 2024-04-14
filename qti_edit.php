@@ -70,12 +70,12 @@ switch($a) {
 
 // MAP
 
-$bMap=false;
+$useMap=false;
 if ( qtModule('gmap') ) {
   include translate('qtim_gmap.php');
   include 'qtim_gmap_lib.php';
-  if ( gmapCan($s) ) $bMap=true;
-  if ( $bMap ) {
+  if ( gmapCan($s) ) $useMap=true;
+  if ( $useMap ) {
   $oH->links[]='<link rel="stylesheet" type="text/css" href="qtim_gmap.css"/>';
   if ( !isset($_SESSION[QT]['m_gmap_symbols']) ) $_SESSION[QT]['m_gmap_symbols']='0';
   }
@@ -222,7 +222,7 @@ if ( isset($_POST['dosend']) ) try {
     $oS->updStats(array('tags'=>$oS->tags));
     ++$_SESSION[QT.'_usr']['numpost'];
     // location insert
-    if ( $bMap && !empty($_POST['coord']) ) CTopic::setCoord($oDB,$oT->id,$_POST['coord']);
+    if ( $useMap && !empty($_POST['coord']) ) CTopic::setCoord($oDB,$oT->id,$_POST['coord']);
     // ------
     // module rss, except for hidden section (type=0)
     if ( $oS->type!=='0' && qtModule('rss') ) { if ( $_SESSION[QT]['m_rss']==='1' ) include 'qtim_rss_inc.php'; }
@@ -274,7 +274,7 @@ if ( isset($_POST['dosend']) ) try {
 
 	case 'ed': // SEND a edit
 
-    if ( $bMap && isset($_POST['coord']) ) {
+    if ( $useMap && isset($_POST['coord']) ) {
       if ( empty($_POST['coord']) ) { CTopic::setCoord($oDB,$t,''); } else { CTopic::setCoord($oDB,$t,$_POST['coord']); } //z is not used
     }
 
@@ -344,7 +344,7 @@ if ( isset($_POST['dosend']) ) try {
 // ------
 // HTML BEGIN
 // ------
-if ( $bMap ) {
+if ( $useMap ) {
   if ( !empty($oT->y) && !empty($oT->x) ) {
     $strPname = substr($oP->title,0,25);
     $strPinfo = '<p class="small">Lat: '.QTdd2dms($oT->y).' <br>Lon: '.QTdd2dms($oT->x).'<br><br>DD: '.round($oT->y,8).', '.round($oT->x,8).'</p>';
@@ -515,7 +515,7 @@ if ( $oS->notify==1 && $oP->type=='P' && $oS->notifycc!=0 ) {
 }
 
 // MAP coordinate field
-if ( $oP->type=='P' && $bMap ) {
+if ( $oP->type=='P' && $useMap ) {
   echo '<tr><th>'.L('Coord').'</th><td><input type="text" id="yx" name="coord" size="32" value="'.(!empty($oT->y) ? $oT->y.','.$oT->x : '').'" tabindex="32"/> <small>'.L('latlon').'</span></td></tr>'.PHP_EOL;
 }
 
@@ -566,7 +566,7 @@ if ( $_SESSION[QT]['tags']!=='0' && ($a==='nt' || ($a==='ed' && $oP->type==='P')
 }
 
 // map row
-if ( $oP->type==='P' && $bMap ) {
+if ( $oP->type==='P' && $useMap ) {
   $oCanvas = new CCanvas();
   $strArgs = L('Gmap.cancreate');
   if ( isset($row) && !gmapEmptycoord($row) ) {
@@ -686,7 +686,7 @@ btnPreview.addEventListener("click", (e) => {
 
 // MAP MODULE
 
-if ( $bMap ) {
+if ( $useMap ) {
   /**
   * @var array $gmap_markers
   * @var array $gmap_events

@@ -24,7 +24,7 @@ $L['Gmap']['Click_to_change']='(clicker pour changer de symbole)';
 $L['Gmap']['Default_center']='Centre par défaut';
 $L['Gmap']['Default']='Défaut';
 $L['Gmap']['From_section']='Des sections';
-$L['Gmap']['Main_list']='Liste avec carte';
+$L['Gmap']['Main_list']='Carte sous la liste';
 
 $L['Gmap']['Ctrl']['Background']='Fond de carte';
 $L['Gmap']['Ctrl']['Fullscreen']='Plein écran';
