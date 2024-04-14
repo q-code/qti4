@@ -41,4 +41,4 @@ $L['Gmap']['List'][0]='Non';
 $L['Gmap']['List'][1]='Oui';
 $L['Gmap']['List'][2]='Oui (staff)';
 $L['Gmap']['E_nosearch']='Impossible de cartographier les recherches si aucune section n\'a de point...';
-$L['Gmap']['E_disabled']='Fonctions cartographiques non-activée.';
+$L['Gmap']['Disabled']='Fonctions cartographiques non-activée.';

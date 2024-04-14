@@ -216,7 +216,7 @@ if ( $useMap )
 {
   echo '<!-- Map module -->'.PHP_EOL;
   if ( count($arrExtData)===0 ) {
-    echo '<div class="gmap_disabled">'.L('Gmap.E_noposition').'</div>';
+    echo '<div class="gmap_disabled">'.L('Gmap.No_coordinates').'</div>';
     $useMap=false;
   } else {
     //select zoomto (maximum 20 items in the list)

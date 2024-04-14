@@ -426,10 +426,9 @@ if ( QT_LIST_ME && count($arrTopics)>0 && (int)SUser::getInfo('numpost',0)>0 ) {
 if ( $q!=='' ) $oH->scripts[] = 'qtHideEmptyColumn();qtHideEmptyColumn("#t1 td.c-prefix", "#t1 th.c-prefix");';
 
 // MAP MODULE, Show map
-
 if ( $useMap ) {
-  echo PHP_EOL,'<!-- Map module -->'.PHP_EOL;
-  if ( count($arrExtData)==0 ) {
+  echo PHP_EOL.'<!-- Map module -->'.PHP_EOL;
+  if ( count($arrExtData)===0 ) {
     echo '<p class="gmap nomap">'.L('Gmap.No_coordinates').'</p>';
     $useMap=false;
   } else {

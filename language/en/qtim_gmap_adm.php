@@ -49,4 +49,4 @@ $L['Gmap']['List'][0]='No';
 $L['Gmap']['List'][1]='Yes';
 $L['Gmap']['List'][2]='Yes (staff only)';
 $L['Gmap']['E_nosearch']='Cannot use map in search tool when sections don\'t use map...';
-$L['Gmap']['E_disabled']='Mapping not activated.';
+$L['Gmap']['Disabled']='Mapping not activated.';
