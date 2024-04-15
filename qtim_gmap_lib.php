@@ -203,19 +203,18 @@ function gmapMarkerPin(string $marker='')
   // if ( file_exists(APP.'m_gmap/'.$marker.'.svg') ) return 'gmapPin = document.createElement("img"); gmapPin.src = "'.APP.'m_gmap/'.$marker.'.svg"; gmapPin = new PinElement({glyph:gmapPin}); gmapPin = gmapPin.element;';
   return 'gmapPin = null;';
 }
-function gmapMarkerMapTypeId($gbuttons)
+function gmapMarkerMapTypeId(string $maptype='')
 {
-  switch((string)$gbuttons)
-  {
+  switch($maptype) {
     case 'S':
-    case 'SATELLITE': return 'google.maps.MapTypeId.SATELLITE'; break;
+    case 'SATELLITE': return 'google.maps.MapTypeId.SATELLITE';
     case 'H':
-    case 'HYBRID': return 'google.maps.MapTypeId.HYBRID'; break;
+    case 'HYBRID': return 'google.maps.MapTypeId.HYBRID';
     case 'P':
     case 'T':
-    case 'TERRAIN': return 'google.maps.MapTypeId.TERRAIN'; break;
-    default: return 'google.maps.MapTypeId.ROADMAP';
+    case 'TERRAIN': return 'google.maps.MapTypeId.TERRAIN';
   }
+  return 'google.maps.MapTypeId.ROADMAP';
 }
 function QTgetx($str=null,$onerror=0.0)
 {
