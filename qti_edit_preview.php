@@ -81,8 +81,7 @@ try {
   // check upload
   if ( $_SESSION[QT]['upload']!=='0' && !empty($_FILES['newdoc']['name']) ) {
     include 'config/config_upload.php';
-    $info = validateFile($_FILES['newdoc'],ALLOWED_FILE_EXT,ALLOWED_MIME_TYPE,intval($_SESSION[QT]['upload_size'])*1024+16);
-    if ( !empty($info) ) throw new Exception( $info ); //...
+    fileValidate($_FILES['newdoc'],ALLOWED_FILE_EXT,ALLOWED_MIME_TYPE,intval($_SESSION[QT]['upload_size'])*1024+16);
   }
 
   // Other POSTS

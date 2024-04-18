@@ -42,20 +42,20 @@ $oH->exitname = L('Tags');
 // ------
 // SUBMITTED FOR UPLOAD
 // ------
-if ( isset($_POST['ok']) )
-{
+if ( isset($_POST['ok']) ) try {
+
   // Check uploaded document
-
-  $error = validateFile($_FILES['title'],'csv,txt,text','',500);
-
+  fileValidate($_FILES['title'], ['csv','txt','text'], [], 500);
   // Save
+  copy($_FILES['title']['tmp_name'], 'upload/'.$v);
+  unlink($_FILES['title']['tmp_name']);
+  $oH->voidPage('', L('S_update').'<script type="text/javascript">setTimeout(()=>{window.location="'.url($oH->exiturl).'";}, 2000);</script>', 'admin');
 
-  if ( empty($error) )
-  {
-    copy($_FILES['title']['tmp_name'],'upload/'.$v);
-    unlink($_FILES['title']['tmp_name']);
-    $oH->voidPage('', L('S_update'));
-  }
+} catch (Exception $e) {
+
+  $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
+  $oH->error = $e->getMessage();
+
 }
 
 // ------

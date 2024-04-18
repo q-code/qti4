@@ -173,8 +173,7 @@ if ( isset($_POST['dosend']) ) try {
 	// check upload
 	if ( $_SESSION[QT]['upload']!=='0' && !empty($_FILES['newdoc']['name']) ) {
 	  include 'config/config_upload.php';
-	  $info = validateFile($_FILES['newdoc'],ALLOWED_FILE_EXT,ALLOWED_MIME_TYPE,intval($_SESSION[QT]['upload_size'])*1024+16);
-	  if ( !empty($info) ) throw new Exception( $info ); //...
+	  fileValidate($_FILES['newdoc'],ALLOWED_FILE_EXT,ALLOWED_MIME_TYPE,intval($_SESSION[QT]['upload_size'])*1024+16);
 	  $withDoc = true;
 	  // remove old attach
 	  if ( !empty($_POST['attach']) && file_exists(QT_DIR_DOC.$_POST['attach']) ) { unlink(QT_DIR_DOC.$_POST['attach']); $oP->attach = ''; }
