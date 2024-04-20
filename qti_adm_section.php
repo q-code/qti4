@@ -154,7 +154,7 @@ $wisheddate      = $oS->wisheddate>2 ? 2 : $oS->wisheddate;   // 0=no, 1=optiona
 $wisheddate_dflt = $oS->wisheddate>2 ? $oS->wisheddate-2 : 0; // 3 4 5 = today, day+1, day+2
 if ( $oS->notify===0 ) $oS->notifycc==="0";
 
-echo '<form class="formsafe" method="post" action="'.$oH->self().'?s='.$s.'&pan='.$pan.'">
+echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'?s='.$s.'&pan='.$pan.'">
 <h2 class="subconfig">'.L('Definition').'</h2>
 <table class="t-conf">
 <tr>
@@ -270,11 +270,11 @@ if ( !empty($strFile) ) {
   $addOption = '<option value="'.$strFile.'"'.(empty($oS->getMF('options','logo')) ? '' : 'selected').'>'.L('Specific_image').'</option>';
 }
 
-echo '<form class="formsafe" method="post" action="'.$oH->self().'">
+echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'">
 <table class="t-conf">
 <tr>
 <th><span class="texthead">Logo</span></th>
-<td><select name="sectionlogo" onchange="switchpreview(this.value);">
+<td><select name="sectionlogo" onchange="document.getElementById(`previewlogo`).src=this.value===`` ? `'.QT_SKIN.'img/section_'.$oS->type.'_'.$oS->status.'.gif` : `'.QT_DIR_DOC.'section/`+this.value;">
 <option value="">'.L('Default').'</option>
 '.$addOption.'
 </select> '.asImg($oS->logo(), 'id=previewlogo|title='.L('Ico_section_'.$oS->type.'_'.$oS->status)).' <a class="small" href="qti_adm_section_img.php?id='.$s.'">'.L('Add').'/'.L('Remove').'</a>
@@ -358,7 +358,7 @@ $arrDescTrans = SLang::get('secdesc','*','s'.$oS->id);
 
 echo '<p class="small">'.L('E_no_translation').'<strong style="color:#1364B7">'.$oS->title.'</strong></p>
 ';
-echo '<form class="formsafe" method="post" action="'.$oH->self().'">
+echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'">
 <table class="t-conf input100">
 <tr>
 <th>'.L('Title').'</th>

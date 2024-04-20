@@ -58,8 +58,8 @@ try {
   $oT->preview = qtInline($oP->text);
 
   // Detect basic errors
-  if ( $oP->text=='' && !isset($_POST['inspection']) ) throw new Exception( L('Message').' '.L('invalid') ); //...
-  if ( $a=='nt' && $oP->title=='' && $oS->titlefield==2 ) throw new Exception( L('E_no_title') ); //...
+  if ( $oP->text=='' && !isset($_POST['inspection']) ) throw new Exception( L('Message').' '.L('invalid') ); //█
+  if ( $a=='nt' && $oP->title=='' && $oS->titlefield==2 ) throw new Exception( L('E_no_title') ); //█
   if ( $a=='nt' && $oP->title=='' ) CPost::makeTitle($oP);
   if ( isset($_POST['inspection']) ) {
     $oP->title = $_POST['inspection']==='pc' ? $_POST['inspectionvalue'] : $_POST['inspection'];
@@ -67,12 +67,12 @@ try {
   }
 
   // Check flood limit
-  if ( !empty($_SESSION[QT.'_usr']['lastpost']) && $_SESSION[QT.'_usr']['lastpost']+QT_FLOOD >= time() ) throw new Exception( L('E_wait') ); //...
+  if ( !empty($_SESSION[QT.'_usr']['lastpost']) && $_SESSION[QT.'_usr']['lastpost']+QT_FLOOD >= time() ) throw new Exception( L('E_wait') ); //█
 
   // check maximum post per day (not for moderators)
   if ( !SUser::isStaff() && !postsTodayAcceptable((int)$_SESSION[QT]['posts_per_day']) ) {
     $oH->exiturl = 'qti_items.php?s='.$s;
-    $oH->voidPage('', L('E_too_much')); //...
+    $oH->voidPage('', L('E_too_much')); //█
   }
 
   // Module antispam
@@ -85,16 +85,16 @@ try {
   }
 
   // Other POSTS
-  //... tags is not previewed (part of the topic)
+  //█ tags is not previewed (part of the topic)
   if ( isset($_POST['notifiedname']) ) $strNotified = trim($_POST['notifiedname']);
   // complete if missing behalf name
   if ( $strNotified!=='' ) {
     $arrNames = getUsers('N',$strNotified,1);
-    if ( count($arrNames)!==1 ) throw new Exception( L('Notify_also').' '.L('invalid') ); //...
+    if ( count($arrNames)!==1 ) throw new Exception( L('Notify_also').' '.L('invalid') ); //█
     $intNotified = array_key_first($arrNames);
   }
-  if ( $oS->notifycc=='2' && $intNotified<0 && $_POST['a']=='nt' ) throw new Exception( L('Notify_also').' '.L('missing') ); //...
-  if ( $oS->wisheddate=='2' && empty($_POST['wisheddate']) && $_POST['a']=='nt' ) throw new Exception( L('Wisheddate').' '.L('missing') ); //...
+  if ( $oS->notifycc=='2' && $intNotified<0 && $_POST['a']=='nt' ) throw new Exception( L('Notify_also').' '.L('missing') ); //█
+  if ( $oS->wisheddate=='2' && empty($_POST['wisheddate']) && $_POST['a']=='nt' ) throw new Exception( L('Wisheddate').' '.L('missing') ); //█
 
 } catch (Exception $e) {
 

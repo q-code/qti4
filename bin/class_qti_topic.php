@@ -64,7 +64,7 @@ private function dbFields()
 public function setFrom($ref=null)
 {
   // $ref can be [null|int|array|obj-class], otherwhise die
-  if ( $ref===null || $ref===-1 ) return; //... exit with void-instance (default properties)
+  if ( $ref===null || $ref===-1 ) return; // exit with void-instance (default properties)
   if ( is_int($ref) ) {
     if ( $ref<0 ) die(__METHOD__.' Argument must be positive');
     global $oDB;
@@ -110,9 +110,9 @@ public function setFrom($ref=null)
         case 'param':        $this->param      = $value; break;
       } // Unit test: $k must be [string] otherwhise key 0 can change the first case (0=='id')
     }
-    return; //...
+    return; //█
   }
-  if ( is_a($ref,'CTopic') ) return $this->setFrom(get_object_vars($ref)); //...
+  if ( is_a($ref,'CTopic') ) return $this->setFrom(get_object_vars($ref)); //█
   die(__METHOD__.' Invalid argument type');
 }
 public function viewsIncrement(int $userid=-1) {
@@ -487,7 +487,7 @@ public function tagsAdd(string $str, $oS=null)
   // Save
   $this->tagsUpdate();
   // Update section stats (if tags added)
-  if ( is_null($oS) ) return; //...
+  if ( is_null($oS) ) return; //█
   if ( is_int($oS) ) $oS = new CSection($oS);
   if ( is_a($oS,'CSection') ) {
     if ( count(explode(';',$this->descr))>0 ) {
@@ -522,7 +522,7 @@ public function tagsDel(string $str, $oS=null)
   $this->tagsUpdate();
 
   // Update section stats
-  if ( is_null($oS) ) return; //...
+  if ( is_null($oS) ) return; //█
   if ( is_int($oS) ) $oS = new CSection($oS);
   if ( is_a($oS,'CSection') ) {
     global $oDB;

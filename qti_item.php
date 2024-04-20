@@ -7,7 +7,7 @@ session_start();
  */
 require 'bin/init.php';
 $oH->selfurl = 'qti_item.php';
-if ( !SUser::canView('V3') ) $oH->voidPage('user-lock.svg',11,true); //...
+if ( !SUser::canView('V3') ) $oH->voidPage('user-lock.svg',11,true); //█
 
 // ------
 // PRE-INITIALISE

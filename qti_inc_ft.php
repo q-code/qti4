@@ -140,7 +140,7 @@ qtApplyStoredState("aside");';
 }}}
 
 // END PAGE SITE
-echo CHtml::pageDIV('/');
+echo CHtml::pageEntity('/');
 
 // ------
 // FOOTER

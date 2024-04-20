@@ -112,8 +112,8 @@ if ( isset($_POST['dosend']) ) try {
   $oT->preview = qtInline($oP->text);
 
   // Detect basic errors
-  if ( $oP->text=='' && $oT->type!=='I' ) throw new Exception( L('Message').' '.L('invalid') ); //...
-  if ( $a=='nt' && $oP->title=='' && $oS->titlefield==2 ) throw new Exception( L('E_no_title') ); //...
+  if ( $oP->text=='' && $oT->type!=='I' ) throw new Exception( L('Message').' '.L('invalid') ); //█
+  if ( $a=='nt' && $oP->title=='' && $oS->titlefield==2 ) throw new Exception( L('E_no_title') ); //█
   if ( $a=='nt' && $oP->title=='' ) CPost::makeTitle($oP);
 
   // Inspection result
@@ -129,7 +129,7 @@ if ( isset($_POST['dosend']) ) try {
     // Complete if missing notified name
     if ( $strNotified!=='' ) {
       $arrNames = getUsers('N',$strNotified,1);
-      if ( count($arrNames)!==1 )  { throw new Exception( L('Notify_also').' '.L('invalid') ); }; //...
+      if ( count($arrNames)!==1 )  { throw new Exception( L('Notify_also').' '.L('invalid') ); }; //█
       $intNotified = array_key_first($arrNames);
     }
   }
@@ -159,12 +159,12 @@ if ( isset($_POST['dosend']) ) try {
   }
 
   // Check flood limit (_usr_lastpost is set in CPost::insert)
-  if ( !empty($_SESSION[QT.'_usr']['lastpost']) && $_SESSION[QT.'_usr']['lastpost']+QT_FLOOD >= time() ) throw new Exception( L('E_wait') ); //...
+  if ( !empty($_SESSION[QT.'_usr']['lastpost']) && $_SESSION[QT.'_usr']['lastpost']+QT_FLOOD >= time() ) throw new Exception( L('E_wait') ); //█
 
   // check maximum post per day (not for moderators)
   if ( !SUser::isStaff() && !postsTodayAcceptable((int)$_SESSION[QT]['posts_per_day']) ) {
     $oH->exiturl = 'qti_items.php?s='.$s;
-    $oH->voidPage('', L('E_too_much')); //...
+    $oH->voidPage('', L('E_too_much')); //█
   }
 
   // check message module antispam
@@ -579,7 +579,7 @@ if ( $oP->type==='P' && $useMap ) {
 
 // FORM END
 echo '<p class="submit">
-<button type="button" tabindex="98" onclick="window.location=`'.$oH->exit().'`;">'.L('Cancel').'</button>&nbsp;
+<button type="button" tabindex="98" onclick="window.location=`'.$oH->exiturl.'`;">'.L('Cancel').'</button>&nbsp;
 <button type="submit" id="form-edit-preview" name="dopreview" value="'.$certificate.'" tabindex="99" onclick="this.form.dataset.state=0">'.L('Preview').'...</button>&nbsp;
 <button type="submit" id="dosend" name="dosend" value="'.$certificate.'" tabindex="97" onclick="this.form.dataset.state=1">'.L('Send').'</button>
 </p>

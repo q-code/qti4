@@ -64,7 +64,7 @@ if ( !$hideMenuLang ) {
       $langMenu->add( '!|' );
       foreach (LANGUAGES as $iso=>$language) {
         $arr = explode(' ',$language,2);
-        $langMenu->add( 'text='.$arr[0].'|id=lang-'.$iso.'|href='.url($oH->selfurl).'?'.qtURI('lang').'&lang='.$iso.'|title='.(isset($arr[1]) ? $arr[1] : $arr[0]) );
+        $langMenu->add( 'text='.$arr[0].'|id=lang-'.$iso.'|href='.url($oH->selfurl).qtURI('lang').'&lang='.$iso.'|title='.(isset($arr[1]) ? $arr[1] : $arr[0]) );
       }
     } else {
       $langMenu->add('!missing file:config/config_lang.php');
@@ -91,7 +91,7 @@ $oH->title = (empty($oH->selfname) ? '' : $oH->selfname.' - ').$oH->title;
 $oH->head();
 $oH->body();
 
-echo CHtml::pageDIV('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''));
+echo CHtml::pageEntity('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''));
 
 // ------
 // HEADER shows BANNER LANG-MENU NAV
@@ -166,11 +166,10 @@ echo '</p>
 switch($oH->selfurl)
 {
 case 'qti_item.php':
-  $strURI = qtURI('view');
   if ( $_SESSION[QT]['viewmode']=='C' ) {
-    echo '<a id="viewmode" href="'.url($oH->selfurl).'?'.$strURI.'&view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
+    echo '<a id="viewmode" href="'.url($oH->selfurl).qtURI('view').'&view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
   } else {
-    echo '<a id="viewmode" href="'.url($oH->selfurl).'?'.$strURI.'&view=C" title="'.L('View_c').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-up').'</a>';
+    echo '<a id="viewmode" href="'.url($oH->selfurl).qtURI('view').'&view=C" title="'.L('View_c').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-up').'</a>';
   }
   break;
 case 'qti_items.php':
@@ -189,9 +188,6 @@ case 'qti_calendars.php':
   if ( SUser::canAccess('show_calendar') ) {
   echo '<a href="'.url('qti_items.php').'?s='.$s.'"><span title="'.L('View_f_n').'">'.qtSVG('th-list').'</span></a>';
   }
-  break;
-case 'qti_stats.php':
-  $strURI = qtURI('view');
   break;
 case 'qti_users.php':
   if ( empty($_SESSION[QT]['formatpicture']) ) $_SESSION[QT]['formatpicture']='mime=0;width=100;height=100';

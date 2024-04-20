@@ -12,8 +12,8 @@ require 'bin/init.php';
 // ------
 // SECURITY
 // ------
-if ( $_SESSION[QT]['board_offline']==='1' ) $oH->voidPage('tools.svg',99,true,false); //...
-if ( $_SESSION[QT]['visitor_right']<1 && SUser::role()==='V' ) $oH->voidPage('user-lock.svg',11,true,false); //...
+if ( $_SESSION[QT]['board_offline']==='1' ) $oH->voidPage('tools.svg',99,true,false); //█
+if ( $_SESSION[QT]['visitor_right']<1 && SUser::role()==='V' ) $oH->voidPage('user-lock.svg',11,true,false); //█
 
 // ------
 // INITIALIZE

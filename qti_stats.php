@@ -13,7 +13,7 @@ session_start();
 */
 require 'bin/init.php';
 
-if ( !SUser::canAccess('show_stats') ) $oH->voidPage('user-lock.svg',11,true); //...
+if ( !SUser::canAccess('show_stats') ) $oH->voidPage('user-lock.svg',11,true); //█
 include translate('lg_stat.php');
 
 // FUNCTION
@@ -153,7 +153,7 @@ echo '<div class="flex-sp top">
 echo '<h1>'.L('Statistics').'</h1>'.PHP_EOL;
 
 // DISPLAY TABS
-$href = $oH->selfurl.'?'.qtURI('pan'); // existing pan is reset as last argument '&pan='
+$href = $oH->selfurl.qtURI('pan'); // existing pan is reset as last argument '&pan='
 $arrM = [];
 $arrM['pan-g']  = L('Global')        .'|href='.$href.'&pan=g |id=pan-g |class=pan-tab|title='.L('H_Global').' '.$y;
 $arrM['pan-gt'] = L('Global_trends') .'|href='.$href.'&pan=gt|id=pan-gt|class=pan-tab|title='.L('H_Global_trends').' '.$y0.'-'.$y;
@@ -175,14 +175,14 @@ include 'qti_stats_inc.php';
 //------
 
 // DISPLAY title & option
-$href = $oH->selfurl.'?'.qtURI('bt'); // existing bt is removed
+$href = $oH->selfurl.qtURI('bt'); // existing bt is removed
 $arrM = [];
 $arrM['bt-q'] = L('Per_q').'|id=bt-q|href='.$href.'&bt=q';
 $arrM['bt-m'] = L('Per_m').'|id=bt-m|href='.$href.'&bt=m';
 $arrM['bt-d'] = L('Per_d').'|id=bt-d|href='.$href.'&bt=d';
 // add comparaison year selector
 if ( $pan=='gt' || $pan=='dt' ) {
-  $href = $oH->selfurl.'?'.qtURI('y0'); // existing y0 is removed
+  $href = $oH->selfurl.qtURI('y0'); // existing y0 is removed
   $arrM[] = '!<span>'.L('Compare_year').'&nbsp;<select id="y0" name="y0" value="'.$y0.'" onchange="window.location=`'.$href.'`+this.value;">'.qtTags(array($y-4=>$y-4,$y-3=>$y-3,$y-2=>$y-2,$y-1=>$y-1),$y0).'</select></span>';
 }
 $m = new CMenu($arrM, ' &middot; ');

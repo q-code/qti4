@@ -39,7 +39,7 @@ function getMapSectionsSettings(string $alt_json='{}')
 {
   // Returns an array of settings with keys {[int]sectionid|'U'|'S'} and options keys {enabled,list,icon}
   // Returns [] in case of empty json or format error
-  $json = file_exists(APP.'m_gmap/config_gmap.json') ? file_get_contents(APP.'m_gmap/config_gmap.json') :  $alt_json;
+  $json = file_exists(APP.'m_gmap/config_gmap.json') ? file_get_contents(APP.'m_gmap/config_gmap.json') : $alt_json;
   $arr = json_decode($json, true);
   if ( json_last_error()!==JSON_ERROR_NONE) { echo '<p class="error">Unable to read map configurations from '.APP.'m_gmap/config_gmap.json</p>'; return []; }
   return $arr;
@@ -78,9 +78,9 @@ class CCanvas
 		if ( $handler ) {
       global $oH;
 			if ( $_SESSION[QT]['m_gmap_hidelist'] ) {
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('hidemap').'&showmap">'.qtSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).qtURI('hidemap').'&showmap">'.qtSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
 			} else {
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?'.qtURI('showmap').'&hidemap">'.qtSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).qtURI('showmap').'&hidemap">'.qtSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
 			}
 		}
 

@@ -76,7 +76,7 @@ function exitPage($content='Page not defined', string $title='!', bool $hideMenu
   }
   CHtml::msgBox('/');
   include APP.'_inc_ft.php';
-  exit; //...
+  exit; //█
 }
 function getPostedValues(string $post='t1-cb', bool $asInt=true)
 {

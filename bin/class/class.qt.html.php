@@ -60,18 +60,10 @@ public function end(bool $allowSplash=true)
   // output
   echo $log.PHP_EOL.implode(PHP_EOL,$this->scripts).$splash.PHP_EOL.'</body>'.PHP_EOL.'</html>';
 }
-public static function pageDIV(string $attr='id=site', string $info='id site')
+public static function pageEntity(string $attr='id=site', string $info='id site', string $entity='div')
 {
-  if ( $attr==='/' ) return PHP_EOL.'</div>'.PHP_EOL.'<!-- end '.$info.' -->'.PHP_EOL;
-  return PHP_EOL.'<!-- start '.$info.' -->'.PHP_EOL.'<div'.attrRender($attr).'>'.PHP_EOL;
-}
-public function self()
-{
-  return $this->selfurl.(empty($this->selfuri) ? '' :  '?'.$this->selfuri);
-}
-public function exit()
-{
-  return $this->exiturl.(empty($this->exituri) ? '' :  '?'.$this->exituri);
+  if ( $attr==='/' ) return PHP_EOL.'</'.$entity.'>'.PHP_EOL.'<!-- end '.$info.' -->'.PHP_EOL;
+  return PHP_EOL.'<!-- start '.$info.' -->'.PHP_EOL.'<'.$entity.''.attrRender($attr).'>'.PHP_EOL;
 }
 /**
  * Redirect to the url $u
@@ -81,8 +73,8 @@ public function exit()
 public function redirect(string $u, string $s='Continue')
 {
   if ( empty($u) ) die(__METHOD__.' arg must be string');
-  if ( $u==='self' ) $u = $this->self();
-  if ( $u==='exit' ) $u = $this->exit();
+  if ( $u==='self' ) $u = $this->selfurl.($this->selfuri ?: '');
+  if ( $u==='exit' ) $u = $this->exiturl.($this->exituri ?: '');
   $u = url($u);
   if ( headers_sent() ) {
     echo '<a href="'.$u.'">'.$s.'</a><meta http-equiv="REFRESH" content="0;url='.$u.'">';
@@ -95,12 +87,12 @@ public function backButton(string $class='button btn-back', string $symbol='chev
 {
   if ( substr($symbol,-4)==='.svg' ) $symbol = file_get_contents('bin/svg/'.$symbol); // on failed returns false
   if ( empty($symbol) ) $symbol = '&lt;';
-  return '<a class="'.$class.'" href="'.url($this->exit()).'">'.$symbol.'</a>';
+  return '<a class="'.$class.'" href="'.url($this->exiturl).'">'.$symbol.'</a>';
 }
 public static function msgBox(string $title='', string $attr='class=msgbox', string $attrTitle='class=msgboxtitle', string $attrBody='class=msgboxbody')
 {
   // End msgbox
-  if ( $title==='/' ) { echo '</div>'.PHP_EOL.'</div>'.PHP_EOL; return; }
+  if ( $title==='/' ) { echo '</>'.PHP_EOL.'</div>'.PHP_EOL; return; }
   // Start msgbox.
   echo '<div'.attrRender($attr).'>'.PHP_EOL;
   echo '<div'.attrRender($attrTitle).'>'.$title.'</div>'.PHP_EOL;

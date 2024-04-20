@@ -48,7 +48,7 @@ if ( isset($_POST['ok']) ) try {
   if ( !SUser::auth() ) throw new Exception( L('E_login') );
 
   // check ban, unban and secret question
-  SUser::loginPostProc($oDB); //... can exit to register specific page
+  SUser::loginPostProc($oDB); //█ can exit to register specific page
 
   // end message
   $_SESSION[QT.'splash'] = L('Welcome').' '.$strName;

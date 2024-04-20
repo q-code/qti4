@@ -85,7 +85,7 @@ if ( isset($_POST['ok']) ) try {
 // HTML BEGIN
 // ------
 // prepare section settings
-$json = file_exists('qtim_gmap/config_gmap.json') ? file_get_contents('qtim_gmap/config_gmap.json') :  '{}';
+$json = file_exists('qtim_gmap/config_gmap.json') ? file_get_contents('qtim_gmap/config_gmap.json') : '{}';
 
 $arrConfig = json_decode($json,true); // decode as an array
 $arrSections = SMem::get('_Sections');
@@ -104,7 +104,7 @@ $oH->scripts[] = 'function mapsection(section){
 
 include APP.'_adm_inc_hd.php';
 
-echo '<form class="formsafe" method="post" action="'.$oH->self().'">
+echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'">
 <h2 class="config">'.L('Section+').'</h2>
 <div class="pan">
 <p>'.L('Gmap.Allowed').'</p>
@@ -189,7 +189,7 @@ echo '<tr class="hover">
 ';
 
 echo '<p class="submit">
-<button type="button" name="cancel" value="cancel" onclick="window.location=`'.$oH->exit().'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="save">'.L('Save').'</button>
+<button type="button" name="cancel" value="cancel" onclick="window.location=`'.$oH->exiturl.'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="save">'.L('Save').'</button>
 </p>
 </div>
 </form>
