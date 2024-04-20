@@ -77,7 +77,7 @@ case 'usersrole':
 
   // FORM
   $frm_title = L('Change_role');
-  $frm[] = '<form class="formsafe" method="post" action="'.$frm_action.'">';
+  $frm[] = '<form method="post" action="'.$frm_action.'">';
   $frm[] = '<p>'.L('Users').':</p>';
   $frm[] = renderUsers($ids).'<br>';
   $frm[] = '<p>'.L('Role').' <select required name="role" size="1">
@@ -107,7 +107,7 @@ case 'usersdel':
 
   // FORM
   $frm_title = L('Delete').' '.L('users');
-  $frm[] = '<form class="formsafe" method="post" action="'.$frm_action.'">';
+  $frm[] = '<form method="post" action="'.$frm_action.'">';
   $frm[] = '<p>'.L('Users').':</p>';
   $frm[] = renderUsers($ids).'<br>';
   $frm[] = '<p class="row-confirm"><input required type="checkbox" id="confirm" name="confirm"/> <label for="confirm">'.L('Confirm').': '.L('Delete').' '.L('member',count($ids)).'<label></p>';
@@ -121,42 +121,39 @@ case 'catdel':
   if ( empty($cat) ) die('Invalid argument');
 
   // SUBMITTED
-  if ( isset($_POST['ok']) && isset($_POST['confirm']) )
-  {
-    // Delete
+  if ( isset($_POST['ok']) && isset($_POST['confirm']) ) {
+
     $where = ' id>1 AND ';
-    switch($cat)
-    {
-    case 'CH': $where .= 'children="2"'; break;
-    case 'FM': $where .= 'firstdate=lastdate'; break;
-    case 'SC': $where .= 'children="2"'; break;
-    case 'SM':
-      switch($oDB->type)
-      {
-      case 'pdo.mysql':
-      case 'mysql':
-      case 'pdo.sqlsrv':
-      case 'sqlsrv': $where .= 'LEFT(lastdate,8)<'.addDate(date('Ymd'),-1,'year'); break;
-      case 'pdo.pg':
-      case 'pg': $where .= 'SUBSTRING(lastdate FROM 1 FOR 8)<'.addDate(date('Ymd'),-1,'year'); break;
-      case 'pdo.sqlite':
-      case 'sqlite':
-      case 'pdo.oci':
-      case 'oci': $where .= 'SUBSTR(lastdate,1,8)<'.addDate(date('Ymd'),-1,'year'); break;
-      default: die('Unknown db type '.$oDB->type);
-      }
-      break;
+    switch($cat) {
+      case 'CH': $where .= 'children="2"'; break;
+      case 'FM': $where .= 'firstdate=lastdate'; break;
+      case 'SC': $where .= 'children="2"'; break;
+      case 'SM':
+        switch($oDB->type) {
+          case 'pdo.mysql':
+          case 'mysql':
+          case 'pdo.sqlsrv':
+          case 'sqlsrv': $where .= 'LEFT(lastdate,8)<'.addDate(date('Ymd'),-1,'year'); break;
+          case 'pdo.pg':
+          case 'pg': $where .= 'SUBSTRING(lastdate FROM 1 FOR 8)<'.addDate(date('Ymd'),-1,'year'); break;
+          case 'pdo.sqlite':
+          case 'sqlite':
+          case 'pdo.oci':
+          case 'oci': $where .= 'SUBSTR(lastdate,1,8)<'.addDate(date('Ymd'),-1,'year'); break;
+          default: die('Unknown db type '.$oDB->type);
+        }
+        break;
     }
     $b = $oDB->exec( 'DELETE FROM TABUSER WHERE '.$where );
-    // Exit
     $_SESSION[QT.'splash'] = $b ? L('S_update') : 'E|'.L('E_failed');
     $oH->redirect('exit');
+
   }
 
   // FORM
   $frm_title = L('Delete').' '.L('users');
   $str = isset($_GET['n']) ? $_GET['n'] : '!';
-  $frm[] = '<form class="formsafe" method="post" action="'.$frm_action.'">';
+  $frm[] = '<form method="post" action="'.$frm_action.'">';
   $frm[] = '<p><input required type="checkbox" id="confirm" name="confirm"/> <label for="confirm">'.L('Confirm').': '.L('Delete').' '.$str.' '.L('members_'.$cat).'<label></p>';
   $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.$oH->exiturl.'`;">'.L('Cancel').'</button> &nbsp; <button type="submit" name="ok" value="delete">'.L('Delete').' ('.$str.')</button></p>';
   $frm[] = '<input type="hidden" name="cat" value="'.$cat.'"/>';
@@ -189,7 +186,7 @@ case 'usersban':
 
   // FORM
   $frm_title = L('Ban');
-  $frm[] = '<form class="formsafe" method="post" action="'.$frm_action.'">';
+  $frm[] = '<form method="post" action="'.$frm_action.'">';
   $frm[] = '<p>'.L('Users').':</p>';
   $frm[] = renderUsers($ids).'<br>';
   $frm[] = '<p>'.L('H_ban').':</p>';
@@ -225,7 +222,7 @@ case 'userspic':
 
   // FORM
   $frm_title = L('Pictures');
-  $frm[] = '<form class="formsafe" method="post" action="'.$frm_action.'">';
+  $frm[] = '<form method="post" action="'.$frm_action.'">';
   $frm[] = '<p>'.L('Users').':</p>';
   $frm[] = renderUsers($ids).'<br>';
   $frm[] = '<p class="row-confirm"><input required type="checkbox" id="confirm" name="confirm"/> <label for="confirm">'.L('Confirm').': '.L('Delete').' '.L('picture',count($ids)).'<label></p>';  $frm[] = '<p class="submit right"><button type="button" name="cancel" value="cancel" onclick="window.location=`'.$oH->exiturl.'`;">'.L('Cancel').'</button> <button type="submit" name="ok" value="ok">'.L('Delete').' ('.count($ids).')</button></p>';
@@ -242,9 +239,10 @@ const HIDE_MENU_TOC = true;
 const HIDE_MENU_LANG = true;
 include APP.'_adm_inc_hd.php';
 
+unset($oH->scripts['formsafe']);
 if ( !empty($frm_hd) ) echo $frm_hd.PHP_EOL;
 
-CHtml::msgBox($frm_title);
+CHtml::msgBox($frm_title, 'class=msgbox|style=margin-bottom:2rem');
 echo implode(PHP_EOL,$frm);
 CHtml::msgBox('/');
 

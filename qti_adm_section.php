@@ -16,7 +16,7 @@ $s = -1; // Section id
 $pan = 1; // TAB 1:definition, 2:display or 3:translation
 qtArgs('int:s! int:pan');
 if ( $s<0 ) die('Missing parameters');
-if ( $pan<1 || $pan>3) $pan=1;
+if ( $pan<1 || $pan>3) $pan = 1;
 
 $oH->selfurl = 'qti_adm_section.php';
 $oH->selfname = L('Section_upd');
@@ -32,7 +32,7 @@ $oS = new CSection($s);
 // ------
 // SUBMITTED pan 1
 // ------
-if ( isset($_POST['ok']) && $pan==1 ) try {
+if ( isset($_POST['ok']) && $pan===1 ) try {
 
   // CHECK MANDATORY VALUE
   $_POST['title'] = trim($_POST['title']); if ( empty($_POST['title']) ) throw new Exception( L('Title').' '.L('invalid') );
