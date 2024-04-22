@@ -19,46 +19,39 @@ $s = $oT->pid;
 // ------
 // SUBMITTED
 // ------
-if ( isset($_POST['Maction']) )
-{
+if ( isset($_POST['Maction']) ) {
   $oH->exiturl  = 'qti_items.php?s='.$s;
   $oH->exitname = L('Section');
-  if ( empty($_POST['Maction']) ) $oH->redirect (url('qti_item.php').'?t='.$t );
+  if ( empty($_POST['Maction']) ) $oH->redirect( 'qti_item.php?t='.$t );
   if ( substr($_POST['Maction'],0,7)==='status_' ) $oT->setStatus( substr($_POST['Maction'],-1,1) );
   if ( substr($_POST['Maction'],0,5)==='type_' ) $oT->setType( substr($_POST['Maction'],-1,1) );
-  if ( $_POST['Maction']==='reply' ) $oH->redirect( url('qti_edit.php').'?a=re&t='.$t, L('Reply') );
-  if ( $_POST['Maction']==='move' ) $oH->redirect( url('qti_dlg.php').'?a=itemsMove&s='.$s.'&ids='.$t, L('Move') );
-  if ( $_POST['Maction']==='delete' ) $oH->redirect( url('qti_dlg.php').'?a=itemsDelete&s='.$s.'&ids='.$t, L('Delete') );
+  if ( $_POST['Maction']==='reply' ) $oH->redirect( 'qti_edit.php?a=re&t='.$t, L('Reply') );
+  if ( $_POST['Maction']==='move' ) $oH->redirect( 'qti_dlg.php?a=itemsMove&s='.$s.'&ids='.$t, L('Move') );
+  if ( $_POST['Maction']==='delete' ) $oH->redirect( 'qti_dlg.php?a=itemsDelete&s='.$s.'&ids='.$t, L('Delete') );
 }
-if ( isset($_POST['actorid']) && $_POST['actorid']>0 && !empty($_POST['actorname']) )
-{
+if ( isset($_POST['actorid']) && $_POST['actorid']>0 && !empty($_POST['actorname']) ) {
   $oT->setActor((int)$_POST['actorid'], true, true, $_POST['actorname']);
-  $oH->redirect(url('qti_item.php').'?t='.$t);
+  $oH->redirect( 'qti_item.php?t='.$t );
 }
+
 // ------
 // INITIALISE and check grant access
 // ------
 $oS = new CSection($s);
-if ( $oS->type==='1' && (SUser::role()==='V' || SUser::role()==='U') )
-{
-  // exit
+if ( $oS->type==='1' && (SUser::role()==='V' || SUser::role()==='U') ) {
   $oH->selfname = L('Section');
   $oH->exitname = SLang::translate();
-  $oH->voidPage('', L('R_staff'));
+  $oH->voidPage('', L('R_staff')); //█
 }
-if ( $oS->type==='2' && SUser::role()==='V' && $oT->type!=='A' )
-{
-  // exit
+if ( $oS->type==='2' && SUser::role()==='V' && $oT->type!=='A' ) {
   $oH->selfname = L('Section');
   $oH->exitname = SLang::translate();
-  $oH->voidPage('');
+  $oH->voidPage(''); //█
 }
-if ( $oS->type==='2' && SUser::role()==='U' && $oT->firstpostuser != SUser::id() && $oT->type!=='A' )
-{
-  // exit
+if ( $oS->type==='2' && SUser::role()==='U' && $oT->firstpostuser != SUser::id() && $oT->type!=='A' ) {
   $oH->selfname = L('Section');
   $oH->exitname = SLang::translate();
-  $oH->voidPage('', L('E_item_private').'<br>'.L('R_member'));
+  $oH->voidPage('', L('E_item_private').'<br>'.L('R_member')); //█
 }
 // access granted
 $oT->viewsIncrement(SUser::id()); // increment views (only when access is granted)

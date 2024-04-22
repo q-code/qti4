@@ -101,7 +101,7 @@ if ( isset($_POST['ok']) ) try {
   $oH->exiturl = 'qti_user.php?id='.$id;
   $oH->exitname = $L['Profile'];
   $_SESSION[QT.'splash'] = L('S_update');
-  $oH->redirect('exit');
+  $oH->redirect(); //█
 
 } catch (Exception $e) {
 

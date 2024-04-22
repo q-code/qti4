@@ -106,7 +106,7 @@ case 'itemsType':
     }
     memFlushStats(); // clear cache
     $_SESSION[QT.'splash'] = L('S_update');
-    $oH->redirect('exit');
+    $oH->redirect(); //█
 
   }
 
@@ -195,7 +195,7 @@ case 'itemsMove':
     CSection::moveItems($ids, (int)$_POST['destination'], (int)$_POST['ref'], isset($_POST['dropprefix']) ? true : false);
     // exit
     $_SESSION[QT.'splash'] = L('S_update');
-    $oH->redirect('exit');
+    $oH->redirect(); //█
   }
 
   // FORM (default type/status is U=unchanged)
@@ -251,7 +251,7 @@ case 'itemsMove':
       }
       memFlushStats(); // clear cache
       $_SESSION[QT.'splash'] = L('S_delete');
-      $oH->redirect('exit');
+      $oH->redirect(); //█
 
     } catch (Exception $e) {
 
@@ -350,7 +350,7 @@ case 'replyDelete':
     }
    memFlushStats(); // clear cache
     $_SESSION[QT.'splash'] = L('S_delete');
-    $oH->redirect('exit');
+    $oH->redirect(); //█
   }
 
   // FORM (default type/status is U=unchanged)
@@ -400,7 +400,7 @@ case 'itemParam':
     }
     // exit
     $_SESSION[QT.'splash'] = L('S_update');
-    $oH->redirect('exit');
+    $oH->redirect(); //█
 
   }
 
