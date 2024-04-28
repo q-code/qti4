@@ -21,11 +21,13 @@ $oH->selfparent = L('Settings');
 // ------
 if ( isset($_POST['ok']) ) try {
 
-  // check skin style exists
+  // Check style exists and inputs
   if ( !file_exists('skin/'.$_POST['skin'].'/'.APP.'_styles.css') ) {
     $_POST['skin'] = 'default';
-    throw new Exception( L('Section_skin').' '.L('invalid').' ('.APP.'_styles.css not found)' );
+    throw new Exception( L('Section_skin').' '.L('invalid').' ('.APP.'_styles.css not found). Use default.' );
   }
+  if ( isset($_POST['home_name']) && empty(trim($_POST['home_name'])) ) throw new Exception( L('Home_website_name').' '.L('not_empty') );
+  if ( isset($_POST['home_url']) && (strlen($_POST['home_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/', $_POST['home_url'])) ) throw new Exception( L('Site_url').' '.L('invalid') );
 
   // read submitted
   $_SESSION[QT]['skin_dir'] = 'skin/'.$_POST['skin'].'/';
@@ -33,21 +35,16 @@ if ( isset($_POST['ok']) ) try {
   $_SESSION[QT]['show_legend'] = $_POST['show_legend'];
   $_SESSION[QT]['show_banner'] = $_POST['show_banner'];
   $_SESSION[QT]['home_menu'] = $_POST['home_menu'];
-  if ( isset($_POST['home_name']) ) $_SESSION[QT]['home_name'] = qtDb( empty($_POST['home_name']) ? L('Home') : $_POST['home_name'] );
-  if ( isset($_POST['home_url']) ) $_SESSION[QT]['home_url'] = empty($_POST['home_url']) ? 'http://' : $_POST['home_url'];
+  if ( $_SESSION[QT]['home_menu']==='1' ) {
+    $_SESSION[QT]['home_name'] = isset($_POST['home_name']) ? qtDb($_POST['home_name']) : L('Home');
+    $_SESSION[QT]['home_url'] = isset($_POST['home_url']) ? $_POST['home_url'] : 'http://';
+  }
   $_SESSION[QT]['item_firstline'] = $_POST['item_firstline'];
   $_SESSION[QT]['news_on_top'] = $_POST['news_on_top'];
   $_SESSION[QT]['items_per_page'] = $_POST['items_per_page'];
   $_SESSION[QT]['replies_per_page'] = $_POST['replies_per_page'];
   $_SESSION[QT]['show_quick_reply'] = $_POST['show_quick_reply'];
   //$_SESSION[QT]['bbc'] = $_POST['bbc'];
-
-  // check homename and url
-  if ( $_SESSION[QT]['home_menu']=='1' )
-  {
-    if ( empty($_SESSION[QT]['home_name']) ) throw new Exception( L('Home_website_name').' '.L('invalid') );
-    if ( strlen($_SESSION[QT]['home_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/', $_SESSION[QT]['home_url']) ) throw new Exception( L('Site_url').' '.L('invalid') );
-  }
 
   // Save values
   $oDB->updSetting(['skin_dir','show_welcome','show_banner','show_legend','home_menu','home_name','home_url','items_per_page','replies_per_page','item_firstline','news_on_top','show_quick_reply']);
@@ -129,10 +126,11 @@ echo '<tr title="'.L('H_Show_legend').'">
 </tr>
 </table>
 ';
+if ( $_SESSION[QT]['home_menu']==='1' && empty($_SESSION[QT]['home_name']) ) $_SESSION[QT]['home_name'] = L('Home');
+if ( $_SESSION[QT]['home_menu']==='1' && empty($_SESSION[QT]['home_url']) ) $_SESSION[QT]['home_url'] = 'http://';
 echo '<h2 class="config">'.L('Your_website').'</h2>
 <table class="t-conf">
-';
-echo '<tr title="'.L('H_Home_website_name').'">
+<tr title="'.L('H_Home_website_name').'">
 <th>'.L('Add_home').'</th>
 <td>
 <select name="home_menu" onchange="toggleHome(this.value);">'.qtTags([L('N'),L('Y')],(int)$_SESSION[QT]['home_menu']).'</select>
@@ -142,15 +140,13 @@ echo '<tr title="'.L('H_Home_website_name').'">
 <th>'.L('Home_website_url').'</th>
 <td><input required type="text" id="home_url" name="home_url" pattern="^(http://|https://).*" size="40" maxlength="255" value="'.qtAttr($_SESSION[QT]['home_url']),'"',($_SESSION[QT]['home_menu']=='0' ? ' disabled' : '').'/></td>
 </tr>
-';
-echo '<tr id="home_url_help"'.($_SESSION[QT]['home_menu'] ? '': ' style="display:none"').'>
+<tr id="home_url_help"'.($_SESSION[QT]['home_menu'] ? '': ' style="display:none"').'>
 <td colspan="2" class="asterix">
 '.L('Use_|_add_attributes').' <span style="color:#1364B7">http://www.site.com | target=_blank</span>
 </td>
 </tr>
 </table>
 ';
-
 // Start helper
 if ( $_SESSION[QT]['home_menu'] && (strlen($_SESSION[QT]['home_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/',$_SESSION[QT]['home_url'])) ) echo '<p>'.qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.L('Home_website_url').' '.L('invalid').'</p>';
 

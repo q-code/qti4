@@ -60,43 +60,34 @@ switch(QDB_SYSTEM)
 // ------
 if ( isset($_POST['ok']) ) try {
 
-  // check form
-  $_SESSION[QT]['visitor_right'] = $_POST['pal'];
-  $oDB->updSetting('visitor_right', $_SESSION[QT]['visitor_right']);
-
-  // login authority
-  if ( !isset($_POST['login_addon']) ) $_POST['login_addon']='0'; // default = no addon
-  if ( $_POST['login_addon']!=='0' )
-  {
-    $name = $_POST['login_addon'];
-    if ( !isset($_SESSION[QT][$name]) || $_SESSION[QT][$name]==='0' ) throw new Exception( 'Use the module administration page to configure your settings' );
-  }
-  $_SESSION[QT]['login_addon']=$_POST['login_addon'];
-  $oDB->updSetting('login_addon');
-
-  $_SESSION[QT]['register_mode']=$_POST['regmode'];
-  $oDB->updSetting('register_mode');
-
-  // Show memberlist (update database if required)
+  // Public access level
   if ( $oDB->getSetting('show_memberlist','missing')==='missing' ) $oDB->exec( "INSERT INTO TABSETTING (param,setting) VALUES ('show_memberlist','U')" );
-  // Show memberlist
-  $_SESSION[QT]['show_memberlist']=$_POST['memberlist'];
-  $oDB->updSetting('show_memberlist');
+  $_SESSION[QT]['visitor_right'] = $_POST['pal']; // 0=view nothing...6=create subject
+  $_SESSION[QT]['show_memberlist'] = $_POST['memberlist'];
+  $oDB->updSetting(['visitor_right','show_memberlist']);
 
-  // check antispam method
-  $_SESSION[QT]['register_safe']=$_POST['regsafe'];
-  $oDB->updSetting('register_safe');
-  if ( $_POST['regsafe']=='recaptcha2' )
-  {
-    if ( empty($_POST['api2pk']) || empty($_POST['api2sk']) ) $error = 'recaptcha keys are missing';
+  // Login authority
+  if ( !empty($_POST['login_addon']) ) {
+    if ( $oDB->getSetting('login_addon','missing')==='missing' ) $oDB->exec( "INSERT INTO TABSETTING (param,setting) VALUES ('login_addon','0')" );
+    if ( empty($_SESSION[QT][$_POST['login_addon']]) ) throw new Exception( 'Use the module administration page to configure your settings' );
+    $_SESSION[QT]['login_addon'] = $_POST['login_addon'];
+    $oDB->updSetting('login_addon');
+  }
+
+  // Registration
+  $_SESSION[QT]['register_mode'] = $_POST['regmode'];
+  $_SESSION[QT]['register_safe'] = $_POST['regsafe'];
+  $_SESSION[QT]['register_coppa'] = $_POST['regcoppa'];
+  $oDB->updSetting(['register_mode','register_safe','register_coppa']);
+  if ( $_POST['regsafe']==='recaptcha2' ) {
+    if ( empty($_POST['api2pk']) || empty($_POST['api2sk']) ) throw new Exception( 'recaptcha keys '.L('not_empty') );
     if ( $oDB->getSetting('recaptcha2pk','missing')==='missing' ) $oDB->exec( "INSERT INTO TABSETTING (param,setting) VALUES ('recaptcha2pk','')" );
     if ( $oDB->getSetting('recaptcha2sk','missing')==='missing' ) $oDB->exec( "INSERT INTO TABSETTING (param,setting) VALUES ('recaptcha2sk','')" );
     $_SESSION[QT]['recaptcha2pk'] = $_POST['api2pk']; $oDB->updSetting('recaptcha2pk');
-    $_SESSION[QT]['recaptcha2sk'] = $_POST['api2sk'];  $oDB->updSetting('recaptcha2sk');
+    $_SESSION[QT]['recaptcha2sk'] = $_POST['api2sk']; $oDB->updSetting('recaptcha2sk');
   }
-  if ( $_POST['regsafe']=='recaptcha3' )
-  {
-    if ( empty($_POST['api3pk']) || empty($_POST['api3sk']) ) $error = 'recaptcha keys are missing';
+  if ( $_POST['regsafe']=='recaptcha3' ) {
+    if ( empty($_POST['api3pk']) || empty($_POST['api3sk']) ) throw new Exception( 'recaptcha keys '.L('not_empty') );
     if ( $oDB->getSetting('recaptcha3pk','missing')==='missing' ) $oDB->exec( "INSERT INTO TABSETTING (param,setting) VALUES ('recaptcha3pk','')" );
     if ( $oDB->getSetting('recaptcha3sk','missing')==='missing' ) $oDB->exec( "INSERT INTO TABSETTING (param,setting) VALUES ('recaptcha3sk','')" );
     $_SESSION[QT]['recaptcha3pk'] = $_POST['api3pk']; $oDB->updSetting('recaptcha3pk');
@@ -159,89 +150,84 @@ if ( isset($_POST['ok']) ) try {
 // ------
 include APP.'_adm_inc_hd.php';
 
-// FORM
-
-$arr = array(
-    'A'=>L('N').' ('.L('Role_A').' '.L('only').')',
-    'M'=>L('Role_M'),
-    'U'=>L('Role_U'),
-    'V'=>L('Role_V')
-);
 echo '
-<form class="formsafe" method="post" action="',$oH->selfurl,'">
-<h2 class="config">',L('Public_access_level'),'</h2>
+<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+<h2 class="config">'.L('Public_access_level').'</h2>
 <table class="t-conf">
-<tr title="',L('H_Visitors_can'),'">
-<th>',L('Visitors_can'),'</th>
-<td><select name="pal">',qtTags(L('Pal.*'),(int)$_SESSION[QT]['visitor_right']),'</select></td>
+<tr title="'.L('H_Visitors_can').'">
+<th>'.L('Visitors_can').'</th>
+<td><select name="pal">'.qtTags(L('Pal.*'), (int)$_SESSION[QT]['visitor_right']).'</select></td>
 </tr>
 <tr>
-<th>',L('View_memberlist'),'</th>
-<td><select name="memberlist">',qtTags($arr,$_SESSION[QT]['show_memberlist']),'</select></td>
+<th>'.L('View_memberlist').'</th>
+<td><select name="memberlist">'.qtTags(['A'=>L('Role_A').' '.L('only'),'M'=>L('Role_M'),'U'=>L('Role_U'),'V'=>L('Role_V')], $_SESSION[QT]['show_memberlist']).'</select></td>
 </tr>
 </table>
 ';
 
-if ( !isset($_SESSION[QT]['login_addon']) ) $_SESSION[QT]['login_addon']='0'; // By default, no addon
-
+if ( !isset($_SESSION[QT]['login_addon']) ) $_SESSION[QT]['login_addon'] = '0'; // By default, no addon
 // List of possible authorities: modules registered with param "m_{modulename}:login"
 // index is "m_{modulename}", value is the alias
 // index '0' means no addon and is called the internal authority
-$arrAddons = array('0'=>'Internal authority (default)');
-foreach($oDB->getSettings('param LIKE "m_%:login"') as $param=>$alias)
-{
+$arrAddons = [0=>'Internal authority (default)'];
+foreach($oDB->getSettings('param LIKE "m_%:login"') as $param=>$alias) {
   $addon = substr($param,0,-6); // drop the ":login"
   if ( isset($_SESSION[QT][$addon]) && $_SESSION[QT][$addon]!=='0' ) $arrAddons[$addon] = 'Module '.$alias;
 }
-// If several authorities are possible, show a selector, otherwise shows '0' the internale authority
-$strAuth = count($arrAddons)==1 ? $arrAddons['0'] :'<select id="login_addon" name="login_addon">'.qtTags($arrAddons,$_SESSION[QT]['login_addon']).'</select>';
-
-echo '<h2 class="config">',L('Registration'),'</h2>
+echo '<h2 class="config">'.L('Registration').'</h2>
 <table class="t-conf">
 <tr>
-<th>',L('Authority'),'</th>
-<td>',$strAuth,'</td>
+<th>'.L('Authority').'</th>
+<td>'.(count($arrAddons)===1 ? $arrAddons[0] : '<select id="login_addon" name="login_addon">'.qtTags($arrAddons,$_SESSION[QT]['login_addon']).'</select>').'</td>
 </tr>
-<tr title="',L('Reg_mode'),'">
-<th><label for="regmode">',L('Reg_mode'),'</label></th>
+<tr title="'.L('Reg_mode').'">
+<th>'.L('Reg_mode').'</th>
 <td>
 <select id="regmode" name="regmode">
-',qtTags(array('direct'=>L('Reg_direct'),'email'=>L('Reg_email'),'backoffice'=>L('Reg_backoffice')),$_SESSION[QT]['register_mode']),'
+'.qtTags(array('direct'=>'Online (direct)','email'=>'Online (with e-mail checking)','backoffice'=>'Back-office request'),$_SESSION[QT]['register_mode']).'
 </select>
 </tr>
 ';
 $use_gd = extension_loaded('gd') && function_exists('gd_info');
 echo '<tr>
-<th>',L('Reg_security'),'</th>
+<th>'.L('Reg_security').'</th>
 <td>
 <select id="regsafe" name="regsafe" onchange="regsafeChanged(this.value);">
-<optgroup label="',L('Internal'),'">
-<option value="none"',($_SESSION[QT]['register_safe']=='none' ? ' selected' : ''),'>',L('None'),'</option>
-<option value="text"',($_SESSION[QT]['register_safe']=='text' ? ' selected' : ''),'>',L('Text_code'),'</option>
-<option value="image"',($_SESSION[QT]['register_safe']=='image' ? ' selected' : ''),($use_gd ? ' ': ' disabled'),'>',L('Image_code'),'</option>
+<optgroup label="'.L('Internal').'">
+<option value="none"'.($_SESSION[QT]['register_safe']=='none' ? ' selected' : '').'>'.L('None').'</option>
+<option value="text"'.($_SESSION[QT]['register_safe']=='text' ? ' selected' : '').'>'.L('Text_code').'</option>
+<option value="image"'.($_SESSION[QT]['register_safe']=='image' ? ' selected' : '').($use_gd ? ' ': ' disabled').'>'.L('Image_code').'</option>
 </optgroup>
-<optgroup label="',L('Online_service'),'">
-<option value="reCAPTCHAv2"',($_SESSION[QT]['register_safe']=='reCAPTCHAv2' ? ' selected' : ''),'>reCAPTCHA v2</option>
-<option value="reCAPTCHAv3"',($_SESSION[QT]['register_safe']=='reCAPTCHAv3' ? ' selected' : ''),'>reCAPTCHA v3</option>
+<optgroup label="'.L('Online_services').'">
+<option value="recaptcha2"'.($_SESSION[QT]['register_safe']==='recaptcha2' ? ' selected' : '').'>reCAPTCHA v2</option>
+<option value="recaptcha3"'.($_SESSION[QT]['register_safe']==='recaptcha3' ? ' selected' : '').'>reCAPTCHA v3</option>
 </optgroup>
 </select> *
+</tr>
+';
+echo '<tr id="recaptcha2" style="display:'.($_SESSION[QT]['register_safe']==='recaptcha2' ? 'table-row' : 'none').'">
+<th>reCAPTCHA api keys</th>
+<td>
+<input type="text" id="api2pk" name="api2pk" size="24" maxlength="255" value="'.$_SESSION[QT]['recaptcha2pk'].'" placeholder="reCAPTCHA v2 site key" title="reCAPTCHA v2 site key"/>
+<input type="text" id="api2sk" name="api2sk" size="24" maxlength="255" value="'.$_SESSION[QT]['recaptcha2sk'].'" placeholder="reCAPTCHA v2 secret key" title="reCAPTCHA v2 secret key"/>
 </td>
 </tr>
 ';
-echo '<tr id="reCPATCHAv2keys" style="display:',($_SESSION[QT]['register_safe']=='reCAPTCHAv2' ? 'table-row' : 'none'),'">
+echo '<tr id="recaptcha3" style="display:'.($_SESSION[QT]['register_safe']==='recaptcha3' ? 'table-row' : 'none').'">
 <th>reCAPTCHA api keys</th>
 <td>
-<input type="text" id="reCAPTCHAv2pk" name="reCAPTCHAv2pk" size="40" maxlength="255" value="',$_SESSION[QT]['reCAPTCHAv2pk'],'" placeholder="reCAPTCHA v2 site key" title="reCAPTCHA v2 site key"/>
-<input type="text" id="reCAPTCHAv2sk" name="reCAPTCHAv2sk" size="40" maxlength="255" value="',$_SESSION[QT]['reCAPTCHAv2sk'],'" placeholder="reCAPTCHA v2 secret key" title="reCAPTCHA v2 secret key"/>
+<input type="text" id="api3pk" name="api3pk" size="24" maxlength="255" value="'.$_SESSION[QT]['recaptcha3pk'].'" placeholder="reCAPTCHA v3 site key" title="reCAPTCHA v3 site key"/>
+<input type="text" id="api3sk" name="api3sk" size="24" maxlength="255" value="'.$_SESSION[QT]['recaptcha3sk'].'" placeholder="reCAPTCHA v3 secret key" title="reCAPTCHA v3 secret key"/>
 </td>
 </tr>
 ';
-echo '<tr id="reCPATCHAv3keys" style="display:',($_SESSION[QT]['register_safe']=='reCAPTCHAv3' ? 'table-row' : 'none'),'">
-<th>reCAPTCHA api keys</th>
+echo '<tr title="'.L('H_Register_coppa').'">
+<th>'.L('Register_coppa').'</th>
 <td>
-<input type="text" id="reCAPTCHAv3pk" name="reCAPTCHAv3pk" size="40" maxlength="255" value="',$_SESSION[QT]['reCAPTCHAv3pk'],'" placeholder="reCAPTCHA v3 site key" title="reCAPTCHA v3 site key"/>
-<input type="text" id="reCAPTCHAv3sk" name="reCAPTCHAv3sk" size="40" maxlength="255" value="',$_SESSION[QT]['reCAPTCHAv3sk'],'" placeholder="reCAPTCHA v3 secret key" title="reCAPTCHA v3 secret key"/>
-</td>
+<select id="regcoppa" name="regcoppa">
+<option value="0"'.($_SESSION[QT]['register_coppa']==='0' ? ' selected' : '').'>'.L('N').'</option>
+<option value="1"'.($_SESSION[QT]['register_coppa']==='1' ? ' selected' : '').'>'.L('Y').'</option>
+</select>
 </tr>
 ';
 echo '<tr>

@@ -63,38 +63,34 @@ if ( qtModule('gmap') )
 // ------
 if ( isset($_POST['ok']) ) try {
 
-  // check form
-  $strLoca = qtDb(trim($_POST['location']));
-  $strMail = trim($_POST['mail']); // html support multiple emails with ','
-  if ( empty($strMail) ) throw new Exception( L('Email').' '.$strMail.' '.L('invalid') );
-  if ( substr_count($strMail,',')>4 ) throw new Exception( '5 '.L('emails').' '.L('maximum') );
-  if ( empty($_POST['birth_y']) || empty($_POST['birth_d']) || empty($_POST['birth_d']) ) {
-    $strBirth = '0';
-  } else {
-    $i = intval($_POST['birth_y'])*10000+intval($_POST['birth_m'])*100+intval($_POST['birth_d']);
-    if ( !qtIsValiddate($i,true,false,false) ) throw new Exception( L('Birthday').' ('.$_POST['birth_y'].'-'.$_POST['birth_m'].'-'.$_POST['birth_d'].') '.L('invalid') );
-    $strBirth = $i;
-  }
-  if ( isset($_POST['child']) ) { $strChild = substr($_POST['child'],0,1); } else { $strChild = '0'; }
-  if ( $id==1 && $strChild!='0' ) throw new Exception( 'user id[1] is admin and child status cannot be changed...' );
-  if ( $id==0 && $strChild!='0' ) throw new Exception( 'user id[0] is visitor and child status cannot be changed...' );
-  if ( isset($_POST['parentmail']) ) {
-    $strParentmail = trim($_POST['parentmail']);
-    if ( !empty($strParentmail) ) throw new Exception( L('Parent_mail').' '.L('invalid') );
- }
+  // All $_POST are sanitized into $post
+  $post = array_map('trim', qtDb($_POST));
 
-  $strWww = qtAttr(trim($_POST['www']));
-  if ( !empty($strWww) && substr($strWww,0,4)!=='http' ) throw new Exception( L('Website').' '.L('invalid') );
-  if ( empty($strWww) || $strWww=='http://' || $strWww=='https://' ) $strWww='';
+  // check email (multiple with ',')
+  if ( empty($post['emails']) ) throw new Exception( L('Email').' '.L('invalid') );
+  if ( substr_count($post['emails'],',')>4 ) throw new Exception( '5 '.L('emails').' '.L('maximum') );
+  // check others
+  if ( empty($post['birth_y']) || empty($post['birth_d']) || empty($post['birth_d']) ) {
+    $birth = 0;
+  } else {
+    $birth = (int)$post['birth_y']*10000 + (int)$post['birth_m']*100 + (int)$post['birth_d'];
+    if ( !qtIsValiddate($birth,true,false,false) ) throw new Exception( L('Birthday').' ('.$post['birth_y'].'-'.$post['birth_m'].'-'.$post['birth_d'].') '.L('invalid') );
+  }
+  $child = isset($post['child']) && $post['child']==='1' ? '1' : '0';
+  $parentmail = isset($post['parentmail']) ? $post['parentmail'] : '';
+  if ( $id===1 && $child!=='0' ) throw new Exception( 'user id[1] is admin and child status cannot be changed...' );
+  if ( $id===0 && $child!=='0' ) throw new Exception( 'user id[0] is visitor and child status cannot be changed...' );
+  if ( $_SESSION[QT]['register_coppa']==='1' && $child!=='0' && empty($parentmail) ) throw new Exception( L('Parent_mail').' '.L('invalid') );
+  if ( !empty($post['www']) && substr($post['www'],0,4)!=='http' ) throw new Exception( L('Website').' '.L('invalid') );
+  if ( empty($post['www']) || $post['www']=='http://' || $post['www']=='https://' ) $post['www'] = '';
 
   // Save
   $oDB->exec( "UPDATE TABUSER SET birthday=?,location=?,mail=?,www=?,privacy=?,children=?,parentmail=? WHERE id=".$id,
-    [$strBirth,$strLoca,$strMail,$strWww,$_POST['privacy'],$strChild,$strParentmail]
+    [(string)$birth,$post['location'],$post['emails'],$post['www'],$post['privacy'],$child,$parentmail]
     );
-  if ( isset($_POST['coord']) ) {
-    $coord = strip_tags(trim($_POST['coord']));
-    $coord = str_replace(' ','',$coord); // remove spaces between coordinates y,x
-    SUser::setCoord($oDB,$id,$coord); // coord can be empty (coordinates are removed)
+  if ( isset($post['coord']) ) {
+    $post['coord'] = str_replace(' ', '', $post['coord']); // remove spaces between coordinates y,x
+    SUser::setCoord($oDB, $id, $post['coord']); // coord can be empty (coordinates are removed)
   }
 
   // exit (if no error)

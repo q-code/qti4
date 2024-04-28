@@ -5,6 +5,7 @@
 include 'app_role.php';
 $L['Already_used']='Se está usando actualmente';
 $L['Already_in_section']='Ya en la sección de';
+$L['not_empty']='no puede estar vacío';
 $L['E_0'] ='Error desconocido';
 $L['E_1'] ='inválido';
 $L['E_2'] ='Invalid answer';

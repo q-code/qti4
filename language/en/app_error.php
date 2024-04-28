@@ -4,6 +4,7 @@
  */
 include 'app_role.php';
 $L['Already_used']='Already used';
+$L['not_empty']='cannot be empty';
 $L['Already_in_section']='Already in the section';
 $L['E_0'] ='Unknown error';
 $L['E_1'] ='invalid';
