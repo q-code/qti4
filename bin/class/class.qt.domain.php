@@ -46,10 +46,10 @@ class CDomain extends AContainer implements IContainer
   }
   public static function create(string $title='untitled', int $pid=-1, bool $uniquetitle=true)
   {
-    $title = qtDb($title);
-    if ( empty($title) ) throw new Exception( L('Name').' '.L('invalid') );
-    global $oDB;
+    $title = qtDb(trim($title));
+    if ( empty($title) ) throw new Exception( L('Name').' '.L('not_empty') );
     // unique title
+    global $oDB;
     if ( $uniquetitle && $oDB->count( TABDOMAIN." WHERE title=?", [$title] )>0 ) throw new Exception( L('Name').' '.L('already_used') );
     // create
     $id = $oDB->nextId(TABDOMAIN);
@@ -88,13 +88,11 @@ class CDomain extends AContainer implements IContainer
     // clear cache
     SMem::clear('_Domains');
   }
-  public static function getTitles($arrReject=array(), bool $translate=true, string $order='titleorder') {
-    if ( is_int($arrReject) ) $arrReject = array($arrReject);
-    if ( !is_array($arrReject) ) die('CDomain::getTitles arg #1 must be an array');
+  public static function getTitles(array $arrReject=[], bool $translate=true, string $order='titleorder') {
     global $oDB;
     $oDB->query( "SELECT id,title FROM TABDOMAIN ORDER BY $order");
     while($row=$oDB->getRow()) {
-      $id = (int)$row['id']; if ( in_array($id,$arrReject) ) continue;
+      $id = (int)$row['id']; if ( in_array($id,$arrReject,true) ) continue;
       $arr[$id] = $translate ? SLang::translate('domain','d'.$id,$row['title']) : $row['title'];
     }
     return $arr;

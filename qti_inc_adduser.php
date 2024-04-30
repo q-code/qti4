@@ -56,7 +56,6 @@ if ( isset($_POST['add']) && $_POST['add']===$certificate ) try {
 
 } catch (Exception $e) {
 
-  // Splash short message and send error to ...inc_hd.php
   $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
   $oH->error = $e->getMessage();
 

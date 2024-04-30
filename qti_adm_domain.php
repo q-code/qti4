@@ -1,4 +1,4 @@
-<?php // v4.0 build:20240210 allows app impersonation [qt f|i|e ]
+<?php // v4.0 build:20240210 allows app impersonation [qtf|i|e|n]
 
 session_start();
 /**
@@ -30,25 +30,20 @@ $arrTrans = SLang::get('domain','*','d'.$id);
 // ------
 if ( isset($_POST['ok']) ) try {
 
-  $_POST['title'] = trim($_POST['title']);
-  if ( empty($_POST['title']) ) throw new Exception( L('Title').' '.L('invalid') );
-  // rename (only if new name)
-  if ( $_POST['title']!==$row['title'] ) CDomain::rename($id,$_POST['title']); // encode, check unique title, clears _Domains cache
-  // save translations
-  SLang::delete('domain','d'.$id,'*');
-  foreach($_POST as $k=>$posted) {
-    $posted = qtDb(trim($posted)); // encode simple+doublequote
-    if ( substr($k,0,3)==='tr-' && !empty($posted) ) SLang::add('domain', substr($k,3), 'd'.$id, $posted);
-  }
-
+  // Check. All $_POST are sanitized into $post
+  $post = array_map('trim', qtDb($_POST));
+  if ( empty($post['title']) ) throw new Exception( L('Title').' '.L('not_empty') );
+  // Update
+  if ( $post['title']!==$row['title'] ) CDomain::rename($id, $post['title']); // encode, check unique title, clears _Domains cache
+  SLang::delete('domain', 'd'.$id, '*');
+  foreach($post as $k=>$val) if ( substr($k,0,3)==='tr-' && !empty($val) ) SLang::add('domain', substr($k,3), 'd'.$id, $val);
 	// Successful exit
   memFlushLang();
 	$_SESSION[QT.'splash'] = L('S_update');
-  $oH->redirect($oH->exiturl,$oH->exitname);
+  $oH->redirect($oH->exiturl,$oH->exitname); //█
 
 } catch (Exception $e) {
 
-  // Splash short message and send error to ...inc_hd.php
   $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
   $oH->error = $e->getMessage();
 
@@ -80,7 +75,7 @@ foreach(LANGUAGES as $k=>$values) {
 echo '</div></td>
 </tr>
 <tr>
-<td colspan="2" style="background-color:transparent">* <small>'.L('E_no_translation').'<strong style="color:#1364B7">'.$row['title'].'</strong></small></td>
+<td colspan="2" class="asterix">* '.L('E_no_translation').'<strong style="color:#1364B7">'.$row['title'].'</strong></td>
 </tr>
 </table>
 <p class="submit">

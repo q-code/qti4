@@ -34,33 +34,38 @@ $oS = new CSection($s);
 // ------
 if ( isset($_POST['ok']) && $pan===1 ) try {
 
-  // CHECK MANDATORY VALUE
-  $_POST['title'] = trim($_POST['title']); if ( empty($_POST['title']) ) throw new Exception( L('Title').' '.L('invalid') );
-  $_POST['title'] = qtDb($_POST['title']);
-  // Check if name is already used (in destination domain) note: same name for same id is allowed
-  if ( $oDB->count( TABSECTION." WHERE id<>$s AND domainid=? AND title=?", [(int)$_POST['domain'],$_POST['title']] )>0 ) throw new Exception( L('Name').' '.L('already_used') );
+  // Check. All $_POST are sanitized into $post
+  $post = array_map('trim', qtDb($_POST));
+  if ( empty($post['title']) ) throw new Exception( L('Title').' '.L('not_empty') );
 
-  $oS->pid = (int)$_POST['domain'];
-  $oS->title = $_POST['title'];
-  $oS->type = $_POST['type'];
-  $oS->status = $_POST['status'];
-  $oS->notify = (int)$_POST['notify'];
-  if ( isset($_POST['ownername']) && $_POST['ownername']!==$_POST['ownernameold'] ) {
-    $oS->ownername = $_POST['ownername'];
-    $oS->ownerid = array_search($_POST['ownername'],$arrStaff);
-    if ( $oS->ownerid===FALSE || empty($oS->ownerid) ) { $oS->ownerid=1; $oS->ownername=$arrStaff[1]; $oH->warning=L('Role_C').' '.L('invalid'); }
+  // Check if name is already used (in destination domain) note: same name for same id is allowed
+  if ( $oDB->count( TABSECTION." WHERE id<>$s AND domainid=? AND title=?", [(int)$post['domain'],$post['title']] )>0 ) throw new Exception( L('Name').' '.L('already_used') );
+
+  $oS->pid = (int)$post['domain'];
+  $oS->title = $post['title'];
+  $oS->type = $post['type'];
+  $oS->status = $post['status'];
+  $oS->notify = (int)$post['notify'];
+  if ( isset($post['ownername']) && $post['ownername']!==$post['ownernameold'] ) {
+    $oS->ownername = $post['ownername'];
+    $oS->ownerid = array_search($post['ownername'],$arrStaff);
+    if ( $oS->ownerid===false || empty($oS->ownerid) ) {
+      $oS->ownerid = 1;
+      $oS->ownername = $arrStaff[1];
+      $oH->warning = L('Role_C').' '.L('invalid');
+    }
   }
-  if ( isset($_POST['ownerid']) && $_POST['ownerid']!=$_POST['owneridold'] ) {
-    $oS->ownername = $arrStaff[$_POST['ownerid']];
-    $oS->ownerid = (int)$_POST['ownerid'];
+  if ( isset($post['ownerid']) && $post['ownerid']!=$post['owneridold'] ) {
+    $oS->ownername = $arrStaff[$post['ownerid']];
+    $oS->ownerid = (int)$post['ownerid'];
   }
-  $oS->titlefield = (int)$_POST['titlefield'];
-  $oS->numfield = trim($_POST['numfield']); if ( strlen($oS->numfield)==0 ) $oS->numfield='N';
-  $oS->prefix = $_POST['prefix'];
-  $oS->wisheddate = (int)$_POST['wisheddate']; if ( $oS->wisheddate==2 && isset($_POST['wisheddate_dflt']) ) $oS->wisheddate += (int)$_POST['wisheddate_dflt'];
-  $oS->notifycc = (int)$_POST['alternate'];
+  $oS->titlefield = (int)$post['titlefield'];
+  $oS->numfield = strlen($oS->numfield)===0 ? 'N' : $post['numfield'];
+  $oS->prefix = $post['prefix'];
+  $oS->wisheddate = (int)$post['wisheddate']; if ( $oS->wisheddate==2 && isset($post['wisheddate_dflt']) ) $oS->wisheddate += (int)$post['wisheddate_dflt'];
+  $oS->notifycc = (int)$post['alternate'];
   if ( $oS->notify==0 && $oS->notifycc!=0 ) {
-    $oS->notifycc=0;
+    $oS->notifycc = 0;
     $oH->warning = L('Item_no_notify');
   }
   // Update
@@ -73,7 +78,6 @@ if ( isset($_POST['ok']) && $pan===1 ) try {
 
 } catch (Exception $e) {
 
-  // Splash short message and send error to ...inc_hd.php
   $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
   $oH->error = $e->getMessage();
 
@@ -96,7 +100,6 @@ if ( isset($_POST['ok']) && $pan==2 ) try {
 
 } catch (Exception $e) {
 
-  // Splash short message and send error to ...inc_hd.php
   $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
   $oH->error = $e->getMessage();
 
@@ -109,17 +112,16 @@ if ( isset($_POST['ok']) && $pan===3 ) try {
 
   // Translations (cache unchanged)
   SLang::delete('sec,secdesc','s'.$oS->id);
-  foreach($_POST as $k=>$posted) {
-    $posted = qtDb(trim($posted)); // encode simple+doublequote
-    if ( substr($k,0,3)==='tr-' && !empty($posted) ) SLang::add('sec', substr($k,3), 's'.$oS->id, $posted);
-    if ( substr($k,0,5)==='desc-' && !empty($posted) ) SLang::add('secdesc', substr($k,5), 's'.$oS->id, $posted);
+  foreach($_POST as $k=>$val) {
+    $val = qtDb(trim($val)); // encode simple+doublequote
+    if ( substr($k,0,3)==='tr-' && !empty($val) ) SLang::add('sec', substr($k,3), 's'.$oS->id, $val);
+    if ( substr($k,0,5)==='desc-' && !empty($val) ) SLang::add('secdesc', substr($k,5), 's'.$oS->id, $val);
   }
   memFlushLang(); // Clear cache
   $_SESSION[QT.'splash'] = L('S_save');
 
 } catch (Exception $e) {
 
-  // Splash short message and send error to ...inc_hd.php
   $_SESSION[QT.'splash'] = 'E|'.L('E_failed');
   $oH->error = $e->getMessage();
 
