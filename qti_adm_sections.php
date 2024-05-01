@@ -10,9 +10,7 @@ require 'bin/init.php';
 if ( SUser::role()!=='A' ) die('Access denied');
 include translate('lg_adm.php');
 
-// FUNCTION
-function aswap(array &$arr, $item, int $step=1)
-{
+function aswap(array &$arr, $item, int $step=1) {
   // Swap item with previous/next (step -1 or 1). WARNING: index are changed even if item is not found, or no previous/next
   $arr = array_values($arr);
   $i = array_search($item,$arr,true);
@@ -113,7 +111,7 @@ if ( !empty($a) ) try {
 // INITIALISE (no cache)
 // ------
 $arrDomains = CDomain::getTitles(); // titles translated
-$arrSections = CSection::getSections('A',-2); // titles translated, optimisation: get all sections at once (grouped by domain)
+$arrSections = CSection::getSections('A',-2); // titles not translated, optimisation: get all sections at once (grouped by domain)
 if ( count($arrDomains)>12 ) { $oH->warning .= 'You have a lot of domains. Try to remove unused domains. '; $_SESSION[QT.'splash'] = 'W|'.$oH->warning; }
 if ( count($arrSections,COUNT_RECURSIVE)>120 ) { $oH->warning .= 'You have a lot of sections. Try to remove unused sections. '; $_SESSION[QT.'splash'] = 'W|'.$oH->warning; }
 if ( !empty($oH->warning) ) $oH->warning = qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.$oH->warning;
@@ -213,13 +211,13 @@ foreach($arrDomains as $idDomain=>$domain) {
     $isSortable = count($arrSections[$idDomain])>1;
     echo '<tbody'.($isSortable ? ' class="sortable"' : '').'>'.PHP_EOL;
     foreach($arrSections[$idDomain] as $idSection=>$arrSection) {
-      $oS = new CSection($arrSection);
+      $oS = new CSection($arrSection,true);
       $strUp = qtSVG('caret-up', 'class=disabled');
       $strDw = qtSVG('caret-down', 'class=disabled');
       echo '<tr class="hover"'.($isSortable ? ' data-dragid="s'.$oS->id.'"' : '').'>';
       echo '<td class="handler">'.($isSortable ? '<span class="draghandler" title="'.L('Move').'" draggable="true">'.qtSVG('arrows-v').'</span>' : '').'</td>'.PHP_EOL;
       echo '<td class="c-icon">'.asImg( CSection::makeLogo(qtExplodeGet($oS->options,'logo',''),$oS->type,$oS->status), 'title='.L('Ico_section_'.$oS->type.'_'.$oS->status) ).'</td>';
-      echo '<td class="c-section"><a class="sectionname" href="'.APP.'_adm_section.php?s='.$oS->id.'">'.$oS->title.'</a><br><small>'.L('Section_type.'.$oS->type).($oS->status==='1' ? ', '.L('Section_status.1') : '').'</span></td>';
+      echo '<td class="c-section"><a class="sectionname" href="'.APP.'_adm_section.php?s='.$oS->id.'">'.$oS->title.'</a><br><small>'.L('Section_type.'.$oS->type).($oS->status==='1' ? ', '.L('Section_status.1') : '').'</small></td>';
       echo '<td class="c-data ellipsis">'.( $oS->numfield==='N' ? '<span class="disabled">'.L('N').'</span>' : sprintf($oS->numfield,1) ).'</td>';
       echo '<td class="c-moderator ellipsis">'.$oS->ownername.'</td>';
       echo '<td class="c-action"><a href="'.APP.'_adm_section.php?s='.$oS->id.'" title="'.L('Edit').'">'.qtSVG('pen-square').'</a>';
