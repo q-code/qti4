@@ -300,7 +300,7 @@ echo '<div class="g-qr-btn">
 <input type="hidden" name="ref" value="'.$oT->numid.'"/>
 <input type="hidden" name="icon" value="00"/>
 <input type="hidden" name="title" />
-<button type="submit" id="form-qr-preview" name="preview" value="'.$certificate.'" onclick="this.form.dataset.state=0">'.L('Preview').'...</button><button type="submit" id="dosend" name="dosend" value="'.$certificate.'">'.L('Send').'</button>
+<button type="submit" id="form-qr-preview" name="preview" value="'.$certificate.'" onclick="this.form.dataset.state=0">'.L('Preview').'...</button><button type="submit" id="send" name="send" value="'.$certificate.'">'.L('Send').'</button>
 </div>
 ';
 echo '</div>

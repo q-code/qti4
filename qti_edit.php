@@ -13,9 +13,9 @@ if ( !SUser::canView('V6') ) die(L('E_11'));
 // ------
 $certificate = makeFormCertificate('3cb4bd2256f4642777c70f1cc0efcc77');
 // Forwarding certificate. Note: 'dopreview' is ajax-transfered to edit_preview.php
-if ( isset($_POST['dosend']) && $_POST['dosend']===makeFormCertificate('b7033b5983ec3b0fef7b3c251f6d0b92') ) $_POST['dosend']=$certificate;
+if ( isset($_POST['send']) && $_POST['send']===makeFormCertificate('b7033b5983ec3b0fef7b3c251f6d0b92') ) $_POST['send']=$certificate;
 // validate certificates
-if ( isset($_POST['dosend']) && $_POST['dosend']!==$certificate ) die('Unable to check certificate');
+if ( isset($_POST['send']) && $_POST['send']!==$certificate ) die('Unable to check certificate');
 
 // ------
 // INITIALISE
@@ -84,7 +84,7 @@ if ( qtModule('gmap') ) {
 // ------
 // SUBMITTED
 // ------
-if ( isset($_POST['dosend']) ) try {
+if ( isset($_POST['send']) ) try {
 
   // Current editor/creator (modifuser), can be the onbehalf
   $oP->modifuser = (int)$_POST['userid'];
@@ -581,7 +581,7 @@ if ( $oP->type==='P' && $useMap ) {
 echo '<p class="submit">
 <button type="button" tabindex="98" onclick="window.location=`'.$oH->exiturl.'`;">'.L('Cancel').'</button>&nbsp;
 <button type="submit" id="form-edit-preview" name="dopreview" value="'.$certificate.'" tabindex="99" onclick="this.form.dataset.state=0">'.L('Preview').'...</button>&nbsp;
-<button type="submit" id="dosend" name="dosend" value="'.$certificate.'" tabindex="97" onclick="this.form.dataset.state=1">'.L('Send').'</button>
+<button type="submit" id="send" name="send" value="'.$certificate.'" tabindex="97" onclick="this.form.dataset.state=1">'.L('Send').'</button>
 </p>
 </form>
 ';

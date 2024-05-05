@@ -362,7 +362,7 @@ public static function getUserId(CDatabase $oDB, string $name, $failed=false)
   // Returns FALSE when user does not exist OR when argument is wrong
   // Caution when testing returned value: userid 0 is visitor!
   if ( empty($name) ) return false;
-  $oDB->query( "SELECT id FROM TABUSER WHERE name=?", [qtDb($name)] );
+  $oDB->query( "SELECT id FROM TABUSER WHERE name=?", [$name] );
   if ( $row=$oDB->getRow() ) return (int)$row['id'];
   return $failed;
 }
