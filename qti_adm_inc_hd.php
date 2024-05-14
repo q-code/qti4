@@ -14,7 +14,7 @@ $oH->links['cssCustom'] = null;
 $oH->head();
 $oH->body();
 
-echo CHtml::pageEntity('class=pg-admin', 'pg-admin');
+echo CHtml::pageEntity('class=pg-admin', 'page admin');
 
 if ( file_exists(translate($oH->selfurl.'.txt'))  )
 {
@@ -92,7 +92,7 @@ if ( !defined('HIDE_MENU_TOC') || !HIDE_MENU_TOC )
   echo '</div>'.PHP_EOL;
 }
 
-echo CHtml::pageEntity();
+echo CHtml::pageEntity('id=site','site');
 
 // Title (and error)
 if ( !empty($oH->selfname) ) echo '<h1 class="title"'.(empty($oH->selfparent) ? '' : ' data-parent="'.$oH->selfparent.'"').'>'.$oH->selfname.'</h1>';

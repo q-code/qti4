@@ -20,10 +20,10 @@ $navMenu = new CMenu();
 if ( $_SESSION[QT]['home_menu']==='1' && !empty($_SESSION[QT]['home_url']) )
 $navMenu->add('home', 'text='.qtAttr($_SESSION[QT]['home_name']).'|href='.$_SESSION[QT]['home_url']);
 $navMenu->add('privacy', 'text='.L('Legal').'|href=qti_privacy.php');
-$navMenu->add('index', 'text='. SLang::translate().'|href=qti_index.php|accesskey=i|class=secondary|activewith=qti_index.php qti_items.php qti_item.php qti_calendars.php qti_edit.php');
+$navMenu->add('index', 'text='. SLang::translate().'|href=qti_index.php|class=secondary|activewith=qti_index.php qti_items.php qti_item.php qti_calendars.php qti_edit.php');
 $navMenu->add('search', 'text='.L('Search').'|id=nav-search|activewith=qti_search.php');
 if ( $oH->selfurl!=='qti_search.php' && SUser::canAccess('search') )
-$navMenu->menu['search'] .= '|href=qti_search.php|accesskey=s'.(QT_SIMPLESEARCH ? '|onclick=if ( document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
+$navMenu->menu['search'] .= '|href=qti_search.php'.(QT_SIMPLESEARCH ? '|onclick=if ( document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
   // SUser::canAccess('search') not included here... We want the searchbar/page shows a message for not granted users
 if ( SUser::canAccess('show_memberlist') )
 $navMenu->add('users', 'text='.L('Memberlist').'|href=qti_users.php');
@@ -91,7 +91,7 @@ $oH->title = (empty($oH->selfname) ? '' : $oH->selfname.' - ').$oH->title;
 $oH->head();
 $oH->body();
 
-echo CHtml::pageEntity('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''));
+echo CHtml::pageEntity('id=site|'.($_SESSION[QT]['viewmode']==='C' ? 'class=compact' : ''), 'site');
 
 // ------
 // HEADER shows BANNER LANG-MENU NAV

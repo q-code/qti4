@@ -189,10 +189,10 @@ $oH->scripts[] = 'function ToggleAnonymous(checked){
 include APP.'_adm_inc_hd.php';
 
 // DISPLAY TABS
-$arrM = [];
+$m = [];
 foreach(['Authority','Settings','Test'] as $k=>$str)
-$arrM['pan-'.$k] = $str.'|href='.$oH->selfurl.'?pan='.$k.'|id=pan-'.$k.'|class=pan-tab';
-$m = new CMenu($arrM, '');
+$m['pan-'.$k] = $str.'|href='.$oH->selfurl.'?pan='.$k.'|id=pan-'.$k.'|class=pan-tab';
+$m = new CMenu($m, '');
 echo '<div class="pan-tabs">'.$m->build('pan-'.$pan).'</div>';
 
 // DISPLAY TAB PANEL

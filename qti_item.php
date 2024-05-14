@@ -260,13 +260,12 @@ if ( $oT->items>0 )
   // BUTTON LINE AND PAGER
   echo '<p class="paging">'.$paging.'</p>';
 
-  if ( $oT->type!='I' && $oT->items>2 )
-  {
-  echo '
-  <div class="table-ui bot">
-  <div>'.str_replace(' accesskey="r"','',$navCommands).'</div>
-  </div>
-  ';
+  if ( $oT->type!=='I' && $oT->items>2 ) {
+    echo '
+    <div class="table-ui bot">
+    <div>'.$navCommands.'</div>
+    </div>
+    ';
   }
 
 }

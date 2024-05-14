@@ -5,7 +5,7 @@
  */
 
 // END PAGE SITE
-echo CHtml::pageEntity('/');
+echo CHtml::pageEntity('/', 'site');
 
 if ( isset($oDB->stats) ) {
   if ( empty($oDB->stats['end']) ) $oDB->stats['end'] = gettimeofday(true);
@@ -13,8 +13,8 @@ if ( isset($oDB->stats) ) {
 }
 
 
-echo CHtml::pageEntity('/', 'pg-layout');
-echo CHtml::pageEntity('/', 'pg-admin');
+echo CHtml::pageEntity('/', 'page layout');
+echo CHtml::pageEntity('/', 'page admin');
 
 // Automatic add script {file.php.js} if existing and formsafe
 if ( file_exists($oH->selfurl.'.js') )

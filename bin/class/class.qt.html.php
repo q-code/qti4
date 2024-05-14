@@ -31,10 +31,7 @@ public function head()
   //push cssContrast as last link
   if ( !empty($this->links['cssContrast']) ) {
     $arr = array_keys($this->links);
-    if ( end($arr)!=='cssContrast' ) {
-      $this->links[] = $this->links['cssContrast'];
-      unset($this->links['cssContrast']);
-    }
+    if ( end($arr)!=='cssContrast' ) { $this->links[] = $this->links['cssContrast']; unset($this->links['cssContrast']); }
   }
   // check/add <script> enclosing tag
   foreach($this->scripts_top as $k=>$src) {
@@ -62,10 +59,10 @@ public function end(bool $allowSplash=true)
   // output
   echo $log.PHP_EOL.implode(PHP_EOL,$this->scripts).$splash.PHP_EOL.'</body>'.PHP_EOL.'</html>';
 }
-public static function pageEntity(string $attr='id=site', string $info='id site', string $entity='div')
+public static function pageEntity(string $attr='', string $info='', string $entity='div')
 {
-  if ( $attr==='/' ) return PHP_EOL.'</'.$entity.'>'.PHP_EOL.'<!-- end '.$info.' -->'.PHP_EOL;
-  return PHP_EOL.'<!-- start '.$info.' -->'.PHP_EOL.'<'.$entity.''.attrRender($attr).'>'.PHP_EOL;
+  if ( $attr==='/' ) return PHP_EOL.'</'.$entity.'>'.PHP_EOL.($info ? '<!-- end '.$info.' -->'.PHP_EOL : '');
+  return ($info ? PHP_EOL.'<!-- start '.$info.' -->' : '').PHP_EOL.'<'.$entity.''.attrRender($attr).'>'.PHP_EOL;
 }
 /**
  * Redirect to the url($u)
