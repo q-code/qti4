@@ -78,14 +78,6 @@ function exitPage($content='Page not defined', string $title='!', bool $hideMenu
   include APP.'_inc_ft.php';
   exit; //█
 }
-function getPostedValues(string $post='t1-cb', bool $asInt=true)
-{
-  if ( !isset($_POST[$post]) ) return [];
-  // POSTs values can be transmitted in an array (i.e. checkboxes 'name[]') or in a input csv-string
-  $arr = is_array($_POST[$post]) ? $_POST[$post] : explode(',',$_POST[$post]);
-  return $asInt ? array_map('intval', $arr) : $arr;
-  // NOTE intval allows string|float|boolean|array but numeric is rounded-down, array/boolean become 0|1, text become 0
-}
 function htmlLettres(string $baseFile, string $current='ALL', string $strAll='All', string $strClass='lettres', string $strTitle='Username starting with ', int $intSize=1, bool $bFilterForm=true)
 {
   // When $baseFile have other arguments, group argument will be appended
