@@ -31,11 +31,10 @@ include translate('qtim_gmap_adm.php');
 include 'qtim_gmap_lib.php';
 
 // INITIALISE
-$oH->selfurl = 'qtim_gmap_adm_sections.php';
-$oH->selfname = 'Gmap';
-$oH->selfparent = L('Module');
+$oH->name = 'Gmap';
+$parentname = L('Module');
 $oH->exiturl = 'qtim_gmap_adm.php';
-$oH->exitname = $oH->selfname;
+$oH->exitname = $oH->name;
 $arrSections = CSection::getSections('A'); // sql
 
 // Read png/svg in directory
@@ -103,7 +102,7 @@ $oH->scripts[] = 'function mapsection(section){
 
 include APP.'_adm_inc_hd.php';
 
-echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+echo '<form class="formsafe" method="post" action="'.$oH->php.'">
 <h2 class="config">'.L('Section+').'</h2>
 <div class="pan">
 <p>'.L('Gmap.Allowed').'</p>

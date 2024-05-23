@@ -22,7 +22,7 @@ $navMenu->add('home', 'text='.qtAttr($_SESSION[QT]['home_name']).'|href='.$_SESS
 $navMenu->add('privacy', 'text='.L('Legal').'|href=qti_privacy.php');
 $navMenu->add('index', 'text='. SLang::translate().'|href=qti_index.php|class=secondary|activewith=qti_index.php qti_items.php qti_item.php qti_calendars.php qti_edit.php');
 $navMenu->add('search', 'text='.L('Search').'|id=nav-search|activewith=qti_search.php');
-if ( $oH->selfurl!=='qti_search.php' && SUser::canAccess('search') )
+if ( $oH->php!=='qti_search.php' && SUser::canAccess('search') )
 $navMenu->menu['search'] .= '|href=qti_search.php'.(QT_SIMPLESEARCH ? '|onclick=if ( document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
   // SUser::canAccess('search') not included here... We want the searchbar/page shows a message for not granted users
 if ( SUser::canAccess('show_memberlist') )
@@ -64,7 +64,7 @@ if ( !$hideMenuLang ) {
       $langMenu->add( '!|' );
       foreach (LANGUAGES as $iso=>$language) {
         $arr = explode(' ',$language,2);
-        $langMenu->add( 'text='.$arr[0].'|id=lang-'.$iso.'|href='.url($oH->selfurl).qtURI('lang').'&lang='.$iso.'|title='.(isset($arr[1]) ? $arr[1] : $arr[0]) );
+        $langMenu->add( 'text='.$arr[0].'|id=lang-'.$iso.'|href='.url($oH->php).qtURI('lang').'&lang='.$iso.'|title='.(isset($arr[1]) ? $arr[1] : $arr[0]) );
       }
     } else {
       $langMenu->add('!missing file:config/config_lang.php');
@@ -87,7 +87,7 @@ if ( !$hideMenuLang ) {
 // ------
 // HTML BEGIN
 // ------
-$oH->title = (empty($oH->selfname) ? '' : $oH->selfname.' - ').$oH->title;
+if ( QT_TITLE_WITH_PAGENAME && !empty($oH->name) ) $oH->metas[0] = '<title>'.$_SESSION[QT]['site_name'].' '.$oH->name.'</title>';
 $oH->head();
 $oH->body();
 
@@ -104,13 +104,13 @@ if ( $_SESSION[QT]['show_banner']!=='0' ) echo '<div id="logo"><img src="'.QT_SK
 if ( !$hideMenuLang ) echo '<div id="menulang">'.$langMenu->build('lang-'.QT_LANG, 'tag=span|class=active').'</div>'.PHP_EOL;
 // header nav (intersect to use only some head menus)
 $skip = array_diff(array_keys($navMenu->menu), ['home','index','search','users','profile','sign']);
-echo '<nav>'.$navMenu->build(url($oH->selfurl), 'default', $skip).'</nav>'.PHP_EOL;
+echo '<nav>'.$navMenu->build(url($oH->php), 'default', $skip).'</nav>'.PHP_EOL;
 echo '</header>'.PHP_EOL;
 
 // ------
 // SEARCH BAR
 // ------
-if ( QT_SIMPLESEARCH && $oH->selfurl!==APP.'_search.php' ) {
+if ( QT_SIMPLESEARCH && $oH->php!==APP.'_search.php' ) {
   echo '<div id="searchbar" style="display:none">'.PHP_EOL;
   if ( !SUser::canAccess('search') ) {
     echo L('E_11');
@@ -137,7 +137,7 @@ if ( QT_SIMPLESEARCH && $oH->selfurl!==APP.'_search.php' ) {
 // ------
 $showWelcome = false;
 if ( ( $_SESSION[QT]['show_welcome']=='2' || ($_SESSION[QT]['show_welcome']==='1' && !SUser::auth()) ) && file_exists(translate('app_welcome.txt')) && !$_SESSION[QT]['board_offline'] ) $showWelcome = true;
-if ( $showWelcome && $oH->selfurl!==APP.'_register.php' ) {
+if ( $showWelcome && $oH->php!==APP.'_register.php' ) {
   echo '<div id="intro">';
   include translate('app_welcome.txt');
   echo '</div>';
@@ -152,24 +152,24 @@ echo '
 
 echo '
 <div id="main-hd">
-<p id="crumbtrail"><a href="'.url('qti_index.php').'"'.($oH->selfurl=='qti_index.php' ? ' onclick="return false;"' : ''),'>',SLang::translate().'</a>';
+<p id="crumbtrail"><a href="'.url('qti_index.php').'"'.($oH->php==='qti_index.php' ? ' onclick="return false;"' : ''),'>',SLang::translate().'</a>';
 if ( isset($oS) && $oS->id>=0 ) { // $oS->id=-1 in case of 'void'-section
   if ( QT_SHOW_DOMAIN ) echo QT_CRUMBTRAIL.CDomain::translate($oS->pid);
   echo QT_CRUMBTRAIL.'<a href="'.url('qti_items.php').'?s='.$oS->id.'">'.CSection::translate($oS->id).'</a>';
   if ( $oS->type==='2' && !SUser::isStaff() ) echo QT_CRUMBTRAIL.'<small>'.L('all_my_items').'</small>';
 }
-if ( $oH->selfurl==='qti_user.php') echo QT_CRUMBTRAIL.L('Profile');
+if ( $oH->php==='qti_user.php') echo QT_CRUMBTRAIL.L('Profile');
 echo '</p>
 <p id="page-ui">
 ';
 
-switch($oH->selfurl)
+switch($oH->php)
 {
 case 'qti_item.php':
   if ( $_SESSION[QT]['viewmode']=='C' ) {
-    echo '<a id="viewmode" href="'.url($oH->selfurl).qtURI('view').'&view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
+    echo '<a id="viewmode" href="'.url($oH->php).qtURI('view').'&view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
   } else {
-    echo '<a id="viewmode" href="'.url($oH->selfurl).qtURI('view').'&view=C" title="'.L('View_c').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-up').'</a>';
+    echo '<a id="viewmode" href="'.url($oH->php).qtURI('view').'&view=C" title="'.L('View_c').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-up').'</a>';
   }
   break;
 case 'qti_items.php':
@@ -193,9 +193,9 @@ case 'qti_users.php':
   if ( empty($_SESSION[QT]['formatpicture']) ) $_SESSION[QT]['formatpicture']='mime=0;width=100;height=100';
   if ( !empty(qtExplodeGet($_SESSION[QT]['formatpicture'], 'mime')) ) {
     if ( $_SESSION[QT]['viewmode']=='C' ) {
-      echo '<a id="viewmode" href="'.url($oH->selfurl).'?view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
+      echo '<a id="viewmode" href="'.url($oH->php).'?view=N" title="'.L('View_n').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-down').'</a>';
     } else {
-      echo '<a id="viewmode" href="'.url($oH->selfurl).'?view=C" title="'.L('View_c').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-up').'</a>';
+      echo '<a id="viewmode" href="'.url($oH->php).'?view=C" title="'.L('View_c').'">'.qtSVG('window-maximize').' '.qtSVG('long-arrow-alt-up').'</a>';
     }
   }
   break;
@@ -206,11 +206,11 @@ echo '</p>
 ';
 
 // index's MY BOARD
-if ( $oH->selfurl==='qti_index.php' && !empty($bMyBoard) ) include 'qti_inc_myboard.php';
+if ( $oH->php==='qti_index.php' && !empty($bMyBoard) ) include 'qti_inc_myboard.php';
 
 // MAIN CONTENT / $oS->id=-1 in case of 'void'-section
 $str =  isset($oS) && $oS->id>=0 ? ' data-section-type="'.$oS->type.'" data-section-status="'.$oS->status.'"' : '';
-echo '<div id="main-ct" class="pg-'.qtBasename($oH->selfurl).'"'.$str.'>
+echo '<div id="main-ct" class="pg-'.qtBasename($oH->php).'"'.$str.'>
 ';
 if ( !empty($error) ) echo '<p class="error center">'.$error.'</p>';
 if ( isset($bodyctId) ) echo '<div id="pg-'.$bodyctId.'"></div>'.PHP_EOL;

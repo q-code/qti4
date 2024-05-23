@@ -8,7 +8,6 @@ session_start();
  * @var string $s
  */
 require 'bin/init.php';
-$oH->selfurl = 'qti_calendars.php';
 if ( !SUser::canView('V2') || !SUser::canAccess('show_calendar') ) die('Access denied');
 
 if ( !isset($_SESSION[QT]['cal_shownews']) ) $_SESSION[QT]['cal_shownews']=FALSE;
@@ -100,8 +99,8 @@ if ( !$_SESSION[QT]['cal_showinsp'] ) $strOptions .= "type<>'I' AND ";
 
 $oS = new CSection($s);
 
-$oH->selfuri = 'qti_calendars.php?s='.$s.'&fv='.$fv.'&y='.$intYear.'&m='.$intMonth;
-$oH->selfname = L('section').' '.qtQuote($oS->title,"&'");
+$oH->arg = 'qti_calendars.php?s='.$s.'&fv='.$fv.'&y='.$intYear.'&m='.$intMonth;
+$oH->name = L('section').' '.qtQuote($oS->title,"&'");
 
 $arrS = SMem::get('_Statuses');
 
@@ -168,7 +167,7 @@ if ( SUser::isStaff() )
 {
 echo '<div class="right">
 <div id="optionsbar" title="'.L('My_preferences').'">
-<form method="get" action="'.url($oH->selfurl).'" id="modaction">
+<form method="get" action="'.url($oH->php).'" id="modaction">
 '.L('Options').'&nbsp;<input type="hidden" name="s" value="'.$s.'"/>
 <input type="hidden" name="fv" value="'.$fv.'"/>
 <input type="hidden" name="y" value="'.$intYear.'"/>
@@ -200,19 +199,19 @@ $arrYears = array($intYear-1=>$intYear-1,$intYear,$intYear+1);
 if ( !isset($arrYears[intval(date('Y'))]) ) $arrYears[intval(date('Y'))]=intval(date('Y'));
 
 echo '<div id="ct-title" class="flex-sp">';
-echo '<h1>'.$L['dateMMM'][date('n',$dCurrentDate)].' '.date('Y',$dCurrentDate).', '.$oH->selfname.'</h1>';
-echo '<form method="get" action="'.url($oH->selfurl).'" id="cal_month">';
+echo '<h1>'.$L['dateMMM'][date('n',$dCurrentDate)].' '.date('Y',$dCurrentDate).', '.$oH->name.'</h1>';
+echo '<form method="get" action="'.url($oH->php).'" id="cal_month">';
 echo '<input type="hidden" name="s" value="'.$s.'"/> ';
 echo '<input type="hidden" name="y" value="'.$intYear.'"/> ';
 echo L('Month').' <select name="m" onchange="document.getElementById(`cal_month`).submit();">';
 for ($i=1;$i<13;$i++) echo '<option'.($i==date('n') ? ' class="bold"' : '').' value="'.$i.'"'.($i==$intMonth ? ' selected' : '').'>'.$L['dateMMM'][$i].'</option>'.PHP_EOL;
 echo '</select>&nbsp;';
 if ( date('n',$dCurrentDate)>1 )
-  echo '<a class="button" href="'.$oH->selfurl.'?s='.$s.'&m='.(date('n',$dCurrentDate)-1).'">&lt;</a>&thinsp;';
+  echo '<a class="button" href="'.$oH->php.'?s='.$s.'&m='.(date('n',$dCurrentDate)-1).'">&lt;</a>&thinsp;';
 else
   echo '<a class="button disabled">&lt;</a>&thinsp;';
 if ( date('n',$dCurrentDate)<12 )
-  echo '<a class="button" href="'.$oH->selfurl.'?s='.$s.'&m='.(date('n',$dCurrentDate)+1).'">&gt;</a>';
+  echo '<a class="button" href="'.$oH->php.'?s='.$s.'&m='.(date('n',$dCurrentDate)+1).'">&gt;</a>';
 else
   echo '<a class="button disabled">&gt;</a>';
 echo '</form>'.PHP_EOL;

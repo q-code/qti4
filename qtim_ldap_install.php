@@ -27,8 +27,7 @@ if ( SUser::role()!=='A' ) die('Access denied');
 // INITIALISE
 
 define('MODULE', 'ldap');
-$oH->selfurl = 'qtim_'.MODULE.'_install.php';
-$oH->selfname = 'Install module: '.strtoupper(MODULE);
+$oH->name = 'Install module: '.strtoupper(MODULE);
 
 $bStep1 = true;
 

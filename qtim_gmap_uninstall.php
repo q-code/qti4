@@ -27,8 +27,7 @@ if ( SUser::role()!=='A' ) die('Access denied');
 // INITIALISE
 
 define('MODULE', 'gmap');
-$oH->selfurl = 'qtim_'.MODULE.'_uninstall.php';
-$oH->selfname = 'Uninstall module: '.MODULE;
+$oH->name = 'Uninstall module: '.MODULE;
 
 // UNINSTALL
 
@@ -50,7 +49,7 @@ if ( file_exists('qtim_'.MODULE.'_info.txt') )
 echo '<p>'.L('Info').':'.(empty($strInfo) ? '<br>&nbsp;&middot;&nbsp;'.L('none') : $strInfo).'</p><br>
 ';
 
-echo '<h1>',$oH->selfname,'</h1>
+echo '<h1>',$oH->name,'</h1>
 <h2>Removing database settings</h2>
 <p>Ok</p>
 <h2>Uninstall completed</h2>

@@ -102,7 +102,7 @@ foreach(qtExplode($_SESSION[QT]['sse']) as $key=>$value) if ( !defined('SSE_'.st
 // Default HTML settings
 // ------
 $oH->html = '<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" dir="'.(defined('QT_HTML_DIR') ? QT_HTML_DIR : 'ltr').'" xml:lang="'.(defined('QT_HTML_LANG') ? QT_HTML_LANG : 'en').'" lang="'.(defined('QT_HTML_LANG') ? QT_HTML_LANG : 'en').'">';
-$oH->title = $_SESSION[QT]['site_name'];
+$oH->metas[0] = '<title>'.$_SESSION[QT]['site_name'].'</title>';
 $oH->metas[] = '<meta charset="'.QT_HTML_CHAR.'"/>
 <meta name="color-scheme" content="'.QT_COLOR_SCHEME.'"/>
 <meta name="description" content="QT '.APPNAME.'"/>
@@ -113,6 +113,8 @@ $oH->links['cssCore'] = '<link rel="stylesheet" type="text/css" href="bin/css/qt
 $oH->links['css'] = '<link rel="stylesheet" type="text/css" href="'.QT_SKIN.'qti_styles.css"/>';
 if ( file_exists(QT_SKIN.'custom.css') ) $oH->links['cssCustom'] = '<link rel="stylesheet" type="text/css" href="'.QT_SKIN.'custom.css"/>';
 $oH->scripts_top['core'] = '<script type="text/javascript" src="bin/js/qt_core.js"></script>';
+if ( defined('QT_URLCONST') && !empty(QT_URLCONST) )
+$oH->scripts_top[] = '<script type="text/javascript" src="bin/js/qt_urlconst.js" data-url="'.QT_URLCONST.'"></script>';
 $oH->scripts_top[] = 'const acOnClicks = [];'; /* const required before autocomplete api configuration */
 
 // ------

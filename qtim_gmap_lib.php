@@ -78,9 +78,9 @@ class CCanvas
 		if ( $handler ) {
       global $oH;
 			if ( $_SESSION[QT]['m_gmap_hidelist'] ) {
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).qtURI('hidemap').'&showmap">'.qtSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->php).qtURI('hidemap').'&showmap">'.qtSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
 			} else {
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).qtURI('showmap').'&hidemap">'.qtSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->php).qtURI('showmap').'&hidemap">'.qtSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
 			}
 		}
 

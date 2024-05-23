@@ -15,9 +15,8 @@ if ( SUser::role()!=='A' ) die(L('E_13'));
 
 // INITIALISE
 
-$oH->selfurl = 'qti_adm_status_ico.php';
 $oH->exiturl = 'qti_adm_statuses.php';
-$oH->selfname = 'Icons';
+$oH->name = 'Icons';
 $oH->exitname = $L['Status+'];
 
 $arrFiles=array();

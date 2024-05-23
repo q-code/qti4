@@ -8,7 +8,6 @@ require 'bin/init.php';
  * @var string $bt
  * @var string $ft
  */
-$oH->selfurl = 'qti_items_csv.php';
 if ( !SUser::canView('V2') ) $oH->voidPage('user-lock.svg',11,true); //█
 
 // ------
@@ -106,7 +105,7 @@ $sqlCount = 'SELECT count(*) as countid FROM TABTOPIC t'.$sqlWhere;
 $sqlCountAlt='';
 if ( $q!=='' ) {
   include'bin/lib_qti_query.php';
-  $error = sqlQueryParts($sqlFrom,$sqlWhere,$sqlValues,$sqlCount,$sqlCountAlt,$oH->selfuri); //selfuri is not urldecoded
+  $error = sqlQueryParts($sqlFrom,$sqlWhere,$sqlValues,$sqlCount,$sqlCountAlt,$oH->arg); //arg is not urldecoded
   if ( !empty($error) ) die($error);
   if ( $q==='adv' && !empty($v) ) $strLastcol = 'tags'; // forces display column tags
 }

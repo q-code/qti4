@@ -9,7 +9,6 @@ session_start();
  */
 require 'bin/init.php';
 
-$oH->selfurl = 'qti_users.php';
 if ( !SUser::canAccess('show_memberlist') ) $oH->voidPage('user-lock.svg',11,true); //█
 
 // CHANGE USER INTERFACE
@@ -25,7 +24,7 @@ if ( isset($_GET['fg']) ) $fg = substr($_GET['fg'],0,7); // protection against i
 if ( isset($_GET['page']) )  { $pn = (int)$_GET['page']; $sqlStart = ($pn-1)*$_SESSION[QT]['items_per_page']; }
 if ( isset($_GET['order']) ) $po = strip_tags(substr($_GET['order'],0,15)); // protection against injection
 if ( isset($_GET['dir']) ) $pd = strtolower(substr($_GET['dir'],0,4));
-$oH->selfname = L('Memberlist');
+$oH->name = L('Memberlist');
 
 // MAP MODULE
 $useMap=false;
@@ -73,7 +72,7 @@ include 'qti_inc_hd.php';
 // Title and top 5
 // ------
 echo '<div id="ct-title" class="fix-sp top">
-<div><h2>'.$oH->selfname.'</h2>
+<div><h2>'.$oH->name.'</h2>
 <p>'.( $fg=='all' ? $intTotal.' '.L('Members') : $intCount.' / '.$intTotal.' '.L('Members') );
 if ( SUser::canAccess('show_calendar') )echo ' &middot; <a href="'.url('qti_calendar.php').'" style="white-space:nowrap">'.L('Birthdays_calendar').'</a>';
 if ( !empty($formAddUser) ) echo ' &middot; <span style="white-space:nowrap">'.SUser::getStamp(SUser::role(), 'class=stamp08').' <a id="tgl-ctrl" href="javascript:void(0)" class="tgl-ctrl'.(isset($_POST['title']) ? ' expanded' : '').'" onclick="qtToggle(`participants`,`block`,``);qtToggle();">'.L('User_add').qtSVG('angle-down','','',true).qtSVG('angle-up','','',true).'</a></span>';
@@ -109,7 +108,7 @@ if ( !empty($strPaging) ) $strPaging = $L['Page'].$strPaging;
 if ( $intCount<$intTotal ) $strPaging = L('user',$intCount).' '.L('from').' '.$intTotal.(empty($strPaging) ? '' : ' | '.$strPaging);
 
 // -- Display button line (if more that tpp users) and paging --
-if ( $intCount>$_SESSION[QT]['items_per_page'] || $fg!=='all' ) echo htmlLettres(url($oH->selfurl),$fg,L('All'),'lettres',L('Username_starting').' ', $intTotal>300 ? 1 : ($intTotal>2*$_SESSION[QT]['items_per_page'] ? 2 : 3)).PHP_EOL;
+if ( $intCount>$_SESSION[QT]['items_per_page'] || $fg!=='all' ) echo htmlLettres(url($oH->php),$fg,L('All'),'lettres',L('Username_starting').' ', $intTotal>300 ? 1 : ($intTotal>2*$_SESSION[QT]['items_per_page'] ? 2 : 3)).PHP_EOL;
 
 if ( !empty($strPaging) ) echo '<p class="paging">'.$strPaging.'</p>'.PHP_EOL;
 
@@ -132,15 +131,15 @@ $t = new TabTable('id=t1|class=t-user',$intCount);
 $t->thead();
 $t->tbody();
 $t->activecol = 'user'.$po;
-$t->activelink = '<a href="'.$oH->selfurl.'?fg='.$fg.'&po='.$po.'&pd='.($pd=='asc' ? 'desc' : 'asc').'">%s</a> '.qtSVG('caret-'.($pd==='asc' ? 'down' : 'up'));
+$t->activelink = '<a href="'.$oH->php.'?fg='.$fg.'&po='.$po.'&pd='.($pd=='asc' ? 'desc' : 'asc').'">%s</a> '.qtSVG('caret-'.($pd==='asc' ? 'down' : 'up'));
 // TH
 if ( !$bCompact )
 $t->arrTh['userphoto']  = new TabHead(qtSVG('camera'));
-$t->arrTh['username'] = new TabHead(L('Username'), '', '<a href="'.$oH->selfurl.'?fg='.$fg.'&po=name&pd=asc">%s</a>');
-$t->arrTh['userrole'] = new TabHead(L('Role'), '', '<a href="'.$oH->selfurl.'?fg='.$fg.'&po=role&pd=asc">%s</a>');
+$t->arrTh['username'] = new TabHead(L('Username'), '', '<a href="'.$oH->php.'?fg='.$fg.'&po=name&pd=asc">%s</a>');
+$t->arrTh['userrole'] = new TabHead(L('Role'), '', '<a href="'.$oH->php.'?fg='.$fg.'&po=role&pd=asc">%s</a>');
 $t->arrTh['usercontact'] = new TabHead(L('Contact'));
-$t->arrTh['userlocation'] = new TabHead(L('Location'), '', '<a href="'.$oH->selfurl.'?fg='.$fg.'&po=location&pd=asc">%s</a>');
-$t->arrTh['usernumpost'] = new TabHead(qtSVG('comments'), 'class=ellipsis', '<a href="'.$oH->selfurl.'?fg='.$fg.'&po=numpost&pd=desc">%s</a>');
+$t->arrTh['userlocation'] = new TabHead(L('Location'), '', '<a href="'.$oH->php.'?fg='.$fg.'&po=location&pd=asc">%s</a>');
+$t->arrTh['usernumpost'] = new TabHead(qtSVG('comments'), 'class=ellipsis', '<a href="'.$oH->php.'?fg='.$fg.'&po=numpost&pd=desc">%s</a>');
 if ( SUser::isStaff() )
 $t->arrTh['userpriv'] = new TabHead(qtSVG('info'), 'title='.L('Privacy'));
 foreach(array_keys($t->arrTh) as $key)
@@ -237,9 +236,9 @@ if ( $useMap )
     echo '</div>'.PHP_EOL;
     // Show/Hide
     if ( $_SESSION[QT]['m_gmap_hidelist'] ) {
-      echo '<div class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?showmap">'.qtSVG('chevron-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
+      echo '<div class="canvashandler"><a class="canvashandler" href="'.url($oH->php).'?showmap">'.qtSVG('chevron-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
     } else {
-      echo '<div class="canvashandler"><a class="canvashandler" href="'.url($oH->selfurl).'?hidemap">'.qtSVG('chevron-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
+      echo '<div class="canvashandler"><a class="canvashandler" href="'.url($oH->php).'?hidemap">'.qtSVG('chevron-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
     }
   }
   echo '<!-- Map module end -->'.PHP_EOL;

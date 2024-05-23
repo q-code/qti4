@@ -8,7 +8,6 @@ session_start();
  */
 require 'bin/init.php';
 
-$oH->selfurl = 'qti_user.php';
 if ( SUser::role()==='V' ) $oH->voidPage('user-lock.svg',11,true); //█
 
 $id = -1;
@@ -40,7 +39,7 @@ if ( SUser::id()==$id ) $canEdit = true;
 if ( SUser::isStaff() ) $canEdit = true;
 if ( $id==0 ) $canEdit = false;
 if ( !$canEdit ) $edit = false;
-$oH->selfname = L('Profile');
+$oH->name = L('Profile');
 
 // MAP MODULE
 

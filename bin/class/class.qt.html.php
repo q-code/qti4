@@ -15,17 +15,24 @@ public $links = [];
 public $scripts_top = [];
 public $scripts = [];
 public $log = []; // Attention if not empty, is VISIBLE at the bottom of the page.
-public $selfname = '';
-public $selfurl = APP.'_index.php'; // page filename
-public $selfuri = '';
-public $selfparent = ''; // parent name
-public $selfversion= '';
+
+public $php = ''; // script name (without path)
+public $arg = ''; // url arguments (with '?' if not empty)
+public $name = '';
 public $exitname = 'Back';
 public $exiturl = APP.'_index.php';
+
 public $items = 0; // number of items in the page, visible (can be in several pages)
 public $itemsHidden = 0; // number of items in the page, hidden (by users preferences)
 public $error = '';
 public $warning = '';
+
+public function __construct()
+{
+  $this->php = substr($_SERVER['PHP_SELF'], strrpos($_SERVER['PHP_SELF'],'/')+1);
+  if ( !empty($_SERVER['QUERY_STRING']) ) $this->arg = '?'.$_SERVER['QUERY_STRING'];
+}
+
 public function head()
 {
   //push cssContrast as last link
@@ -61,24 +68,23 @@ public function end(bool $allowSplash=true)
 }
 public static function pageEntity(string $attr='', string $info='', string $entity='div')
 {
-  if ( $attr==='/' ) return PHP_EOL.'</'.$entity.'>'.PHP_EOL.($info ? '<!-- end '.$info.' -->'.PHP_EOL : '');
+  if ( $attr==='/' ) return '</'.$entity.'>'.PHP_EOL.($info ? '<!-- end '.$info.' -->'.PHP_EOL : '');
   return ($info ? PHP_EOL.'<!-- start '.$info.' -->' : '').PHP_EOL.'<'.$entity.''.attrRender($attr).'>'.PHP_EOL;
 }
 /**
- * Redirect to the url($u)
- * @param string $u 'self|exit|url' selfurl?selfuri
+ * Redirect
+ * @param string $dest 'self', 'exit' or url
  * @param string $s
  */
-public function redirect(string $u='exit', string $s='Continue')
+public function redirect(string $dest='exit', string $s='Continue')
 {
-  if ( empty($u) ) die(__METHOD__.' arg must be string');
-  if ( $u==='self' ) $u = $this->selfurl.($this->selfuri ?: '');
-  if ( $u==='exit' ) $u = $this->exiturl;
-  $u = url($u);
+  if ( $dest==='self' ) $dest = $this->php.($this->arg ?: '');
+  if ( $dest==='exit' ) $dest = $this->exiturl;
+  $dest = url($dest); // can use urlrewrite
   if ( headers_sent() ) {
-    echo '<a href="'.$u.'">'.$s.'</a><meta http-equiv="REFRESH" content="0;url='.$u.'">';
+    echo '<a href="'.$dest.'">'.$s.'</a><meta http-equiv="REFRESH" content="0;url='.$dest.'">';
   } else {
-    header('Location: '.str_replace('&amp;','&',$u));
+    header('Location: '.str_replace('&amp;','&',$dest));
   }
   exit;
 }
@@ -100,10 +106,10 @@ public static function msgBox(string $title='', string $attr='class=msgbox', str
 public function voidPage(string $title='!', string $content='Access denied', bool $appHeader=false, bool $hideMenuLang=true, string $msgboxAttr='class=msgbox')
 {
   if ( empty($content) ) die(__METHOD__.' invalid argument [content]');
-  if ( empty($title) ) $title = $this->selfname;
+  if ( empty($title) ) $title = $this->name;
   if ( empty($this->exiturl) ) $this->exiturl = APP.'_index.php';
   if ( substr($title,-4)==='.svg' ) $title = qtSVG(substr($title,0,-4)); // title can be a svg
-  $inAdm = strpos($this->selfurl, APP.'_adm')===0; // detect if in admin pages
+  $inAdm = strpos($this->php, APP.'_adm')===0; // detect if in admin pages
 
   // Start app page or blanko page
   if ( $appHeader ) {

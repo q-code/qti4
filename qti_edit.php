@@ -39,12 +39,11 @@ if ( $a==='qu' && !empty($oP->text) ) {
 if ( isset($_POST['text']) ) $oP->text = trim($_POST['text']); // Note: text may be forwarded (not yet submitted) when user changes quickreply to advanced-reply
 
 // Initialise $oH and check $a
-$oH->selfurl = APP.'_edit.php';
 switch($a) {
-  case 'nt': $oH->selfname = L('New_item'); break;
-  case 're': $oH->selfname = L('Reply'); break;
-  case 'qu': $oH->selfname = L('Reply'); break;
-  case 'ed': $oH->selfname = L('Edit_message'); break;
+  case 'nt': $oH->name = L('New_item'); break;
+  case 're': $oH->name = L('Reply'); break;
+  case 'qu': $oH->name = L('Reply'); break;
+  case 'ed': $oH->name = L('Edit_message'); break;
   default: die('Missing parameters a');
 }
 $oH->exiturl = APP.'_item.php?t='.$t; if ( $t<0 ) $oH->exiturl = 'qti_items.php?s='.$s;
@@ -391,9 +390,9 @@ if ( $oT->type==='I' && ($a=='re' || $a=='qu') ) {
 
 // FORM START
 
-echo '<form id="form-edit" method="post" action="'.url($oH->selfurl).'" enctype="multipart/form-data">
+echo '<form id="form-edit" method="post" action="'.url($oH->php).'" enctype="multipart/form-data">
 <div class="flex-sp">
-<h2>'.$oH->selfname.'</h2>
+<h2>'.$oH->name.'</h2>
 ';
 
 if ( SUser::isStaff() ) {

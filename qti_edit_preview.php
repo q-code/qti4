@@ -10,7 +10,6 @@ session_start();
  * @var CDatabase $oDB
  */
 require 'bin/init.php';
-$oH->selfurl = 'qti_edit_preview.php';
 
 $a = '';
 $s = -1;
@@ -22,7 +21,7 @@ if ( !in_array($a,['nt','re','ed','qu','de']) ) die('Invalid parameter a');
 // INITIALISE
 
 $error = '';
-$oH->selfname = L('Message');
+$oH->name = L('Message');
 $intNotified=-1;
 $strNotified='';
 $oS = new CSection($s);
@@ -103,9 +102,9 @@ try {
 }
 
 // PREPARE DISPLAY
-if ( $_POST['a']=='nt' ) { $oH->selfname = L('New_item'); $oP->type = 'P'; }
-if ( $_POST['a']=='ed' ) $oH->selfname = L('Edit');
-if ( $_POST['a']=='qu' || $_POST['a']=='re' ) $oH->selfname = L('Reply');
+if ( $_POST['a']=='nt' ) { $oH->name = L('New_item'); $oP->type = 'P'; }
+if ( $_POST['a']=='ed' ) $oH->name = L('Edit');
+if ( $_POST['a']=='qu' || $_POST['a']=='re' ) $oH->name = L('Reply');
 
 // get user info
 $oDB->query( 'SELECT signature,location,role FROM TABUSER WHERE id='.$oP->userid);

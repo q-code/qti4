@@ -41,9 +41,8 @@ if ( !isset($_SESSION[QT]['reCAPTCHAv2sk']) ) $_SESSION[QT]['reCAPTCHAv2sk']='';
 if ( !isset($_SESSION[QT]['reCAPTCHAv3pk']) ) $_SESSION[QT]['reCAPTCHAv3pk']=''; //public key (site key)
 if ( !isset($_SESSION[QT]['reCAPTCHAv3sk']) ) $_SESSION[QT]['reCAPTCHAv3sk']=''; //secret key (validation api access key)
 
-$oH->selfurl = 'qti_adm_secu.php';
-$oH->selfname = L('Security');
-$oH->selfparent = L('Settings');
+$oH->name = L('Security');
+$parentname = L('Settings');
 switch(QDB_SYSTEM)
 {
   //Note utf-8 coding may consume 4bytes/character, that's why MAXCHAR < varchar limit of the database
@@ -150,7 +149,7 @@ if ( isset($_POST['ok']) ) try {
 include APP.'_adm_inc_hd.php';
 
 echo '
-<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+<form class="formsafe" method="post" action="'.$oH->php.'">
 <h2 class="config">'.L('Public_access_level').'</h2>
 <table class="t-conf">
 <tr title="'.L('H_Visitors_can').'">

@@ -8,7 +8,6 @@ session_start();
  * @var string $s
  */
 require 'bin/init.php';
-$oH->selfurl = APP.'_calendar.php';
 if ( !SUser::canView('V2') || !SUser::canAccess('show_calendar') ) die('Access denied');
 
 // ------
@@ -69,7 +68,7 @@ if ( $intYear<1900 ) die('Invalid year');
 if ( $intMonth>12 ) die('Invalid month');
 if ( $intMonth<1 ) die('Invalid month');
 
-$oH->selfname = L('Birthdays_calendar');
+$oH->name = L('Birthdays_calendar');
 
 // Shift language names and cssWeek to match with weekstart setting, if not 1 (monday)
 
@@ -147,18 +146,18 @@ if ( date('l',$dFirstDay)!=='Monday' )
 
 // DISPLAY MAIN CALENDAR MENU
 echo '<div id="ct-title" class="flex-sp">';
-echo '<h1>',$oH->selfname,': ',$L['dateMMM'][date('n',$dCurrentDate)].' '.date('Y',$dCurrentDate),'</h1>';
-echo '<form method="get" action="',url($oH->selfurl),'" id="cal_month">';
+echo '<h1>',$oH->name,': ',$L['dateMMM'][date('n',$dCurrentDate)].' '.date('Y',$dCurrentDate),'</h1>';
+echo '<form method="get" action="',url($oH->php),'" id="cal_month">';
 echo '<input type="hidden" name="y" id="y" value="',$intYear,'"/> '.PHP_EOL;
 echo L('Month'),' <select name="m" onchange="document.getElementById(`cal_month`).submit();">';
 for ($i=1;$i<13;$i++) echo '<option',($i==date('n') ? ' class="bold"' : ''),' value="',$i,'"',($i==$intMonth ? ' selected' : ''),'>',$L['dateMMM'][$i],'</option>'.PHP_EOL;
 echo '</select>&nbsp;';
 if ( date('n',$dCurrentDate)>1 )
-  echo '<a class="button" href="',$oH->selfurl,'?m=',(date('n',$dCurrentDate)-1),'">&lt;</a>&thinsp;';
+  echo '<a class="button" href="',$oH->php,'?m=',(date('n',$dCurrentDate)-1),'">&lt;</a>&thinsp;';
   else
   echo '<a class="button disabled">&lt;</a>&thinsp;';
 if ( date('n',$dCurrentDate)<12 )
-  echo '<a class="button" href="',$oH->selfurl,'?m=',(date('n',$dCurrentDate)+1),'">&gt;</a>';
+  echo '<a class="button" href="',$oH->php,'?m=',(date('n',$dCurrentDate)+1),'">&gt;</a>';
   else
   echo '<a class="button disabled">&gt;</a>';
 echo '</form>'.PHP_EOL;
@@ -280,7 +279,7 @@ echo '<div class="cal_info left">'.PHP_EOL;
         if ( date('n',$dCurrentDate)==date('n',$d) )
         {
           echo '<td class="date_next '.$arrWeekCss[$intDay].'"'.(date('z',$dToday)==date('z',$d) ? ' id="todaynext"' : '').'>';
-          echo isset($arrEventsN[$idxEvent]) ? '<a class="date_next" href="'.url($oH->selfurl).'?m='.$intMonthN.'">'.$intShiftDay.'</a>' : $intShiftDay;
+          echo isset($arrEventsN[$idxEvent]) ? '<a class="date_next" href="'.url($oH->php).'?m='.$intMonthN.'">'.$intShiftDay.'</a>' : $intShiftDay;
         }
         else
         {

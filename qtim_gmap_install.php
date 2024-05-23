@@ -27,8 +27,7 @@ if ( SUser::role()!=='A' ) die('Access denied');
 // INITIALISE
 
 define('MODULE', 'gmap');
-$oH->selfurl = 'qtim_'.MODULE.'_install.php';
-$oH->selfname = 'Install module: '.MODULE;
+$oH->name = 'Install module: '.MODULE;
 
 $bStep1 = true;
 $bStepZ = true;

@@ -13,10 +13,8 @@ if ( SUser::role()!=='A' ) die(L('E_13'));
 
 // INITIALISE
 $id = ''; qtArgs('id!'); if ( empty($id) ) die('Missing status id...');
-$oH->selfurl = 'qti_adm_status.php';
-$oH->selfuri = 'qti_adm_status.php?id='.$id;
-$oH->selfname = L('Statuses');
-$oH->selfparent = L('Board_content');
+$oH->name = L('Statuses');
+$parentname = L('Board_content');
 $oH->exiturl = 'qti_adm_statuses.php';
 $oH->exitname = qtSVG('angle-left').' '.L('Statuses');
 
@@ -111,7 +109,7 @@ echo '<table>
 </tr>
 </table>
 <br>'.PHP_EOL;
-echo '<form class="formsafe" method="POST" action="'.$oH->selfuri.'">'.PHP_EOL;
+echo '<form class="formsafe" method="POST" action="'.$oH->php.'?id='.$id.'">'.PHP_EOL;
 echo '<h2 class="config">'.L('Definition').'</h2>'.PHP_EOL;
 echo '<table class="t-conf">'.PHP_EOL;
 echo '<tr>';

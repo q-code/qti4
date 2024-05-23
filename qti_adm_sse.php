@@ -26,11 +26,10 @@ include translate('lg_adm.php');
 
 if ( SUser::role()!=='A' ) die(L('E_13'));
 
-$oH->selfurl = 'qti_adm_sse.php';
-$oH->selfname = 'SSE (server-sent events)';
-$oH->selfparent = L('Settings');
-$oH->exiturl = $oH->selfurl;
-$oH->exitname = $oH->selfname;
+$oH->name = 'SSE (server-sent events)';
+$parentname = L('Settings');
+$oH->exiturl = $oH->php;
+$oH->exitname = $oH->name;
 
 // INITIALISE variable $sse_* from $_SESSION[QT]['sse']
 foreach(qtExplode($_SESSION[QT]['sse']) as $key=>$value) {
@@ -75,7 +74,7 @@ include APP.'_adm_inc_hd.php';
 
 // FORM
 echo '
-<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+<form class="formsafe" method="post" action="'.$oH->php.'">
 <h2 class="config">SSE</h2>
 <table class="t-conf">
 ';

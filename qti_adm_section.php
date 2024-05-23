@@ -18,9 +18,8 @@ qtArgs('int:s! int:pan');
 if ( $s<0 ) die('Missing parameters');
 if ( $pan<1 || $pan>3) $pan = 1;
 
-$oH->selfurl = 'qti_adm_section.php';
-$oH->selfname = L('Section_upd');
-$oH->selfparent = L('Board_content');
+$oH->name = L('Section_upd');
+$parentname = L('Board_content');
 $oH->exiturl = 'qti_adm_sections.php';
 $oH->exitname = qtSVG('angle-left').' '.L('Section+');
 
@@ -137,7 +136,7 @@ Unset($arrDest[$oS->pid]);
 $arrDest = array_map(function($str){ return L('Move_to').': '.$str;}, $arrDest);
 
 // DISPLAY TABS
-$m = []; $str = $oH->selfurl.'?s='.$s.'&pan=';
+$m = []; $str = $oH->php.'?s='.$s.'&pan=';
 $m['pan-1'] = L('Settings').       '|href='.$str.'1|id=pan-1|class=pan-tab';
 $m['pan-2'] = L('Display_options').'|href='.$str.'2|id=pan-2|class=pan-tab';
 $m['pan-3'] = L('Translations').   '|href='.$str.'3|id=pan-3|class=pan-tab';
@@ -156,7 +155,7 @@ $wisheddate      = $oS->wisheddate>2 ? 2 : $oS->wisheddate;   // 0=no, 1=optiona
 $wisheddate_dflt = $oS->wisheddate>2 ? $oS->wisheddate-2 : 0; // 3 4 5 = today, day+1, day+2
 if ( $oS->notify===0 ) $oS->notifycc==="0";
 
-echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'?s='.$s.'&pan='.$pan.'">
+echo '<form class="formsafe" method="post" action="'.$oH->php.'?s='.$s.'&pan='.$pan.'">
 <h2 class="subconfig">'.L('Definition').'</h2>
 <table class="t-conf">
 <tr>
@@ -272,7 +271,7 @@ if ( !empty($strFile) ) {
   $addOption = '<option value="'.$strFile.'"'.(empty($oS->getMF('options','logo')) ? '' : 'selected').'>'.L('Specific_image').'</option>';
 }
 
-echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+echo '<form class="formsafe" method="post" action="'.$oH->php.'">
 <table class="t-conf">
 <tr>
 <th><span class="texthead">Logo</span></th>
@@ -360,7 +359,7 @@ $arrDescTrans = SLang::get('secdesc','*','s'.$oS->id);
 
 echo '<p class="small">'.L('E_no_translation').'<strong style="color:#1364B7">'.$oS->title.'</strong></p>
 ';
-echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+echo '<form class="formsafe" method="post" action="'.$oH->php.'">
 <table class="t-conf input100">
 <tr>
 <th>'.L('Title').'</th>

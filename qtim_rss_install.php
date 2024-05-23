@@ -27,8 +27,7 @@ if ( SUser::role()!=='A' ) die('Access denied');
 // INITIALISE
 
 $strVersion='v4.0';
-$oH->selfurl = 'qtim_rss_install.php';
-$oH->selfname = 'Installation module RSS '.$strVersion;
+$oH->name = 'Installation module RSS '.$strVersion;
 
 $bStep0 = true;
 $bStep1 = true;

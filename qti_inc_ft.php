@@ -33,8 +33,8 @@ echo '<div id="main-ft">
 if ( QT_SHOW_JUMPTO ) {
   echo '<select id="jumpto" size="1" onchange="window.location=this.value;">';
   echo '<option disabled selected hidden>',L('Goto'),'...</option>';
-  if ( $oH->selfurl==='qti_search.php' ) echo '<option value="'.url('qti_index.php').'">'.SLang::translate().'</option>';
-  if ( $oH->selfurl!=='qti_search.php' && SUser::canView('V4') ) echo '<option value="'.url('qti_search.php').'">'.L('Advanced_search').'</option>';
+  if ( $oH->php==='qti_search.php' ) echo '<option value="'.url('qti_index.php').'">'.SLang::translate().'</option>';
+  if ( $oH->php!=='qti_search.php' && SUser::canView('V4') ) echo '<option value="'.url('qti_search.php').'">'.L('Advanced_search').'</option>';
   echo sectionsAsOption(-1,[],[],'',32,100,url('qti_items.php').'?s='); // current section is not rejected (allow returning to page 1 or top page)
   echo '</select>';
 }
@@ -52,7 +52,7 @@ echo '
 // ------
 if ( $_SESSION[QT]['board_offline']!=='1' ) {
 if ( $_SESSION[QT]['show_legend']==='1' ) {
-if ( in_array($oH->selfurl,array('index.php','qti_index.php','qti_items.php','qti_calendars.php','qti_item.php')) ) {
+if ( in_array($oH->php,array('index.php','qti_index.php','qti_items.php','qti_calendars.php','qti_item.php')) ) {
 
 // Using stats ($_SectionsStats)
 $stats = isset($_SectionsStats) ? $_SectionsStats : SMem::get('_SectionsStats');
@@ -104,7 +104,7 @@ echo '</div>'.PHP_EOL;
 echo '<div id="aside__legend" style="display:none">'.PHP_EOL;
 echo '<h2>'.L('Legend').'</h2>'.PHP_EOL;
 
-if ( $oH->selfurl==='qti_index.php' )
+if ( $oH->php==='qti_index.php' )
 {
   echo '<p>'.asImg( QT_SKIN.'img/section_0_0.gif', 'title='.L('Ico_section_0_0') ) . ' ' . L('Ico_section_0_0') . '</p>';
   echo '<p>'.asImg( QT_SKIN.'img/section_2_0.gif', 'title='.L('Ico_section_2_0') ) . ' ' . L('Ico_section_2_0') . '</p>';
@@ -114,11 +114,11 @@ else
 {
   echo '<div id="aside__legend__list">';
   echo '<p>'.asImg( QT_SKIN.'img/topic_a_0.gif', 'alt=N|class=i-item' ).' '.L('Ico_item_a').'</p>';
-  if ( QT_LIST_ME && $oH->selfurl!=='qti_item.php' ) echo '<p><svg class="svg-symbol symbol-ireplied"><use href="#symbol-ireplied" xlink:href="#symbol-ireplied"/></svg>'.' '.L('You_reply').'</p>';
+  if ( QT_LIST_ME && $oH->php!=='qti_item.php' ) echo '<p><svg class="svg-symbol symbol-ireplied"><use href="#symbol-ireplied" xlink:href="#symbol-ireplied"/></svg>'.' '.L('You_reply').'</p>';
   echo '<p>'.asImg( QT_SKIN.'img/topic_i_0.gif', 'alt=I|class=i-item' ).' '.L('Ico_item_i').'</p>';
   foreach(CTopic::getStatuses() as $k=>$arrValue)
     echo '<p>'.asImg( QT_SKIN.'img/'.$arrValue['icon'], 'alt=T|class=i-item' ).' '.$arrValue['name'].'</p>';
-  if ( $oH->selfurl==='qti_item.php' ) echo '<p><span title="'.L('Ico_post_r').'">'.qtSVG('comment-dots').'</span> '.L('Ico_post_r').'</p>';
+  if ( $oH->php==='qti_item.php' ) echo '<p><span title="'.L('Ico_post_r').'">'.qtSVG('comment-dots').'</span> '.L('Ico_post_r').'</p>';
   echo '</div>'.PHP_EOL;
 }
 echo '</div>'.PHP_EOL;
@@ -158,7 +158,7 @@ if ( SUser::role()!=='V' || SUser::role().substr($_SESSION[QT]['m_rss_conf'],0,1
 $navMenu->separator = ' &middot; ';
 if ( SUser::role()==='A' ) $navMenu->add('admin', '['.L('Administration').']|id=menu-admin|href=qti_adm_index.php');
 $skip = array_diff(array_keys($navMenu->menu), ['home','privacy','stats','rss','sign','admin']);
-echo '<p id="footer-menu">'.$navMenu->build($oH->selfurl, 'tag=span|onclick=return false', $skip).'</p>'.PHP_EOL;
+echo '<p id="footer-menu">'.$navMenu->build($oH->php, 'tag=span|onclick=return false', $skip).'</p>'.PHP_EOL;
 echo '<p id="footer-credit">powered by <a href="http://www.qt-cute.org">QT-cute</a> <span title="'.VERSION.' '.BUILD.'">v'.VERSION.'</span></p>
 </footer>
 ';
@@ -173,7 +173,7 @@ if ( isset($oDB->stats) ) {
 
 
 // Automatic add script {file.php.js} if existing
-if ( file_exists($oH->selfurl.'.js') )
-$oH->scripts[] = '<script type="text/javascript" src="'.$oH->selfurl.'.js"></script>';
+if ( file_exists($oH->php.'.js') )
+$oH->scripts[] = '<script type="text/javascript" src="'.$oH->php.'.js"></script>';
 
 $oH->end();

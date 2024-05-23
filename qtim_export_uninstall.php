@@ -27,8 +27,7 @@ if ( SUser::role()!=='A' ) die('Access denied');
 // INITIALISE
 
 define('MODULE', 'export');
-$oH->selfurl = 'qtim_'.MODULE.'_uninstall.php';
-$oH->selfname = 'Uninstall module: '.MODULE;
+$oH->name = 'Uninstall module: '.MODULE;
 
 // UNINSTALL
 

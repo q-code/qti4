@@ -28,10 +28,9 @@ if ( SUser::role()!=='A' ) die('Access denied');
 
 // INITIALISE
 
-$oH->selfurl = 'qtim_rss_adm.php';
-$oH->selfname = $L['rss']['Admin'];
-$oH->selfparent = L('Module');
-$oH->selfversion = L('Version').' 4.0';
+$oH->name = $L['rss']['Admin'];
+$parentname = L('Module');
+$moduleversion = L('Version').' 4.0';
 $error = '';
 
 // ------
@@ -81,7 +80,7 @@ $strSize = $arrConf[2];
 
 // FORM
 
-echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+echo '<form class="formsafe" method="post" action="'.$oH->php.'">
 <h2 class="config">'.L('Status').'</h2>
 <table class="t-conf">
 <tr>

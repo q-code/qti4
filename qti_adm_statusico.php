@@ -10,9 +10,8 @@ require 'bin/init.php'; if ( SUser::role()!=='A' ) die(L('E_13'));
 
 // INITIALISE
 
-$oH->selfurl = 'qti_adm_statusico.php';
 $oH->exiturl = 'qti_adm_statuses.php';
-$oH->selfname = 'Icons';
+$oH->name = 'Icons';
 $oH->exitname = L('Statuses');
 
 $arrFiles=array();

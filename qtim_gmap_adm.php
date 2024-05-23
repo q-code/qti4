@@ -27,12 +27,11 @@ function countMapSections(array $sectionsId, array $gmapSectionsSettings=[]) {
 }
 
 // INITIALISE
-$oH->selfurl = 'qtim_gmap_adm.php';
-$oH->selfname = 'Gmap';
-$oH->selfparent = L('Module');
-$oH->selfversion = L('Gmap.Version').' 4.0';
-$oH->exiturl = $oH->selfurl;
-$oH->exitname = $oH->selfname;
+$oH->name = 'Gmap';
+$parentname = L('Module');
+$moduleversion = L('Gmap.Version').' 4.0';
+$oH->exiturl = $oH->php;
+$oH->exitname = $oH->name;
 $useMap = true;
 
 // check register initialized
@@ -113,7 +112,7 @@ function ValidateForm(theForm,enterkeyPressed) {
 include APP.'_adm_inc_hd.php';
 
 echo '
-<form class="formsafe" method="post" action="'.url($oH->selfurl).'">
+<form class="formsafe" method="post" action="'.url($oH->php).'">
 <h2 class="config">'.L('Gmap.Mapping_settings').'</h2>
 <table class="t-conf">
 <tr>

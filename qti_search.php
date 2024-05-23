@@ -11,8 +11,7 @@ if ( !SUser::canAccess('search') ) $oH->voidPage('user-lock.svg',11,true); //█
 
 // INITIALISE
 
-$oH->selfurl = 'qti_search.php';
-$oH->selfname = L('Search');
+$oH->name = L('Search');
 $oH->exitname = L('Search');
 
 // Check certificates
@@ -113,7 +112,7 @@ echo '<h2>'.L('Search_criteria').'</h2>'.PHP_EOL;
 if ( !empty($criteriaError) ) echo '<p class="error">'.$criteriaError.'</p>';
 
 // SEARCH BY KEY
-echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->php).'" autocomplete="off">
 <section class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>'.L('Keywords').' <div id="ac-wrapper-kw"><input required type="text" id="kw" name="fv" size="40" maxlength="64" value="'.($q=='kw' ? qtAttr($fv,0,'&quot;') : '').'" data-multi="1"/></div>*</div>
@@ -134,7 +133,7 @@ foreach($_Sections as $mSec) {
   if ( $mSec['numfield']!=='N' ) { $refExists=true; break; }
 }
 if ( $refExists ) {
-echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->php).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>'.L('Ref').' <div id="ac-wrapper-ref"><input required type="text" id="ref" name="fv" size="5" minlength="1" maxlength="10" value="'.($q=='ref' ? qtAttr($fv,0,'&quot;') : '').'"/>&nbsp;'.L('H_Reference').'</div></div>
@@ -150,7 +149,7 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 
 // SEARCH BY STATUS, DATE & TAGS
 $arrS = SMem::get('_Statuses');
-echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->php).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>'.L('Status').'&nbsp;<select name="fs" size="1">
@@ -175,7 +174,7 @@ if ( $_SESSION[QT]['tags']!='0' ) echo L('With_tag').'&nbsp;<div id="ac-wrapper-
 ';
 
 // SEARCH NAME
-echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->php).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>
@@ -194,7 +193,7 @@ echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
 // when btw is used, v and w are reset to no be visible in other forms
 $date1 = ''; if ( $q=='btw' && strlen($fv)==8 ) { $date1 = substr($fv,0,4).'-'.substr($fv,4,2).'-'.substr($fv,6,2); $fv = ''; }
 $date2 = ''; if ( $q=='btw' && strlen($fw)==8 ) { $date2 = substr($fw,0,4).'-'.substr($fw,4,2).'-'.substr($fw,6,2);  $fw = ''; }
-echo '<form method="post" action="'.url($oH->selfurl).'" autocomplete="off">
+echo '<form method="post" action="'.url($oH->php).'" autocomplete="off">
 <div class="search-box criteria">
 '.qtSVG('search', 'class=filigrane').'
 <div>'.L('Between_date').' <input required type="date" id="date1" name="fv" size="20" value="'.$date1.'" min="2000-01-01"/>

@@ -12,10 +12,9 @@ include translate('lg_adm.php');
 
 // INITIALISE
 
-$oH->selfurl = 'qti_adm_statuses.php';
 $oH->exiturl = 'qti_adm_statuses.php';
-$oH->selfname = L('Statuses');
-$oH->selfparent = L('Board_content');
+$oH->name = L('Statuses');
+$parentname = L('Board_content');
 $oH->exitname = L('Statuses');
 
 // ------
@@ -54,7 +53,7 @@ if ( isset($_POST['ok_show']) ) {
 // ------
 include APP.'_adm_inc_hd.php';
 
-echo '<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+echo '<form class="formsafe" method="post" action="'.$oH->php.'">
 <table class="t-item">
 <tr>
 <th style="width:30px;text-align:center">Id</th>
@@ -94,7 +93,7 @@ echo '
 ';
 
 echo '<h2 class="config">'.L('Display_options').'</h2>
-<form class="formsafe" method="post" action="'.$oH->selfurl.'">
+<form class="formsafe" method="post" action="'.$oH->php.'">
 <table class="t-conf">
 <tr>
 <th style="width:150px"><label for="show_closed">'.L('Show_z').'</label></th>
