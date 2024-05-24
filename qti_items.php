@@ -23,11 +23,10 @@ $fs = ''; // Status [string] {''|status-key}, caution: can be '0'
 $fv = ''; // Searched [string] text (converted to array of strings)
 $fw = ''; // timeframe [string] or userid
 $pn = 1; $po = 'lastpostdate'; $pd = 'desc'; // page number,order,direction
-qtArgs('int:s q fs fv fw int:pn po pd');
+qtArgs('q int+:s fs fv fw int+:pn po char4:pd');
 
 // check args
 if ( empty($q) ) $q = '';
-if ( $q==='' && $s<0 ) die(__FILE__.' Missing argument $s');
 $fv = qtCleanArray($fv); // [array]
 
 // initialise section or void-section and check specific access right

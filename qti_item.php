@@ -11,7 +11,7 @@ if ( !SUser::canView('V3') ) $oH->voidPage('user-lock.svg',11,true); //█
 // ------
 // PRE-INITIALISE
 // ------
-$t = -1; qtArgs('int:t!'); if ( $t<0 ) die('Invalid argument');
+$t = -1; qtArgs('int+:t!');
 $oT = new CTopic($t,SUser::id()); //provide userid to update stats
 $s = $oT->pid;
 

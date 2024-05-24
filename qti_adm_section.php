@@ -11,13 +11,9 @@ if ( SUser::role()!=='A' ) die('Access denied');
 include translate('lg_adm.php');
 
 // INITIALISE
-
 $s = -1; // Section id
 $pan = 1; // TAB 1:definition, 2:display or 3:translation
-qtArgs('int:s! int:pan');
-if ( $s<0 ) die('Missing parameters');
-if ( $pan<1 || $pan>3) $pan = 1;
-
+qtArgs('int+:s! int+:pan'); if ( $pan<1 || $pan>3 ) $pan = 1;
 $oH->name = L('Section_upd');
 $parentname = L('Board_content');
 $oH->exiturl = 'qti_adm_sections.php';

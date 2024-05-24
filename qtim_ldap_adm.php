@@ -19,14 +19,11 @@ include translate('lg_adm.php');
 include APP.'m_ldap_lib.php';
 
 // INITIALISE
-
-$pan=0;
+$pan = 0;
+qtArgs('int+:pan'); if ( $pan>2 ) $pan = 0; // {0|1|2}
 $oH->name = 'LDAP/AD stettings';
 $parentname = L('Module');
 $oH->exiturl = APP.'_adm_secu.php';
-
-qtArgs('int:pan');
-if ( $pan<0 || $pan>2) $pan=0;
 
 if ( !isset($_SESSION[QT]['m_ldap']) ) $_SESSION[QT]['m_ldap']='0';
 if ( !isset($_SESSION[QT]['login_addon']) ) $_SESSION[QT]['login_addon']='0';

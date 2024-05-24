@@ -14,7 +14,7 @@ include translate('lg_adm.php');
 
 $a = '';
 $s = -1;
-qtArgs('a! int:s!'); if ( empty($a) || $s<0 ) die('Missing arg a or s'); // mandatory $a,$s from get or post
+qtArgs('a! int+:s!');
 
 $parentname = L('Board_content');
 $oH->name = L('Section');

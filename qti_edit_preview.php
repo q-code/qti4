@@ -14,8 +14,7 @@ require 'bin/init.php';
 $a = '';
 $s = -1;
 $t = -1;
-qtArgs('int:s! a! int:t!',false,true); // in POST only
-if ( $s<0 ) die('Missing parameters: section id');
+qtArgs('int+:s! a! int:t!',false); // in POST only
 if ( !in_array($a,['nt','re','ed','qu','de']) ) die('Invalid parameter a');
 
 // INITIALISE
