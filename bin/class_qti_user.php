@@ -314,20 +314,19 @@ public static function rename(CDatabase $oDB, int $id=0, string $name='visitor')
   SMem::clear('_NewUser'); // clear memcache
   return $b; // return false in case of query error or transaction failled
 }
-public static function getLastMember(CDatabase $oDB, string $strWhere='')
+public static function getLastMember()
 {
   $arr = [];
-  $oDB->query( 'SELECT max(id) as countid FROM TABUSER WHERE id>=0'.$strWhere);
-  if ( $row=$oDB->getRow() )
+  global $oDB; $oDB->query( "SELECT max(u.id) as maxid,u.name,u.firstdate FROM TABUSER u WHERE u.id>0" );
+  if ( $row = $oDB->getRow() )
   {
-  $arr['newuserid'] = (int)$row['countid'];
-  $oDB->query( 'SELECT name,firstdate FROM TABUSER WHERE id='.$row['countid'] );
-  $row = $oDB->getRow();
-  $arr['newusername'] = $row['name'];
-  $arr['newuserdate'] = (empty($row['firstdate']) ? '0' : substr($row['firstdate'],0,8)); // date only
+    $arr['id'] = (int)$row['maxid'];
+    $arr['name'] = $row['name'];
+    $arr['firstdate'] = (empty($row['firstdate']) ? '0' : substr($row['firstdate'],0,8)); // date only
   }
   return $arr;
 }
+
 public static function addUser(string $username='', string $password='', string $mail='', string $role='U', string $child='0', string $parentmail='', string $secret_q='', string $secret_a='', string $birthday='')
 {
   if ( empty($username) || empty($password) ) die('self::addUser invalid argument');

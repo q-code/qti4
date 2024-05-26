@@ -61,7 +61,7 @@ private function dbFields()
   'replies'=>'items','views'=>'views',
   'modifdate'=>'modifdate','param'=>'param');
 }
-public function setFrom($ref=null)
+private function setFrom($ref=null)
 {
   // $ref can be [null|int|array|obj-class], otherwhise die
   if ( $ref===null || $ref===-1 ) return; // exit with void-instance (default properties)

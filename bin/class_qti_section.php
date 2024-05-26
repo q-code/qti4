@@ -36,9 +36,9 @@ public $replies=0;   // Total replies (type R and F), not D
 public $repliesZ=0;  // Total replies in topics closed (type R,F or  D)
 public $tags=0;      // Number of distinct tags on items in this section
 
-function __construct($ref=null, bool $translate=false)
+function __construct($ident=null, bool $translate=false)
 {
-  $this->setFrom($ref);
+  $this->setFrom($ident);
   if ( $translate ) {
     $this->title = SLang::translate('sec', 's'.$this->id, $this->title);
     $this->descr = SLang::translate('secdesc', 's'.$this->id, '');
@@ -57,7 +57,7 @@ function __construct($ref=null, bool $translate=false)
 // ------
 // IContainer methods
 // ------
-public function setFrom($ref=null)
+private function setFrom($ref=null)
 {
   // $ref can be [null|int|array|obj-class], otherwhise die
   if ( $ref===null ) return; // exit with void-instance (default properties)
@@ -480,12 +480,12 @@ public static function sqlCountItems($s, string $q='topics', string $status='',s
     default: die('CSection::sqlCountItems: Wrong argument (q) '.$q);
   }
 }
-public static function getProperties(string $order='d.titleorder,s.titleorder')
+public static function getAllSections(string $sqlOption='ORDER BY d.titleorder,s.titleorder')
 {
   // Returns an array of all objects properties
   global $oDB;
   $arr = [];
-  $oDB->query( "SELECT s.* FROM TABSECTION s INNER JOIN TABDOMAIN d ON s.domainid=d.id ORDER BY $order" );
+  $oDB->query( "SELECT s.* FROM TABSECTION s INNER JOIN TABDOMAIN d ON s.domainid=d.id $sqlOption" );
   while($row=$oDB->getRow()) {
     $oS = new CSection($row);
     // title,descr,ptitle are not translated

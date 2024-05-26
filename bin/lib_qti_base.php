@@ -36,9 +36,9 @@ function memInit(string $key, $onUnknownKey=false)
   switch($key) {
     case 'settingsage': return time();
     case '_SectionsTitle': return CSection::getTitles();
-    case '_Domains': return CDomain::getProperties(); // ALL domains (including empty/invisible domains), array contains property=>value from CDomain class
-    case '_Sections': return CSection::getProperties(); // ALL sections (including empty/invisible sections), array contains property=>value from CSection class
-    case '_NewUser': global $oDB; return SUser::getLastMember($oDB); // last registered user
+    case '_Domains': return CDomain::getAllDomains(); // ALL domains (including empty/invisible domains), array contains property=>value from CDomain class
+    case '_Sections': return CSection::getAllSections(); // ALL sections (including empty/invisible sections), array contains property=>value from CSection class
+    case '_NewUser': return SUser::getLastMember(); // last registered user
     case '_SectionsStats': return CSection::getSectionsStats(true); // count topics|Z and replies|Z, by section (all)
     case '_Statuses': return SStatus::getAll();
   }
