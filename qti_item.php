@@ -170,26 +170,33 @@ echo '<div id="t1-nav-top" class="nav-top">'.$navCommands.'</div>
 // First message
 $oP = new CPost($oT->firstpostid,1);
 echo $oP->render($oS,$oT,true,true,QT_SKIN,'r1');
-if ( $_SESSION[QT]['tags']!='0' && ($tagEditor || !empty($oT->descr)) )
-{
-  $arrTags= empty($oT->descr) ? array() : explode(';',$oT->descr);
-  echo '<div class="tags right" style="padding:4px 0"><span class="tags" title="'.L('Tags').'">'.qtSVG('tag'.(count($arrTags)>1 ? 's' : '')).'</span>&nbsp; ';
-  if ( $tagEditor )
-  {
-    foreach($arrTags as $k=>$item) $arrTags[$k] = empty($item) ? '' : '<span class="tag" onclick="tagClick(this.innerHTML)" title="..." data-tagdesc="'.$item.'">'.$item.'</span>';
-    echo '<div id="tag-shown" style="display:inline-block">'.implode(' ',$arrTags).'</div>';
-    echo ' &nbsp; <a href="javascript:void(0)" id="tag-ctrl" class="tgl-ctrl" onclick="qtToggle(`tag-container`,`block`,`tag-ctrl`)" title="'.L('Edit').'">'.qtSVG('pen').qtSVG('angle-down','','',true).qtSVG('angle-up','','',true).'</a>'.PHP_EOL;
-    echo '<div id="tag-container" style="display:none"><form method="post" action="'.url($oH->php).'?s='.$s.'&t='.$t.'" onreset="qtFocus(`tag-edit`)">';
-    echo '<input type="hidden" id="tag-dir" value="'.QT_DIR_DOC.'"/><input type="hidden" id="tag-lang" value="'.QT_LANG.'"/>';
+
+// First message tags
+if ( $_SESSION[QT]['tags']!='0' && ($tagEditor || !empty($oT->descr)) ) {
+
+  $tags = qtCleanArray($oT->descr);
+  echo '<div class="tags right" style="padding:4px 0">'.qtSVG('tag'.(count($tags)>1 ? 's' : ''), 'title='.L('Tags')).' ';
+  if ( $tagEditor ) {
+
+    echo '<div id="tag-shown" style="display:inline-block">';
+    foreach($tags as $tag)
+    echo '<span class="tag clickable" onclick="tagClick(this.innerHTML)" title="" data-tagdesc="'.$tag.'">'.$tag.'</span>';
+    echo '</div>';
+    echo ' &nbsp; <a href="javascript:void(0)" id="tag-ctrl" class="tgl-ctrl" onclick="qtToggle(`tag-container`,null,`tag-ctrl`)" title="'.L('Edit').'">'.qtSVG('pen').qtSVG('angle-down','','',true).qtSVG('angle-up','','',true).'</a>'.PHP_EOL;
+    echo '<div id="tag-container" style="display:none">';
+    echo '<div id="ac-wrapper-tag-edit">';
+    echo '<input required type="text" id="tag-edit" size="12" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" data-multi="1" autocomplete="off"/>';
+    echo '<button type="button" class="tag-btn" title="'.L('Reset').'" onclick="qtFocusAfter(`tag-edit`,true); return false;">'.qtSVG('backspace').'</button>&nbsp;';
+    echo '<button type="button" class="tag-btn" title="'.L('Add').'" onclick="tagAdd(); asyncSaveTag('.$t.'); return false;">'.qtSVG('plus').'</button>';
+    echo '<button type="button" class="tag-btn" title="'.L('Delete_tags').'" onclick="tagDel(); asyncSaveTag('.$t.'); return false;">'.qtSVG('minus').'</button>';
     echo '<input type="hidden" id="tag-saved" value="'.qtAttr($oT->descr).'"/>';
     echo '<input type="hidden" id="tag-new" name="tag-new" maxlength="255" value="'.qtAttr($oT->descr).'"/>';
-    echo '<div id="ac-wrapper-tag-edit"><div style="display:flex;align-items:center">';
-    echo '<input required type="text" id="tag-edit" size="12" maxlength="255" placeholder="'.L('Tags').'..." title="'.L('Edit_tags').'" data-multi="1" autocomplete="off"/><button type="reset" class="tag-btn" title="'.L('Reset').'">'.qtSVG('backspace').'</button>&nbsp;<button type="submit" class="tag-btn" title="'.L('Add').'" onclick="tagAdd(); asyncSaveTag('.$t.'); return false;">'.qtSVG('plus').'</button><button type="submit" class="tag-btn"  title="'.L('Delete_tags').'" onclick="tagDel(); asyncSaveTag('.$t.'); return false;">'.qtSVG('minus').'</button>';
-    echo '</div></div></form></div>';
-  }
-  else
-  {
-    foreach($arrTags as $strTag) echo '<span class="tag" title="...">'.$strTag.'</span> ';
+    echo '</div></div>';
+
+  } else {
+
+    foreach($tags as $tag) echo '<span class="tag" title="...">'.$tag.'</span> ';
+
   }
   echo '</div>'.PHP_EOL;
 }

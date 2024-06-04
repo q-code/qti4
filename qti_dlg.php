@@ -80,7 +80,7 @@ function listTags(array $ids, bool $sort=true, bool $format=true, int $max=32) {
   if ( count($arr)===0 ) return array('('.L('none').')');
   if ( $sort ) sort($arr);
   if ( count($arr)>$max ) { $arr = array_slice($arr,0,$max-1); $arr[] = '...'; }
-  if ( $format ) foreach($arr as $k=>$str) $arr[$k]='<span class="tag" onclick="tagClick(this.innerHTML)" data-tagdesc="'.qtAttr($str).'">'.$str.'</span>';
+  if ( $format ) foreach($arr as $k=>$str) $arr[$k]='<span class="tag clickable" onclick="tagClick(this.innerHTML)" data-tagdesc="'.qtAttr($str).'">'.$str.'</span>';
   return $arr;
 }
 

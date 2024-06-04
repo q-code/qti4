@@ -4,8 +4,9 @@ function qtFocus(id) {
 function qtFocusOut(id) {
   const e = document.getElementById(id); if ( e ) e.blur();
 }
-function qtFocusAfter(id) {
+function qtFocusAfter(id, clear=false) {
   const e = document.getElementById(id); if ( !e || e.value===undefined || e.value.length===0 ) return;
+  if ( clear ) { e.value=''; e.focus(); return; }
   // Focus the input and push cursor after the value to avoid having the value selected
   const value = e.value;
   e.value = ''; e.focus(); e.value = value;
