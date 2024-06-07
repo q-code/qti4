@@ -401,7 +401,7 @@ if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)>0 ) {
   echo '<div class="tag-box"><p>'.qtSVG('tags').' '.L('Show_only_tag').'</p>';
   foreach($arrTags as $strTag) echo '<a class="tag" href="'.url('qti_items.php').'?q=adv&s='.$s.'&fv='.urlencode($strTag).'" title="...">'.$strTag.'</a>';
   echo qtSVG('search','','',true).'</div>';
-  $oH->scripts['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
+  $oH->scripts_end['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
 }
 
 // Post-compute user's replied items (for topics having replies). Result is added using js.

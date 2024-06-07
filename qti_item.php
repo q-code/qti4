@@ -68,7 +68,7 @@ $oH->name = L('Messages');
 
 if ( isset($_POST['tag-ok']) && isset($_POST['tag-new']) )
 {
-  $oT->tags = strip_tags(qtAttr($_POST['tag-new'])); // no quote in tags
+  $oT->descr = strip_tags(qtAttr($_POST['tag-new'])); // no quote in tags
   $oT->tagsUpdate();
 }
 
@@ -391,31 +391,30 @@ if ( $useMap ) {
 
 if ( $_SESSION[QT]['tags']!='0' ) {
 
-  $oH->scripts['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
+  $oH->scripts_end['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
   if ( $tagEditor) {
-    $oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>
-    <script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
     $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_tags.js"></script>';
     $oH->scripts[] = 'function asyncSaveTag(item){
-  const tag = document.getElementById("tag-new");
-  fetch( `bin/srv_tagupdate.php?ref='.MD5(QT.session_id()).'&id=${item}&tag=${tag.value}` )
-  .catch( err => console.log(err) );
-}';
-  }
+      const tag = document.getElementById("tag-new");
+      fetch( `bin/srv_tagupdate.php?ref='.MD5(QT.session_id()).'&id=${item}&tag=${tag.value}` )
+      .catch( err => console.log(err) );
+      }';
+    $oH->scripts_end['ac-api'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+}
 
 }
 
 if ( SUser::isStaff() ) {
 
-  $oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>
-  <script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
-  $oH->scripts[] = 'acOnClicks["user"] = function(focusInput,btn) {
+  $oH->scripts['ac-ini'] = 'const acOnClicks = [];'; // required (in case acOnClicks not yet defined)
+  $oH->scripts['ac-src'] = 'acOnClicks["user"] = function(focusInput,btn) {
   if ( focusInput.id=="usr" ) {
     const d = document.getElementById("actorid");
     d.value= btn.dataset.id;
     document.getElementById("submitactor").disabled=false;
-  }
-}';
+    }
+  }';
+  $oH->scripts_end['ac-api'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 
 }
 

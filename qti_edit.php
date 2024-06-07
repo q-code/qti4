@@ -217,7 +217,7 @@ if ( isset($_POST['send']) ) try {
 		$oP->insertPost(); // No topic stat (topic not yet created), No user stat (computed when inserting topic)
 		$oT->insertTopic(true,true,$oP,$oS);
     $oDB->commitTransac();
-    $oS->updStats(array('tags'=>$oS->tags));
+    $oS->updStats(['tags'=>$oS->tags]); // compute stats except 'tags'
     ++$_SESSION[QT.'_usr']['numpost'];
     // location insert
     if ( $useMap && !empty($_POST['coord']) ) CTopic::setCoord($oDB,$oT->id,$_POST['coord']);
@@ -266,7 +266,7 @@ if ( isset($_POST['send']) ) try {
       $oT->setStatus('Z');
     }}
     ++$oS->replies;
-    $oS->updStats(array('items'=>$oS->items,'tags'=>$oS->tags));
+    $oS->updStats(['items'=>$oS->items,'tags'=>$oS->tags]); // compute stats except 'items' and 'tags'
 
     break;
 
@@ -305,13 +305,13 @@ if ( isset($_POST['send']) ) try {
     if ( isset($_POST['topicstatus']) ) {
     if ( $_POST['topicstatus']!=$_POST['oldstatus'] ) {
       $oT->setStatus($_POST['topicstatus']);
-      if ( $_POST['topicstatus']=='Z' || $_POST['oldstatus']=='Z' ) $oS->updStats(array('items'=>$oS->items,'replies'=>$oS->replies,'tags'=>$oS->tags));
+      if ( $_POST['topicstatus']=='Z' || $_POST['oldstatus']=='Z' ) $oS->updStats(['items'=>$oS->items,'replies'=>$oS->replies,'tags'=>$oS->tags]); // compute other stats
     }}
     // topic status (from user)
     if ( isset($_POST['topicstatususer']) ) {
     if ( $_POST['topicstatususer'][0]=='Z' ) {
       $oT->setStatus('Z');
-      $oS->updStats(array('items'=>$oS->items,'replies'=>$oS->replies,'tags'=>$oS->tags));
+      $oS->updStats(['items'=>$oS->items,'replies'=>$oS->replies,'tags'=>$oS->tags]); // compute other stats
     }}
     break;
 	default: die('Invalid edit type');
@@ -614,10 +614,10 @@ if ( $oT->type!=='I' && ($a==='re' || $a==='qu') ) {
 
 if ( $tagEditor || SUser::isStaff() ) {
 
-$oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>
-<script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+$oH->scripts_end['ac-api'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_tags.js"></script>';
-$oH->scripts[] = 'acOnClicks["behalf"] = function(focusInput,btn) {
+$oH->scripts['ac-ini'] = 'const acOnClicks = [];'; // required (in case acOnClicks not yet defined)
+$oH->scripts['ac-src'] = 'acOnClicks["behalf"] = function(focusInput,btn) {
   if ( focusInput.id=="behalf" ) document.getElementById("behalfid").value = btn.dataset.id;
 }
 const arrStatus = {

@@ -58,6 +58,7 @@ const QT_SIMPLESEARCH = true; // Shows simple search popup (false goes directly 
 const QT_LIST_ME = true; // In the ticket list, symbol indicating: i replied to the ticket. Using False will DISABLE the search and the symbol.
 const QT_LIST_TAG = true; // display a quick search link for the tags in section list.
 const QT_JAVA_MAIL = false; // Protect e-mail by a javascript
+const QT_LOWERCASE_TAG = true; // store tags as lowercase (true recommended). With false, tags are case sensitive (ie. user likely inputs "duplicate").
 const QT_WEEKSTART = 1; // Start of the week (use code 1=monday,...,7=sunday)
 const QT_STAFFEDITSTAFF = true; // Staff member can edit posts issued by an other staff member
 const QT_STAFFEDITADMIN = true; // Staff member can edit posts issued by an administrator

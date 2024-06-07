@@ -115,7 +115,6 @@ if ( file_exists(QT_SKIN.'custom.css') ) $oH->links['cssCustom'] = '<link rel="s
 $oH->scripts_top['core'] = '<script type="text/javascript" src="bin/js/qt_core.js"></script>';
 if ( defined('QT_URLCONST') && !empty(QT_URLCONST) )
 $oH->scripts_top[] = '<script type="text/javascript" src="bin/js/qt_urlconst.js" data-url="'.QT_URLCONST.'"></script>';
-$oH->scripts_top[] = 'const acOnClicks = [];'; /* const required before autocomplete api configuration */
 
 // ------
 //  Time setting (for PHP >=5.2)

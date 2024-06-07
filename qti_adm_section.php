@@ -375,8 +375,7 @@ echo '</div></td>
 <th>'.L('Description').'</th>
 <td><div class="languages-scroll">
 ';
-foreach(LANGUAGES as $k=>$values)
-{
+foreach(LANGUAGES as $k=>$values) {
   $arr = explode(' ',$values,2); if ( empty($arr[1]) ) $arr[1]=$arr[0];
   $str = empty($arrDescTrans[$k]) ? '' : $arrDescTrans[$k];
   echo '<p class="iso" title="'.L('Description').' ('.$arr[1].')">'.$arr[0].'</p><p><input type="text" name="desc-'.$k.'" maxlength="254" value="'.$str.'"/></p>'.PHP_EOL;
@@ -405,7 +404,6 @@ echo '
 // HTML END
 
 if ( $pan===1 && count($arrStaff)>15 )
-$oH->scripts['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script>
-<script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+$oH->scripts_end['ac-api'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 
 include APP.'_adm_inc_ft.php';

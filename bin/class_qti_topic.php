@@ -3,12 +3,12 @@
 class CTopic extends AContainer
 {
 
-// AContainer properties:
-// id,pid,title,descr,type,status,items
+// AContainer properties: id,pid,title,descr[csv-tags],type,status,items
+// Note: items are number of replies (first post is part of the topic)
+
 public $numid = -1;
 public $statusdate = '0'; // last status change date
 public $wisheddate = '0';
-public $tags = '';
 public $firstpostid = -1;
 public $lastpostid = -1;
 public $firstpostuser = -1;
@@ -444,40 +444,30 @@ public function setActor(int $intActor=-1, bool $canNotify=true, bool $insertFor
 
 }
 
-// TAGS
-public static function tagsClear($str, bool $dropDuplicate=true)
+/** Returns a csv with unique, QT_LOWERCASE_TAG, trimmed, no-accent, not-empty tags */
+public static function tagsClear(string $str, bool $dropDiacritics=true, bool $commaAsSep=true)
 {
-  if ( is_array($str) ) $str = implode(';',$str);
-  if ( !is_string($str) ) die('tagsClear: wrong argument #1');
-  // Returns a string 'tag1;tag2;tag3' (trimed, no empty entry, no-accent). Note: 0,'0','',' ' are also removed
-  // Returns '' when $str is empty (or only ; , characters )
-  // Dropping duplicate is case INsensitive (keeping the first). Exemple: 'Info;info;DATE;date;INFO;Date' returns 'Info;DATE'
   $str = qtAttr($str); // trim and no doublequote
-  if ( $str==='*' ) return '*'; // used in case of delete all tags
+  if ( $str==='*' ) return '*'; // delete all tags
   if ( empty($str) ) return '';
-  $str = qtDropDiacritics($str);
-  $str = str_replace(',',';',$str);
-  $arr = explode(';',$str);
-  $arrClear = [];
-  $arrClearLC = [];
-  foreach($arr as $str)
-  {
-    $str=trim($str);
-    if ( empty($str) || $str==='*' ) continue; // '*' can be alone, but not inside other tags
-    if ( $dropDuplicate && in_array(strtolower($str),$arrClearLC)) continue;
-    $arrClear[]=$str;
-    $arrClearLC[]=strtolower($str);
-  }
-  return implode(';',$arrClear);
+  if ( $dropDiacritics ) $str = qtDropDiacritics($str);
+  if ( QT_LOWERCASE_TAG ) $str = strtolower($str);
+  if ( $commaAsSep && strpos($str,',')!==false ) $str = str_replace(',',';',$str);
+  return implode(';',qtCleanArray($str));
 }
-public function tagsUpdate()
+/** Change tags and (optionally) updates section stats */
+public function tagsUpdate(CSection $oS=null)
 {
+  if ( substr($this->descr,-1)===';' ) $this->descr = substr($this->descr,0,-1);
   global $oDB;
-  if ( empty($this->descr) || $this->descr==';' ) $this->descr='';
-  if ( !empty($this->descr) && substr($this->descr,-1,1)===';' ) $this->descr = substr($this->descr,0,-1);
-  $oDB->exec( "UPDATE TABTOPIC SET tags=?,modifdate='".date('Ymd His')."' WHERE id=$this->id", [qtAttr($this->descr)] ); // no doublequote
+  $oDB->exec( "UPDATE TABTOPIC SET tags=?,modifdate=? WHERE id=".$this->id, [qtAttr($this->descr),date('Ymd His')] ); // no doublequote
+  // Update section stats
+  if ( is_null($oS) ) return; //█
+  global $oDB;
+  $stats = qtExplode($oS->stats,';'); unset($stats['tags']); // unset to recompute
+  $oS->updStats($stats);
 }
-public function tagsAdd(string $str, $oS=null)
+public function tagsAdd(string $str, CSection $oS=null)
 {
   // Check and format
   $str = CTopic::tagsClear($str); // returns csv distinct tags [string] (can return '' or '*')
@@ -485,52 +475,18 @@ public function tagsAdd(string $str, $oS=null)
   // Append to current and clear (to remove duplicate)
   $this->descr = CTopic::tagsClear($this->descr.';'.$str);
   // Save
-  $this->tagsUpdate();
-  // Update section stats (if tags added)
-  if ( is_null($oS) ) return; //█
-  if ( is_int($oS) ) $oS = new CSection($oS);
-  if ( is_a($oS,'CSection') ) {
-    if ( count(explode(';',$this->descr))>0 ) {
-      global $oDB;
-      $stats = qtExplode($oS->stats,';');
-      $stats['tags'] = $oDB->count(CSection::sqlCountItems($oS->id,'tags'));
-      $oS->stats = qtImplode($stats,';');
-      $oS->updateMF('stats');
-    }
-  }
+  $this->tagsUpdate($oS);
 }
-public function tagsDel(string $str, $oS=null)
+public function tagsDel(string $str, CSection $oS=null)
 {
   if  ( empty($this->descr) || empty($str) ) return false;
   // Check and format
-  $str = CTopic::tagsClear($str); // returns ssv distinct tags [string] (can return '' or '*')
+  $str = self::tagsClear($str); // distinct tags (lowercased by config). Can return '' or '*'.
   if ( empty($str) ) return false;
   // Build new tags list
-  if ( $str==='*' )
-  {
-    $this->descr='';
-  }
-  else
-  {
-    $arrTag = explode(';',$this->descr); // Current tags
-    $arrDel = explode(';',strtolower($str)); // Tag to delete
-    $arr = []; // new tags
-    foreach($arrTag as $tag) if ( !in_array(strtolower($tag),$arrDel) ) $arr[]=$tag; // keep not deleted tags
-    $this->descr = implode(';',$arr);
-  }
+  $this->descr = $str==='*' ? '' : implode(';', array_diff(explode(';',$this->descr), explode(';',$str)));
   // Save
-  $this->tagsUpdate();
-
-  // Update section stats
-  if ( is_null($oS) ) return; //█
-  if ( is_int($oS) ) $oS = new CSection($oS);
-  if ( is_a($oS,'CSection') ) {
-    global $oDB;
-    $stats = qtExplode($oS->stats,';');
-    $stats['tags'] = $oDB->count(CSection::sqlCountItems($oS->id,'tags'));
-    $oS->stats = qtImplode($stats,';');
-    $oS->updateMF('stats');
-  }
+  $this->tagsUpdate($oS);
 }
 
 /**

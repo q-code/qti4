@@ -455,8 +455,8 @@ public static function sqlCountItems($s, string $q='topics', string $status='',s
   if ( $days<1 ) die('CSection::sqlCountItems: Wrong argument #2 (d<1)');
   // Items Alias
   if ( $q==='*' || empty($q) || $q==='-1' ) $q = 'topics';
-  if ( $q=='unreplied' ) { $status='0'; $year=''; $where.= " AND t.replies=0 AND t.firstpostdate<'".addDate(date('Ymd His'),-$days,'day')."'"; }
-  if ( $q=='tags' ) { $where.= " AND t.tags<>''"; } // count items having tag(s)
+  if ( $q==='unreplied' ) { $status='0'; $year=''; $where.= " AND t.replies=0 AND t.firstpostdate<'".addDate(date('Ymd His'),-$days,'day')."'"; }
+  if ( $q==='tags' ) { $where.= " AND t.tags<>''"; } // count items having tag(s)
   // build sql criteria
   $s = $s==='*' || $s==='' || $s==='-1' ? 'section>=0' : 'section='.$s; // add p. or t. in the query
   if ( $status!=='' ) $status = " AND t.status='$status'";
@@ -494,24 +494,22 @@ public static function getAllSections(string $sqlOption='ORDER BY d.titleorder,s
   }
   return $arr;
 }
-public function updStats($arrValues=array(),$bLastPostDate=false,$bReplies=false)
+/** Recompute stats, except for provided values */
+public function updStats(array $values=[], bool $bLastPostDate=false, bool $bReplies=false)
 {
-  if ( $this->id<0 ) die('CSection::updStats Wrong id');
-
+  if ( $this->id<0 ) die(__METHOD__.' Wrong id');
   // Process (provided values are not recomputed)
   global $oDB;
-  if ( !isset($arrValues['items']) )   $arrValues['items']  = $oDB->count( CSection::sqlCountItems($this->id,'topics') );
-  if ( !isset($arrValues['replies']) )  $arrValues['replies'] = $oDB->count( CSection::sqlCountItems($this->id,'replies') );
-  if ( !isset($arrValues['tags']) )     $arrValues['tags']    = $oDB->count( CSection::sqlCountItems($this->id,'tags') );
-  if ( !isset($arrValues['itemsZ']) )  $arrValues['itemsZ'] = $oDB->count( CSection::sqlCountItems($this->id,'topics','1') );
-  if ( !isset($arrValues['repliesZ']) ) $arrValues['repliesZ']= $oDB->count( CSection::sqlCountItems($this->id,'repliesZ') );
-
-  $this->stats = qtImplode($arrValues,';');
+  if ( !isset($values['items']) )    $values['items'] = $oDB->count( self::sqlCountItems($this->id,'topics') );
+  if ( !isset($values['replies']) )  $values['replies'] = $oDB->count( self::sqlCountItems($this->id,'replies') );
+  if ( !isset($values['tags']) )     $values['tags'] = $oDB->count( self::sqlCountItems($this->id,'tags') );
+  if ( !isset($values['itemsZ']) )   $values['itemsZ'] = $oDB->count( self::sqlCountItems($this->id,'topics','1') );
+  if ( !isset($values['repliesZ']) ) $values['repliesZ']= $oDB->count( self::sqlCountItems($this->id,'repliesZ') );
+  $this->stats = qtImplode($values,';');
   $this->updateMF('stats'); // also send sse
   // Update lastpostdate or replies of EACH item in this section
-  //!!!if ( $bLastPostDate ) CSection::updLastPostDate($this->id); // used after import or prune
-  if ( $bReplies ) CSection::updEachItemReplies($this->id);  // used after import
-
+  //!!!if ( $bLastPostDate ) self::updLastPostDate($this->id); // used after import or prune
+  if ( $bReplies ) self::updEachItemReplies($this->id);  // used after import
   return $this->stats;
 }
 public function updEachItemReplies()

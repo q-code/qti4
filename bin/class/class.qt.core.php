@@ -14,7 +14,7 @@ Compatible with php 7.1 (typed-properties requires php 7.4, typed-return method 
  */
 abstract class AContainer
 {
-  public $id = -1;            // [int] unique id
+  public $id = -1;            // [int] unique id (-1 means void-container)
   public $title = 'untitled'; // [string] (mandatory) name
   public $pid = -1;           // [int] parent unique id (-1 means no-parent)
   public $ptitle = '';        // [string] (optional) parent name

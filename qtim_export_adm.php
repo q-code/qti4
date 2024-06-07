@@ -105,7 +105,7 @@ if ( isset($_POST['ok']) )
       if ( !empty($oT->x) )             echo '<x>'.$oT->x.'</x>'.PHP_EOL;
       if ( !empty($oT->y) )             echo '<y>'.$oT->y.'</y>'.PHP_EOL;
       if ( !empty($oT->z) )             echo '<z>'.$oT->z.'</z>'.PHP_EOL;
-      if ( !empty($oT->tags) )          echo '<tags>'.$oT->tags.'</tags>'.PHP_EOL;
+      if ( !empty($oT->descr) )          echo '<tags>'.$oT->descr.'</tags>'.PHP_EOL;
       if ( !empty($oT->param) )         echo '<param>'.$oT->param.'</param>'.PHP_EOL;
 
       echo '<posts>'.PHP_EOL;
