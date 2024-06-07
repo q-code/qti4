@@ -37,7 +37,8 @@ function addHrefData(d, args) {
   }
 }
 
-// Specific autocomplete-click
+// Specific autocomplete-click, requires acOnclicks check (must be VAR to be global)
+if ( typeof acOnClicks==="undefined" ) { var acOnClicks = []; }
 acOnClicks["ref"] = function(focusInput,btn) {
   if ( focusInput.id=="ref" && focusInput.value.substring(0,1)=="#") window.location="qti_item.php?t="+focusInput.value.substring(1);
 }

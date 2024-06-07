@@ -399,22 +399,22 @@ if ( $_SESSION[QT]['tags']!='0' ) {
       fetch( `bin/srv_tagupdate.php?ref='.MD5(QT.session_id()).'&id=${item}&tag=${tag.value}` )
       .catch( err => console.log(err) );
       }';
-    $oH->scripts_end['ac-api'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+    $oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 }
 
 }
 
 if ( SUser::isStaff() ) {
 
-  $oH->scripts['ac-ini'] = 'const acOnClicks = [];'; // required (in case acOnClicks not yet defined)
-  $oH->scripts['ac-src'] = 'acOnClicks["user"] = function(focusInput,btn) {
+  $oH->scripts['ac'] = 'if ( typeof acOnClicks==="undefined" ) { var acOnClicks = []; }
+  acOnClicks["user"] = function(focusInput,btn) {
   if ( focusInput.id=="usr" ) {
     const d = document.getElementById("actorid");
     d.value= btn.dataset.id;
     document.getElementById("submitactor").disabled=false;
     }
   }';
-  $oH->scripts_end['ac-api'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+  $oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 
 }
 

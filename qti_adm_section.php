@@ -404,6 +404,6 @@ echo '
 // HTML END
 
 if ( $pan===1 && count($arrStaff)>15 )
-$oH->scripts_end['ac-api'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+$oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 
 include APP.'_adm_inc_ft.php';
