@@ -85,8 +85,8 @@ foreach($_Domains as $domId=>$pDomain) {
     $t->arrTd[0]->content = asImg( CSection::makeLogo($logofile,$mSec['type'],$mSec['status']), 'title='.L('Ico_section_'.$mSec['type'].'_'.$mSec['status']), url('qti_items.php?s='.$idSec) );
     $t->arrTd[1]->content = '<a class="section" href="'.url('qti_items.php?s='.$idSec).'">'.$mSec['title'].'</a>'.(empty($mSec['descr']) ? '' : '<br><span class="sectiondesc">'.$mSec['descr'].'</span>');
     $t->arrTd[2]->content = $strLastpost;
-    $t->arrTd[3]->content = qtK($mSec['items']);   $t->arrTd[3]->add('id',$sseId.'items');
-    $t->arrTd[4]->content = qtK($mSec['replies']); $t->arrTd[4]->add('id',$sseId.'replies');
+    $t->arrTd[3]->content = qtK($mSec['items']);   $t->arrTd[3]->set('id',$sseId.'items');
+    $t->arrTd[4]->content = qtK($mSec['replies']); $t->arrTd[4]->set('id',$sseId.'replies');
     echo $t->getTDrow('class=hover');
   }
   echo $t->tbody->end();

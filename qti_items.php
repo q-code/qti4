@@ -254,7 +254,7 @@ $t->arrTh['replies'] = new TabHead(L('Reply+'), '', '<a href="'.$oH->php.$oH->ar
 if ( in_array($strLastcol,['id','views','status','tags','wisheddate','notifiedname']) )
 $t->arrTh[$strLastcol] = new TabHead(L(ucfirst($strLastcol)), '', '<a href="'.$oH->php.$oH->arg.'&po='.$strLastcol.'&pd=desc">%s</a>');
 // add class c-$k
-foreach(array_keys($t->arrTh) as $k) $t->arrTh[$k]->add('class', 'c-'.$k);
+foreach(array_keys($t->arrTh) as $k) $t->arrTh[$k]->set('class', 'c-'.$k);
 // append class secondary
 foreach(['firstpostname','tags','userlocation','usernumpost','views','prefix'] as $k) {
   if ( isset($t->arrTh[$k])) $t->arrTh[$k]->append('class', 'secondary');
@@ -335,7 +335,7 @@ while( $row = $oDB->getRow() ) {
   if ( $useNewsOnTop && !empty($row['typea']) && $row['typea']==='Z' ) {
     $useNewsOnTop = false; // end of news on top
     echo $t->tbody->end();
-    $t->tbody->add('data-dataset', 'items');
+    $t->tbody->set('data-dataset', 'items');
     echo $t->tbody->start();
   }
 
@@ -343,10 +343,10 @@ while( $row = $oDB->getRow() ) {
   $t->setTDcontent(formatItemRow('t1', $t->getTHnames(), $row, $oS, $arrOptions), false); // adding extra columns not allowed
   // dynamic style
   if ( isset($t->arrTd['status']) )
-  $t->arrTd['status']->add('style', empty($arrS[$row['status']]['color']) ? '' : 'background-color:'.$arrS[$row['status']]['color']);
+  $t->arrTd['status']->set('style', empty($arrS[$row['status']]['color']) ? '' : 'background-color:'.$arrS[$row['status']]['color']);
   // add id in each cell (cse-sse)
   foreach(array_keys($t->arrTd) as $tdname)
-  $t->arrTd[$tdname]->add('id','t'.$row['id'].'-c-'.$tdname);
+  $t->arrTd[$tdname]->set('id','t'.$row['id'].'-c-'.$tdname);
   // add checkbox if edit mode
   if ( $_SESSION['EditByRows'] && $row['posttype']==='P' )
   $t->arrTd['checkbox']->content = '<input type="checkbox" name="t1-cb[]" id="t1-cb-'.$row['id'].'" value="'.$row['id'].'"/>';
