@@ -73,7 +73,7 @@ if ( !defined('HIDE_MENU_TOC') || !HIDE_MENU_TOC )
   $navMenu->add(L('Board_content'). '|tag=p|class=group');
   $navMenu->add(L('Section+').      '|href=qti_adm_sections.php|class=item|activewith=qti_adm_section.php qti_adm_domain.php');
   $navMenu->add(L('Item+').         '|href=qti_adm_items.php|class=item');
-  $navMenu->add(L('Statuses').      '|href=qti_adm_statuses.php|class=item|activewith=qti_adm_status.php');
+  $navMenu->add(L('Status+').       '|href=qti_adm_statuses.php|class=item|activewith=qti_adm_status.php');
   $navMenu->add(L('Tags').          '|href=qti_adm_tags.php|class=item');
   $navMenu->add(L('Users').         '|href=qti_adm_users.php|class=item|activewith=qti_adm_users_exp.php qti_adm_users_imp.php');
   echo '<div class="group">'.$navMenu->build($oH->php).'</div>';
