@@ -322,4 +322,11 @@ if ( $useMap && !$_SESSION[QT]['m_gmap_hidelist'] )
   include 'qtim_gmap_load.php';
 }
 
+// Symbols
+$oH->symbols[] = qtSvgSymbol('envelope');
+$oH->symbols[] = qtSvgSymbol('home');
+$oH->symbols[] = qtSvgSymbol('map-marker-alt');
+$oH->symbols[] = qtSvgSymbol('key');
+$oH->symbols[] = qtSvgSymbol('door-open');
+
 include 'qti_inc_ft.php';

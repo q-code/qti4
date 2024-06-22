@@ -403,4 +403,8 @@ if ( $useMap )
   include 'qtim_gmap_load.php';
 }
 
+// Symbols
+$oH->symbols[] = qtSvgSymbol('key');
+$oH->symbols[] = qtSvgSymbol('door-open');
+
 include 'qti_inc_ft.php';
