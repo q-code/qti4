@@ -121,4 +121,4 @@ if ( !empty($error) ) echo '<p><span class="error">'.$error.'</span></p>';
 
 echo $oP->render($oS,$oT,true,'',QT_SKIN,'1');
 
-echo '<p class="right">'.( empty($oP->attach) ? '' : '<small>'.qtSVG('info').' '.L('No_attachment_preview').'</small>').'</p><br>';
+echo '<p class="right">'.( empty($oP->attach) ? '' : '<small>'.qtSvg('info').' '.L('No_attachment_preview').'</small>').'</p><br>';

@@ -16,7 +16,7 @@ $id = ''; qtArgs('id!'); if ( empty($id) ) die('Missing status id...');
 $oH->name = L('Statuses');
 $parentname = L('Board_content');
 $oH->exiturl = 'qti_adm_statuses.php';
-$oH->exitname = qtSVG('angle-left').' '.L('Statuses');
+$oH->exitname = qtSvg('angle-left').' '.L('Statuses');
 
 // ------
 // SUBMITTED

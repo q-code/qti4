@@ -80,7 +80,7 @@ foreach($_Domains as $domId=>$pDomain) {
     $logofile = empty($mSec['options']) ? '' : qtExplodeGet($mSec['options'],'logo',''); // specific logo, or '' for default logo
     if ( $mSec['items']>0 ) {
       $strLastpost = qtDate($mSec['lastpostdate'],'$','$',true,true,true, $sseId.'lastpostdate');
-      $strLastpost .= ' <a id="'.$sseId.'lastpostid" class="lastitem" href="'.url('qti_item.php').'?t='.$mSec['lastpostpid'].'#p'.$mSec['lastpostid'].'" title="'.L('Goto_message').'">'.qtSVG('caret-square-right').'</a><br><small>'.L('by').' <a id="'.$sseId.'lastpostuser" href="'.url('qti_user.php').'?id='.$mSec['lastpostuser'].'">'.$mSec['lastpostname'].'</a></span>';
+      $strLastpost .= ' <a id="'.$sseId.'lastpostid" class="lastitem" href="'.url('qti_item.php').'?t='.$mSec['lastpostpid'].'#p'.$mSec['lastpostid'].'" title="'.L('Goto_message').'">'.qtSvg('caret-square-right').'</a><br><small>'.L('by').' <a id="'.$sseId.'lastpostuser" href="'.url('qti_user.php').'?id='.$mSec['lastpostuser'].'">'.$mSec['lastpostname'].'</a></span>';
     }
     $t->arrTd[0]->content = asImg( CSection::makeLogo($logofile,$mSec['type'],$mSec['status']), 'title='.L('Ico_section_'.$mSec['type'].'_'.$mSec['status']), url('qti_items.php?s='.$idSec) );
     $t->arrTd[1]->content = '<a class="section" href="'.url('qti_items.php?s='.$idSec).'">'.$mSec['title'].'</a>'.(empty($mSec['descr']) ? '' : '<br><span class="sectiondesc">'.$mSec['descr'].'</span>');
@@ -133,6 +133,6 @@ rows.forEach( (row) => {
 });';
 
 // Symbols
-$oH->symbols[] = qtSVG('symbol-caret-square-right');
+$oH->symbols[] = qtSvgSymbol('caret-square-right.svg', L('Goto_message'));
 
 include 'qti_inc_ft.php';

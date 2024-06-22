@@ -117,7 +117,7 @@ if ( $q==='' ) {
   }
   $navCommands = '<a'.attrRender($def).'>'.L('New_item').'</a>';
 }
-$navCommands .= '<a class="button btn-search" href="'.url('qti_search.php').$oH->arg.'" title="'.L('Search').'">'.qtSVG('search').'</a>';
+$navCommands .= '<a class="button btn-search" href="'.url('qti_search.php').$oH->arg.'" title="'.L('Search').'">'.qtSvg('search').'</a>';
 
 $strPaging = makePager( url($oH->php).$oH->arg, $intCount, (int)$_SESSION[QT]['items_per_page'], $pn);
 if ( $strPaging!='') $strPaging = L('Page').$strPaging;
@@ -205,7 +205,7 @@ if ( !empty($pageTitle) || !empty($ui) ) {
   echo '</div>'.PHP_EOL;
 }
 
-if  ( !empty($sqlWarning) ) echo '<p class="warning">'.qtSVG('exclamation-triangle').' '.$sqlWarning.'</p>';
+if  ( !empty($sqlWarning) ) echo '<p class="warning">'.qtSvg('exclamation-triangle').' '.$sqlWarning.'</p>';
 
 $navCommands = $oH->backButton().$navCommands.$navCommandsRefine;
 
@@ -216,7 +216,7 @@ if ( $intCount==0 ) {
   echo '<div class="nav-top">'.$navCommands.'</div>'.PHP_EOL;
   echo '<p class="center" style="margin:1rem 0">'.L('No_result').'...</p>';
   if ( $oS->type==='2' && !SUser::isStaff() ) echo '<p class="center">'.L('Only_your_items').'</p>';
-  if ( $intCount ) echo '<p class="center">'.qtSVG('exclamation-triangle').' '.L('Closed_item',$intCount).'. '.L('Closed_hidden_by_pref').' (<a href="javascript:void(0)" onclick="let d=document.getElementById(`pref`); if ( d) {d.value=`toggleclosed`;doSubmit(`formPref`);}">'.L('show').' '.L('closed_items').'</a>).</p>';
+  if ( $intCount ) echo '<p class="center">'.qtSvg('exclamation-triangle').' '.L('Closed_item',$intCount).'. '.L('Closed_hidden_by_pref').' (<a href="javascript:void(0)" onclick="let d=document.getElementById(`pref`); if ( d) {d.value=`toggleclosed`;doSubmit(`formPref`);}">'.L('show').' '.L('closed_items').'</a>).</p>';
   // alternate query
   $arg = 's=-1&q='.$q;
   if ( $q==='user' || $q==='kw' || $q==='adv' ) $arg .= '&fv='.implode(';',$fv).'&fw='.urlencode($fw);
@@ -236,7 +236,7 @@ $useNewsOnTop = $_SESSION[QT]['news_on_top'];
 // arg contains arguments WITHOUT order,dir
 $t = new TabTable('id=t1|class=t-item table-cb', $intCount);
 $t->activecol = $po;
-$t->activelink = '<a href="'.$oH->php.$oH->arg.'&po='.$po.'&pd='.($pd==='asc' ? 'desc' : 'asc').'">%s</a> '.qtSVG('caret-'.($pd==='asc' ? 'up' : 'down'));
+$t->activelink = '<a href="'.$oH->php.$oH->arg.'&po='.$po.'&pd='.($pd==='asc' ? 'desc' : 'asc').'">%s</a> '.qtSvg('caret-'.($pd==='asc' ? 'up' : 'down'));
 $t->thead();
 $t->tbody('data-dataset='.($useNewsOnTop ? 'newsontop' : 'items'));
 // TH (note: class are defined after).
@@ -284,7 +284,7 @@ if ( $_SESSION['EditByRows'] ) {
 // Buttons and paging
 echo '<div id="t1-nav-top" class="nav-top">'.$navCommands.'</div>'.PHP_EOL;
 echo '<div id="tabletop" class="table-ui top">';
-echo $rowCommands ? '<div id="t1-edits-top" class="left rowcmds" data-table="t1">'.qtSVG('corner-up-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
+echo $rowCommands ? '<div id="t1-edits-top" class="left rowcmds" data-table="t1">'.qtSvg('corner-up-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
 echo '<div class="right">'.$strPaging.'</div></div>'.PHP_EOL;
 
 // === TABLE START DISPLAY ===
@@ -387,10 +387,10 @@ if ( SUser::isStaff() && !empty($_SESSION['EditByRows']) ) echo '</form>'.PHP_EO
 
 // BUTTON LINE AND PAGER
 $strCsv = '';
-if ( SUser::isStaff() && !empty($_SESSION['EditByRows'])) $strCsv .= '<a id="cmd-export-selected" class="csv" href="javascript:void(0)" title="'.L('H_Csv').' ('.L('selected').')">'.L('Export').qtSVG('check-square').'</a> &middot; ';
+if ( SUser::isStaff() && !empty($_SESSION['EditByRows'])) $strCsv .= '<a id="cmd-export-selected" class="csv" href="javascript:void(0)" title="'.L('H_Csv').' ('.L('selected').')">'.L('Export').qtSvg('check-square').'</a> &middot; ';
 $strCsv .= SUser::role()==='V' ? '' : htmlCsvLink(url('qti_items_csv.php').$oH->arg, $intCount, $pn);
 echo '<div id="tablebot" class="table-ui bot">';
-echo $rowCommands ? '<div id="t1-edits-bot" class="left rowcmds" data-table="t1">'.qtSVG('corner-down-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
+echo $rowCommands ? '<div id="t1-edits-bot" class="left rowcmds" data-table="t1">'.qtSvg('corner-down-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
 echo '<div class="right">'.$strPaging.'</div></div>'.PHP_EOL;
 echo '<p class="right table-ui-export">'.$strCsv.'</p>'.PHP_EOL;
 echo '<div id="t1-nav-bot" class="nav-bot">'.$navCommands.'</div>'.PHP_EOL;
@@ -398,9 +398,9 @@ echo '<div id="t1-nav-bot" class="nav-bot">'.$navCommands.'</div>'.PHP_EOL;
 // TAGS FILTRING
 if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)>0 ) {
   sort($arrTags);
-  echo '<div class="tag-box"><p>'.qtSVG('tags').' '.L('Show_only_tag').'</p>';
+  echo '<div class="tag-box"><p>'.qtSvg('tags').' '.L('Show_only_tag').'</p>';
   foreach($arrTags as $strTag) echo '<a class="tag" href="'.url('qti_items.php').'?q=adv&s='.$s.'&fv='.urlencode($strTag).'" title="...">'.$strTag.'</a>';
-  echo qtSVG('search','','',true).'</div>';
+  echo qtSvg('search','','',true).'</div>';
   $oH->scripts_end['tagdesc'] = '<script type="text/javascript" src="bin/js/qt_tagdesc.js" data-dir="'.QT_DIR_DOC.'" data-lang="'.QT_LANG.'"></script>';
 }
 
@@ -535,12 +535,14 @@ if ( typeof EventSource==="undefined" ) {
 } // TIPS: sse-constants MUST be VAR to be available in other javascript
 
 // Symbols
-$oH->symbols[] = qtSVG('symbol-caret-square-right');
-if ( QT_LIST_ME ) $oH->symbols[] = qtSVG('symbol-ireplied');
-if ( $_SESSION[QT]['upload']!=='0' ) $oH->symbols[] = qtSVG('symbol-paperclip');
+$oH->symbols[] = qtSvgSymbol('caret-square-right.svg', L('Goto_message'));
+if ( QT_LIST_ME )
+$oH->symbols[] = qtSvgSymbol('ireplied.svg');
+if ( $_SESSION[QT]['upload']!=='0' )
+$oH->symbols[] = qtSvg('paperclip');
 if ( !empty($_SESSION[QT]['tags']) ) {
-  $oH->symbols[] = qtSVG('symbol-tag');
-  $oH->symbols[] = qtSVG('symbol-tags');
+  $oH->symbols[] = qtSvgSymbol('tag');
+  $oH->symbols[] = qtSvgSymbol('tags');
 }
 
 include 'qti_inc_ft.php';

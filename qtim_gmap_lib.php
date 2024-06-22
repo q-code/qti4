@@ -78,9 +78,9 @@ class CCanvas
 		if ( $handler ) {
       global $oH;
 			if ( $_SESSION[QT]['m_gmap_hidelist'] ) {
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->php).qtURI('hidemap').'&showmap">'.qtSVG('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->php).qtURI('hidemap').'&showmap">'.qtSvg('caret-down').' '.L('Gmap.Show_map').'</a></div>'.PHP_EOL;
 			} else {
-      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->php).qtURI('showmap').'&hidemap">'.qtSVG('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
+      $str .= '<div id="canvashandler" class="canvashandler"><a class="canvashandler" href="'.url($oH->php).qtURI('showmap').'&hidemap">'.qtSvg('caret-up').' '.L('Gmap.Hide_map').'</a></div>'.PHP_EOL;
 			}
 		}
 
@@ -119,7 +119,7 @@ class CCanvas
   public function Footer($str='find', $id='', $class='footer')
 	{
      if ( $str==='find' ) {
-       $str = L('Gmap.addrlatlng').' <input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('map_H_addrlatlng').'" onkeypress="if ((event.key!==undefined && event.key==`Enter`) || (event.keyCode!==undefined && event.keyCode==13)) showLocation(this.value,null);"/><span id="btn-geocode" title="'.L('Search').'" onclick="showLocation(document.getElementById(`find`).value,null);">'.qtSVG('search').'</span>';
+       $str = L('Gmap.addrlatlng').' <input type="text" size="24" id="find" name="find" class="small" value="'.$_SESSION[QT]['m_gmap_gfind'].'" title="'.L('map_H_addrlatlng').'" onkeypress="if ((event.key!==undefined && event.key==`Enter`) || (event.keyCode!==undefined && event.keyCode==13)) showLocation(this.value,null);"/><span id="btn-geocode" title="'.L('Search').'" onclick="showLocation(document.getElementById(`find`).value,null);">'.qtSvg('search').'</span>';
      }
      if ( !empty($str) ) {
        $this->footer .= '<p'.CCanvas::idclass($id,$class).'>'.$str.'</p>';

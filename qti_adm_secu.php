@@ -319,8 +319,8 @@ echo '<tr>
 </tr>
 <tr>
 <td colspan="2" class="asterix">
-'.qtSVG('info').' '.L('H_Allow_tags').'<br>
-'.qtSVG('info').' '.L('Upload').': '.$strUploadmax.' (configuration limit '.QT_UPLOAD_MAXSIZE.'Mb)
+'.qtSvg('info').' '.L('H_Allow_tags').'<br>
+'.qtSvg('info').' '.L('Upload').': '.$strUploadmax.' (configuration limit '.QT_UPLOAD_MAXSIZE.'Mb)
 </td>
 </tr>
 </table>

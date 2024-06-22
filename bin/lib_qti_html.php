@@ -29,17 +29,17 @@ function sectionsAsOption(int $selected=-1, array $reject=[], array $disabled=[]
 function bbcButtons($size=1)
 {
   if ( !QT_BBC || $size==0 ) return '';
-  $str = '<a class="bbc" onclick="qtBbc(`b`)" title="'.L('Bbc.bold').'">'.qtSVG('bold').'</a>';
-  $str .= '<a class="bbc" onclick="qtBbc(`i`)" title="'.L('Bbc.italic').'">'.qtSVG('italic').'</a>';
-  $str .= '<a class="bbc" onclick="qtBbc(`u`)" title="'.L('Bbc.under').'">'.qtSVG('underline').'</a>';
-  $str .= '<a class="bbc" onclick="qtBbc(`quote`)" title="'.L('Bbc.quote').'">'.qtSVG('quote-right').'</a>';
+  $str = '<a class="bbc" onclick="qtBbc(`b`)" title="'.L('Bbc.bold').'">'.qtSvg('bold').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`i`)" title="'.L('Bbc.italic').'">'.qtSvg('italic').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`u`)" title="'.L('Bbc.under').'">'.qtSvg('underline').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`quote`)" title="'.L('Bbc.quote').'">'.qtSvg('quote-right').'</a>';
   if ( $size>1 )
   {
-  $str .= '<a class="bbc" onclick="qtBbc(`code`)" title="'.L('Bbc.code').'">'.qtSVG('code').'</a>';
-  $str .= '<a class="bbc" onclick="qtBbc(`url`)" title="'.L('Bbc.url').'">'.qtSVG('link').'</a>';
-  $str .= '<a class="bbc" onclick="qtBbc(`mail`)" title="'.L('Bbc.mail').'">'.qtSVG('envelope').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`code`)" title="'.L('Bbc.code').'">'.qtSvg('code').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`url`)" title="'.L('Bbc.url').'">'.qtSvg('link').'</a>';
+  $str .= '<a class="bbc" onclick="qtBbc(`mail`)" title="'.L('Bbc.mail').'">'.qtSvg('envelope').'</a>';
   }
-  if ( $size>2 ) $str .= '<a class="bbc" onclick="qtBbc(`img`)" title="'.L('Bbc.image').'">'.qtSVG('image').'</a>';
+  if ( $size>2 ) $str .= '<a class="bbc" onclick="qtBbc(`img`)" title="'.L('Bbc.image').'">'.qtSvg('image').'</a>';
   return $str;
 }
 
@@ -58,7 +58,7 @@ function exitPage($content='Page not defined', string $title='!', bool $hideMenu
 {
   if ( !is_string($content) && !is_int($content) ) die('exitPage: invalid argument');
   // title can be one svg icon (if ends with '.svg')
-  if ( substr($title,-4)==='.svg' ) $title = qtSVG(substr($title,0,-4));
+  if ( substr($title,-4)==='.svg' ) $title = qtSvg(substr($title,0,-4));
   global $oH;
   $oH->exiturl = APP.'_index.php';
   include APP.'_inc_hd.php'; // uses $hideMenuLang (true by default for error/exit pages)
@@ -101,7 +101,7 @@ function htmlLettres(string $baseFile, string $current='ALL', string $strAll='Al
   if ( $bFilterForm ) {
   $strGroups .= ' <form method="get" action="'.$baseFile.'">';
   $strGroups .= '<input required type="text" value="'.($current==='ALL' || in_array($current,$arr) ? '' : qtAttr($current)).'" name="group" size="3" maxlength="10" title="'.qtAttr($strTitle).'"/>';
-  $strGroups .= '<button type="submit" value="submit">'.qtSVG('search').'</button>';
+  $strGroups .= '<button type="submit" value="submit">'.qtSvg('search').'</button>';
   $strGroups .= qtTags(array_map('urldecode',qtExplodeUri($baseFile,'page|group')), '', 'tag=hidden');
   $strGroups .= '</form>';
   }
@@ -361,18 +361,18 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
         $arr[$k] .= ' '.icoPrefix($strPrefixSerie,(int)$row['icon']);
       if ( !empty($arrTags) ) {
         if ( count($arrTags)>1 ) {
-          $arr[$k] .= ' <span class="tags" title="'.implode(', ',$arrTags).(empty($arrMoreTags) ? '' : '...').'"><svg class="svg-symbol svg-125"><use href="#symbol-tags" xlink:href="#symbol-tags"/></svg></span>';
+          $arr[$k] .= ' <span class="tags" title="'.implode(', ',$arrTags).(empty($arrMoreTags) ? '' : '...').'"><svg class="svg-symbol svg-125"><use href="#tags" xlink:href="#tags"/></svg></span>';
         } else {
-          $arr[$k] .= ' <span class="tags" title="'.$arrTags[0].'" data-tagdesc="'.$arrTags[0].'"><svg class="svg-symbol"><use href="#symbol-tag" xlink:href="#symbol-tag"/></svg></span>';
+          $arr[$k] .= ' <span class="tags" title="'.$arrTags[0].'" data-tagdesc="'.$arrTags[0].'"><svg class="svg-symbol"><use href="#tag" xlink:href="#tag"/></svg></span>';
         }
       }
       if ( !empty($row['textmsg']) && $_SESSION[QT]['item_firstline']>0 && $showFirstline )
-        $arr[$k] .= '&nbsp;<small class="item-msg-preview">'.qtTrunc(qtBBclean($row['textmsg'],true,L('Bbc.*')),QT_FIRSTLINE_SIZE).(empty($row['attach']) ? '' : ' '.qtSVG('paperclip', 'title='.L('Attachment'))).'</small>';
+        $arr[$k] .= '&nbsp;<small class="item-msg-preview">'.qtTrunc(qtBBclean($row['textmsg'],true,L('Bbc.*')),QT_FIRSTLINE_SIZE).(empty($row['attach']) ? '' : ' '.qtSvg('paperclip', 'title='.L('Attachment'))).'</small>';
       if ( !empty($row['coord']) ) $arr[$k] .= ' '.$row['coord'];
 			break;
     case 'replies':
       // youreply merged in replies
-      $arr[$k] = $row['replies']==='0' ? '<span id="t'.$row['id'].'-replies">0</span>' : '<span id="'.$strTableId.'re'.$row['id'].'"><svg class="svg-symbol symbol-ireplied"><use href="#symbol-ireplied" xlink:href="#symbol-ireplied"/></svg></span><span id="t'.$row['id'].'-replies">'.qtK((int)$row['replies']).'</span>';
+      $arr[$k] = $row['replies']==='0' ? '<span id="t'.$row['id'].'-replies">0</span>' : '<span id="'.$strTableId.'re'.$row['id'].'">'.qtSvg('#ireplied').'</span>&thinsp;<span id="t'.$row['id'].'-replies">'.qtK((int)$row['replies']).'</span>';
       break;
     case 'views':
         $arr[$k] = $row['views']==='0' ? '0' : qtK((int)$row['views']);
@@ -389,7 +389,7 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
       if ( empty($row['lastpostdate']) ) {
         $arr[$k] = '&nbsp;';
       } else {
-        $arr[$k] = '<p>'.qtDate($row['lastpostdate'],'$','$',true,true,true,'t'.$row['id'].'-lastpostdate').' <a id="t'.$row['id'].'-lastpostico" class="lastitem" href="'.url('qti_item.php').'?t='.$row['id'].'#p'.$row['lastpostid'].'" title="'.L('Goto_message').'">'.qtSVG('caret-square-right').'</a></p>';
+        $arr[$k] = '<p>'.qtDate($row['lastpostdate'],'$','$',true,true,true,'t'.$row['id'].'-lastpostdate').' <a id="t'.$row['id'].'-lastpostico" class="lastitem" href="'.url('qti_item.php').'?t='.$row['id'].'#p'.$row['lastpostid'].'" title="'.L('Goto_message').'">'.qtSvg('caret-square-right').'</a></p>';
         $arr[$k] .= '<p class="ellipsis small">'.L('by').' <a id="t'.$row['id'].'-lastpostname" href="'.url('qti_user.php').'?id='.$row['lastpostuser'].'" title="'.qtAttr($row['lastpostname'],25).'">'.qtTrunc($row['lastpostname'],15).'</a></p>';
       }
       break;

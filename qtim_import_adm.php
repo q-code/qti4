@@ -201,7 +201,7 @@ if ( $_SESSION[QT]['board_offline']=='0' )
 {
 echo '
 <tr>
-<th>'.qtSVG('exclamation-triangle').'</th>
+<th>'.qtSvg('exclamation-triangle').'</th>
 <td>It is recommended to turn the board off-line while importing. <a href="qti_adm_index.php">Board status...</a></td>
 </tr>
 ';

@@ -81,7 +81,7 @@ echo '<form class="formsafe" method="post" action="'.$oH->php.'">
 <table class="t-conf">
 <tr title="'.L('H_Board_skin').'">
 <th>'.L('Board_skin').'</th>
-<td class="flex-sp"><select name="skin" onchange="toggleCustomCss(this.value,`'.$currentCss.'`);">'.qtTags($arrFiles,$currentCss).'</select><small id="custom-css">'.(empty($customCss) ? '' : '('.L('and').' custom.css <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$customCss.'" title="'.L('Edit').'">'.qtSVG('pen-square').'</a>)').'</small></td>
+<td class="flex-sp"><select name="skin" onchange="toggleCustomCss(this.value,`'.$currentCss.'`);">'.qtTags($arrFiles,$currentCss).'</select><small id="custom-css">'.(empty($customCss) ? '' : '('.L('and').' custom.css <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$customCss.'" title="'.L('Edit').'">'.qtSvg('pen-square').'</a>)').'</small></td>
 </tr>
 <tr title="'.L('H_Show_banner').'">
 <th>'.L('Show_banner').'</th>
@@ -91,7 +91,7 @@ echo '<form class="formsafe" method="post" action="'.$oH->php.'">
 <th>'.L('Show_welcome').'</th>
 <td class="flex-sp"><select name="show_welcome">';
 echo qtTags([2=>L('Y'),0=>L('N'),1=>L('While_unlogged')], $_SESSION[QT]['show_welcome'] );
-echo '</select><small id="welcome-txt">'.(empty($welcomeTxt) ? '' : ' ('.L('edit').' '.L('file').' <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$welcomeTxt.'" title="'.L('Edit').'">'.qtSVG('pen-square').'</a>)').'</small></td>
+echo '</select><small id="welcome-txt">'.(empty($welcomeTxt) ? '' : ' ('.L('edit').' '.L('file').' <a href="tool_txt.php?exit=qti_adm_skin.php&file='.$welcomeTxt.'" title="'.L('Edit').'">'.qtSvg('pen-square').'</a>)').'</small></td>
 </tr>
 </table>
 ';
@@ -146,7 +146,7 @@ echo '<h2 class="config">'.L('Your_website').'</h2>
 </table>
 ';
 // Start helper
-if ( $_SESSION[QT]['home_menu'] && (strlen($_SESSION[QT]['home_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/',$_SESSION[QT]['home_url'])) ) echo '<p>'.qtSVG('flag', 'style=font-size:1.4rem;color:#1364B7').' '.L('Home_website_url').' '.L('invalid').'</p>';
+if ( $_SESSION[QT]['home_menu'] && (strlen($_SESSION[QT]['home_url'])<10 || !preg_match('/^(http:\/\/|https:\/\/)/',$_SESSION[QT]['home_url'])) ) echo '<p>'.qtSvg('flag', 'style=font-size:1.4rem;color:#1364B7').' '.L('Home_website_url').' '.L('invalid').'</p>';
 
 if ( !isset($_SESSION[QT]['item_firstline']) ) $_SESSION[QT]['item_firstline']='1'; // new in v4.0
 $sections = sectionsAsOption();

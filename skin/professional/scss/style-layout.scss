@@ -100,8 +100,6 @@ aside{padding:0.5rem 4px;display:flex;gap:1rem;color:#888;border-bottom:solid 1p
 .optionsbar-container{display:flex;min-height:46px;align-items:center;justify-content:flex-end}
 #optionsbar-ctrl{opacity:1;font-size:min(40px,2.5rem);color:#CCC}
   #optionsbar-ctrl:hover{color:var(--bgadmin)}
-  #optionsbar-ctrl.expanded{color:var(--bgadmin)}
-  #optionsbar-ctrl.expanded:hover{color:#CCC}
 #showeditor-ctrl{font-size:1.5rem;color:#FFF;border:solid 2px white;border-radius:3px;opacity:0.75}
     #showeditor-ctrl[data-state="0"]{transform:rotate(90deg)}
   #showeditor-ctrl[data-state="0"]:hover{transform:rotate(0deg)}
