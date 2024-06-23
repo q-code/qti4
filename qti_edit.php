@@ -612,7 +612,7 @@ if ( $oT->type!=='I' && ($a==='re' || $a==='qu') ) {
 
 if ( $tagEditor || SUser::isStaff() ) {
 
-$oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+$oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js" data-lang="'.QT_LANG.'"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_tags.js"></script>';
 $oH->scripts['ac'] = 'if ( typeof acOnClicks==="undefined" ) { var acOnClicks = []; }
 acOnClicks["behalf"] = function(focusInput,btn) {

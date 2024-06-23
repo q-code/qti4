@@ -399,7 +399,7 @@ if ( $_SESSION[QT]['tags']!='0' ) {
       fetch( `bin/srv_tagupdate.php?ref='.MD5(QT.session_id()).'&id=${item}&tag=${tag.value}` )
       .catch( err => console.log(err) );
       }';
-    $oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+    $oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js" data-lang="'.QT_LANG.'"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 }
 
 }
@@ -414,7 +414,7 @@ if ( SUser::isStaff() ) {
     document.getElementById("submitactor").disabled=false;
     }
   }';
-  $oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
+  $oH->scripts_end['ac'] = '<script type="text/javascript" src="bin/js/qt_ac.js" data-lang="'.QT_LANG.'"></script><script type="text/javascript" src="bin/js/qti_config_ac.js"></script>';
 
 }
 
