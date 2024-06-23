@@ -82,6 +82,14 @@ function getSqlTimeframe($dbtype,$ti='',$prefix=' AND ',$field='t.firstpostdate'
     default: return $prefix . "LEFT($field,$len) $operator '$strDate'";
   }
 }
+function getSimpleSVG(string $id='info', bool $addClass=true) {
+  //!!! to be included
+  if ( !file_exists('svg/'.$id.'.svg') ) return '#';
+  // svg is inserted directly, or inside a span when attributes are added. This allows svg inherit style (fontsize/color...)
+  $svg = file_get_contents('svg/'.$id.'.svg');
+  if ( $addClass) $svg = '<svg class="svg-'.$id.'" '.substr($svg,4);
+  return $svg;
+}
 
 // SERVICE ARGUMENTS
 
