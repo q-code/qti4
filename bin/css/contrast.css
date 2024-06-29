@@ -7,7 +7,7 @@
     color-scheme:dark;
     --c:#FFF; --a:#FFFF00; --ah:#FFFF00;
     --bgbanner:#125faf; --bgbtn:#1364B7; --bgform:#002140;
-    --bgadmin:#009dff; --rowlight:#071b38; --rowlighthover:#002e4b;
+    --bgadmin:#00e1ff; --rowlight:#071b38; --rowlighthover:#002e4b;
   }
 
 /* TYPO */
@@ -67,13 +67,6 @@ footer a{color:#bbb} footer a:hover{color:#FFF}
 
 .pg-title{color:#DDD}
 
-/* MYBOARD */
-.myboard{margin:0 0 1vw auto;background-color:#111;border:1px solid #333}
-#mylastitem:hover div{background-color:#111;border:1px solid #888}
-#mylastitem a img {background-color:#888}
-#mylastitem p.date{border:none;color:#ffff00}
-#mylastitem p.content{color:#ffff00}
-
 /* BUTTON */
 button,
 a.button,
@@ -100,7 +93,7 @@ a.bbc:hover{color:var(--ah);border:1px solid var(--ah);background-color:var(--bg
   fieldset.register legend{color:#00ffff}
 .msgboxbody p.list small {color:#ccc}
 .tag-box{border:none}
-.tag-box .svg-search{display:none}
+.tag-box .filigrane{display:none}
 .tag-box .svg-symbol{color:#EEE}
 
 /* TAB PANELS (inherit base style) */
@@ -151,16 +144,35 @@ img.prefix_icon{background-color:#888;padding:4px;border-radius:4px}
 .t-item td.c-checkbox{background-color:var(--rowlight)}
 .t-item .item{text-decoration:none}
 .t-item .item:visited{color:#FFFF88}
-.t-item .c-icon{width:40px;max-width:40px}
-.t-item .c-icon a img{transform:scale(1.3);padding:4px;background-color:#333;border-radius:5px}
+.t-item .c-icon{width:40px;max-width:40px;text-wrap:nowrap;overflow:hidden}
+img.ne-class{padding:2px;background-color:#eee;border-radius:4px}
 a.lastitem i:hover{color:#FFFF00}
 .t-item .c-status{color:black}
 .t-profile th{background-color:transparent;border-color:transparent;color:#DDD}
 .t-profile td{background-color:transparent;border-color:#555}
 .t-data.horiz th{background-color:#333;color:#fff}
 .t-data.horiz td{background-color:#000;color:#fff}
+/* item */
+table.nefields{border-width:2px;border-color:#444}
+td.nefields{border-width:2px;border-color:#111}
+td.nefields:first-of-type{background-color:#111}
+.box-item-id{background-color:#111;border-color:#444;border-width:2px}
+.framechilds section{background-color:#111;border-color:#444;border-width:2px}
+.pg-form-link #title-top, .pg-item #title-top{border-color:#444;border-width:2px}
+.link.filigrane{color:#555}
 
-/* Special */
+#item-available{background-color:#111;border:solid 2px #444}
+#item-available .form-filter{background-color:#222;border:solid 1px #444}
+#item-available .form-filter [type=button], #item-available .form-filter [type=submit]{background-color:#666;border-color:#666}
+#item-available .form-filter [type=button]:hover, #item-available .form-filter [type=submit]:hover{border-color:var(--a)}
+
+tbody.borderlines tr:first-of-type td{border-top:solid 2px #444}
+tbody.borderlines tr:last-of-type td{border-bottom:solid 2px #444}
+
+/* Row highlight */
+tr.rowlight:has(:checked){background-color:var(--rowlight);}
+tr.rowlight:has(:checked):hover{background-color:var(--rowlighthover);}
+
 div.post, div.edit-post, div.post:hover{background-color:#000;border-color:#000}
 div.g-p-title{border-color:#555}
 .quickreply, .quickreply:hover{background-color:#000;border-color:#000}
@@ -171,7 +183,8 @@ p.post-title-l:after{background-color:transparent;content:" (" attr(data-num) ")
 section.code, section.quote{background-color:#444;color:#fff}
 #tag-ctrl{color:#FFF} #tag-ctrl:hover{color:#FFFF00}
 
-/* AJAX AUTOCOMPETE*/
+/* AJAX AUTOCOMPETE */
+#cmd-cb-dlg{background-color:#222;border:solid 2px var(--bgbtn);box-shadow:none}
 .ac-list{background-color:#000;border:solid 1px #ffff00}
 .ac-list li{border:1px solid #222}
 .ac-list button{opacity:1;background-color:#000;color:#fff}

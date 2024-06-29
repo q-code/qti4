@@ -114,6 +114,7 @@ function qtApplyStoredState(casename) {
         if ( isOn ) { e.removeAttribute('disabled'); } else { e.setAttribute('disabled', ''); }
         const ctrl = document.getElementById('contrast-ctrl'); if ( !ctrl ) throw new Error('no element with id=contrast-ctrl');
         ctrl.setAttribute('aria-checked', isOn ? 'true' : 'false');
+        document.body.setAttribute('data-contrast', isOn ? '1' : '0');
         return;
       } catch {
         console.log('qtApplyStoredState: localStorage not available');
