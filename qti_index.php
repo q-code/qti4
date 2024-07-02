@@ -133,6 +133,6 @@ rows.forEach( (row) => {
 });';
 
 // Symbols
-$oH->symbols[] = qtSvgSymbol('caret-square-right.svg', L('Goto_message'));
+$oH->symbols[] = qtSvgSymbol('caret-square-right','',['title'=>L('Goto_message'),'rect'=>true,'css'=>true]);
 
 include 'qti_inc_ft.php';

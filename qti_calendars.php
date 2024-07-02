@@ -166,7 +166,7 @@ include 'qti_inc_hd.php';
 if ( SUser::isStaff() )
 {
 echo '<div class="right">
-<div id="optionsbar" title="'.L('My_preferences').'">
+<div id="optionbar" title="'.L('My_preferences').'">
 <form method="get" action="'.url($oH->php).'" id="modaction">
 '.L('Options').'&nbsp;<input type="hidden" name="s" value="'.$s.'"/>
 <input type="hidden" name="fv" value="'.$fv.'"/>

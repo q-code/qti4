@@ -164,7 +164,7 @@ if ( $oS->status==='1' || $oT->status==='Z' || (SUser::role()==='V' && $_SESSION
   else                         { $def .= '|title='.L('R_member'); }
 }
 $navCommands = $oH->backButton().'<a'.attrRender($def).'>'.L('Reply').'</a>';
-echo '<div id="t1-nav-top" class="nav-top">'.$navCommands.'</div>
+echo '<div id="t1-nav-top" class="nav nav-top">'.$navCommands.'</div>
 ';
 
 // First message

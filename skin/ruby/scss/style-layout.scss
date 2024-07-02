@@ -1,10 +1,12 @@
 /* VARIABLES */
 :root{
   --c:#444; --a:#982a2b; --ah:#cc3234;
-  --bgbtn:#CC3234; --bgform:#fff; --bgbanner:#cc3234;
+  --bgform:#fff; --bgbanner:#cc3234;
   --font:"Trebuchet MS", Helvetica, sans-serif;
-  --bgadmin:#0088a1; --rowlight:#eafcff; --rowlighthover:#d7f8ff;
-  }
+  --adm-bg:#0088a1; --rowlight:#eafcff; --rowlighthover:#d7f8ff;
+  --btn-bg:#cc3234; --btn-color:#fff;
+  --btn-border:2px solid #cc3234;
+}
 
 /* LAYOUT */
 body{background-color:#d1d1d1}
@@ -35,7 +37,7 @@ h1{font-size:1.6em;font-weight:bold} #aside h1{font-size:1.2em}
 h2{font-size:1.4em;font-weight:bold} #aside h2{font-size:1.1em}
 h1,h2{margin:0.5rem 0}
 #crumbtrail{font-size:1.2em}
-#viewmode{padding:3px 5px;font-family:"Font Awesome 5 Free";font-weight:900;text-decoration:none;border:1px solid var(--bgbtn)}
+#viewmode{padding:3px 5px;font-family:"Font Awesome 5 Free";font-weight:900;text-decoration:none;border:1px solid var(--btn-bg)}
 #viewmode:hover{color:var(--ah);border-color:var(--ah);text-decoration:none}
 nav a{font-size:1.2em;font-weight:normal;text-decoration:none}
 nav a:hover:not(.active){text-decoration:underline}
@@ -63,7 +65,7 @@ footer p{padding-bottom:4px;text-align:center;font-size:0.9rem;color:#999} foote
 #banner[data-layout="0"] #menulang{padding:0 0 0.5rem 0; background-color: transparent}
 #banner[data-layout="0"] nav{padding-top:5px;background-color:var(--bgbanner)}
 #banner[data-layout="1"],
-#banner[data-layout="2"]{padding:6px 6px 0 6px; min-height:75px; border-radius:5px 5px 0 0; background:linear-gradient(130deg,var(--bgbtn) 10%,#fd595b 30%,var(--bgbtn) 50%,var(--bgbtn))}
+#banner[data-layout="2"]{padding:6px 6px 0 6px; min-height:75px; border-radius:5px 5px 0 0; background:linear-gradient(130deg,var(--btn-bg) 10%,#fd595b 30%,var(--btn-bg) 50%,var(--btn-bg))}
 /* LANG */
 #menulang a{text-decoration:none}
 #menulang a:hover{text-decoration:underline}
@@ -104,7 +106,7 @@ main>div{padding:1vw 2vw}
 aside{padding:0.5rem;display:flex;gap:1rem;background-color:#efefef;color:#888}
 @media print{aside{background-color:#fff}}
 #aside-ctrl{align-self: flex-end;white-space:nowrap}
-#aside-ctrl:hover{cursor:pointer;color:var(--bgbtn)}
+#aside-ctrl:hover{cursor:pointer;color:var(--btn-bg)}
 #aside__info{flex-grow:1;min-width:200px}
 #aside__detail{min-width:200px}
 #aside__legend{flex-grow:1;min-width:200px}
@@ -113,21 +115,22 @@ aside{padding:0.5rem;display:flex;gap:1rem;background-color:#efefef;color:#888}
 /* data titles and data options */
 #title-top{margin:1rem 0}
 #title-top-r{text-align:right}
-.optionsbar-container{display:flex;min-height:46px;align-items:center;justify-content:flex-end}
-#optionsbar-ctrl{opacity:1;font-size:min(40px,2.5rem);color:#CCC}
-  #optionsbar-ctrl:hover{color:var(--bgadmin)}
-#showeditor-ctrl{font-size:1.5rem;color:#FFF;border:solid 2px white;border-radius:3px;opacity:0.75}
+
+/* optionbar */
+.optionbar-container{display:flex;min-height:min(50px,3rem);align-items:center;justify-content:flex-end}
+@media print{.optionbar-container{display:none}}
+#optionbar-ctrl{opacity:1;font-size:min(40px,2.5rem);color:#CCC}
+  #optionbar-ctrl:hover{color:var(--adm-bg)}
+#optionbar{display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem;background-color:var(--adm-bg);color:#fff}
+  #optionbar input[type=text]{padding:2px 4px;border:1px solid var(--adm-bg)}
+  #optionbar select{padding:2px 5px 2px 2px;border:1px solid var(--adm-bg)}
+  #optionbar select:focus, #optionbar input[type=text]:focus{background-color:var(--rowlight);border-color:#000}
+  #showeditor-ctrl{display:flex;width:32px;height:32px;align-items:center;justify-content:center;font-size:1.5rem;background-color:#00adab;color:#FFF;border:solid 2px white;border-radius:3px;opacity:0.8}
   #showeditor-ctrl[data-state="0"]{transform:rotate(90deg)}
   #showeditor-ctrl[data-state="0"]:hover{transform:rotate(0deg)}
   #showeditor-ctrl[data-state="1"]{transform:rotate(0deg)}
   #showeditor-ctrl[data-state="1"]:hover{transform:rotate(90deg)}
-  #showeditor-ctrl:hover, #showeditor-ctrl:focus{opacity:1}#optionsbar{display:inline-flex;align-items:center;gap:0.3rem;padding:0.4rem;background-color:var(--bgadmin)}
-  #optionsbar input[type=text]{padding:2px 4px;border:1px solid var(--bgadmin)}
-  #optionsbar select{padding:2px 5px 2px 2px;border:1px solid var(--bgadmin)}
-  #optionsbar select:focus, #optionsbar input[type=text]:focus{background-color:var(--rowlight);border-color:#000}
-  #optionsbar button[type=submit]{background-color:var(--bgadmin);border:1px solid #fff;color:#fff}
-  #optionsbar button[type=submit]:hover{opacity:1}
-@media print{.optionsbar-container{display:none}}
+  #showeditor-ctrl:hover, #showeditor-ctrl:focus{opacity:1}
 
 /* CONTENT */
 a.lastitem{margin-left:2px;color:#AAA;text-decoration:none}

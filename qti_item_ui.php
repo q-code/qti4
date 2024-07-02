@@ -2,7 +2,7 @@
 /**
 * @var CTopic $oT
 */
-echo '<div id="optionsbar">
+echo '<div id="optionbar">
 <form method="post" action="'.url('qti_item.php').'" id="modaction">
 <input type="hidden" name="s" value="'.$oT->pid.'"/>
 <input type="hidden" name="t" value="'.$oT->id.'"/>

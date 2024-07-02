@@ -396,7 +396,7 @@ echo '<form id="form-edit" method="post" action="'.url($oH->php).'" enctype="mul
 ';
 
 if ( SUser::isStaff() ) {
-  echo '<div id="optionsbar" title="'.L('Staff').' '.L('commands').'">'.qtSvg('user-m').'&nbsp;'.PHP_EOL;
+  echo '<div id="optionbar" title="'.L('Staff').' '.L('commands').'">'.qtSvg('user-m').'&nbsp;'.PHP_EOL;
   if ( $oP->type=='P' ) {
     echo L('Type').' <select id="newtopictype" name="topictype" size="1">'.qtTags(CTopic::getTypes(),$oT->type).'</select> ';
   } else {
