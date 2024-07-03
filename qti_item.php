@@ -285,7 +285,7 @@ $certificate = makeFormCertificate('b7033b5983ec3b0fef7b3c251f6d0b92');
 echo '
 <div id="message-preview"></div>
 <form id="form-qr" method="post" action="'.url('qti_edit.php').'" data-itemtype="'.$oT->type.'">
-<div class="quickreply">
+<div id="quickreply">
 ';
 echo '<div class="g-qr-icon"><p class="i-container" title="'.L('Reply').'">'.qtSvg('comment-dots').'</p></div>
 <div class="g-qr-title">'.L('Quick_reply').'</div>

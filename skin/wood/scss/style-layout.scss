@@ -111,7 +111,7 @@ aside{background-color:#fff}}
 #aside__legend__list{display:grid;grid-template-columns:1fr 1fr}
 /* data titles and data options */
 #title-top{margin:1rem 0}
-#title-top-r{text-align:right}
+#title-top-r{display:flex;text-align:right}
 
 /* optionbar */
 .optionbar-container{display:flex;min-height:min(50px,3rem);align-items:center;justify-content:flex-end}
