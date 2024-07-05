@@ -69,7 +69,7 @@ $formAddUser = '
 <p>'.qtSvg('user').'&nbsp;<input required id="rename" name="title" type="text" minlength="3" maxlength="24" value="'.(isset($_POST['title']) ? $_POST['title'] : '').'" onfocus="document.getElementById(`rename-error`).innerHTML=``;" placeholder="'.L('Username').'"/></p>
 <p id="rename-error" class="right"></p>
 <p>'.qtSvg('lock').'&nbsp;<input required name="pass" type="text" maxlength="32" value="'.(isset($_POST['pass']) ? $_POST['pass'] : '').'" placeholder="'.L('Password').'"/></p>
-<p>'.qtSvg('envelope').'&nbsp;<input required name="mail" type="email" maxlength="255" value="'.(empty($_POST['email']) ? '' : $_POST['email']).'" placeholder="'.L('Email').'"/></p>
+<p>'.qtSvg('envelope').'&nbsp;<input required name="email" type="email" maxlength="255" value="'.(empty($_POST['email']) ? '' : $_POST['email']).'" placeholder="'.L('Email').'"/></p>
 <p><input id="notify" type="checkbox" name="notify"/> <label for="notify">'.L('Send').' '.L('email').'</label>&nbsp; <button type="submit" id="rename-submit" name="add" value="'.$certificate.'">'.L('Add').'</button></p>
 </form>
 ';

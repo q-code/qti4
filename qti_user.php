@@ -191,7 +191,7 @@ echo '<form class="formsafe" method="post" action="'.url('qti_user.php').'?id='.
 <tr><th>'.L('Username').'</th><td clss="c-name">'.$row['name'].'</td></tr>
 <tr><th>'.L('Role').'</th><td>'.L('Role_'.$row['role']).'</td></tr>
 <tr><th>'.L('Location').'</th><td><input type="text" name="location" size="35" maxlength="24" value="'.$row['location'].'"/></td></tr>
-<tr><th>'.L('Email').'</th><td><input type="email" name="mail" size="35" maxlength="64" value="'.$row['mail'].'" multiple/></td></tr>
+<tr><th>'.L('Email').'</th><td><input type="email" name="email" size="35" maxlength="64" value="'.$row['mail'].'" multiple/></td></tr>
 <tr><th>'.L('Website').'</th><td><input type="text" name="www" pattern="^(http://|https://).*" size="35" maxlength="64" value="'.( !empty($row['www']) ? $row['www'] : 'http://' ).'" title="'.$L['H_Website'].'"/></td></tr>
 <tr><th>'.L('Birthday').'</th>
 ';
