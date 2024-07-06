@@ -282,8 +282,8 @@ if ( $_SESSION['EditByRows'] ) {
 }
 
 // Buttons and paging
-echo '<div id="t1-nav-top" class="nav nav-top">'.$navCommands.'</div>'.PHP_EOL;
-echo '<div id="tabletop" class="table-ui top">';
+echo '<div class="nav nav-top">'.$navCommands.'</div>'.PHP_EOL;
+echo '<div class="table-ui top">';
 echo $rowCommands ? '<div id="t1-edits-top" class="cmds-cb" data-table="t1">'.qtSvg('corner-up-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
 echo '<div class="right">'.$paging.'</div></div>'.PHP_EOL;
 
@@ -389,11 +389,11 @@ if ( SUser::isStaff() && !empty($_SESSION['EditByRows']) ) echo '</form>'.PHP_EO
 $strCsv = '';
 if ( SUser::isStaff() && !empty($_SESSION['EditByRows'])) $strCsv .= '<a id="cmd-export-selected" class="csv" href="javascript:void(0)" title="'.L('H_Csv').' ('.L('selected').')">'.L('Export').qtSvg('check-square').'</a> &middot; ';
 $strCsv .= SUser::role()==='V' ? '' : htmlCsvLink(url('qti_items_csv.php').$oH->arg, $intCount, $pn);
-echo '<div id="tablebot" class="table-ui bot">';
+echo '<div class="table-ui bot">';
 echo $rowCommands ? '<div id="t1-edits-bot" class="cmds-cb" data-table="t1">'.qtSvg('corner-down-right','class=arrow-icon').$rowCommands.'</div>' : '<div></div>';
 echo '<div class="right">'.$paging.'</div></div>'.PHP_EOL;
 echo '<p class="right table-ui-export">'.$strCsv.'</p>'.PHP_EOL;
-echo '<div id="t1-nav-bot" class="nav nav-bot">'.$navCommands.'</div>'.PHP_EOL;
+echo '<div class="nav nav-bot">'.$navCommands.'</div>'.PHP_EOL;
 
 // TAGS FILTRING
 if ( QT_LIST_TAG && !empty($_SESSION[QT]['tags']) && count($arrTags)>0 ) {
@@ -511,7 +511,7 @@ if ( $useMap && !$_SESSION[QT]['m_gmap_hidelist'] )
 if ( isset($_GET['cb']) ) $oH->scripts[] = 'cbCheckboxIds(['.$_GET['cb'].']);';
 
 // hide table-ui-bottom-controls if less than 5 table rows
-$oH->scripts[] = 'qtHideAfterTable("t1-nav-bot");qtHideAfterTable("tablebot");';
+$oH->scripts[] = 'qtHideAfterTable(".nav-bot");qtHideAfterTable(".table-ui.bot");';
 
 // SSE (if section is not empty)
 if ( $intCount>0 && SMemSSE::useSSE() ) {

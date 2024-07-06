@@ -68,15 +68,16 @@ div.post-R,div.post-F,div.post-D{margin:10px 0 10px 30px}
   @media screen and (max-width:860px){div.post-R,div.post-F,div.post-D{margin:10px 0}}
 div.g-p-type{grid-area:g-p-type;text-align:right;padding:11px 0 0 0}
 div.g-p-type img,div.g-p-type i{padding:10px;background-color:#FFF;color:#aaa;border:1px solid var(--btn-bg);border-radius:50%}
-div.g-p-title{grid-area:g-p-title;display:flex;justify-content:space-between;padding:4px;border-bottom:1px solid var(--btn-bg)}
-  p.post-title-l:after{content:" [" attr(data-num) "]"}
-  p.post-title-r{font-size:1.1rem}
+.g-p-title{grid-area:g-p-title;display:flex;justify-content:space-between;align-items:center}
+  .post-P .g-p-title{padding-bottom:var(--gap);border-bottom:1px solid var(--btn-bg)}
+p.post-title-l:after{content:" [" attr(data-num) "]"}
+p.post-title-r{font-size:1.1rem}
 div.g-p-msg{grid-area:g-p-msg;padding:0.5rem}
 .post-user{float:right;margin:var(--gap);padding:5px;max-width:100px;background-color:#FFF;border:solid 1px #DDD;border-radius:3px}
 p.post-attachment{font-size:0.8rem}
-.post-cmd{font-size:max(0.8rem,9pt)}
-.post-cmd .button{padding:1px 4px;border-radius:0}
-.post-cmd .button:hover{box-shadow:2px 2px 2px #CCC}
+.cmds{font-size:max(0.8rem,9pt)}
+.msg-cmd{padding:1px 4px;border-radius:0}
+.msg-cmd:hover{box-shadow:2px 2px 2px #CCC}
 div.g-p-status{grid-area:g-p-status}
 
 p.quotetitle,

@@ -256,24 +256,19 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
 
   // buttons
   $strEndLine = '';
-  if ( $cmd )
-  {
-    if ( SUser::auth() )
-    {
-      if ( $oT->status==='Z' && $oS->status==='0' )
-      {
-        $strEndLine .= '<a class="button" href="'.url('qti_edit.php').'?t='.$oT->id.'&a=qu&p='.$this->id.'">'.L('Quote').'</a>';
+  if ( $cmd ) {
+    if ( SUser::auth() ) {
+      if ( $oT->status==='Z' && $oS->status==='0' ) {
+        $strEndLine .= '<a class="msg-cmd" href="'.url('qti_edit.php').'?t='.$oT->id.'&a=qu&p='.$this->id.'">'.L('Quote').'</a>';
       }
-      if ( $this->userid==SUser::id() || SUser::isStaff() )
-      {
-        $strEndLine .= '<a class="button" href="'.url('qti_edit.php').'?t='.$oT->id.'&p='.$this->id.'&a=ed">'.L('Edit').'</a>';
-        if ( $this->type=='P')
-        {
-          $strEndLine .= '<a class="button" href="'.url('qti_dlg.php').'?s='.$oS->id.'&a=itemDelete&ids='.$oT->id.($this->type=='P' ? '' : '&p='.$this->id).'">'.L('Delete').'</a>';
-        }else{
-          $strEndLine .= '<a class="button" href="'.url('qti_dlg.php').'?s='.$oS->id.'&a=replyDelete&t='.$oT->id.'&p='.$this->id.'">'.L('Delete').'</a>';
+      if ( $this->userid==SUser::id() || SUser::isStaff() ) {
+        $strEndLine .= '<a class="msg-cmd" href="'.url('qti_edit.php').'?t='.$oT->id.'&p='.$this->id.'&a=ed">'.L('Edit').'</a>';
+        if ( $this->type=='P') {
+          $strEndLine .= '<a class="msg-cmd" href="'.url('qti_dlg.php').'?s='.$oS->id.'&a=itemDelete&ids='.$oT->id.($this->type=='P' ? '' : '&p='.$this->id).'">'.L('Delete').'</a>';
+        } else {
+          $strEndLine .= '<a class="msg-cmd" href="'.url('qti_dlg.php').'?s='.$oS->id.'&a=replyDelete&t='.$oT->id.'&p='.$this->id.'">'.L('Delete').'</a>';
         }
-        if ( $oT->type==='I' && $this->type==='P' ) $strEndLine .= '<a class="button" href="'.url('qti_dlg.php').'?a=itemParam&ids='.$oT->id.'">'.L('Parameters').'</a>';
+        if ( $oT->type==='I' && $this->type==='P' ) $strEndLine .= '<a class="msg-cmd" href="'.url('qti_dlg.php').'?a=itemParam&ids='.$oT->id.'">'.L('Parameters').'</a>';
       }
     }
   }
@@ -291,7 +286,7 @@ public function render(CSection $oS, CTopic $oT, bool $avatar=true, bool $cmd=tr
     <p class="post-title-l" data-num="'.$this->num.'"><a href="'.url('qti_user.php').'?id='.$this->userid.'">'.$this->username.'</a>&#8201;&middot;&#8201;'.qtDate($this->issuedate,'$','$',true).'</p>
   </div>
   <div class="g-p-msg article">'.$picUser.$msg.'</div>
-  <div class="g-p-status"><p class="post-cmd">'.$strEndLine.'</p></div>
+  <div class="g-p-status"><p class="msg-cmds">'.$strEndLine.'</p></div>
   </div>
   ';
 }

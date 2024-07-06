@@ -75,14 +75,14 @@ function qtClipboard(value, useAlert=true, maxSize=255) {
 }
 /**
  * Hide an element when a table row count is less than [rows]
- * @param {string} element element (id) to hide
+ * @param {string} element selector-element to hide
  * @param {string} table parent table (id)
- * @param {boolean} inflow TRUE applies visiblity=hidden, FALSE applies display=none
+ * @param {boolean} inflow TRUE uses visiblity=hidden, FALSE uses display=none
  * @param {number} rows
  */
 function qtHideAfterTable(element, table='t1', inflow=false, rows=5) {
   const t = document.getElementById(table);
-  const e = document.getElementById(element);
+  const e = document.querySelector(element);
   if ( t && e && t.rows.length<rows ) inflow ? e.style.visibility = 'hidden' : e.style.display = 'none';
 }
 /**
@@ -108,7 +108,6 @@ function qtApplyStoredState(casename) {
   switch (casename) {
     case 'contrast':
       e = document.getElementById('contrastcss'); if ( !e ) throw new Error('no element with id=contrastcss');
-      // caution d is the <link> stylesheet, not the control
       try {
         const isOn = localStorage.getItem('qt-contrast')==='true';
         if ( isOn ) { e.removeAttribute('disabled'); } else { e.setAttribute('disabled', ''); }

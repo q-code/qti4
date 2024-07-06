@@ -68,17 +68,19 @@ div.post{
 div.post-R, div.post-F, div.post-D{margin:10px 0 10px 50px}
   @media screen and (max-width:860px){div.post-R, div.post-F, div.post-D{margin:10px 0}}
 
-.g-p-type{grid-area:g-p-type;justify-self:right;padding-top:10px}
-.g-p-title{grid-area:g-p-title;padding-left:0.5rem;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #b69c84}
+.g-p-type{grid-area:g-p-type}
+  .post-P .g-p-type{padding-top:10px}
+.g-p-title{grid-area:g-p-title;padding-left:0.5rem;display:flex;justify-content:space-between;align-items:center}
+  .post-P .g-p-title{padding-bottom:var(--gap);border-bottom:1px solid var(--btn-bg)}
   p.post-title-l:after{content:" [" attr(data-num) "]"}
   p.post-title-r{font-size:1.1rem}
 .g-p-msg{grid-area:g-p-msg;padding:0.5rem}
   .post-user{float:right;margin:var(--gap);padding:5px;max-width:100px;background-color:#FFF}
   p.post-attachment{font-size:0.8rem}
 .g-p-status{grid-area:g-p-status}
-  .post-cmd{display:flex;gap:6px;align-items:baseline;font-size:max(0.9rem,9pt)}
-  .post-cmd .button{padding:0;background-color:transparent;color:#b69c84;border:none;text-shadow:none}
-  .post-cmd .button:hover{color:var(--ah);text-decoration:none}
+  .cmds{display:flex;gap:6px;align-items:baseline;font-size:max(0.9rem,9pt)}
+  .msg-cmd{padding:0;background-color:transparent;color:#b69c84;border:none;text-shadow:none}
+  .msg-cmd:hover{color:var(--ah);text-decoration:none}
 
 .i-container{display:flex;width:35px;height:35px;align-items:center;justify-content:center;background-color:#f1dbc6;color:#888;border:3px solid #b69c84;border-radius:10px}
 
@@ -89,4 +91,4 @@ section.code{padding:3px;margin:1px 1px 6px 1px;font-family:Courier,sans-serif;m
 .post-img{display:block;margin:5px 0 5px 0;max-width:550px;overflow:auto;border-style:solid;border-width:1px;border-color:#EEE}
 #site.compact .post-img{display:none}
 #site.compact p.quotetitle,#site.compact section.quote, #site.compact div.g-p-msg p:not(p.code){display:inline}
-#site.compact .post-cmd{padding:0 0 3px 0}
+#site.compact .cmds{padding:0 0 3px 0}
