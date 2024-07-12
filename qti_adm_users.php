@@ -266,7 +266,7 @@ echo '<p class="right">'.L('Show').': '.$m->build('u'.$ipp, 'default|style=color
 
 // HTML END
 
-$oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js" data-noselect="'.L('Nothing_selected').'"></script>';
+$oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js" data-noselect="'.L('Nothing_selected').'..."></script>';
 $oH->scripts[] = 'qtHideAfterTable("#t1-edits-bot","t1",true);';
 
 include 'qti_adm_inc_ft.php';

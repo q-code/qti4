@@ -277,7 +277,7 @@ if ( $_SESSION['EditByRows'] ) {
   ], ' &middot; ');
   $rowCommands = $m->build();
 
-  $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js" data-noselect="'.L('Nothing_selected').'"></script>';
+  $oH->scripts[] = '<script type="text/javascript" src="bin/js/qt_table_cb.js" data-noselect="'.L('Nothing_selected').'..."></script>';
 
 }
 

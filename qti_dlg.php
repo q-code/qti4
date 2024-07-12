@@ -198,13 +198,13 @@ case 'itemsMove':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Move').' '.L('item+');
-  $frm[] = '<form method="post" action="'.url($oH->php).'" onsubmit="return validateForm(this)">'.$frm_dflt_args;
+  $frm[] = '<form method="post" action="'.url($oH->php).'">'.$frm_dflt_args;
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,false,true,true);
   $frm[] = '</article>';
   $frm[] = '<article>';
-  $frm[] = '<p>'.L('Destination').' <select name="destination" size="1" required>
+  $frm[] = '<p>'.L('Destination').' <select required name="destination" size="1">
   <option value="-1" disabled selected hidden></option>
   '.sectionsAsOption(-1,[],[$q]).'
   </select></p>';
@@ -259,7 +259,7 @@ case 'itemsMove':
 
   // FORM (default type/status is U=unchanged)
   $frm_title = L('Delete');
-  $frm[] = '<form method="post" action="'.url($oH->php).'" onsubmit="if (this.deleteT.checked || this.deleteR.checked || this.deleteA.checked) return true; alert(`'.L('Nothing_selected').'`); return false;">'.$frm_dflt_args;
+  $frm[] = '<form method="post" action="'.url($oH->php).'" onsubmit="if (this.deleteT.checked || this.deleteR.checked || this.deleteA.checked) return true; qtShowAlert(this.querySelector(`.row-confirm`),`'.L('Nothing_selected').'...`,`top:-5px;right:-3px`);  return false;">'.$frm_dflt_args;
   $frm[] = '<article>';
   $frm[] = '<p>'.L('Item+').':</p>';
   $frm[] = renderItems($ids,false,true,true);
@@ -322,7 +322,7 @@ function updateCounts(q) {
   .then( data => { submitSum(data); } )
   .catch( err => console.log(err) );
 }
-function submitSum(n="...") { document.getElementById("submit-sum").innerHTML = n; }';
+function submitSum(n="...") { document.getElementById("submit-sum").innerHTML = n; qtHideDlg(); }';
 
   break;
 
