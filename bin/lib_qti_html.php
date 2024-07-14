@@ -370,12 +370,11 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
       if ( !empty($row['coord']) ) $arr[$k] .= ' '.$row['coord'];
 			break;
     case 'replies':
-      // youreply merged in replies
-      $arr[$k] = $row['replies']==='0' ? '<span id="t'.$row['id'].'-replies">0</span>' : '<span id="'.$strTableId.'re'.$row['id'].'">'.qtSvg('#ireplied').'</span>&thinsp;<span id="t'.$row['id'].'-replies">'.qtK((int)$row['replies']).'</span>';
+      $arr[$k] = $row['replies']==='0' ? '0' : qtK((int)$row['replies']); // js add youreply svg and title
       break;
     case 'views':
-        $arr[$k] = $row['views']==='0' ? '0' : qtK((int)$row['views']);
-        break;
+      $arr[$k] = $row['views']==='0' ? '0' : qtK((int)$row['views']);
+      break;
     case 'section':
       $i = (int)$row['section'];
       $arr[$k] = '<a href="'.url('qti_items.php').'?s='.$i.'">'.(isset($GLOBALS['_Sections'][$i]['title']) ? $GLOBALS['_Sections'][$i]['title'] : 'Section '.$i).'</a>';

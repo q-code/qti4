@@ -4,8 +4,10 @@
 * @var int $id
 * @var boolean $canEdit
 */
-if ( SUser::role()==='A' ) {
-  echo '<form id="modaction" method="get" action="'.url(APP.'_register.php').'"><div id="optionbar">
+if ( SUser::role()==='A' )
+echo '
+<div id="optionbar">
+<form id="modaction" method="get" action="'.url(APP.'_register.php').'">
 '.qtSvg('user-a', 'title='.L('Role_A')).'
 <select name="a" onchange="if ( this.value!=``) document.getElementById(`modaction`).submit();">
 <option value="" disabled selected hidden>'.L('Role_A').' '.L('commands').'</option>
@@ -15,8 +17,9 @@ if ( SUser::role()==='A' ) {
 <option value="delete"'.($id<2 ? ' disabled' : '').'>'.L('Delete').' '.L('user').'...</option>
 </select>
 <input type="hidden" name="id" value="'.$id.'"/>
-</div></form>';
-}
+</form>
+</div>
+';
 
 if ( $canEdit )
-echo '<a class="button" href="'.url($oH->php).'?id='.$id.'&edit='.($edit ? 0 : 1).'">'.qtSvg('pen','class=btn-prefix').L($edit ? 'Edit_stop' : 'Edit_start').'</a>';
+echo ' <a class="button" href="'.url($oH->php).'?id='.$id.'&edit='.($edit ? 0 : 1).'">'.qtSvg('pen','class=btn-prefix').L($edit ? 'Edit_stop' : 'Edit_start').'</a>';

@@ -411,11 +411,13 @@ if ( QT_LIST_ME && count($arrTopics)>0 && (int)SUser::getInfo('numpost',0)>0 ) {
   while($row=$oDB->getRow()) $arr[(int)$row['topic']] = '"'.qtDate($row['issuedate'],'j M','H:i',true,true).'"';
   if ( count($arr)>0 ) {
     $oH->scripts[] = 'function addIRe(table,tids,ttitles,title="I replied") {
-      for (let i=0;i<tids.length;++i) {
-        const el = document.getElementById(table+"re"+tids[i]);
-        if ( el ) el.setAttribute("title", ttitles[i]+", "+title);
-      }
-    }
+  const t = document.getElementById(table); if ( !t ) console.log(`table ${table} not found`);
+  for (let i=0;i<tids.length;++i) {
+    const td = t.querySelector(`#${table}-tr-${tids[i]} .c-replies`); if ( !td ) continue;
+    td.innerHTML = `<svg><use href="#ireplied.svg"></use></svg>` + td.innerText;
+    td.title = `${ttitles[i]}, ${title}`;
+  }
+}
     addIRe("t1",['.implode(',', array_keys($arr)).'],['.implode(',', $arr).'],"'.L('You_reply').'");';
   }
 }
