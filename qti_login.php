@@ -12,12 +12,12 @@ include Translate('lg_reg.php');
 // ------
 // SUBMITTED for loggout. To redirect to login page use url '?a=out&r=in'
 // ------
-if ( isset($_GET['a']) && $_GET['a']=='out' ) {
+if ( isset($_GET['a']) && $_GET['a']==='out' ) {
   $str = L('Goodbye');
   SUser::logOut();
   // REBOOT
-  $oDB->getSettings('',true);
   session_start();
+  $oDB->getSettings('',true);
   $_SESSION[QT.'splash'] = $str;
   $oH->redirect( APP.'_'.(isset($_GET['r']) && $_GET['r']==='in' ? 'login' : 'index').'.php' );
 }
