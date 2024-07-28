@@ -380,15 +380,15 @@ function formatItemRow(string $strTableId='t1',array $arrFLD=[], $row, $oS, arra
       $arr[$k] = '<a href="'.url('qti_items.php').'?s='.$i.'">'.(isset($GLOBALS['_Sections'][$i]['title']) ? $GLOBALS['_Sections'][$i]['title'] : 'Section '.$i).'</a>';
       break;
     case 'firstpostname':
-      $arr[$k] = '<p class="ellipsis"><a id="t'.$row['id'].'-firstpostname" href="'.url('qti_user.php').'?id='.$row['firstpostuser'].'">'.$row['firstpostname'].'</a></p>';
-      $arr[$k] .= '<p class="ellipsis small">'.qtDate($row['firstpostdate'],'$','$',true,true,true,'t'.$row['id'].'-firstpostdate').'</p>';
+      $arr[$k] = '<p><a id="t'.$row['id'].'-firstpostname" href="'.url('qti_user.php').'?id='.$row['firstpostuser'].'">'.$row['firstpostname'].'</a></p>';
+      $arr[$k] .= '<p>'.qtDate($row['firstpostdate'],'$','$',true,true,true,'t'.$row['id'].'-firstpostdate').'</p>';
       break;
     case 'lastpostdate':
       if ( empty($row['lastpostdate']) ) {
         $arr[$k] = '&nbsp;';
       } else {
         $arr[$k] = '<p>'.qtDate($row['lastpostdate'],'$','$',true,true,true,'t'.$row['id'].'-lastpostdate').' <a id="t'.$row['id'].'-lastpostico" class="goto" href="'.url('qti_item.php').'?t='.$row['id'].'#p'.$row['lastpostid'].'" title="'.L('Goto_message').'">'.qtSvg('caret-square-right').'</a></p>';
-        $arr[$k] .= '<p class="ellipsis small">'.L('by').' <a id="t'.$row['id'].'-lastpostname" href="'.url('qti_user.php').'?id='.$row['lastpostuser'].'" title="'.qtAttr($row['lastpostname'],25).'">'.qtTrunc($row['lastpostname'],15).'</a></p>';
+        $arr[$k] .= '<p>'.L('by').' <a id="t'.$row['id'].'-lastpostname" href="'.url('qti_user.php').'?id='.$row['lastpostuser'].'" title="'.qtAttr($row['lastpostname'],25).'">'.qtTrunc($row['lastpostname'],15).'</a></p>';
       }
       break;
     case 'status':

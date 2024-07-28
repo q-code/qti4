@@ -15,48 +15,13 @@ if ( $_SESSION[QT]['board_offline'] ) $oH->log[] = 'Warning: the board is offlin
 // Check banner
 if ( !isset($_SESSION[QT]['show_banner']) ) $_SESSION[QT]['show_banner'] = '0';
 
-// Menus definition
-$navMenu = new CMenu();
-if ( $_SESSION[QT]['home_menu']==='1' && !empty($_SESSION[QT]['home_url']) )
-$navMenu->add('home', 'text='.qtAttr($_SESSION[QT]['home_name']).'|href='.$_SESSION[QT]['home_url']);
-$navMenu->add('privacy', 'text='.L('Legal').'|href=qti_privacy.php');
-$navMenu->add('index', 'text='. SLang::translate().'|href=qti_index.php|class=secondary|activewith=qti_index.php qti_items.php qti_item.php qti_calendars.php qti_edit.php');
-$navMenu->add('search', 'text='.L('Search').'|id=nav-search|activewith=qti_search.php');
-if ( $oH->php!=='qti_search.php' && SUser::canAccess('search') )
-$navMenu->menu['search'] .= '|href=qti_search.php'.(QT_SIMPLESEARCH ? '|onclick=if ( document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`#searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
-  // SUser::canAccess('search') not included here... We want the searchbar/page shows a message for not granted users
-if ( SUser::canAccess('show_memberlist') )
-$navMenu->add('users', 'text='.L('Memberlist').'|href=qti_users.php');
-if ( SUser::canAccess('show_stats') )
-$navMenu->add('stats', 'text='.L('Statistics').'|href=qti_stats.php');
-if ( SUser::auth() ) {
-$navMenu->add('profile', 'text='.L('Profile').'|href=qti_user.php?id='.SUser::id().'|class=secondary|activewith=qti_user.php qti_register.php');
-$navMenu->add('sign', 'text='.L('Logout').'|href=qti_login.php?a=out|class=nav-sign');
-} else {
-$navMenu->add('profile', 'text='.L('Register').'|href=qti_register.php?a=rules|class=secondary');
-$navMenu->add('sign', 'text='.L('Login').'|href=qti_login.php|class=nav-sign');
-}
-// Menu when board offline or urlrewrite
-if ( $_SESSION[QT]['board_offline'] && SUser::role()!=='A' ) {
-  $navMenu->update('search','href', '');
-  $navMenu->update('search','onclick', '');
-  $navMenu->update('profile','href', '');
-}
-if ( QT_URLREWRITE ) {
-  foreach(array_keys($navMenu->menu) as $k) {
-    $navMenu->update( $k, 'href', url($navMenu->get($k,'href')) );
-    $navMenu->update( $k, 'activewith', implode(' ',array_map('url',explode(' ',$navMenu->get($k,'activewith')))) );
-  }
-}
-
+// menu-lang (user,lang,contrast)
 if ( !isset($hideMenuLang) ) $hideMenuLang = false;
 if ( defined('HIDE_MENU_LANG') && HIDE_MENU_LANG ) $hideMenuLang = true;
-
-// menu-lang (user,lang,contrast)
 if ( !$hideMenuLang ) {
   $langMenu = new CMenu();
   // user
-  $langMenu->add( '!'.qtSvg('user-'.SUser::role(), 'title='.L('Role_'.SUser::role())) );
+  $langMenu->add( '!'.qtSvg('user-'.SUser::role(), '', ['title'=>L('Role_'.SUser::role())]) );
   $langMenu->add( SUser::id()>0 ? 'text='.SUser::name().'|id=logname|href='.url(APP.'_user.php').'?id='.SUser::id() : 'text='.L('Role_V').'|tag=span|id=logname');
   // lang
   if ( $_SESSION[QT]['userlang'] ) {
@@ -85,6 +50,41 @@ if ( !$hideMenuLang ) {
 if ( QT_CONTRAST_CSS ) {
   $oH->links['cssContrast'] = '<link id="contrastcss" rel="stylesheet" type="text/css" href="bin/css/contrast.css" disabled/>';
   $oH->scripts[] = "qtApplyStoredState('contrast');";
+}
+
+// Menus definition
+$navMenu = new CMenu();
+if ( $_SESSION[QT]['home_menu']==='1' && !empty($_SESSION[QT]['home_url']) )
+$navMenu->add('home', 'text='.qtAttr($_SESSION[QT]['home_name']).'|href='.$_SESSION[QT]['home_url']);
+$navMenu->add('privacy', 'text='.L('Legal').'|href=qti_privacy.php');
+$navMenu->add('index', 'text='. SLang::translate().'|href=qti_index.php|class=secondary|activewith=qti_index.php qti_items.php qti_item.php qti_calendars.php qti_edit.php');
+$navMenu->add('search', 'text='.L('Search').'|id=nav-search|activewith=qti_search.php');
+if ( $oH->php!=='qti_search.php' && SUser::canAccess('search') )
+$navMenu->menu['search'] .= '|href=qti_search.php'.(QT_SIMPLESEARCH ? '|onclick=if ( document.getElementById(`searchbar`).style.display===`flex`) return; qtToggle(`#searchbar`,`flex`); qtFocusAfter(`qkw`); return false;' : '');
+  // SUser::canAccess('search') not included here... We want the searchbar/page shows a message for not granted users
+if ( SUser::canAccess('show_memberlist') )
+$navMenu->add('users', 'text='.L('Memberlist').'|href=qti_users.php');
+if ( SUser::canAccess('show_stats') )
+$navMenu->add('stats', 'text='.L('Statistics').'|href=qti_stats.php');
+if ( SUser::auth() ) {
+$navMenu->add('profile', 'text='.L('Profile').'|href=qti_user.php?id='.SUser::id().'|class=secondary|activewith=qti_user.php qti_register.php');
+$navMenu->add('sign', 'text='.L('Logout').'|href=qti_login.php?a=out|class=nav-sign');
+} else {
+$navMenu->add('profile', 'text='.L('Register').'|href=qti_register.php?a=rules|class=secondary');
+$navMenu->add('sign', 'text='.L('Login').'|href=qti_login.php|class=nav-sign');
+}
+
+// Menu when board offline or urlrewrite
+if ( $_SESSION[QT]['board_offline'] && SUser::role()!=='A' ) {
+  $navMenu->update('search','href', '');
+  $navMenu->update('search','onclick', '');
+  $navMenu->update('profile','href', '');
+}
+if ( QT_URLREWRITE ) {
+  foreach(array_keys($navMenu->menu) as $k) {
+    $navMenu->update( $k, 'href', url($navMenu->get($k,'href')) );
+    $navMenu->update( $k, 'activewith', implode(' ',array_map('url',explode(' ',$navMenu->get($k,'activewith')))) );
+  }
 }
 
 // ------
@@ -219,4 +219,4 @@ $str =  isset($oS) && $oS->id>=0 ? ' data-section-type="'.$oS->type.'" data-sect
 echo '<div id="main-ct" class="pg-'.qtBasename($oH->php).'"'.$str.'>
 ';
 if ( !empty($error) ) echo '<p class="error center">'.$error.'</p>';
-if ( isset($bodyctId) ) echo '<div id="pg-'.$bodyctId.'"></div>'.PHP_EOL;
+if ( isset($bodyctId) ) echo '<div id="pg-'.$bodyctId.'"></div>'.PHP_EOL; // used by cse

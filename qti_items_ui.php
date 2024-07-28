@@ -5,7 +5,7 @@
 * @var string $forceShowClosed
 * @var int $intCount
 */
-$ui = '<button id="optionbar-ctrl" class="nostyle" onclick="qtToggle(`#optionbar`,`flex`,`#title-top`);qtFocusOut(this.id);qtFocus(`pref`);" title="'.L('My_preferences').'">'.qtSvg('cog').'</button>'.PHP_EOL;
+$ui = '<button id="optionbar-ctrl" class="nostyle" onclick="qtToggle(`#optionbar`,`flex`,`#main-ct`);qtFocusOut(this.id);qtFocus(`pref`);" title="'.L('My_preferences').'">'.qtSvg('cog').'</button>'.PHP_EOL;
 $ui .= '<div id="optionbar"'.($_SESSION['EditByRows'] ? '' : ' style="display:none"').'><form method="post" action="'.url($oH->php).qtURI('page').'" id="formPref">'.PHP_EOL;
 $ui .= '<select id="pref" name="pref" onchange="doSubmit(`formPref`);">'.PHP_EOL;
 $ui .= '<option value="-" selected disabled hidden>'.L('Show').'</option>';

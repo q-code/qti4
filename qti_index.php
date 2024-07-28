@@ -76,15 +76,10 @@ foreach($_Domains as $domId=>$pDomain) {
     // output
     $intSec++;
     $sseId = 's'.$idSec.'-';
-    $strLastpost = '&nbsp;';
     $logofile = empty($mSec['options']) ? '' : qtExplodeGet($mSec['options'],'logo',''); // specific logo, or '' for default logo
-    if ( $mSec['items']>0 ) {
-      $strLastpost = qtDate($mSec['lastpostdate'],'$','$',true,true,true, $sseId.'lastpostdate');
-      $strLastpost .= ' <a id="'.$sseId.'lastpostid" class="goto" href="'.url('qti_item.php').'?t='.$mSec['lastpostpid'].'#p'.$mSec['lastpostid'].'" title="'.L('Goto_message').'">'.qtSvg('caret-square-right').'</a><br><small>'.L('by').' <a id="'.$sseId.'lastpostuser" href="'.url('qti_user.php').'?id='.$mSec['lastpostuser'].'">'.$mSec['lastpostname'].'</a></span>';
-    }
     $t->arrTd[0]->content = asImg( CSection::makeLogo($logofile,$mSec['type'],$mSec['status']), 'title='.L('Ico_section_'.$mSec['type'].'_'.$mSec['status']), url('qti_items.php?s='.$idSec) );
-    $t->arrTd[1]->content = '<a class="section" href="'.url('qti_items.php?s='.$idSec).'">'.$mSec['title'].'</a>'.(empty($mSec['descr']) ? '' : '<br><span class="sectiondesc">'.$mSec['descr'].'</span>');
-    $t->arrTd[2]->content = $strLastpost;
+    $t->arrTd[1]->content = '<p class="sectionname"><a class="section" href="'.url('qti_items.php?s='.$idSec).'">'.$mSec['title'].'</a>'.(empty($mSec['descr']) ? '' : '</p><p class="sectiondesc">'.$mSec['descr'].'</p>');
+    $t->arrTd[2]->content = $mSec['items']===0 ? '' : '<p>'.qtDate($mSec['lastpostdate'],'$','$',true,true,true, $sseId.'lastpostdate').'&thinsp;<a id="'.$sseId.'lastpostid" class="goto" href="'.url('qti_item.php').'?t='.$mSec['lastpostpid'].'#p'.$mSec['lastpostid'].'" title="'.L('Goto_message').'">'.qtSvg('caret-square-right').'</a></p><p>'.L('by').' <a id="'.$sseId.'lastpostuser" href="'.url('qti_user.php').'?id='.$mSec['lastpostuser'].'">'.$mSec['lastpostname'].'</a></p>';
     $t->arrTd[3]->content = qtK($mSec['items']);   $t->arrTd[3]->set('id',$sseId.'items');
     $t->arrTd[4]->content = qtK($mSec['replies']); $t->arrTd[4]->set('id',$sseId.'replies');
     echo $t->getTDrow('class=hover');

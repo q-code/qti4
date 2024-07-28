@@ -123,7 +123,7 @@ if ( ($id=='A') || ($id=='Z') ) {
 echo '</td>';
 echo '<tr>';
 echo '<th style="width:150px"><label for="name">'.L('Name').'</label></th>';
-echo '<td><input type="text" id="name" name="name" size="24" maxlength="24" value="'.$_Statuses[$id]['name'].'" style="background-color:#dbf4ff"/></td>';
+echo '<td><input type="text" id="name" name="name" size="24" maxlength="24" value="'.$_Statuses[$id]['name'].'" style="background-color:var(--title-bg)"/></td>';
 echo '</tr>'.PHP_EOL;
 echo '<tr>';
 echo '<th style="width:150px"><label for="icon">Icon</label></th>';
