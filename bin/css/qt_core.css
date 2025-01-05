@@ -1,13 +1,16 @@
 /* RESET */
-*, *::before, *::after{box-sizing:border-box;margin:0}
-html{font-size:min(100%,20px)} @media screen and (min-width:1280px){html{font-size:min(105%,22px)}} /* rem reference */
+*, *::before, *::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:min(100%,20px)} /* rem reference */
+@media screen and (min-width:1280px){ html{font-size:min(105%,22px)} }
 body{min-width:640px;font-weight:normal;text-size-adjust:none}
+img{border:none;vertical-align:middle}
 table{table-layout:auto;width:100%;border-collapse:separate;border-spacing:0;border:none;background-color:transparent}
-th,td{padding:4px;text-align:left;vertical-align:middle;font-weight:normal}
+td,th{padding:4px;text-align:left;vertical-align:middle;font-weight:normal}
 form{display:inline}
 input, button, textarea, select, optgroup, option{font:inherit}
 button, .button, .clickable{cursor:pointer} .disabled, .active{cursor:default}
-img{border:none;vertical-align:middle}
+
+/* hack */
 button.nostyle,
 button.nostyle:hover{padding:0;background:none;border:none}
 
@@ -75,8 +78,8 @@ p.list{margin-bottom:2px}
 .inline-block{display:inline-block}
 .indent{margin-left:1rem} .indent2{margin-left:2rem}
 @media screen and (max-width:1024px){.indent{margin-left:0.6rem} .indent2{margin-left:1.2rem}}
-.ellipsis{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.ellipsis20{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:20ch}
+.ellipsis, .ellipsis p{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ellipsis20, .ellipsis20 p{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:20ch}
 small, .small, .minor, .error, .warning{font-size:0.85rem}
 .s80{font-size:0.8rem}
 .minor{color:#888}
@@ -157,8 +160,8 @@ background:#ffc;border:1px solid #666;border-radius:8px;box-shadow:0 0 5px 5px #
 .ac-list button{display:block;width:100%;text-align:left;padding:0.2rem 0.3rem;border:unset;background:unset;
   opacity:0.6;color:black;background-color:#e7e7e7;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:Calibri,Arial;font-size:min(1rem,20px)}
-.ac-list button:focus,
-.ac-list button:hover{box-shadow:unset;opacity:1}
+.ac-list button:focus:not(.disabled),
+.ac-list button:hover:not(.disabled){box-shadow:unset;color:black;opacity:1}
 
 .jvalue img{margin:0 4px 0 0}
 .jinfo{font-style:italic}
