@@ -13,8 +13,7 @@ function getSqlTimeframe($dbtype,$ti='',$prefix=' AND ',$field='t.firstpostdate'
   if ( !is_string($dbtype) || !is_string($ti) || !is_string($prefix) || !is_string($prefix) || empty($field) ) die(__FUNCTION__.' requires string arguments');
   // $ti can be {y|m|w|1..12|YYYY|YYYYMM} i.e. this year, this month, last week, previous month#, a specific year YYYY, a specific yearmonth YYYYMM
   $operator = '=';
-  switch($ti)
-  {
+  switch($ti) {
     case 'y':	// this year
       $strDate = date('Y');
       break;
@@ -27,8 +26,7 @@ function getSqlTimeframe($dbtype,$ti='',$prefix=' AND ',$field='t.firstpostdate'
       break;
     default: // $ti is the month number or a specific datemonth
       if ( !qtCtype_digit($ti) ) die(__FUNCTION__.' invalid tf argument');
-      switch(strlen($ti))
-      {
+      switch(strlen($ti)) {
         case 1:
         case 2:
           $intMonth = (int)$ti;
@@ -41,7 +39,7 @@ function getSqlTimeframe($dbtype,$ti='',$prefix=' AND ',$field='t.firstpostdate'
         case 6:
           $strDate = $ti;
           break;
-        default: die(__FUNCTION__.' invalid tf argument');
+        default: die(__FUNCTION__.' invalid ti argument');
       }
   }
   $len = strlen($strDate);

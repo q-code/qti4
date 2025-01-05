@@ -56,7 +56,8 @@ const QT_NOTIFY_OLDACTOR = true; // notify old actor when topic actor changes (t
 const QT_CONVERT_AMP = false; // Store & as &#38; in the DB. True makes symbol &#...; NOT working. WARNING if true, & in username/password are also stored as &#38; in the DB.
 const QT_SIMPLESEARCH = true; // Shows simple search popup (false goes directly to advanced search)
 const QT_LIST_ME = true; // In the ticket list, symbol indicating: i replied to the ticket. Using False will DISABLE the search and the symbol.
-const QT_LIST_TAG = true; // display a quick search link for the tags in section list.
+const QT_LIST_TAG = true; // display a quick search link for the tags in section list
+const QT_MAX_TAGS = 24; // Maximum csv tags for an item (recommanded 24, 0=unlimited, db-limit is 4000 chars)
 const QT_JAVA_MAIL = false; // Protect e-mail by a javascript
 const QT_LOWERCASE_TAG = true; // store tags as lowercase (true recommended). With false, tags are case sensitive (ie. user likely inputs "duplicate").
 const QT_WEEKSTART = 1; // Start of the week (use code 1=monday,...,7=sunday)
